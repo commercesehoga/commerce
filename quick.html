@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBT Mock Portal — Commerce · CBSE · CUET 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --b50:#f0f6ff;--b100:#dceeff;--b200:#a8d1ff;
+  --b300:#6db6ff;--b400:#2d94ff;--b500:#0066dd;
+  --b600:#0050bb;--b700:#003d90;
+  --gold:#f5a623;--dark:#00101a;--mid:#002244;
+  --text:#001833;--muted:#4a6080;
+  --border:#bcd9ff;--r:14px;
+  --sh:0 4px 24px rgba(0,102,221,.10);
+  --shlg:0 12px 48px rgba(0,102,221,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--b50);color:var(--text);overflow-x:hidden}
+
+/* TOPBAR */
+.topbar{background:rgba(0,16,26,.97);backdrop-filter:blur(12px);padding:0 30px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:999;border-bottom:2px solid var(--b400);min-height:56px}
+.logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff}
+.logo span{color:#7dc8ff}
+.topnav{display:flex;gap:2px;flex-wrap:wrap}
+.topnav a{color:rgba(255,255,255,.68);text-decoration:none;font-size:.78rem;font-weight:500;padding:7px 11px;border-radius:7px;transition:all .2s}
+.topnav a:hover,.topnav a.active{background:var(--b400);color:#fff}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#00101a 0%,#002f5c 40%,#0055aa 75%,#2d94ff 100%);padding:56px 20px 52px;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(45,148,255,.22),transparent 70%);top:-160px;right:-80px;pointer-events:none}
+.hero::after{content:'';position:absolute;width:320px;height:320px;background:radial-gradient(circle,rgba(45,148,255,.14),transparent 70%);bottom:-100px;left:-60px;pointer-events:none}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.11);border:1px solid rgba(200,225,255,.3);color:#c8e8ff;font-size:.73rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 18px;border-radius:30px;margin-bottom:16px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:#fff;line-height:1.15;margin-bottom:12px;position:relative;z-index:1}
+.hero h1 em{font-style:normal;color:#7dc8ff}
+.hero-sub{color:rgba(255,255,255,.65);font-size:.97rem;max-width:560px;margin:0 auto 26px;line-height:1.7;position:relative;z-index:1}
+.pills{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;position:relative;z-index:1}
+.pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:7px 20px;border-radius:30px;font-size:.85rem;font-weight:500;text-decoration:none;transition:all .2s}
+.pill:hover{background:var(--b400);border-color:var(--b400);transform:translateY(-2px)}
+
+/* LAYOUT */
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+.sec-anchor{scroll-margin-top:68px}
+
+/* SECTION HEADER */
+.sec-head{display:flex;align-items:center;gap:14px;margin:50px 0 20px}
+.sec-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.sec-head h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--mid)}
+.sec-head small{display:block;color:var(--muted);font-size:.83rem;margin-top:2px}
+.sec-div{flex:1;height:2px;background:linear-gradient(90deg,var(--b300),transparent);border-radius:2px}
+
+/* BOOK TILES */
+.book-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:28px}
+.book-card{background:#fff;border-radius:16px;border:1.5px solid var(--border);box-shadow:var(--shlg);display:flex;overflow:hidden;min-height:210px;position:relative}
+.book-spine{width:18px;flex-shrink:0;position:relative}
+.book-spine::after{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;background:rgba(0,0,0,.12)}
+.book-cover{width:150px;flex-shrink:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:16px}
+.a4-badge{position:absolute;top:8px;right:8px;background:var(--b500);color:#fff;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:4px;letter-spacing:1px}
+.bicon{font-size:3rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,.10))}
+.blabel{font-size:.61rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-align:center}
+.book-info{flex:1;padding:20px 18px 16px;display:flex;flex-direction:column}
+.btype{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:9px;width:fit-content}
+.btype.sp{background:#dceeff;color:#0050bb}
+.btype.qb{background:#e8fff0;color:#005530}
+.btitle{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--mid);margin-bottom:6px;line-height:1.3}
+.babout{font-size:.80rem;color:var(--muted);line-height:1.6;flex:1;margin-bottom:12px}
+.bmeta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.bm{background:var(--b50);border:1px solid var(--border);border-radius:6px;font-size:.69rem;color:var(--muted);padding:3px 8px;font-weight:500}
+.bbtn{display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:.77rem;font-weight:700;padding:8px 16px;border-radius:8px;text-decoration:none;transition:all .2s;width:fit-content}
+.bbtn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,102,221,.30)}
+
+/* TABS */
+.tab-bar{display:flex;gap:0;background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:4px;margin-bottom:18px;width:fit-content;box-shadow:var(--sh)}
+.tab-btn{padding:9px 28px;border-radius:9px;font-size:.87rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .2s}
+.tab-btn.active{background:linear-gradient(135deg,var(--b400),var(--b600));color:#fff;box-shadow:0 4px 16px rgba(0,102,221,.28)}
+
+/* TAB PANES */
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* ACCORDION */
+.acc{background:#fff;border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--sh);overflow:hidden;margin-bottom:9px}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:13px 17px;cursor:pointer;background:var(--b50);user-select:none;transition:background .2s}
+.acc-head:hover{background:var(--b100)}
+.acc-left{display:flex;align-items:center;gap:11px}
+.cnum{width:28px;height:28px;background:linear-gradient(135deg,var(--b400),var(--b600));color:#fff;border-radius:7px;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cname{font-weight:600;font-size:.88rem;color:var(--text)}
+.cname small{display:block;font-size:.71rem;font-weight:400;color:var(--muted);margin-top:1px}
+.carr{font-size:.86rem;color:var(--b400);transition:transform .25s;flex-shrink:0}
+.acc-body{display:none;padding:16px 17px 18px;background:#fff}
+.acc-body.open{display:block}
+.carr.open{transform:rotate(180deg)}
+
+/* NOTE BUTTONS */
+.note-btns{display:flex;gap:10px;flex-wrap:wrap}
+.nbtn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:9px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s;cursor:pointer;border:none}
+.nbtn.mm{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff}
+.nbtn.mm:hover{box-shadow:0 6px 20px rgba(124,58,237,.35);transform:translateY(-2px)}
+.nbtn.nt{background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff}
+.nbtn.nt:hover{box-shadow:0 6px 20px rgba(14,165,233,.35);transform:translateY(-2px)}
+
+/* FULL MOCK GRID */
+.mock-lbl{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--mid);margin:16px 0 11px;display:flex;align-items:center;gap:10px}
+.mock-lbl::after{content:'';flex:1;height:1.5px;background:linear-gradient(90deg,var(--b200),transparent)}
+.fmg{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+.fmc{background:linear-gradient(135deg,var(--mid) 0%,#0055aa 100%);border-radius:var(--r);padding:18px 15px;position:relative;overflow:hidden;box-shadow:var(--shlg)}
+.fmc::before{content:'';position:absolute;width:80px;height:80px;background:radial-gradient(circle,rgba(255,255,255,.07),transparent 70%);top:-18px;right:-18px;border-radius:50%}
+.fmc-n{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:rgba(255,255,255,.08);position:absolute;top:8px;right:12px;line-height:1}
+.fmc-set{font-size:.61rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#a8d1ff;margin-bottom:3px}
+.fmc-title{font-family:'Playfair Display',serif;font-size:.92rem;color:#fff;margin-bottom:2px}
+.fmc-meta{font-size:.7rem;color:rgba(255,255,255,.48);margin-bottom:9px}
+.fmc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.fmc-tag{background:rgba(255,255,255,.09);color:rgba(255,255,255,.68);font-size:.62rem;padding:2px 8px;border-radius:20px;border:1px solid rgba(255,255,255,.11)}
+.fmc-btn{display:inline-block;background:#7dc8ff;color:#001833;font-weight:700;font-size:.74rem;padding:7px 14px;border-radius:7px;text-decoration:none;transition:all .2s}
+.fmc-btn:hover{background:#fff;transform:translateY(-1px)}
+
+/* CHAPTER MOCK SETS */
+.cms-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.cms{background:linear-gradient(135deg,var(--b50),var(--b100));border:1.5px solid var(--border);border-radius:10px;padding:12px 11px;text-align:center}
+.cms-set{font-size:.59rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--b500);margin-bottom:3px}
+.cms-info{font-size:.74rem;color:var(--muted);margin-bottom:8px;line-height:1.4}
+.cms-btn{display:inline-block;background:linear-gradient(135deg,var(--b400),var(--b600));color:#fff;font-size:.71rem;font-weight:700;padding:7px 13px;border-radius:7px;text-decoration:none;transition:all .2s}
+.cms-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,102,221,.28)}
+
+/* PYQ */
+.pyq-sec{background:linear-gradient(135deg,#00101a 0%,#002244 100%);border-radius:20px;padding:38px 28px;margin:56px 0 36px;position:relative;overflow:hidden}
+.pyq-sec::before{content:'PYQ';position:absolute;font-family:'Playfair Display',serif;font-size:7rem;font-weight:900;color:rgba(255,255,255,.025);right:22px;top:4px;pointer-events:none}
+.pyq-head{text-align:center;margin-bottom:28px}
+.pyq-head h2{font-family:'Playfair Display',serif;color:#fff;font-size:1.9rem;margin-bottom:7px}
+.pyq-head p{color:rgba(255,255,255,.5);font-size:.88rem}
+.pyq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pyq-yr{background:rgba(255,255,255,.05);border:1px solid rgba(45,148,255,.2);border-radius:14px;padding:20px 16px;transition:all .2s}
+.pyq-yr:hover{background:rgba(255,255,255,.09);border-color:var(--b400);transform:translateY(-2px)}
+.pyq-yr-lbl{display:inline-block;background:linear-gradient(135deg,var(--b400),var(--b600));color:#fff;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;padding:4px 15px;border-radius:7px;margin-bottom:13px}
+.pyq-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.pyq-list a{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:rgba(255,255,255,.74);font-size:.82rem;padding:7px 10px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);transition:all .18s}
+.pyq-list a:hover{background:var(--b500);color:#fff}
+
+/* SUBJECT ICON COLOURS */
+.ic-acc{background:linear-gradient(135deg,#0066dd,#2d94ff)}
+.ic-bst{background:linear-gradient(135deg,#e8006f,#ff80b5)}
+.ic-eco{background:linear-gradient(135deg,#00a86b,#5cffb0)}
+.ic-mat{background:linear-gradient(135deg,#ff6f00,#ffd600)}
+.ic-eng{background:linear-gradient(135deg,#7c3aed,#c084fc)}
+.ic-gat{background:linear-gradient(135deg,#0ea5e9,#38bdf8)}
+
+footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.79rem;border-top:1px solid var(--border);margin-top:6px}
+footer strong{color:var(--b500)}
+
+@media(max-width:900px){.book-row{grid-template-columns:1fr}.fmg{grid-template-columns:1fr 1fr}.cms-grid{grid-template-columns:1fr 1fr}.pyq-grid{grid-template-columns:1fr}.topnav{display:none}}
+@media(max-width:600px){.book-card{flex-direction:column}.book-cover{width:100%;height:150px}.book-spine{width:100%;height:14px}.fmg{grid-template-columns:1fr}.sec-head h2{font-size:1.3rem}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="logo">CBT<span>Mock</span> Portal — Commerce</div>
+  <div class="topnav">
+    <a href="#acc">📒 Accountancy</a>
+    <a href="#bst">💼 Business Studies</a>
+    <a href="#eco">📈 Economics</a>
+    <a href="#mat">📐 Maths</a>
+    <a href="#eng">📘 English</a>
+    <a href="#gat">🧠 GAT</a>
+    <a href="#pyq">📋 PYQ</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Class 12 · Commerce · CBSE · CUET 2025</div>
+  <h1>Your Complete <em>Commerce CBT</em><br>Mock Practice Portal</h1>
+  <p class="hero-sub">Notes · Mindmaps · Chapter Mocks · Full Tests · PYQs — Accountancy, Business Studies, Economics &amp; more, all in one place.</p>
+  <div class="pills">
+    <a class="pill" href="#acc">📒 Accountancy</a>
+    <a class="pill" href="#bst">💼 Business Studies</a>
+    <a class="pill" href="#eco">📈 Economics</a>
+    <a class="pill" href="#mat">📐 Maths</a>
+    <a class="pill" href="#eng">📘 English</a>
+    <a class="pill" href="#gat">🧠 GAT</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════════════════════════
+     ACCOUNTANCY
+═══════════════════════════════ -->
+<div class="sec-anchor" id="acc">
+  <div class="sec-head">
+    <div class="sec-icon ic-acc">📒</div>
+    <div><h2>Accountancy</h2><small>14 Chapters · Part I: Partnership · Part II: Company Accounts &amp; Analysis · 4-Set Mocks</small></div>
+    <div class="sec-div"></div>
+  </div>
+
+  <!-- BOOK TILES -->
+  <div class="book-row">
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#0066dd,#003d90)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#dceeff,#a8d1ff)">
+        <div class="a4-badge">A4</div>
+        <div class="bicon">📒</div>
+        <div class="blabel" style="color:#0050bb">Sample Paper</div>
+      </div>
+      <div class="book-info">
+        <span class="btype sp">📄 Sample Paper Book</span>
+        <div class="btitle">Accountancy — Solved Sample Papers 2025</div>
+        <div class="babout">20 fully solved CBSE-pattern sample papers covering Partnership Accounts, Company Accounts, Financial Statements, and Cash Flow. Includes step-by-step journal entries, ledger formats, examiner tips, and marking schemes.</div>
+        <div class="bmeta-row"><span class="bm">20 Papers</span><span class="bm">380 Pages</span><span class="bm">A4 Size</span><span class="bm">CBSE 2025</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#0066dd,#003d90)">📥 Download PDF</a>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#00a86b,#006040)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#e0fff4,#b3ffd9)">
+        <div class="a4-badge" style="background:#00a86b">A4</div>
+        <div class="bicon">📗</div>
+        <div class="blabel" style="color:#006040">Question Bank</div>
+      </div>
+      <div class="book-info">
+        <span class="btype qb">📚 Question Bank</span>
+        <div class="btitle">Accountancy — Chapter-wise Question Bank</div>
+        <div class="babout">2800+ questions — journal entries, ratio analysis, cash flow problems, T-format balance sheets, and MCQs. Chapter-wise sorted with difficulty grading, PYQs 2015–2024, common mistakes guide, and full answer key with workings.</div>
+        <div class="bmeta-row"><span class="bm">2800+ Qs</span><span class="bm">450 Pages</span><span class="bm">A4 Size</span><span class="bm">With Workings</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#00a86b,#006040)">📥 Download PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="ST('acc','notes',this)">🗒️ Notes</button>
+    <button class="tab-btn" onclick="ST('acc','mock',this)">📝 Mock Tests</button>
+  </div>
+
+  <!-- NOTES TAB -->
+  <div class="tab-pane active" id="acc-notes">
+    <!-- Part I: Partnership -->
+    <div style="font-weight:700;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--b500);margin:10px 0 10px;padding:8px 12px;background:var(--b50);border-radius:8px;border-left:4px solid var(--b400)">📘 Part I — Partnership Accounts</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">1</div><div class="cname">Accounting for Partnership — Fundamentals<small>Partnership Deed · Capital · Profit Sharing · Goodwill Intro</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">2</div><div class="cname">Change in Profit Sharing Ratio<small>Sacrificing Ratio · Gaining Ratio · Revaluation Account</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">3</div><div class="cname">Admission of a Partner<small>New Ratio · Goodwill Treatment · Revaluation · Capital Adjustment</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">4</div><div class="cname">Retirement and Death of a Partner<small>Gaining Ratio · Goodwill · Executor's Account · Retiring Partner</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">5</div><div class="cname">Dissolution of Partnership Firm<small>Realisation Account · Settlement of Accounts · Garner vs Murray</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <!-- Part II: Company Accounts -->
+    <div style="font-weight:700;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--b500);margin:16px 0 10px;padding:8px 12px;background:var(--b50);border-radius:8px;border-left:4px solid var(--b400)">📗 Part II — Company Accounts &amp; Analysis</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">6</div><div class="cname">Issue and Redemption of Shares<small>Share Capital · Issue at Par/Premium/Discount · Forfeiture · Reissue</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">7</div><div class="cname">Issue and Redemption of Debentures<small>Types of Debentures · Issue Methods · Redemption Methods · Sinking Fund</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">8</div><div class="cname">Financial Statements of a Company<small>Balance Sheet Format · Statement of P&amp;L · Notes to Accounts</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">9</div><div class="cname">Analysis of Financial Statements<small>Objectives · Tools · Comparative · Common Size Statements</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">10</div><div class="cname">Accounting Ratios<small>Liquidity · Solvency · Activity · Profitability Ratios</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">11</div><div class="cname">Cash Flow Statement<small>Operating · Investing · Financing Activities · Indirect Method</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">12</div><div class="cname">Computerised Accounting System<small>Advantages · Tally Concepts · Accounting Software Overview</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+  </div>
+
+  <!-- MOCK TAB -->
+  <div class="tab-pane" id="acc-mock">
+    <div class="mock-lbl">📒 Full Subject Mock Tests</div>
+    <div class="fmg">
+      <div class="fmc"><div class="fmc-n">1</div><div class="fmc-set">Set 1</div><div class="fmc-title">Accountancy Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">All Chapters</span><span class="fmc-tag">CBSE</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">2</div><div class="fmc-set">Set 2</div><div class="fmc-title">Accountancy Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Partnership Focus</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">3</div><div class="fmc-set">Set 3</div><div class="fmc-title">Accountancy Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Company Accounts</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">4</div><div class="fmc-set">Set 4</div><div class="fmc-title">Accountancy Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Ratios + CFS</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+    </div>
+    <div class="mock-lbl">📋 Chapter-wise Mock Tests (4 Sets · 50 Qs Each)</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">1</div><div class="cname">Partnership — Fundamentals</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">2</div><div class="cname">Change in Profit Sharing Ratio</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">3</div><div class="cname">Admission of a Partner</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">4</div><div class="cname">Retirement and Death of a Partner</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">5</div><div class="cname">Dissolution of Partnership Firm</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">6</div><div class="cname">Issue &amp; Redemption of Shares</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">7</div><div class="cname">Issue &amp; Redemption of Debentures</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">8</div><div class="cname">Financial Statements of a Company</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">9</div><div class="cname">Analysis of Financial Statements</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">10</div><div class="cname">Accounting Ratios</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">11</div><div class="cname">Cash Flow Statement</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">12</div><div class="cname">Computerised Accounting System</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     BUSINESS STUDIES
+═══════════════════════════════ -->
+<div class="sec-anchor" id="bst">
+  <div class="sec-head">
+    <div class="sec-icon ic-bst">💼</div>
+    <div><h2>Business Studies</h2><small>12 Chapters · Management Principles · Finance &amp; Marketing · 4-Set Mocks</small></div>
+    <div class="sec-div"></div>
+  </div>
+  <div class="book-row">
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#e8006f,#9a004a)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#fff0f6,#ffd6e8)">
+        <div class="a4-badge" style="background:#e8006f">A4</div>
+        <div class="bicon">💼</div>
+        <div class="blabel" style="color:#9a004a">Sample Paper</div>
+      </div>
+      <div class="book-info">
+        <span class="btype sp" style="background:#ffe0ef;color:#9a004a">📄 Sample Paper Book</span>
+        <div class="btitle">Business Studies — Solved Sample Papers 2025</div>
+        <div class="babout">20 fully solved CBSE sample papers with model answers for Management, Marketing, Finance, and Consumer Protection. Includes case study solutions, keyword-based answer writing tips, and examiner marking scheme guidance.</div>
+        <div class="bmeta-row"><span class="bm">20 Papers</span><span class="bm">320 Pages</span><span class="bm">A4 Size</span><span class="bm">CBSE 2025</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#e8006f,#9a004a)">📥 Download PDF</a>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#ff6f00,#a04000)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#fff5e0,#ffe0b3)">
+        <div class="a4-badge" style="background:#ff6f00">A4</div>
+        <div class="bicon">📘</div>
+        <div class="blabel" style="color:#a04000">Question Bank</div>
+      </div>
+      <div class="book-info">
+        <span class="btype qb" style="background:#fff5e0;color:#a04000">📚 Question Bank</span>
+        <div class="btitle">Business Studies — Chapter-wise Question Bank</div>
+        <div class="babout">2500+ MCQs, short-answer, case-based, and long-answer questions sorted chapter-wise. Covers all 12 chapters with concept-based HOTs, assertion-reason questions, PYQs 2015–2024, and structured answer-writing templates.</div>
+        <div class="bmeta-row"><span class="bm">2500+ Qs</span><span class="bm">390 Pages</span><span class="bm">A4 Size</span><span class="bm">With Answers</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#ff6f00,#a04000)">📥 Download PDF</a>
+      </div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="ST('bst','notes',this)">🗒️ Notes</button>
+    <button class="tab-btn" onclick="ST('bst','mock',this)">📝 Mock Tests</button>
+  </div>
+  <div class="tab-pane active" id="bst-notes">
+    <div style="font-weight:700;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:#e8006f;margin:10px 0 10px;padding:8px 12px;background:#fff0f6;border-radius:8px;border-left:4px solid #e8006f">📘 Part I — Principles &amp; Functions of Management</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">1</div><div class="cname">Nature and Significance of Management<small>Characteristics · Levels · Importance · Management as Art/Science</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">2</div><div class="cname">Principles of Management<small>Fayol's 14 Principles · Taylor's Scientific Management · Comparison</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">3</div><div class="cname">Business Environment<small>PESTLE Factors · Economic Policies · LPG Reforms · Impact on Business</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">4</div><div class="cname">Planning<small>Types · Steps · MBO · Limitations of Planning</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">5</div><div class="cname">Organising<small>Delegation · Decentralisation · Organisation Structure · Span of Control</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">6</div><div class="cname">Staffing<small>HRM Process · Recruitment · Selection · Training &amp; Development</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">7</div><div class="cname">Directing<small>Motivation · Leadership · Communication · Supervision</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">8</div><div class="cname">Controlling<small>Process · Techniques · Relationship with Planning</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div style="font-weight:700;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:#e8006f;margin:16px 0 10px;padding:8px 12px;background:#fff0f6;border-radius:8px;border-left:4px solid #e8006f">📗 Part II — Business Finance &amp; Marketing</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">9</div><div class="cname">Financial Management<small>Financial Planning · Capital Structure · Fixed vs Working Capital</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">10</div><div class="cname">Financial Markets<small>Money Market · Capital Market · Stock Exchange · SEBI</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">11</div><div class="cname">Marketing Management<small>4Ps of Marketing · Market Segmentation · Branding · Promotion</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#e8006f,#9a004a)">12</div><div class="cname">Consumer Protection<small>Consumer Rights · COPRA · Consumer Redressal Forums · Responsibilities</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+  </div>
+  <div class="tab-pane" id="bst-mock">
+    <div class="mock-lbl">💼 Full Subject Mock Tests</div>
+    <div class="fmg">
+      <div class="fmc"><div class="fmc-n">1</div><div class="fmc-set">Set 1</div><div class="fmc-title">BST Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">All Chapters</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">2</div><div class="fmc-set">Set 2</div><div class="fmc-title">BST Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Mgmt Functions</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">3</div><div class="fmc-set">Set 3</div><div class="fmc-title">BST Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Finance Focus</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">4</div><div class="fmc-set">Set 4</div><div class="fmc-title">BST Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Marketing Focus</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+    </div>
+    <div class="mock-lbl">📋 Chapter-wise Mock Tests (4 Sets · 50 Qs Each)</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">1</div><div class="cname">Nature and Significance of Management</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">2</div><div class="cname">Principles of Management</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">3</div><div class="cname">Business Environment</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">4</div><div class="cname">Planning</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">5</div><div class="cname">Organising</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">6</div><div class="cname">Staffing</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">7</div><div class="cname">Directing</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">8</div><div class="cname">Controlling</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">9</div><div class="cname">Financial Management</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">10</div><div class="cname">Financial Markets</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">11</div><div class="cname">Marketing Management</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">12</div><div class="cname">Consumer Protection</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     ECONOMICS
+═══════════════════════════════ -->
+<div class="sec-anchor" id="eco">
+  <div class="sec-head">
+    <div class="sec-icon ic-eco">📈</div>
+    <div><h2>Economics</h2><small>Macroeconomics (6 Ch) · Indian Economic Development (10 Ch) · 4-Set Mocks</small></div>
+    <div class="sec-div"></div>
+  </div>
+  <div class="book-row">
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#00a86b,#005530)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#e0fff4,#b3ffd9)">
+        <div class="a4-badge" style="background:#00a86b">A4</div>
+        <div class="bicon">📈</div>
+        <div class="blabel" style="color:#005530">Sample Paper</div>
+      </div>
+      <div class="book-info">
+        <span class="btype sp" style="background:#e0fff4;color:#005530">📄 Sample Paper Book</span>
+        <div class="btitle">Economics — Solved Sample Papers 2025</div>
+        <div class="babout">20 fully solved Economics sample papers covering Macroeconomics and Indian Economic Development. Includes solved numerical problems for National Income, diagrams for IS-LM, Balance of Payments, and structured answers for all essay-type questions.</div>
+        <div class="bmeta-row"><span class="bm">20 Papers</span><span class="bm">340 Pages</span><span class="bm">A4 Size</span><span class="bm">CBSE 2025</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#00a86b,#005530)">📥 Download PDF</a>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#0ea5e9,#0066aa)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#e0f6ff,#b3e8ff)">
+        <div class="a4-badge" style="background:#0ea5e9">A4</div>
+        <div class="bicon">📘</div>
+        <div class="blabel" style="color:#0066aa">Question Bank</div>
+      </div>
+      <div class="book-info">
+        <span class="btype qb" style="background:#e0f6ff;color:#0066aa">📚 Question Bank</span>
+        <div class="btitle">Economics — Chapter-wise Question Bank</div>
+        <div class="babout">2600+ MCQs, assertion-reason, case-based, numerical, and long-answer type questions. Covers all 16 chapters with data-response exercises, PYQs 2015–2024, concept maps, important definitions bank, and graph/diagram practice sets.</div>
+        <div class="bmeta-row"><span class="bm">2600+ Qs</span><span class="bm">410 Pages</span><span class="bm">A4 Size</span><span class="bm">With Solutions</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#0ea5e9,#0066aa)">📥 Download PDF</a>
+      </div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="ST('eco','notes',this)">🗒️ Notes</button>
+    <button class="tab-btn" onclick="ST('eco','mock',this)">📝 Mock Tests</button>
+  </div>
+  <div class="tab-pane active" id="eco-notes">
+    <div style="font-weight:700;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:#00a86b;margin:10px 0 10px;padding:8px 12px;background:#e8fff4;border-radius:8px;border-left:4px solid #00a86b">📘 Part A — Macroeconomics</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">1</div><div class="cname">Introduction to Macroeconomics<small>Circular Flow · Economy Concepts · Macro vs Micro</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">2</div><div class="cname">National Income Accounting<small>GDP · GNP · NNP · NDP · Methods of Measurement</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">3</div><div class="cname">Money and Banking<small>Functions of Money · Commercial Banks · Credit Creation · RBI</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">4</div><div class="cname">Determination of Income and Employment<small>AD-AS Model · Multiplier · Deflationary &amp; Inflationary Gap</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">5</div><div class="cname">Government Budget and Economy<small>Types of Budget · Fiscal Deficit · Revenue vs Capital</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">6</div><div class="cname">Balance of Payments<small>Current Account · Capital Account · Foreign Exchange · BoP Disequilibrium</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div style="font-weight:700;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:#00a86b;margin:16px 0 10px;padding:8px 12px;background:#e8fff4;border-radius:8px;border-left:4px solid #00a86b">📗 Part B — Indian Economic Development</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">7</div><div class="cname">Indian Economy on the Eve of Independence<small>Colonial Legacy · Agriculture · Industry · Foreign Trade</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">8</div><div class="cname">Indian Economy 1950–1990<small>Five Year Plans · Green Revolution · Industrial Policy · PSUs</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">9</div><div class="cname">Liberalisation, Privatisation &amp; Globalisation<small>New Economic Policy 1991 · WTO · Impact on Indian Economy</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">10</div><div class="cname">Poverty<small>Absolute vs Relative Poverty · Poverty Line · Government Schemes</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">11</div><div class="cname">Human Capital Formation<small>Education · Health · On-the-job Training · Role in Growth</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">12</div><div class="cname">Rural Development<small>Land Reforms · Agricultural Credit · MGNREGA · Diversification</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">13</div><div class="cname">Employment — Growth, Informalisation &amp; Other Issues<small>Formal vs Informal Sector · Workforce · Self Employment</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">14</div><div class="cname">Infrastructure<small>Energy · Health · Education Infrastructure · Challenges</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">15</div><div class="cname">Environment and Sustainable Development<small>Resource Depletion · Climate Change · Sustainable Goals</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00a86b,#005530)">16</div><div class="cname">Comparative Development Experiences<small>India vs Pakistan vs China · HDI · Development Strategies</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+  </div>
+  <div class="tab-pane" id="eco-mock">
+    <div class="mock-lbl">📈 Full Subject Mock Tests</div>
+    <div class="fmg">
+      <div class="fmc"><div class="fmc-n">1</div><div class="fmc-set">Set 1</div><div class="fmc-title">Economics Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">All Chapters</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">2</div><div class="fmc-set">Set 2</div><div class="fmc-title">Economics Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Macroeconomics</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">3</div><div class="fmc-set">Set 3</div><div class="fmc-title">Economics Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Indian Economy</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">4</div><div class="fmc-set">Set 4</div><div class="fmc-title">Economics Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Mixed · Hard</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+    </div>
+    <div class="mock-lbl">📋 Chapter-wise Mock Tests (4 Sets · 50 Qs Each)</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">1</div><div class="cname">Introduction to Macroeconomics</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">2</div><div class="cname">National Income Accounting</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">3</div><div class="cname">Money and Banking</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">4</div><div class="cname">Determination of Income and Employment</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">5</div><div class="cname">Government Budget and Economy</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">6</div><div class="cname">Balance of Payments</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">7</div><div class="cname">Indian Economy on the Eve of Independence</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">8</div><div class="cname">Indian Economy 1950–1990</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">9</div><div class="cname">Liberalisation, Privatisation &amp; Globalisation</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">10</div><div class="cname">Poverty</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">11</div><div class="cname">Human Capital Formation</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">12</div><div class="cname">Rural Development</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">13</div><div class="cname">Employment — Growth &amp; Issues</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">14</div><div class="cname">Infrastructure</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">15</div><div class="cname">Environment and Sustainable Development</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">16</div><div class="cname">Comparative Development Experiences</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     MATHS (COMMERCE / APPLIED)
+═══════════════════════════════ -->
+<div class="sec-anchor" id="mat">
+  <div class="sec-head">
+    <div class="sec-icon ic-mat">📐</div>
+    <div><h2>Mathematics / Applied Maths</h2><small>13 Chapters · Commerce Maths + Statistics · 4-Set Mocks</small></div>
+    <div class="sec-div"></div>
+  </div>
+  <div class="book-row">
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#ff6f00,#c45000)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#fff5e0,#ffe0b3)">
+        <div class="a4-badge" style="background:#ff6f00">A4</div>
+        <div class="bicon">📐</div>
+        <div class="blabel" style="color:#c45000">Sample Paper</div>
+      </div>
+      <div class="book-info">
+        <span class="btype sp">📄 Sample Paper Book</span>
+        <div class="btitle">Mathematics — Solved Sample Papers 2025</div>
+        <div class="babout">20 fully solved Maths sample papers for Commerce stream. Covers Linear Programming, Matrices, Probability, Statistics, and Calculus with detailed step-by-step solutions, graph-drawing tips, and marking scheme guidance.</div>
+        <div class="bmeta-row"><span class="bm">20 Papers</span><span class="bm">360 Pages</span><span class="bm">A4 Size</span><span class="bm">CBSE 2025</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#ff6f00,#c45000)">📥 Download PDF</a>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#ffd600,#aa8800)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#fffde0,#fff9b3)">
+        <div class="a4-badge" style="background:#aa8800">A4</div>
+        <div class="bicon">📘</div>
+        <div class="blabel" style="color:#aa8800">Question Bank</div>
+      </div>
+      <div class="book-info">
+        <span class="btype qb" style="background:#fffde0;color:#856200">📚 Question Bank</span>
+        <div class="btitle">Mathematics — Chapter-wise Question Bank</div>
+        <div class="babout">2800+ MCQs, short-answer, and long-answer problems chapter-wise with Commerce applications. Includes HOTS, formula sheets, LPP graph problems, regression/correlation numericals, and PYQs 2015–2024 with full worked solutions.</div>
+        <div class="bmeta-row"><span class="bm">2800+ Qs</span><span class="bm">420 Pages</span><span class="bm">A4 Size</span><span class="bm">With Solutions</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#ffd600,#aa8800);color:#1a1000">📥 Download PDF</a>
+      </div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="ST('mat','notes',this)">🗒️ Notes</button>
+    <button class="tab-btn" onclick="ST('mat','mock',this)">📝 Mock Tests</button>
+  </div>
+  <div class="tab-pane active" id="mat-notes">
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">1</div><div class="cname">Relations and Functions<small>Types · Composition · Inverse Functions</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">2</div><div class="cname">Inverse Trigonometric Functions<small>Principal Value · Properties · Applications</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">3</div><div class="cname">Matrices and Determinants<small>Operations · Inverse · Cramer's Rule · Applications</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">4</div><div class="cname">Continuity and Differentiability<small>Limits · Chain Rule · Higher Order Derivatives</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">5</div><div class="cname">Application of Derivatives<small>Marginal Cost · Revenue · Maxima-Minima · Commerce Apps</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">6</div><div class="cname">Integrals<small>Definite · Indefinite · Consumer/Producer Surplus</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">7</div><div class="cname">Application of Integrals<small>Area Under Curves · Economic Interpretation</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">8</div><div class="cname">Differential Equations<small>Order · Variable Separable · Growth Models</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">9</div><div class="cname">Vector Algebra and 3D Geometry<small>Dot Product · Direction Cosines · Planes</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">10</div><div class="cname">Linear Programming<small>Formulation · Graphical Method · Business Optimisation</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">11</div><div class="cname">Probability<small>Bayes' Theorem · Random Variables · Binomial Distribution</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">12</div><div class="cname">Statistics — Measures of Dispersion<small>Mean Deviation · Variance · Standard Deviation · Correlation</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">13</div><div class="cname">Index Numbers and Time Series<small>Laspeyre's · Paasche's · Fisher's Index · Trend Analysis</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Chapter Notes</a></div></div></div>
+  </div>
+  <div class="tab-pane" id="mat-mock">
+    <div class="mock-lbl">📐 Full Subject Mock Tests</div>
+    <div class="fmg">
+      <div class="fmc"><div class="fmc-n">1</div><div class="fmc-set">Set 1</div><div class="fmc-title">Maths Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">All Chapters</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">2</div><div class="fmc-set">Set 2</div><div class="fmc-title">Maths Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Calculus Focus</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">3</div><div class="fmc-set">Set 3</div><div class="fmc-title">Maths Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Stats + LPP</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">4</div><div class="fmc-set">Set 4</div><div class="fmc-title">Maths Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Algebra + Prob</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+    </div>
+    <div class="mock-lbl">📋 Chapter-wise Mock Tests (4 Sets · 50 Qs Each)</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">1</div><div class="cname">Relations and Functions</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">2</div><div class="cname">Inverse Trigonometric Functions</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">3</div><div class="cname">Matrices and Determinants</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">4</div><div class="cname">Continuity and Differentiability</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">5</div><div class="cname">Application of Derivatives</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">6</div><div class="cname">Integrals</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">7</div><div class="cname">Application of Integrals</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">8</div><div class="cname">Differential Equations</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">9</div><div class="cname">Vector Algebra and 3D Geometry</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">10</div><div class="cname">Linear Programming</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">11</div><div class="cname">Probability</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">12</div><div class="cname">Statistics — Measures of Dispersion</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">13</div><div class="cname">Index Numbers and Time Series</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     ENGLISH
+═══════════════════════════════ -->
+<div class="sec-anchor" id="eng">
+  <div class="sec-head">
+    <div class="sec-icon ic-eng">📘</div>
+    <div><h2>English</h2><small>3 Sections · 26 Topics · Notes + Mocks · CUET Pattern</small></div>
+    <div class="sec-div"></div>
+  </div>
+  <div class="book-row">
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#7c3aed,#4c1d95)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#f5f0ff,#e0d0ff)">
+        <div class="a4-badge" style="background:#7c3aed">A4</div>
+        <div class="bicon">📘</div>
+        <div class="blabel" style="color:#4c1d95">Sample Paper</div>
+      </div>
+      <div class="book-info">
+        <span class="btype sp" style="background:#f0e8ff;color:#5b21b6">📄 Sample Paper Book</span>
+        <div class="btitle">English — Solved Sample Papers 2025</div>
+        <div class="babout">20 fully solved English sample papers covering Grammar, Vocabulary, Reading Comprehension, and Writing. CUET-aligned with detailed answer keys, common error analysis, vocabulary enrichment exercises, and model essay structures.</div>
+        <div class="bmeta-row"><span class="bm">20 Papers</span><span class="bm">280 Pages</span><span class="bm">A4 Size</span><span class="bm">CUET 2025</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)">📥 Download PDF</a>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#0ea5e9,#0066aa)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#e0f6ff,#b3e8ff)">
+        <div class="a4-badge" style="background:#0ea5e9">A4</div>
+        <div class="bicon">📗</div>
+        <div class="blabel" style="color:#0066aa">Question Bank</div>
+      </div>
+      <div class="book-info">
+        <span class="btype qb">📚 Question Bank</span>
+        <div class="btitle">English — Topic-wise Question Bank</div>
+        <div class="babout">2000+ MCQs, fill-in-the-blanks, passage comprehension, and grammar exercises covering all 26 topics. Includes CUET PYQs 2022–2024, difficulty-graded questions, vocabulary booster with 1000+ words, and idioms & phrasal verb reference lists.</div>
+        <div class="bmeta-row"><span class="bm">2000+ Qs</span><span class="bm">320 Pages</span><span class="bm">A4 Size</span><span class="bm">CUET Pattern</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#0ea5e9,#0066aa)">📥 Download PDF</a>
+      </div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="ST('eng','notes',this)">🗒️ Notes</button>
+    <button class="tab-btn" onclick="ST('eng','mock',this)">📝 Mock Tests</button>
+  </div>
+  <div class="tab-pane active" id="eng-notes">
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#9b30d9,#cc60ff)">A</div><div class="cname">🟣 Section 1 — Vocabulary<small>One Word Sub · Idioms · Antonyms/Synonyms · Phrasal Verbs · Figures of Speech</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Vocab Mindmap</a><a href="#" class="nbtn nt">📖 Vocabulary Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#005fd4,#00cfff)">B</div><div class="cname">🔵 Section 2 — Grammar<small>Tenses · Clauses · Modals · Prepositions · Subject-Verb Agreement</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Grammar Mindmap</a><a href="#" class="nbtn nt">📖 Grammar Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00703c,#00d97e)">C</div><div class="cname">🟢 Section 3 — Reading Ability<small>Comprehension · Cloze Test · Para Jumbles · Letter/Report Writing</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Reading Mindmap</a><a href="#" class="nbtn nt">📖 Reading Notes</a></div></div></div>
+  </div>
+  <div class="tab-pane" id="eng-mock">
+    <div class="mock-lbl">📘 Full English Mock Tests</div>
+    <div class="fmg">
+      <div class="fmc"><div class="fmc-n">1</div><div class="fmc-set">Set 1</div><div class="fmc-title">English Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">All Sections</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">2</div><div class="fmc-set">Set 2</div><div class="fmc-title">English Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Grammar Focus</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">3</div><div class="fmc-set">Set 3</div><div class="fmc-title">English Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Vocab Heavy</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">4</div><div class="fmc-set">Set 4</div><div class="fmc-title">English Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Reading Focus</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+    </div>
+    <div class="mock-lbl">📋 Section-wise Mock Tests (4 Sets · 50 Qs Each)</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#9b30d9,#cc60ff)">A</div><div class="cname">Section 1 — Vocabulary</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#005fd4,#00cfff)">B</div><div class="cname">Section 2 — Grammar</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum" style="background:linear-gradient(135deg,#00703c,#00d97e)">C</div><div class="cname">Section 3 — Reading Ability</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     GAT
+═══════════════════════════════ -->
+<div class="sec-anchor" id="gat">
+  <div class="sec-head">
+    <div class="sec-icon ic-gat">🧠</div>
+    <div><h2>GAT — General Aptitude Test</h2><small>4 Sections · CUET Syllabus · Notes + 4-Set Mocks</small></div>
+    <div class="sec-div"></div>
+  </div>
+  <div class="book-row">
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#0ea5e9,#0050aa)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#e0f6ff,#b3e8ff)">
+        <div class="a4-badge" style="background:#0ea5e9">A4</div>
+        <div class="bicon">🧠</div>
+        <div class="blabel" style="color:#0050aa">Sample Paper</div>
+      </div>
+      <div class="book-info">
+        <span class="btype sp">📄 Sample Paper Book</span>
+        <div class="btitle">GAT — Solved Sample Papers 2025</div>
+        <div class="babout">20 fully solved CUET GAT sample papers covering GK &amp; Current Affairs, Quantitative Reasoning, Logical Reasoning, and English Language. Includes shortcut methods, rapid-fire revision capsules, and time management strategies for each section.</div>
+        <div class="bmeta-row"><span class="bm">20 Papers</span><span class="bm">300 Pages</span><span class="bm">A4 Size</span><span class="bm">CUET 2025</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#0ea5e9,#0050aa)">📥 Download PDF</a>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(180deg,#0066dd,#003d90)"></div>
+      <div class="book-cover" style="background:linear-gradient(135deg,#dceeff,#a8d1ff)">
+        <div class="a4-badge">A4</div>
+        <div class="bicon">📘</div>
+        <div class="blabel" style="color:#003d90">Question Bank</div>
+      </div>
+      <div class="book-info">
+        <span class="btype qb">📚 Question Bank</span>
+        <div class="btitle">GAT — Section-wise Question Bank</div>
+        <div class="babout">2500+ MCQs across GK, Quant, Reasoning, and English. Includes CUET PYQs 2022–2024, 500 current affairs capsule questions, logic puzzle sets, data interpretation worksheets, and difficulty-graded reasoning problems with step-by-step solutions.</div>
+        <div class="bmeta-row"><span class="bm">2500+ Qs</span><span class="bm">360 Pages</span><span class="bm">A4 Size</span><span class="bm">CUET Pattern</span></div>
+        <a href="#" class="bbtn" style="background:linear-gradient(135deg,#0066dd,#003d90)">📥 Download PDF</a>
+      </div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="ST('gat','notes',this)">🗒️ Notes</button>
+    <button class="tab-btn" onclick="ST('gat','mock',this)">📝 Mock Tests</button>
+  </div>
+  <div class="tab-pane active" id="gat-notes">
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">1</div><div class="cname">General Knowledge &amp; Current Affairs<small>India · World · Economy · Science · Awards · Sports</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 GK Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">2</div><div class="cname">Quantitative Reasoning<small>Arithmetic · Algebra · DI · Mensuration · Percentages</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Quant Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">3</div><div class="cname">Logical Reasoning<small>Coding · Syllogisms · Blood Relations · Series · Puzzles</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 Reasoning Notes</a></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">4</div><div class="cname">English Language (GAT)<small>Comprehension · Vocabulary · Error Spotting · Fill Blanks</small></div></div><span class="carr">▼</span></div><div class="acc-body"><div class="note-btns"><a href="#" class="nbtn mm">🗺️ Mindmap</a><a href="#" class="nbtn nt">📖 English Notes</a></div></div></div>
+  </div>
+  <div class="tab-pane" id="gat-mock">
+    <div class="mock-lbl">🧠 Full GAT Mock Tests</div>
+    <div class="fmg">
+      <div class="fmc"><div class="fmc-n">1</div><div class="fmc-set">Set 1</div><div class="fmc-title">GAT Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">All Sections</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">2</div><div class="fmc-set">Set 2</div><div class="fmc-title">GAT Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Reasoning Heavy</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">3</div><div class="fmc-set">Set 3</div><div class="fmc-title">GAT Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">GK + Quant</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+      <div class="fmc"><div class="fmc-n">4</div><div class="fmc-set">Set 4</div><div class="fmc-title">GAT Full Mock</div><div class="fmc-meta">50 Qs · 60 Min</div><div class="fmc-tags"><span class="fmc-tag">Advanced</span></div><a href="#" class="fmc-btn">▶ Start</a></div>
+    </div>
+    <div class="mock-lbl">📋 Section-wise Mock Tests (4 Sets · 50 Qs Each)</div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">1</div><div class="cname">GK &amp; Current Affairs</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">2</div><div class="cname">Quantitative Reasoning</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">3</div><div class="cname">Logical Reasoning</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+    <div class="acc"><div class="acc-head" onclick="A(this)"><div class="acc-left"><div class="cnum">4</div><div class="cname">English Language (GAT)</div></div><span class="carr">▼</span></div><div class="acc-body"><div class="cms-grid"><div class="cms"><div class="cms-set">Set 1</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 2</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 3</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div><div class="cms"><div class="cms-set">Set 4</div><div class="cms-info">50 Qs · 60 Min</div><a href="#" class="cms-btn">▶ Start</a></div></div></div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     PYQ
+═══════════════════════════════ -->
+<div class="sec-anchor" id="pyq">
+  <div class="pyq-sec">
+    <div class="pyq-head">
+      <h2>📋 Previous Year Questions</h2>
+      <p>Year-wise PYQs for all 6 subjects — CBSE &amp; CUET Commerce Pattern</p>
+    </div>
+    <div class="pyq-grid">
+      <div class="pyq-yr">
+        <div class="pyq-yr-lbl">2025</div>
+        <ul class="pyq-list">
+          <li><a href="#"><span>📒 Accountancy PYQ 2025</span><span>→</span></a></li>
+          <li><a href="#"><span>💼 Business Studies PYQ 2025</span><span>→</span></a></li>
+          <li><a href="#"><span>📈 Economics PYQ 2025</span><span>→</span></a></li>
+          <li><a href="#"><span>📐 Mathematics PYQ 2025</span><span>→</span></a></li>
+          <li><a href="#"><span>📘 English PYQ 2025</span><span>→</span></a></li>
+          <li><a href="#"><span>🧠 GAT PYQ 2025</span><span>→</span></a></li>
+        </ul>
+      </div>
+      <div class="pyq-yr">
+        <div class="pyq-yr-lbl">2024</div>
+        <ul class="pyq-list">
+          <li><a href="#"><span>📒 Accountancy PYQ 2024</span><span>→</span></a></li>
+          <li><a href="#"><span>💼 Business Studies PYQ 2024</span><span>→</span></a></li>
+          <li><a href="#"><span>📈 Economics PYQ 2024</span><span>→</span></a></li>
+          <li><a href="#"><span>📐 Mathematics PYQ 2024</span><span>→</span></a></li>
+          <li><a href="#"><span>📘 English PYQ 2024</span><span>→</span></a></li>
+          <li><a href="#"><span>🧠 GAT PYQ 2024</span><span>→</span></a></li>
+        </ul>
+      </div>
+      <div class="pyq-yr">
+        <div class="pyq-yr-lbl">2023</div>
+        <ul class="pyq-list">
+          <li><a href="#"><span>📒 Accountancy PYQ 2023</span><span>→</span></a></li>
+          <li><a href="#"><span>💼 Business Studies PYQ 2023</span><span>→</span></a></li>
+          <li><a href="#"><span>📈 Economics PYQ 2023</span><span>→</span></a></li>
+          <li><a href="#"><span>📐 Mathematics PYQ 2023</span><span>→</span></a></li>
+          <li><a href="#"><span>📘 English PYQ 2023</span><span>→</span></a></li>
+          <li><a href="#"><span>🧠 GAT PYQ 2023</span><span>→</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <strong>CBT Mock Portal — Commerce</strong> · Class 12 CBSE · CUET 2025<br>
+  <span style="opacity:.6;font-size:.77rem">Accountancy · Business Studies · Economics · Maths · English · GAT — Notes · Mindmaps · Chapter Mocks · Full Mocks</span>
+</footer>
+
+<script>
+function A(el){
+  const b=el.nextElementSibling,a=el.querySelector('.carr'),o=b.classList.contains('open');
+  b.classList.toggle('open',!o);a.classList.toggle('open',!o);
+}
+function ST(sub,tab,btn){
+  btn.closest('.tab-bar').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('[id^="'+sub+'-"]').forEach(p=>p.classList.remove('active'));
+  document.getElementById(sub+'-'+tab).classList.add('active');
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+const anch=document.querySelectorAll('.sec-anchor');
+const nav=document.querySelectorAll('.topnav a');
+window.addEventListener('scroll',()=>{
+  let c='';
+  anch.forEach(s=>{if(window.scrollY>=s.offsetTop-100)c=s.id});
+  nav.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+c));
+},{passive:true});
+</script>
+</body>
+</html>
