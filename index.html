@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Thunder⚡Study — Commerce Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#020a14;--surface:#061422;--card:#071828;--border:#0d2d4a;
+  --p1:#38bdf8;--p2:#0284c7;--p3:#7dd3fc;--p4:#bae6fd;
+  --p5:#06b6d4;--p6:#0e7490;
+  --glow:rgba(56,189,248,.22);--glow2:rgba(2,132,199,.4);
+  --text:#e0f2fe;--text2:#bae6fd;--muted:#336d8c;--radius:16px;
+  --inp-bg:rgba(56,189,248,.07);--inp-border:rgba(56,189,248,.25);
+}
+[data-theme="light"]{
+  --bg:#f0f9ff;--surface:#e0f2fe;--card:#fff;--border:#bae6fd;
+  --text:#0c2d48;--text2:#0369a1;--muted:#0284c7;
+  --inp-bg:rgba(2,132,199,.07);--inp-border:rgba(2,132,199,.3);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;overflow-x:hidden;transition:background .4s,color .4s;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(56,189,248,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.04) 1px,transparent 1px);background-size:40px 40px;}
+#splash{position:fixed;inset:0;z-index:9999;background:#020a14;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .7s,visibility .7s;}
+#splash.hide{opacity:0;visibility:hidden;}
+.splash-bolt{font-size:80px;animation:splashBolt 1s ease-in-out infinite alternate;}
+@keyframes splashBolt{from{filter:drop-shadow(0 0 20px #38bdf8);transform:scale(1);}to{filter:drop-shadow(0 0 60px #06b6d4) drop-shadow(0 0 100px #0284c7);transform:scale(1.12);}}
+.splash-title{font-family:'Cinzel',serif;font-size:clamp(1.8rem,6vw,3rem);font-weight:900;background:linear-gradient(135deg,#bae6fd,#38bdf8,#0284c7,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;text-align:center;}
+.splash-sub{font-family:'Cinzel',serif;font-size:clamp(.7rem,2vw,.9rem);color:var(--p3);letter-spacing:.25em;text-transform:uppercase;text-align:center;}
+.splash-icons{font-size:1.5rem;letter-spacing:10px;}
+.splash-bar-wrap{width:220px;height:4px;background:rgba(56,189,248,.15);border-radius:4px;overflow:hidden;margin-top:6px;}
+.splash-bar{height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,#0284c7,#38bdf8,#06b6d4);animation:loadBar 2.2s ease forwards;}
+@keyframes loadBar{to{width:100%;}}
+#star-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+[data-theme="light"] #star-canvas{opacity:.28;}
+.nebula{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(110px);}
+.n1{width:700px;height:700px;top:-200px;left:-200px;background:radial-gradient(circle,rgba(2,132,199,.14),transparent 70%);}
+.n2{width:600px;height:600px;bottom:-160px;right:-160px;background:radial-gradient(circle,rgba(6,182,212,.12),transparent 70%);}
+.n3{width:400px;height:400px;top:35%;left:52%;background:radial-gradient(circle,rgba(56,189,248,.07),transparent 70%);}
+.floating-particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.fp{position:absolute;border-radius:50%;animation:floatPart linear infinite;opacity:0;}
+@keyframes floatPart{0%{transform:translateY(100vh);opacity:0;}8%{opacity:.5;}90%{opacity:.2;}100%{transform:translateY(-80px);opacity:0;}}
+.theme-btn{position:fixed;top:18px;right:18px;z-index:200;width:42px;height:42px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;box-shadow:0 2px 16px var(--glow);}
+.theme-btn:hover{background:var(--p2);border-color:var(--p1);color:#fff;transform:scale(1.08);}
+.page{position:relative;z-index:1;}
+.top-bar{height:3px;background:linear-gradient(90deg,transparent,var(--p2),var(--p1),var(--p5),transparent);width:100%;}
+.hero{text-align:center;padding:68px 24px 34px;position:relative;}
+.badge{display:inline-block;margin-bottom:14px;font-family:'Cinzel',serif;font-size:clamp(.62rem,1.8vw,.82rem);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--p3);border:1.5px solid rgba(56,189,248,.3);border-radius:8px;padding:7px 24px;background:rgba(56,189,248,.06);backdrop-filter:blur(6px);animation:badgeGlow 3s ease-in-out infinite;}
+@keyframes badgeGlow{0%,100%{box-shadow:0 0 0 rgba(56,189,248,0);}50%{box-shadow:0 0 24px rgba(56,189,248,.3);}}
+.logo-row{display:inline-flex;align-items:center;gap:14px;margin-bottom:8px;}
+.bolt{font-size:54px;display:inline-block;animation:boltPulse 2.8s ease-in-out infinite;}
+@keyframes boltPulse{0%,100%{filter:drop-shadow(0 0 14px var(--p1));transform:scale(1);}50%{filter:drop-shadow(0 0 42px var(--p5)) drop-shadow(0 0 80px var(--p2));transform:scale(1.07);}}
+.brand{font-family:'Cinzel',serif;font-size:clamp(2.2rem,7vw,4.2rem);font-weight:900;letter-spacing:3px;background:linear-gradient(135deg,#bae6fd 0%,#38bdf8 35%,#0284c7 65%,#06b6d4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 28px rgba(56,189,248,.5));}
+.brand-sub{font-family:'Cinzel',serif;font-size:clamp(.85rem,2.5vw,1.1rem);font-weight:700;color:var(--p3);letter-spacing:.15em;margin-bottom:6px;}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(.95rem,3vw,1.55rem);font-weight:700;color:var(--text);letter-spacing:.04em;margin-bottom:6px;text-shadow:0 0 32px rgba(56,189,248,.45);}
+.hero-sub{font-size:clamp(.78rem,2vw,.92rem);color:var(--muted);font-weight:300;letter-spacing:.1em;text-transform:uppercase;margin-bottom:30px;}
+.stream-banner{max-width:760px;margin:0 auto 8px;padding:0 20px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:9px;}
+.stream-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:8px;font-size:.75rem;font-weight:700;letter-spacing:.04em;border:1.5px solid;}
+.sc-acc{background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.35);color:#7dd3fc;}
+.sc-bst{background:rgba(2,132,199,.1);border-color:rgba(2,132,199,.35);color:#bae6fd;}
+.sc-eco{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.35);color:#a5f3fc;}
+.sc-mat{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.35);color:#93c5fd;}
+.sc-apm{background:rgba(14,165,233,.1);border-color:rgba(14,165,233,.35);color:#7dd3fc;}
+.sc-ent{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:#fcd34d;}
+.sc-en{background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.22);color:#e0f2fe;}
+.sc-pe{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#fca5a5;}
+.sc-gat{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.35);color:#a5f3fc;}
+.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:20px 0 32px;}
+.stat{display:flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.18);border-radius:8px;font-size:.8rem;font-weight:600;color:var(--text2);}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--p1);box-shadow:0 0 8px var(--p1);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.social{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:36px;}
+.soc{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;border:1.5px solid transparent;transition:all .25s;backdrop-filter:blur(6px);}
+.soc svg{width:15px;height:15px;fill:currentColor;flex-shrink:0;}
+.s-tg{background:rgba(41,168,229,.1);color:#29A8E5;border-color:rgba(41,168,229,.3);}.s-tg:hover{background:#29A8E5;color:#fff;}
+.s-yt{background:rgba(255,68,68,.1);color:#FF4444;border-color:rgba(255,68,68,.3);}.s-yt:hover{background:#FF4444;color:#fff;}
+.s-ig{background:rgba(225,48,108,.1);color:#E1306C;border-color:rgba(225,48,108,.3);}.s-ig:hover{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;border-color:transparent;}
+.hot-section{padding:0 0 20px;}
+.sec-label{font-family:'Cinzel',serif;font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--p3);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--p2),transparent);}
+.hot-badge-new{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.4);color:var(--p1);font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+.hot-badge-hot{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);color:#fbbf24;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+.hot-scroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--p2) transparent;}
+.hot-scroll::-webkit-scrollbar{height:4px;}
+.hot-scroll::-webkit-scrollbar-thumb{background:var(--p2);border-radius:4px;}
+.hot-card{flex:0 0 200px;scroll-snap-align:start;background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;text-decoration:none;color:var(--text);transition:transform .25s,box-shadow .25s,border-color .25s;}
+.hot-card:hover{transform:translateY(-5px) scale(1.02);border-color:rgba(56,189,248,.5);box-shadow:0 16px 40px rgba(2,132,199,.28);}
+.hot-card-img{width:100%;height:115px;display:flex;align-items:center;justify-content:center;font-size:42px;background:linear-gradient(135deg,rgba(2,132,199,.22),rgba(6,182,212,.15));border-bottom:1px solid rgba(56,189,248,.18);position:relative;}
+.hot-card-badge{position:absolute;top:8px;right:8px;}
+.hot-card-body{padding:11px;}
+.hot-card-title{font-weight:700;font-size:.85rem;margin-bottom:2px;color:var(--text);}
+.hot-card-sub{font-size:.7rem;color:var(--muted);}
+
+/* ══ TRENDING SECTION ══ */
+.trending-section{margin-bottom:30px;}
+.trending-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.trending-title-row{font-family:'Cinzel',serif;font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--p3);display:flex;align-items:center;gap:10px;}
+.period-tag{font-family:'Plus Jakarta Sans',sans-serif;font-size:.72rem;font-weight:600;color:var(--p1);letter-spacing:0;text-transform:none;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.25);border-radius:6px;padding:3px 10px;}
+.meta-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.live-pill{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:6px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);font-size:.7rem;font-weight:700;color:var(--p3);}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:blink 1.4s ease-in-out infinite;}
+.next-pill{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:6px;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.12);font-size:.68rem;font-weight:600;color:var(--muted);}
+.next-time{color:var(--p1);font-weight:700;font-family:'Cinzel',serif;min-width:48px;text-align:center;}
+
+/* Grid fade transition */
+.trending-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:11px;transition:opacity .45s,transform .45s;}
+.trending-grid.fading{opacity:0;transform:translateY(10px);}
+
+.trend-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:12px;transition:transform .25s,border-color .25s,box-shadow .25s;cursor:pointer;position:relative;overflow:hidden;}
+.trend-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(56,189,248,.06),transparent 65%);pointer-events:none;}
+.trend-card:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.45);box-shadow:0 10px 30px rgba(2,132,199,.2);}
+.trend-rank{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:900;min-width:32px;text-align:center;background:linear-gradient(135deg,var(--p3),var(--p5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.trend-rank.gold{background:linear-gradient(135deg,#ffd700,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.trend-rank.silver{background:linear-gradient(135deg,#e2e8f0,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.trend-rank.bronze{background:linear-gradient(135deg,#fb923c,#c2410c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.trend-ico{font-size:24px;flex-shrink:0;}
+.trend-info{flex:1;min-width:0;}
+.trend-name{font-weight:700;font-size:.87rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.trend-meta{font-size:.68rem;color:var(--muted);margin-top:2px;}
+.trend-bar-wrap{height:3px;background:rgba(56,189,248,.1);border-radius:3px;margin-top:6px;overflow:hidden;}
+.trend-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--p2),var(--p5));width:0;transition:width 1.8s cubic-bezier(.4,0,.2,1);}
+.trend-arrow{font-size:.7rem;font-weight:700;padding:3px 7px;border-radius:5px;flex-shrink:0;white-space:nowrap;}
+.trend-arrow.up{background:rgba(56,189,248,.15);color:var(--p1);border:1px solid rgba(56,189,248,.3);}
+.trend-arrow.fire{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.trend-arrow.new{background:rgba(6,182,212,.15);color:#a5f3fc;border:1px solid rgba(6,182,212,.3);}
+/* move badge */
+.move-badge{position:absolute;top:7px;right:7px;font-size:.56rem;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:.04em;line-height:1.5;}
+.mb-up{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.28);}
+.mb-dn{background:rgba(239,68,68,.1);color:#fca5a5;border:1px solid rgba(239,68,68,.22);}
+.mb-new{background:rgba(245,158,11,.15);color:#fde68a;border:1px solid rgba(245,158,11,.28);}
+.mb-same{background:rgba(56,189,248,.1);color:#7dd3fc;border:1px solid rgba(56,189,248,.2);}
+
+.books-section{margin-bottom:28px;}
+.books-scroll{display:flex;gap:13px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--p2) transparent;}
+.books-scroll::-webkit-scrollbar{height:4px;}
+.books-scroll::-webkit-scrollbar-thumb{background:var(--p2);border-radius:4px;}
+.book-card{flex:0 0 145px;scroll-snap-align:start;border-radius:10px;overflow:hidden;background:var(--card);border:1.5px solid var(--border);text-decoration:none;color:var(--text);transition:transform .25s,box-shadow .25s,border-color .25s;cursor:pointer;}
+.book-card:hover{transform:translateY(-6px) rotate(1deg);border-color:rgba(56,189,248,.5);box-shadow:0 18px 38px rgba(2,132,199,.3);}
+.book-cover-placeholder{width:100%;height:185px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:28px;}
+.book-cover-title{font-family:'Cinzel',serif;font-size:.56rem;font-weight:700;color:#e0f2fe;letter-spacing:.05em;text-align:center;padding:0 6px;}
+.book-label{padding:8px;font-size:.7rem;font-weight:600;color:var(--text2);text-align:center;border-top:1px solid var(--border);}
+.search-wrap{max-width:540px;margin:0 auto 32px;padding:0 20px;position:relative;}
+.search-box{width:100%;padding:13px 20px 13px 46px;background:var(--inp-bg);border:1.5px solid var(--inp-border);border-radius:8px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:.92rem;outline:none;transition:all .25s;}
+.search-box::placeholder{color:var(--muted);}
+.search-box:focus{border-color:var(--p1);box-shadow:0 0 0 3px rgba(56,189,248,.15);}
+.search-icon{position:absolute;left:38px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+.no-results{text-align:center;padding:40px;color:var(--muted);font-size:.9rem;display:none;}
+.no-results.show{display:block;}
+.tabs{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:0 24px;margin-bottom:36px;}
+.tab{font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:11px 26px;border-radius:8px;border:2px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .28s;position:relative;overflow:hidden;}
+.tab::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--p2),var(--p5));opacity:0;transition:opacity .28s;}
+.tab span{position:relative;z-index:1;}
+.tab:hover::before,.tab.on::before{opacity:1;}
+.tab:hover,.tab.on{color:#fff;border-color:transparent;box-shadow:0 0 28px var(--glow2);}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px 90px;}
+.panel{display:none;}.panel.on{display:block;}
+.sec-head{font-family:'Cinzel',serif;font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--p3);margin-bottom:22px;display:flex;align-items:center;gap:12px;}
+.sec-head::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--p2),transparent);}
+.list{display:flex;flex-direction:column;gap:10px;}
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .25s,box-shadow .25s;position:relative;}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--p2),var(--p5));opacity:0;transition:opacity .3s;border-radius:var(--radius) 0 0 var(--radius);}
+.card:hover{border-color:rgba(56,189,248,.32);}
+.card.open{border-color:rgba(56,189,248,.55);box-shadow:0 0 36px rgba(2,132,199,.14);}
+.card.open::before{opacity:1;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;cursor:pointer;user-select:none;gap:12px;transition:background .2s;}
+.card.open .card-head{border-bottom:1px solid rgba(56,189,248,.15);background:rgba(56,189,248,.04);}
+.left{display:flex;align-items:center;gap:14px;}
+.ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);transition:all .3s;flex-shrink:0;position:relative;overflow:hidden;}
+.ico::after{content:'';position:absolute;inset:0;border-radius:10px;background:radial-gradient(circle,rgba(56,189,248,.28),transparent 70%);opacity:0;transition:opacity .3s;}
+.card:hover .ico{transform:scale(1.12) rotate(-5deg);background:rgba(56,189,248,.2);box-shadow:0 0 20px rgba(56,189,248,.4);border-color:rgba(56,189,248,.5);}
+.card:hover .ico::after{opacity:1;}
+.card.open .ico{background:rgba(56,189,248,.22);animation:iconWiggle .5s ease;}
+@keyframes iconWiggle{0%{transform:scale(1)}25%{transform:scale(1.15) rotate(-8deg)}50%{transform:scale(1.1) rotate(5deg)}75%{transform:scale(1.12) rotate(-3deg)}100%{transform:scale(1.08) rotate(0)}}
+.subj-name{font-weight:600;font-size:.97rem;color:var(--text);}
+.subj-sub{font-size:.72rem;color:var(--muted);margin-top:2px;letter-spacing:.03em;}
+.chev{width:20px;height:20px;color:var(--muted);transition:transform .32s cubic-bezier(.4,0,.2,1),color .25s;flex-shrink:0;}
+.card.open .chev{transform:rotate(180deg);color:var(--p1);}
+.card-body{max-height:0;overflow:hidden;transition:max-height .48s cubic-bezier(.4,0,.2,1);}
+.card.open .card-body{max-height:800px;}
+.btn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;padding:16px 18px 18px;}
+/* rb-row wraps the button + edit icon as one grid cell */
+.rb-row{display:flex;align-items:stretch;border-radius:8px;overflow:hidden;border:1.5px solid rgba(56,189,248,.15);transition:border-color .2s,box-shadow .2s;}
+.rb-row:hover{border-color:rgba(56,189,248,.35);box-shadow:0 4px 16px rgba(2,132,199,.15);}
+.rb{display:flex;align-items:center;gap:8px;padding:10px 10px;background:rgba(56,189,248,.05);border:none;color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif;font-size:.81rem;font-weight:500;text-decoration:none;cursor:pointer;transition:background .2s;white-space:nowrap;position:relative;flex:1;border-radius:0;}
+.rb .i{font-size:14px;flex-shrink:0;}
+.rb:hover{background:rgba(56,189,248,.1);transform:none;box-shadow:none;}
+.rb .btn-new{position:absolute;top:-6px;right:-4px;padding:1px 5px;border-radius:3px;font-size:.55rem;font-weight:800;letter-spacing:.06em;background:#38bdf8;color:#082f49;text-transform:uppercase;line-height:1.6;}
+.rb .btn-hot{position:absolute;top:-6px;right:-4px;padding:1px 5px;border-radius:3px;font-size:.55rem;font-weight:800;letter-spacing:.06em;background:#f59e0b;color:#451a03;text-transform:uppercase;line-height:1.6;}
+.qb{border-color:rgba(56,189,248,.35);color:#7dd3fc;}.qb:hover{background:rgba(56,189,248,.12);border-color:#38bdf8;}
+.sp{border-color:rgba(99,102,241,.3);color:#a5b4fc;}.sp:hover{background:rgba(99,102,241,.12);border-color:#818cf8;}
+.nt{border-color:rgba(52,211,153,.3);color:#6ee7b7;}.nt:hover{background:rgba(52,211,153,.12);border-color:#34d399;}
+.mk{border-color:rgba(6,182,212,.35);color:#a5f3fc;}.mk:hover{background:rgba(6,182,212,.12);border-color:#06b6d4;}
+.py{border-color:rgba(245,158,11,.3);color:#fde68a;}.py:hover{background:rgba(245,158,11,.12);border-color:#f59e0b;}
+.mm{border-color:rgba(2,132,199,.35);color:#bae6fd;}.mm:hover{background:rgba(2,132,199,.12);border-color:#0284c7;}
+.dn{border-color:rgba(14,165,233,.3);color:#7dd3fc;}.dn:hover{background:rgba(14,165,233,.12);border-color:#0ea5e9;}
+.hw{border-color:rgba(251,191,36,.3);color:#fcd34d;}.hw:hover{background:rgba(251,191,36,.12);border-color:#fbbf24;}
+.iq{border-color:rgba(239,68,68,.3);color:#fca5a5;}.iq:hover{background:rgba(239,68,68,.12);border-color:#ef4444;}
+.it{border-color:rgba(74,222,128,.3);color:#86efac;}.it:hover{background:rgba(74,222,128,.12);border-color:#4ade80;}
+.cp{border-color:rgba(56,189,248,.25);color:#e0f2fe;}.cp:hover{background:rgba(56,189,248,.1);border-color:#38bdf8;}
+.ot{border-color:rgba(148,163,184,.25);color:#cbd5e1;}.ot:hover{background:rgba(148,163,184,.1);border-color:#94a3b8;}
+.card.open .rb{animation:popIn .3s ease both;}
+@keyframes popIn{from{opacity:0;transform:scale(.92) translateY(7px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.card.open .rb:nth-child(1){animation-delay:.02s}.card.open .rb:nth-child(2){animation-delay:.05s}
+.card.open .rb:nth-child(3){animation-delay:.08s}.card.open .rb:nth-child(4){animation-delay:.11s}
+.card.open .rb:nth-child(5){animation-delay:.14s}.card.open .rb:nth-child(6){animation-delay:.17s}
+.card.open .rb:nth-child(7){animation-delay:.20s}.card.open .rb:nth-child(8){animation-delay:.23s}
+.card.open .rb:nth-child(9){animation-delay:.26s}.card.open .rb:nth-child(10){animation-delay:.29s}
+.card.open .rb:nth-child(11){animation-delay:.32s}.card.open .rb:nth-child(12){animation-delay:.35s}
+.cbt-section{margin-top:30px;padding:28px;background:linear-gradient(135deg,rgba(2,132,199,.15),rgba(6,182,212,.1));border:2px solid rgba(56,189,248,.4);border-radius:16px;text-align:center;position:relative;overflow:hidden;}
+.cbt-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(56,189,248,.09),transparent 70%);pointer-events:none;}
+.cbt-title{font-family:'Cinzel',serif;font-size:clamp(.8rem,2.5vw,1.05rem);font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:.05em;}
+.cbt-sub{font-size:.82rem;color:var(--muted);margin-bottom:18px;}
+.cbt-btn{display:inline-flex;align-items:center;gap:10px;padding:15px 38px;border-radius:8px;text-decoration:none;font-family:'Cinzel',serif;font-size:clamp(.78rem,2.2vw,.95rem);font-weight:700;letter-spacing:.08em;background:linear-gradient(135deg,var(--p2),var(--p5));color:#fff;border:none;cursor:pointer;box-shadow:0 8px 32px rgba(2,132,199,.55);transition:all .3s;position:relative;overflow:hidden;}
+.cbt-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--p5),var(--p2));opacity:0;transition:opacity .3s;}
+.cbt-btn:hover::before{opacity:1;}
+.cbt-btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 16px 48px rgba(2,132,199,.7);}
+.cbt-btn span{position:relative;z-index:1;display:flex;align-items:center;gap:10px;}
+.pulse-ring{position:absolute;inset:-4px;border-radius:8px;border:2px solid rgba(56,189,248,.5);animation:ringPulse 2s ease-in-out infinite;}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.04);opacity:1;}}
+.cbt-chips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.cbt-chip{padding:5px 14px;border-radius:6px;font-size:.72rem;font-weight:600;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.25);color:var(--text2);}
+footer{text-align:center;padding:44px 24px;border-top:1px solid rgba(56,189,248,.1);position:relative;z-index:1;}
+.foot-brand{font-family:'Cinzel',serif;font-size:1.15rem;font-weight:700;margin-bottom:8px;background:linear-gradient(135deg,var(--p5),var(--p1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+footer p{color:var(--muted);font-size:.8rem;margin-top:4px;}
+.up{position:fixed;bottom:28px;right:28px;width:46px;height:46px;background:linear-gradient(135deg,var(--p2),var(--p5));color:#fff;border:none;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px var(--glow2);opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;z-index:100;}
+.up.on{opacity:1;pointer-events:all;}
+.up:hover{transform:translateY(-3px);}
+.hidden{display:none!important;}
+@media(max-width:600px){
+  .btn-grid{grid-template-columns:repeat(2,1fr);}
+  .trending-grid{grid-template-columns:1fr 1fr;}
+  .hot-card{flex:0 0 170px;}
+  .book-card{flex:0 0 120px;}
+  .stream-banner{gap:7px;}
+  .stream-chip{padding:5px 10px;font-size:.67rem;}
+  .trending-header{flex-direction:column;align-items:flex-start;}
+}
+
+/* ══════════════════════════════════════
+   🔗 LINK MANAGEMENT SYSTEM
+══════════════════════════════════════ */
+
+/* Resource button wrapper */
+.rb-wrap{display:contents;}
+
+/* Edit row under each button */
+.rb-row{display:flex;align-items:stretch;gap:0;border-radius:8px;overflow:hidden;
+  border:1.5px solid rgba(56,189,248,.15);margin:0;position:relative;}
+.rb-row .rb{border:none;border-radius:0;flex:1;margin:0;}
+.rb-row .rb:hover{border:none;}
+
+/* Link indicator dot on button */
+.rb-linked{border-color:rgba(34,197,94,.45)!important;}
+.rb-linked::after{content:'';position:absolute;bottom:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;}
+
+/* Edit link button */
+.rb-edit{
+  flex-shrink:0;width:32px;
+  background:rgba(56,189,248,.06);
+  border:none;border-left:1px solid rgba(56,189,248,.13);
+  color:var(--muted);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;transition:all .2s;
+}
+.rb-edit:hover{background:rgba(56,189,248,.16);color:var(--p1);}
+.rb-linked ~ .rb-edit,
+.rb-row:has(.rb-linked) .rb-edit{background:rgba(34,197,94,.08);color:#4ade80;border-left-color:rgba(34,197,94,.2);}
+
+/* ── LINK MODAL ── */
+.link-modal-overlay{
+  position:fixed;inset:0;z-index:8000;
+  background:rgba(2,10,20,.82);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.link-modal-overlay.open{opacity:1;pointer-events:all;}
+.link-modal{
+  background:#071828;border:1.5px solid rgba(56,189,248,.3);border-radius:16px;
+  padding:28px 24px;width:100%;max-width:480px;
+  box-shadow:0 24px 64px rgba(2,132,199,.3);
+  transform:translateY(14px);transition:transform .28s cubic-bezier(.4,0,.2,1);
+}
+.link-modal-overlay.open .link-modal{transform:translateY(0);}
+.lm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px;}
+.lm-title{font-family:'Cinzel',serif;font-size:.95rem;font-weight:700;color:var(--text);line-height:1.3;}
+.lm-subj{font-size:.72rem;color:var(--p3);margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;}
+.lm-close{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);border-radius:8px;
+  color:var(--muted);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;transition:all .2s;}
+.lm-close:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3);color:#fca5a5;}
+.lm-label{font-size:.74rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.lm-input{
+  width:100%;padding:11px 14px;
+  background:rgba(56,189,248,.07);border:1.5px solid rgba(56,189,248,.22);
+  border-radius:8px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.9rem;outline:none;transition:all .22s;
+}
+.lm-input::placeholder{color:var(--muted);}
+.lm-input:focus{border-color:var(--p1);box-shadow:0 0 0 3px rgba(56,189,248,.12);}
+.lm-current{
+  margin-top:8px;padding:8px 12px;border-radius:7px;
+  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);
+  font-size:.72rem;color:#4ade80;word-break:break-all;display:none;
+}
+.lm-current.show{display:flex;align-items:center;gap:6px;}
+.lm-actions{display:flex;gap:10px;margin-top:18px;}
+.lm-save{
+  flex:1;padding:11px 0;border-radius:8px;border:none;cursor:pointer;
+  font-family:'Cinzel',serif;font-size:.8rem;font-weight:700;letter-spacing:.06em;
+  background:linear-gradient(135deg,var(--p2),var(--p5));color:#fff;
+  transition:all .22s;box-shadow:0 4px 16px rgba(2,132,199,.35);
+}
+.lm-save:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(2,132,199,.5);}
+.lm-clear{
+  padding:11px 18px;border-radius:8px;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:600;
+  background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.25);color:#fca5a5;
+  transition:all .22s;display:none;
+}
+.lm-clear.show{display:block;}
+.lm-clear:hover{background:rgba(239,68,68,.2);border-color:#ef4444;}
+.lm-cancel{
+  padding:11px 18px;border-radius:8px;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:600;
+  background:rgba(56,189,248,.07);border:1.5px solid rgba(56,189,248,.15);color:var(--muted);
+  transition:all .22s;
+}
+.lm-cancel:hover{background:rgba(56,189,248,.13);color:var(--p3);}
+
+/* no-link toast */
+.rb-toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);
+  background:#071828;border:1.5px solid rgba(56,189,248,.3);border-radius:10px;
+  padding:10px 20px;font-size:.82rem;color:var(--p3);
+  box-shadow:0 8px 32px rgba(2,132,199,.3);z-index:9000;
+  opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap;
+}
+.rb-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <div class="splash-bolt">⚡</div>
+  <div class="splash-title">ThunderStudy</div>
+  <div class="splash-sub">Commerce Edition</div>
+  <div class="splash-icons">💼 📊 📈</div>
+  <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+</div>
+
+<button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+<canvas id="star-canvas"></canvas>
+<div class="nebula n1"></div><div class="nebula n2"></div><div class="nebula n3"></div>
+<div class="floating-particles" id="fParticles"></div>
+
+<div class="page">
+<div class="top-bar"></div>
+
+<section class="hero">
+  <div class="badge">⚡ Commerce Edition · Free For All ⚡</div>
+  <div class="logo-row"><span class="bolt">⚡</span><span class="brand">ThunderStudy</span></div>
+  <div class="brand-sub">▸ COMMERCE EDITION ◂</div>
+  <div class="hero-title">Class 12 CBSE &amp; CUET Commerce Hub</div>
+  <div class="hero-sub">Accountancy · BST · Economics · Maths · Applied Maths · Entrepreneurship</div>
+</section>
+
+<div class="stream-banner">
+  <span class="stream-chip sc-acc">🧾 Accountancy</span>
+  <span class="stream-chip sc-bst">💼 Bus. Studies</span>
+  <span class="stream-chip sc-eco">📈 Economics</span>
+  <span class="stream-chip sc-mat">📐 Maths</span>
+  <span class="stream-chip sc-apm">🔢 Applied Maths</span>
+  <span class="stream-chip sc-ent">🚀 Entrepreneur.</span>
+  <span class="stream-chip sc-en">📖 English</span>
+  <span class="stream-chip sc-pe">🏅 Physical Edu.</span>
+  <span class="stream-chip sc-gat">🧩 CUET GAT</span>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="dot"></span>8 Commerce Subjects</div>
+  <div class="stat"><span class="dot"></span>CUET + Class 12</div>
+  <div class="stat"><span class="dot"></span>12 Resource Types</div>
+  <div class="stat"><span class="dot"></span>100% Free</div>
+</div>
+
+<div class="social">
+  <a href="https://t.me/Thunderstudy_official" target="_blank" class="soc s-tg">
+    <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 13.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/></svg>Telegram</a>
+  <a href="https://youtube.com/@Thunderstudy_official" target="_blank" class="soc s-yt">
+    <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>YouTube</a>
+  <a href="https://instagram.com/Thunderstudy_official" target="_blank" class="soc s-ig">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Instagram</a>
+</div>
+
+<div class="wrap" style="padding-bottom:0;">
+  <div class="hot-section">
+    <div class="sec-label">⚡ New &amp; Hot Resources</div>
+    <div class="hot-scroll" id="hotScroll"></div>
+  </div>
+
+  <!-- TRENDING with auto-rotate -->
+  <div class="trending-section">
+    <div class="trending-header">
+      <div class="trending-title-row">
+        📈 Trending
+        <span class="period-tag" id="periodTag">Loading…</span>
+      </div>
+      <div class="meta-pills">
+        <div class="live-pill"><span class="live-dot"></span>Live Rankings</div>
+        <div class="next-pill">🔄 Next in <span class="next-time" id="nextTimeEl">—</span></div>
+      </div>
+    </div>
+    <div class="trending-grid" id="trendingGrid"></div>
+  </div>
+
+  <div class="books-section">
+    <div class="sec-label">📚 Sample Paper Books
+      <span style="flex:1;height:1px;background:linear-gradient(to right,var(--p2),transparent);display:block;"></span>
+    </div>
+    <div class="books-scroll" id="booksScroll"></div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="text" class="search-box" id="searchBox" placeholder="Search… Accountancy, Economics, GAT…"/>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="switchTab('c12',this)"><span>🎓 Class 12 Commerce</span></button>
+  <button class="tab" onclick="switchTab('cuet',this)"><span>🏆 CUET Commerce</span></button>
+</div>
+
+<div class="wrap">
+  <div id="p-c12" class="panel on">
+    <div class="sec-head">Class 12 CBSE — Commerce Stream</div>
+    <div class="list" id="l-c12"></div>
+    <div class="no-results" id="nr-c12">No subjects found. Try a different search.</div>
+  </div>
+  <div id="p-cuet" class="panel">
+    <div class="sec-head">CUET — Commerce Subjects</div>
+    <div class="list" id="l-cuet"></div>
+    <div class="no-results" id="nr-cuet">No subjects found. Try a different search.</div>
+    <div class="cbt-section">
+      <div style="font-size:38px;margin-bottom:12px;">🖥️</div>
+      <div class="cbt-title">CUET CBT Mock Test — Full Simulation</div>
+      <div class="cbt-sub">Experience the real CUET exam interface. Timed, scored, and reviewed.</div>
+      <a href="#" class="cbt-btn" onclick="return false;">
+        <div class="pulse-ring"></div>
+        <span>🎯 Start CUET CBT Mock Test</span>
+      </a>
+      <div class="cbt-chips">
+        <span class="cbt-chip">⏱ Timed Exam</span>
+        <span class="cbt-chip">📊 Instant Score</span>
+        <span class="cbt-chip">🔁 Re-attempt</span>
+        <span class="cbt-chip">📱 Mobile Friendly</span>
+        <span class="cbt-chip">🆓 Completely Free</span>
+        <span class="cbt-chip">⚡ Grind Mode ON</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">⚡ ThunderStudy — Commerce Edition</div>
+  <p>Free Education For All — By Thunder Team</p>
+  <p style="margin-top:4px;">@Thunderstudy_official &nbsp;·&nbsp; All platforms</p>
+  <p style="margin-top:8px;font-size:.75rem;color:var(--muted);">📈 Hustle smart. Study harder.</p>
+</footer>
+</div>
+
+<button class="up" id="upBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* ══ SPLASH ══ */
+setTimeout(()=>document.getElementById('splash').classList.add('hide'),2600);
+
+/* ══ PARTICLES ══ */
+(function(){
+  const c=document.getElementById('fParticles');
+  const cols=['rgba(56,189,248,.6)','rgba(6,182,212,.5)','rgba(2,132,199,.5)','rgba(14,165,233,.55)','rgba(186,230,253,.4)'];
+  for(let i=0;i<20;i++){
+    const el=document.createElement('div');el.className='fp';const sz=3+Math.random()*6;
+    el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${14+Math.random()*20}s;animation-delay:${Math.random()*15}s;`;
+    c.appendChild(el);
+  }
+})();
+
+/* ══ STARS ══ */
+(function(){
+  const cv=document.getElementById('star-canvas'),ctx=cv.getContext('2d');
+  let W,H,stars=[],shooters=[],frame=0,nextShoot=100,scrollY=0;
+  function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+  window.addEventListener('resize',resize);resize();
+  window.addEventListener('scroll',()=>{scrollY=window.scrollY;});
+  function mkStar(){return{x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.2,a:Math.random()*.7+.15,spd:Math.random()*.007+.003,dir:Math.random()<.5?1:-1,py:Math.random()*.15+.03,col:Math.random()<.55?`hsl(${195+Math.random()*30},90%,${65+Math.random()*25}%)`:'#e0f2fe'};}
+  for(let i=0;i<230;i++)stars.push(mkStar());
+  function mkShooter(){const ang=Math.PI/5+Math.random()*Math.PI/10,spd=9+Math.random()*10;return{x:Math.random()*W*1.3-.15*W,y:Math.random()*H*.45,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,len:100+Math.random()*130,a:0,maxA:.75+Math.random()*.2,life:0,maxLife:55+Math.random()*40,w:.6+Math.random()*1.2,hue:195+Math.random()*30};}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{s.a+=s.spd*s.dir;if(s.a>=.87||s.a<=.08)s.dir*=-1;const py=(s.y-s.py*scrollY+H)%H;ctx.beginPath();ctx.arc(s.x,py,s.r,0,Math.PI*2);ctx.fillStyle=s.col;ctx.globalAlpha=s.a;ctx.fill();});
+    frame++;
+    if(frame>=nextShoot&&shooters.length<6){shooters.push(mkShooter());nextShoot=frame+90+Math.random()*200;}
+    shooters=shooters.filter(s=>{s.life++;const p=s.life/s.maxLife;s.a=p<.2?(p/.2)*s.maxA:p>.72?((1-p)/.28)*s.maxA:s.maxA;const ang=Math.atan2(s.vy,s.vx),x2=s.x-Math.cos(ang)*s.len,y2=s.y-Math.sin(ang)*s.len;const g=ctx.createLinearGradient(x2,y2,s.x,s.y);g.addColorStop(0,'transparent');g.addColorStop(.55,`hsla(${s.hue},90%,80%,${s.a*.35})`);g.addColorStop(1,`hsla(${s.hue+15},100%,94%,${s.a})`);ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(s.x,s.y);ctx.strokeStyle=g;ctx.lineWidth=s.w;ctx.lineCap='round';ctx.stroke();const rg=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.w*6);rg.addColorStop(0,`hsla(${s.hue},100%,96%,${s.a})`);rg.addColorStop(1,'transparent');ctx.beginPath();ctx.arc(s.x,s.y,s.w*6,0,Math.PI*2);ctx.fillStyle=rg;ctx.fill();s.x+=s.vx;s.y+=s.vy;return s.life<s.maxLife&&s.x<W+250&&s.y<H+250;});
+    ctx.globalAlpha=1;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ══ THEME ══ */
+const themeBtn=document.getElementById('themeBtn');
+(function(){const t=localStorage.getItem('ts-theme-com');if(t){document.documentElement.dataset.theme=t;themeBtn.textContent=t==='light'?'🌙':'☀️';}})();
+themeBtn.addEventListener('click',()=>{
+  const isDark=document.documentElement.dataset.theme==='dark';
+  document.documentElement.dataset.theme=isDark?'light':'dark';
+  themeBtn.textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('ts-theme-com',isDark?'light':'dark');
+});
+
+/* ══ DATA ══ */
+const RES=[
+  {l:"Question Bank",    i:"📚",c:"qb",tag:""},
+  {l:"Sample Paper",     i:"📄",c:"sp",tag:"hot"},
+  {l:"Notes",            i:"📝",c:"nt",tag:""},
+  {l:"Mock Test",        i:"🎯",c:"mk",tag:"hot"},
+  {l:"PYQs",             i:"🏆",c:"py",tag:""},
+  {l:"Mind Maps",        i:"🗺️", c:"mm",tag:"new"},
+  {l:"Digital Notes",    i:"💻",c:"dn",tag:"new"},
+  {l:"Handwritten Notes",i:"✍️", c:"hw",tag:""},
+  {l:"IMP Questions",    i:"❗",c:"iq",tag:"hot"},
+  {l:"IMP Topics",       i:"🔥",c:"it",tag:""},
+  {l:"Chapter-wise PYQs",i:"📂",c:"cp",tag:"new"},
+  {l:"Other IMP Data",   i:"⭐",c:"ot",tag:""},
+];
+const C12=[
+  {n:"Accountancy",         s:"Commerce — Class 12 CBSE", e:"🧾"},
+  {n:"Business Studies",    s:"Commerce — Class 12 CBSE", e:"💼"},
+  {n:"Economics",           s:"Commerce — Class 12 CBSE", e:"📈"},
+  {n:"Mathematics",         s:"Commerce — Class 12 CBSE", e:"📐"},
+  {n:"Applied Mathematics", s:"Commerce — Class 12 CBSE", e:"🔢"},
+  {n:"Entrepreneurship",    s:"Commerce — Class 12 CBSE", e:"🚀"},
+  {n:"English",             s:"All Streams — Class 12",   e:"📖"},
+  {n:"Physical Education",  s:"All Streams — Class 12",   e:"🏅"},
+];
+const CUET=[
+  {n:"Accountancy",          s:"CUET — Domain Subject",   e:"🧾"},
+  {n:"Business Studies",     s:"CUET — Domain Subject",   e:"💼"},
+  {n:"Economics",            s:"CUET — Domain Subject",   e:"📈"},
+  {n:"Mathematics",          s:"CUET — Domain Subject",   e:"📐"},
+  {n:"English",              s:"CUET — Language Test",    e:"📖"},
+  {n:"Physical Education",   s:"CUET — Domain Subject",   e:"🏅"},
+  {n:"General Aptitude Test",s:"CUET — GAT / Reasoning",  e:"🧩"},
+];
+
+/* ══════════════════════════════════════
+   📈 AUTO-ROTATING TRENDING ENGINE
+   - 6 different period snapshots
+   - Rotates every ROTATE_HOURS hours
+   - Persisted in localStorage so ALL
+     visitors see the SAME period
+   - Live countdown to next rotation
+   - Smooth fade transition on rotate
+   - ▲▼ move badges show rank shifts
+══════════════════════════════════════ */
+const ROTATE_HOURS = 4;  // ← change freely (supports decimals: 0.5 = 30 min)
+const ROTATE_MS    = ROTATE_HOURS * 60 * 60 * 1000;
+const STORE_KEY    = 'ts-trend-com-v2';
+
+const PERIODS = [
+  {
+    label:"Morning Wave 🌅",
+    data:[
+      {n:"Accountancy",      e:"🧾",v:19800,pct:98,arrow:"fire",move:"same"},
+      {n:"Business Studies", e:"💼",v:18400,pct:92,arrow:"fire",move:"up"},
+      {n:"Economics",        e:"📈",v:16200,pct:82,arrow:"fire",move:"same"},
+      {n:"Mathematics",      e:"📐",v:13900,pct:70,arrow:"up",  move:"down"},
+      {n:"English",          e:"📖",v:11600,pct:59,arrow:"up",  move:"same"},
+      {n:"GAT Aptitude",     e:"🧩",v:10100,pct:52,arrow:"new", move:"up"},
+      {n:"Applied Maths",    e:"🔢",v:8700, pct:44,arrow:"new", move:"down"},
+      {n:"Entrepreneurship", e:"🚀",v:7400, pct:37,arrow:"up",  move:"same"},
+    ]
+  },
+  {
+    label:"Afternoon Rush ☀️",
+    data:[
+      {n:"Business Studies", e:"💼",v:21300,pct:98,arrow:"fire",move:"up"},
+      {n:"Accountancy",      e:"🧾",v:20100,pct:94,arrow:"fire",move:"down"},
+      {n:"GAT Aptitude",     e:"🧩",v:17800,pct:84,arrow:"fire",move:"up"},
+      {n:"Economics",        e:"📈",v:15600,pct:74,arrow:"up",  move:"down"},
+      {n:"Applied Maths",    e:"🔢",v:13200,pct:62,arrow:"up",  move:"up"},
+      {n:"English",          e:"📖",v:10900,pct:52,arrow:"up",  move:"down"},
+      {n:"Mathematics",      e:"📐",v:9400, pct:44,arrow:"up",  move:"down"},
+      {n:"Entrepreneurship", e:"🚀",v:8100, pct:38,arrow:"up",  move:"same"},
+    ]
+  },
+  {
+    label:"Evening Grind 🌆",
+    data:[
+      {n:"Accountancy",      e:"🧾",v:24500,pct:98,arrow:"fire",move:"up"},
+      {n:"Economics",        e:"📈",v:22100,pct:90,arrow:"fire",move:"up"},
+      {n:"Business Studies", e:"💼",v:19800,pct:82,arrow:"fire",move:"down"},
+      {n:"GAT Aptitude",     e:"🧩",v:16400,pct:68,arrow:"up",  move:"down"},
+      {n:"Mathematics",      e:"📐",v:14200,pct:58,arrow:"up",  move:"up"},
+      {n:"Applied Maths",    e:"🔢",v:11600,pct:48,arrow:"new", move:"same"},
+      {n:"Entrepreneurship", e:"🚀",v:9800, pct:40,arrow:"up",  move:"up"},
+      {n:"English",          e:"📖",v:7900, pct:32,arrow:"up",  move:"down"},
+    ]
+  },
+  {
+    label:"Night Hustle 🌙",
+    data:[
+      {n:"Economics",        e:"📈",v:26000,pct:98,arrow:"fire",move:"up"},
+      {n:"Accountancy",      e:"🧾",v:23400,pct:90,arrow:"fire",move:"down"},
+      {n:"Applied Maths",    e:"🔢",v:20800,pct:80,arrow:"fire",move:"up"},
+      {n:"Mathematics",      e:"📐",v:18100,pct:70,arrow:"up",  move:"up"},
+      {n:"Business Studies", e:"💼",v:15600,pct:60,arrow:"up",  move:"down"},
+      {n:"Entrepreneurship", e:"🚀",v:12200,pct:48,arrow:"new", move:"up"},
+      {n:"English",          e:"📖",v:9700, pct:38,arrow:"up",  move:"same"},
+      {n:"GAT Aptitude",     e:"🧩",v:7500, pct:29,arrow:"up",  move:"down"},
+    ]
+  },
+  {
+    label:"Weekend Surge 🔥",
+    data:[
+      {n:"Business Studies", e:"💼",v:31000,pct:98,arrow:"fire",move:"up"},
+      {n:"GAT Aptitude",     e:"🧩",v:28500,pct:92,arrow:"fire",move:"up"},
+      {n:"Accountancy",      e:"🧾",v:25200,pct:82,arrow:"fire",move:"down"},
+      {n:"Applied Maths",    e:"🔢",v:21000,pct:68,arrow:"up",  move:"up"},
+      {n:"Economics",        e:"📈",v:17400,pct:56,arrow:"up",  move:"down"},
+      {n:"Entrepreneurship", e:"🚀",v:14100,pct:46,arrow:"new", move:"up"},
+      {n:"Mathematics",      e:"📐",v:11800,pct:38,arrow:"up",  move:"same"},
+      {n:"English",          e:"📖",v:9200, pct:30,arrow:"up",  move:"down"},
+    ]
+  },
+  {
+    label:"Exam Sprint 📝",
+    data:[
+      {n:"Accountancy",      e:"🧾",v:38000,pct:98,arrow:"fire",move:"up"},
+      {n:"Economics",        e:"📈",v:34500,pct:92,arrow:"fire",move:"up"},
+      {n:"Business Studies", e:"💼",v:30200,pct:80,arrow:"fire",move:"down"},
+      {n:"Mathematics",      e:"📐",v:25800,pct:68,arrow:"up",  move:"up"},
+      {n:"GAT Aptitude",     e:"🧩",v:21400,pct:56,arrow:"up",  move:"down"},
+      {n:"Applied Maths",    e:"🔢",v:17600,pct:46,arrow:"new", move:"up"},
+      {n:"English",          e:"📖",v:13900,pct:37,arrow:"up",  move:"same"},
+      {n:"Entrepreneurship", e:"🚀",v:10200,pct:27,arrow:"up",  move:"down"},
+    ]
+  },
+];
+
+function fmtNum(n){return n>=1000?(n/1000).toFixed(1)+'k':n;}
+function fmtCountdown(ms){
+  if(ms<=0)return '0s';
+  const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);
+  if(h>0)return `${h}h ${m}m`;
+  if(m>0)return `${m}m ${s}s`;
+  return `${s}s`;
+}
+
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STORE_KEY)||'null');
+    if(s&&typeof s.idx==='number'&&typeof s.setAt==='number') return s;
+  }catch(e){}
+  return null;
+}
+function saveState(idx,setAt){
+  try{localStorage.setItem(STORE_KEY,JSON.stringify({idx,setAt}));}catch(e){}
+}
+
+let state=loadState();
+if(!state){state={idx:0,setAt:Date.now()};saveState(0,Date.now());}
+
+function renderPeriod(idx,animate){
+  const period=PERIODS[idx%PERIODS.length];
+  const grid=document.getElementById('trendingGrid');
+  document.getElementById('periodTag').textContent=period.label;
+
+  function buildCards(){
+    grid.innerHTML='';
+    period.data.forEach((t,i)=>{
+      const rank=i+1;
+      const rc=rank===1?'gold':rank===2?'silver':rank===3?'bronze':'';
+      const arrowLabel=t.arrow==='fire'?'🔥 Hot':t.arrow==='new'?'⚡ New':'↑ Rising';
+      const mb=t.move==='up'?{cls:'mb-up',txt:'▲ Rising'}:t.move==='down'?{cls:'mb-dn',txt:'▼ Fell'}:t.move==='new'?{cls:'mb-new',txt:'★ New'}:{cls:'mb-same',txt:'— Steady'};
+      const card=document.createElement('div');card.className='trend-card';
+      card.innerHTML=`
+        <div class="trend-rank ${rc}">#${rank}</div>
+        <div class="trend-ico">${t.e}</div>
+        <div class="trend-info">
+          <div class="trend-name">${t.n}</div>
+          <div class="trend-meta">${fmtNum(t.v)} students this week</div>
+          <div class="trend-bar-wrap"><div class="trend-bar" data-pct="${t.pct}"></div></div>
+        </div>
+        <div class="trend-arrow ${t.arrow}">${arrowLabel}</div>
+        <div class="move-badge ${mb.cls}">${mb.txt}</div>`;
+      grid.appendChild(card);
+    });
+    setTimeout(()=>{grid.querySelectorAll('.trend-bar').forEach(b=>{b.style.width=b.dataset.pct+'%';});},120);
+  }
+
+  if(animate){
+    grid.classList.add('fading');
+    setTimeout(()=>{buildCards();grid.classList.remove('fading');},460);
+  } else {
+    buildCards();
+  }
+}
+
+/* First render (no animation) */
+renderPeriod(state.idx,false);
+
+/* Countdown + auto-rotate every second */
+setInterval(()=>{
+  const now=Date.now();
+  const elapsed=now-state.setAt;
+  const remaining=ROTATE_MS-elapsed;
+  if(remaining<=0){
+    const newIdx=(state.idx+1)%PERIODS.length;
+    state={idx:newIdx,setAt:now};
+    saveState(newIdx,now);
+    renderPeriod(newIdx,true);
+    document.getElementById('nextTimeEl').textContent=fmtCountdown(ROTATE_MS);
+  } else {
+    document.getElementById('nextTimeEl').textContent=fmtCountdown(remaining);
+  }
+},1000);
+
+/* ══ HOT ITEMS ══ */
+const HOT_ITEMS=[
+  {title:"Accountancy Trial Balance",  sub:"Class 12 · All adjustments",   emoji:"🧾",tag:"hot"},
+  {title:"BST Chapter 1-6 Notes",      sub:"Commerce · Board focused",      emoji:"💼",tag:"hot"},
+  {title:"Economics PYQs 2024",        sub:"CBSE + CUET · Topic-wise",      emoji:"📈",tag:"new"},
+  {title:"CUET Commerce Sample Papers",sub:"All subjects · 2025 pattern",   emoji:"📄",tag:"new"},
+  {title:"Maths Formula Sheet",        sub:"Commerce · CUET ready",         emoji:"📐",tag:"hot"},
+  {title:"Mind Maps — BST",            sub:"All 12 chapters visual notes",  emoji:"🗺️",tag:"new"},
+  {title:"GAT Aptitude Pack",          sub:"CUET 2025 · Reasoning tricks",  emoji:"🧩",tag:"new"},
+  {title:"Accountancy IMP Questions",  sub:"Board + CUET · High weightage", emoji:"❗",tag:"hot"},
+];
+const hotScroll=document.getElementById('hotScroll');
+HOT_ITEMS.forEach(item=>{
+  const card=document.createElement('a');card.href='#';card.className='hot-card';card.onclick=e=>e.preventDefault();
+  card.innerHTML=`<div class="hot-card-img"><span>${item.emoji}</span><div class="hot-card-badge">${item.tag==='new'?'<span class="hot-badge-new">⚡ New</span>':'<span class="hot-badge-hot">🔥 Hot</span>'}</div></div><div class="hot-card-body"><div class="hot-card-title">${item.title}</div><div class="hot-card-sub">${item.sub}</div></div>`;
+  hotScroll.appendChild(card);
+});
+
+/* ══ BOOKS ══ */
+const BOOKS=[
+  {title:"Accountancy",     sub:"CBSE 2025",emoji:"🧾",grad:"linear-gradient(160deg,#075985,#020a14)"},
+  {title:"Business Studies",sub:"CBSE 2025",emoji:"💼",grad:"linear-gradient(160deg,#0369a1,#061422)"},
+  {title:"Economics",       sub:"CBSE 2025",emoji:"📈",grad:"linear-gradient(160deg,#0e7490,#020a14)"},
+  {title:"Mathematics",     sub:"CBSE 2025",emoji:"📐",grad:"linear-gradient(160deg,#1d4ed8,#0a0e2e)"},
+  {title:"Applied Maths",   sub:"CBSE 2025",emoji:"🔢",grad:"linear-gradient(160deg,#0284c7,#020c18)"},
+  {title:"English Core",    sub:"CBSE 2025",emoji:"📖",grad:"linear-gradient(160deg,#0c4a6e,#020a14)"},
+  {title:"Physical Edu.",   sub:"CBSE 2025",emoji:"🏅",grad:"linear-gradient(160deg,#7c2d12,#1c0a00)"},
+  {title:"CUET Accountancy",sub:"CUET 2025",emoji:"🧾",grad:"linear-gradient(160deg,#075985,#010812)"},
+  {title:"CUET BST",        sub:"CUET 2025",emoji:"💼",grad:"linear-gradient(160deg,#0369a1,#030e1e)"},
+  {title:"CUET Economics",  sub:"CUET 2025",emoji:"📈",grad:"linear-gradient(160deg,#0e7490,#010e12)"},
+  {title:"CUET English",    sub:"CUET 2025",emoji:"📖",grad:"linear-gradient(160deg,#0c4a6e,#010a14)"},
+  {title:"CUET GAT",        sub:"CUET 2025",emoji:"🧩",grad:"linear-gradient(160deg,#1e3a8a,#030a24)"},
+];
+const booksScroll=document.getElementById('booksScroll');
+BOOKS.forEach(b=>{
+  const card=document.createElement('a');card.href='#';card.className='book-card';card.onclick=e=>e.preventDefault();
+  card.innerHTML=`<div class="book-cover-placeholder" style="background:${b.grad};"><span style="font-size:32px;">${b.emoji}</span><div class="book-cover-title">${b.title}</div></div><div class="book-label">${b.sub}</div>`;
+  booksScroll.appendChild(card);
+});
+
+/* ══════════════════════════════════════
+   🔗 LINK STORAGE HELPERS
+══════════════════════════════════════ */
+const LINK_KEY = 'ts-links-com'; // single localStorage object for all links
+
+function allLinks(){
+  try{ return JSON.parse(localStorage.getItem(LINK_KEY)||'{}'); }catch(e){ return {}; }
+}
+function getLink(subj,res){
+  return allLinks()[`${subj}||${res}`]||'';
+}
+function setLink(subj,res,url){
+  const obj=allLinks();
+  if(url) obj[`${subj}||${res}`]=url;
+  else delete obj[`${subj}||${res}`];
+  try{ localStorage.setItem(LINK_KEY,JSON.stringify(obj)); }catch(e){}
+}
+
+/* ══ LINK MODAL ══ */
+// Inject modal + toast into DOM
+document.body.insertAdjacentHTML('beforeend',`
+<div class="link-modal-overlay" id="linkModalOverlay">
+  <div class="link-modal">
+    <div class="lm-head">
+      <div>
+        <div class="lm-title" id="lmTitle">Add Link</div>
+        <div class="lm-subj" id="lmSubj"></div>
+      </div>
+      <button class="lm-close" id="lmClose" title="Close">✕</button>
+    </div>
+    <div class="lm-label">Paste your link / URL</div>
+    <input class="lm-input" id="lmInput" type="url" placeholder="https://t.me/your-channel or any URL…"/>
+    <div class="lm-current" id="lmCurrent">
+      <span>🔗</span><span id="lmCurrentUrl"></span>
+    </div>
+    <div class="lm-actions">
+      <button class="lm-save" id="lmSave">💾 Save Link</button>
+      <button class="lm-clear" id="lmClear">🗑 Remove</button>
+      <button class="lm-cancel" id="lmCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+<div class="rb-toast" id="rbToast">⚠️ No link added yet — click ✏️ to add one</div>
+`);
+
+// Modal state
+let _curSubj='',_curRes='',_curBtn=null;
+
+function openModal(subjName,resLabel,resKey,btn){
+  _curSubj=subjName; _curRes=resKey; _curBtn=btn;
+  const existing=getLink(subjName,resKey);
+  document.getElementById('lmTitle').textContent=(existing?'Edit':'Add')+' Link';
+  document.getElementById('lmSubj').textContent=`${subjName} → ${resLabel}`;
+  document.getElementById('lmInput').value=existing||'';
+  const cur=document.getElementById('lmCurrent');
+  const curUrl=document.getElementById('lmCurrentUrl');
+  if(existing){ cur.classList.add('show'); curUrl.textContent=existing; }
+  else { cur.classList.remove('show'); curUrl.textContent=''; }
+  document.getElementById('lmClear').classList.toggle('show',!!existing);
+  document.getElementById('linkModalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('lmInput').focus(),200);
+}
+function closeModal(){
+  document.getElementById('linkModalOverlay').classList.remove('open');
+}
+function saveModal(){
+  let url=document.getElementById('lmInput').value.trim();
+  if(url && !url.startsWith('http')&&!url.startsWith('/')) url='https://'+url;
+  setLink(_curSubj,_curRes,url);
+  if(_curBtn) refreshBtn(_curBtn,_curSubj,_curRes);
+  closeModal();
+}
+function clearModal(){
+  setLink(_curSubj,_curRes,'');
+  if(_curBtn) refreshBtn(_curBtn,_curSubj,_curRes);
+  closeModal();
+}
+
+document.getElementById('lmSave').addEventListener('click',saveModal);
+document.getElementById('lmClear').addEventListener('click',clearModal);
+document.getElementById('lmClose').addEventListener('click',closeModal);
+document.getElementById('lmCancel').addEventListener('click',closeModal);
+document.getElementById('linkModalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.getElementById('lmInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveModal();if(e.key==='Escape')closeModal();});
+
+/* refresh single button visual */
+function refreshBtn(btn,subj,res){
+  const url=getLink(subj,res);
+  if(url) btn.classList.add('rb-linked');
+  else btn.classList.remove('rb-linked');
+}
+
+/* toast */
+let _toastTimer=null;
+function showToast(msg){
+  const t=document.getElementById('rbToast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+/* ══ SUBJECT CARDS ══ */
+function mkCard(subj){
+  const card=document.createElement('div');card.className='card';card.dataset.name=subj.n.toLowerCase();
+  const hd=document.createElement('div');hd.className='card-head';
+  hd.innerHTML=`<div class="left"><div class="ico">${subj.e}</div><div><div class="subj-name">${subj.n}</div><div class="subj-sub">${subj.s}</div></div></div>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+  const body=document.createElement('div');body.className='card-body';
+  const grid=document.createElement('div');grid.className='btn-grid';
+
+  RES.forEach(r=>{
+    // Wrapper row (btn + edit icon side by side)
+    const row=document.createElement('div');row.className='rb-row';
+
+    // Main resource button
+    const a=document.createElement('a');a.href='#';a.className=`rb ${r.c}`;
+    const badge=r.tag==='new'?'<span class="btn-new">New</span>':r.tag==='hot'?'<span class="btn-hot">Hot</span>':'';
+    a.innerHTML=`<span class="i">${r.i}</span>${r.l}${badge}`;
+
+    // Apply saved link state
+    const savedUrl=getLink(subj.n,r.c);
+    if(savedUrl) a.classList.add('rb-linked');
+
+    // Clicking the main button → open link or show toast
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const url=getLink(subj.n,r.c);
+      if(url){ window.open(url,'_blank',`noreferrer`); }
+      else { showToast(`⚠️ No link yet for "${r.l}" — click ✏️ to add one`); }
+    });
+
+    // Edit / link button
+    const editBtn=document.createElement('button');
+    editBtn.className='rb-edit';
+    editBtn.title=`Add/edit link for ${r.l}`;
+    editBtn.innerHTML='✏️';
+    editBtn.addEventListener('click',e=>{
+      e.stopPropagation();
+      openModal(subj.n,r.l,r.c,a);
+    });
+
+    row.appendChild(a);
+    row.appendChild(editBtn);
+    grid.appendChild(row);
+  });
+
+  body.appendChild(grid);card.appendChild(hd);card.appendChild(body);
+  hd.addEventListener('click',()=>{
+    const was=card.classList.contains('open');
+    card.parentElement.querySelectorAll('.card.open').forEach(c=>c.classList.remove('open'));
+    if(!was)card.classList.add('open');
+  });
+  return card;
+}
+function render(arr,id){const el=document.getElementById(id);arr.forEach(s=>el.appendChild(mkCard(s)));}
+render(C12,'l-c12');render(CUET,'l-cuet');
+
+/* ══ SEARCH ══ */
+document.getElementById('searchBox').addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim();
+  const activePanel=document.querySelector('.panel.on');
+  let visible=0;
+  activePanel.querySelectorAll('.card').forEach(c=>{const match=c.dataset.name.includes(q)||!q;c.classList.toggle('hidden',!match);if(match)visible++;});
+  const nrId=activePanel.id==='p-c12'?'nr-c12':'nr-cuet';
+  document.getElementById(nrId).classList.toggle('show',visible===0&&!!q);
+});
+
+/* ══ TABS ══ */
+function switchTab(which,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('p-'+which).classList.add('on');btn.classList.add('on');
+  document.getElementById('searchBox').dispatchEvent(new Event('input'));
+}
+
+/* ══ SCROLL TOP ══ */
+window.addEventListener('scroll',()=>document.getElementById('upBtn').classList.toggle('on',window.scrollY>300));
+</script>
+</body>
+</html>
