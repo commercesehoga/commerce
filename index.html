@@ -179,13 +179,14 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .card.open .chev{transform:rotate(180deg);color:var(--p1);}
 .card-body{max-height:0;overflow:hidden;transition:max-height .48s cubic-bezier(.4,0,.2,1);}
 .card.open .card-body{max-height:800px;}
-.btn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;padding:16px 18px 18px;}
-/* rb-row wraps the button + edit icon as one grid cell */
-.rb-row{display:flex;align-items:stretch;border-radius:8px;overflow:hidden;border:1.5px solid rgba(56,189,248,.15);transition:border-color .2s,box-shadow .2s;}
-.rb-row:hover{border-color:rgba(56,189,248,.35);box-shadow:0 4px 16px rgba(2,132,199,.15);}
-.rb{display:flex;align-items:center;gap:8px;padding:10px 10px;background:rgba(56,189,248,.05);border:none;color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif;font-size:.81rem;font-weight:500;text-decoration:none;cursor:pointer;transition:background .2s;white-space:nowrap;position:relative;flex:1;border-radius:0;}
+.btn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;padding:16px 18px 18px;}
+.rb{display:flex;align-items:center;gap:8px;padding:10px 13px;border-radius:8px;
+  background:rgba(56,189,248,.05);border:1.5px solid rgba(56,189,248,.15);
+  color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.81rem;font-weight:500;text-decoration:none;cursor:pointer;
+  transition:all .2s ease;white-space:nowrap;position:relative;}
 .rb .i{font-size:14px;flex-shrink:0;}
-.rb:hover{background:rgba(56,189,248,.1);transform:none;box-shadow:none;}
+.rb:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,.35);}
 .rb .btn-new{position:absolute;top:-6px;right:-4px;padding:1px 5px;border-radius:3px;font-size:.55rem;font-weight:800;letter-spacing:.06em;background:#38bdf8;color:#082f49;text-transform:uppercase;line-height:1.6;}
 .rb .btn-hot{position:absolute;top:-6px;right:-4px;padding:1px 5px;border-radius:3px;font-size:.55rem;font-weight:800;letter-spacing:.06em;background:#f59e0b;color:#451a03;text-transform:uppercase;line-height:1.6;}
 .qb{border-color:rgba(56,189,248,.35);color:#7dd3fc;}.qb:hover{background:rgba(56,189,248,.12);border-color:#38bdf8;}
@@ -238,106 +239,10 @@ footer p{color:var(--muted);font-size:.8rem;margin-top:4px;}
   .trending-header{flex-direction:column;align-items:flex-start;}
 }
 
-/* ══════════════════════════════════════
-   🔗 LINK MANAGEMENT SYSTEM
-══════════════════════════════════════ */
-
-/* Resource button wrapper */
-.rb-wrap{display:contents;}
-
-/* Edit row under each button */
-.rb-row{display:flex;align-items:stretch;gap:0;border-radius:8px;overflow:hidden;
-  border:1.5px solid rgba(56,189,248,.15);margin:0;position:relative;}
-.rb-row .rb{border:none;border-radius:0;flex:1;margin:0;}
-.rb-row .rb:hover{border:none;}
-
-/* Link indicator dot on button */
-.rb-linked{border-color:rgba(34,197,94,.45)!important;}
-.rb-linked::after{content:'';position:absolute;bottom:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;}
-
-/* Edit link button */
-.rb-edit{
-  flex-shrink:0;width:32px;
-  background:rgba(56,189,248,.06);
-  border:none;border-left:1px solid rgba(56,189,248,.13);
-  color:var(--muted);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;transition:all .2s;
-}
-.rb-edit:hover{background:rgba(56,189,248,.16);color:var(--p1);}
-.rb-linked ~ .rb-edit,
-.rb-row:has(.rb-linked) .rb-edit{background:rgba(34,197,94,.08);color:#4ade80;border-left-color:rgba(34,197,94,.2);}
-
-/* ── LINK MODAL ── */
-.link-modal-overlay{
-  position:fixed;inset:0;z-index:8000;
-  background:rgba(2,10,20,.82);backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;padding:20px;
-  opacity:0;pointer-events:none;transition:opacity .25s;
-}
-.link-modal-overlay.open{opacity:1;pointer-events:all;}
-.link-modal{
-  background:#071828;border:1.5px solid rgba(56,189,248,.3);border-radius:16px;
-  padding:28px 24px;width:100%;max-width:480px;
-  box-shadow:0 24px 64px rgba(2,132,199,.3);
-  transform:translateY(14px);transition:transform .28s cubic-bezier(.4,0,.2,1);
-}
-.link-modal-overlay.open .link-modal{transform:translateY(0);}
-.lm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px;}
-.lm-title{font-family:'Cinzel',serif;font-size:.95rem;font-weight:700;color:var(--text);line-height:1.3;}
-.lm-subj{font-size:.72rem;color:var(--p3);margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;}
-.lm-close{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);border-radius:8px;
-  color:var(--muted);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;
-  font-size:16px;flex-shrink:0;transition:all .2s;}
-.lm-close:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3);color:#fca5a5;}
-.lm-label{font-size:.74rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
-.lm-input{
-  width:100%;padding:11px 14px;
-  background:rgba(56,189,248,.07);border:1.5px solid rgba(56,189,248,.22);
-  border-radius:8px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:.9rem;outline:none;transition:all .22s;
-}
-.lm-input::placeholder{color:var(--muted);}
-.lm-input:focus{border-color:var(--p1);box-shadow:0 0 0 3px rgba(56,189,248,.12);}
-.lm-current{
-  margin-top:8px;padding:8px 12px;border-radius:7px;
-  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);
-  font-size:.72rem;color:#4ade80;word-break:break-all;display:none;
-}
-.lm-current.show{display:flex;align-items:center;gap:6px;}
-.lm-actions{display:flex;gap:10px;margin-top:18px;}
-.lm-save{
-  flex:1;padding:11px 0;border-radius:8px;border:none;cursor:pointer;
-  font-family:'Cinzel',serif;font-size:.8rem;font-weight:700;letter-spacing:.06em;
-  background:linear-gradient(135deg,var(--p2),var(--p5));color:#fff;
-  transition:all .22s;box-shadow:0 4px 16px rgba(2,132,199,.35);
-}
-.lm-save:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(2,132,199,.5);}
-.lm-clear{
-  padding:11px 18px;border-radius:8px;cursor:pointer;
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:600;
-  background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.25);color:#fca5a5;
-  transition:all .22s;display:none;
-}
-.lm-clear.show{display:block;}
-.lm-clear:hover{background:rgba(239,68,68,.2);border-color:#ef4444;}
-.lm-cancel{
-  padding:11px 18px;border-radius:8px;cursor:pointer;
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:600;
-  background:rgba(56,189,248,.07);border:1.5px solid rgba(56,189,248,.15);color:var(--muted);
-  transition:all .22s;
-}
-.lm-cancel:hover{background:rgba(56,189,248,.13);color:var(--p3);}
-
-/* no-link toast */
-.rb-toast{
-  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);
-  background:#071828;border:1.5px solid rgba(56,189,248,.3);border-radius:10px;
-  padding:10px 20px;font-size:.82rem;color:var(--p3);
-  box-shadow:0 8px 32px rgba(2,132,199,.3);z-index:9000;
-  opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap;
-}
-.rb-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* ── coming-soon indicator on unlinked buttons ── */
+.rb-nolink{opacity:.55;cursor:not-allowed;}
+.rb-linked{border-color:rgba(34,197,94,.45)!important;color:#86efac!important;}
+.rb-linked::before{content:'🔗 ';font-size:11px;}
 </style>
 </head>
 <body>
@@ -767,150 +672,308 @@ BOOKS.forEach(b=>{
   booksScroll.appendChild(card);
 });
 
-/* ══════════════════════════════════════
-   🔗 LINK STORAGE HELPERS
-══════════════════════════════════════ */
-const LINK_KEY = 'ts-links-com'; // single localStorage object for all links
+/* ══════════════════════════════════════════════════════════════════
+   🔗 LINKS — EDIT THESE DIRECTLY IN THIS HTML FILE
+   ─────────────────────────────────────────────────────────────────
+   HOW TO ADD A LINK:
+   Find the subject name below, then paste the URL inside the ""
+   for the resource you want to link.
 
-function allLinks(){
-  try{ return JSON.parse(localStorage.getItem(LINK_KEY)||'{}'); }catch(e){ return {}; }
-}
-function getLink(subj,res){
-  return allLinks()[`${subj}||${res}`]||'';
-}
-function setLink(subj,res,url){
-  const obj=allLinks();
-  if(url) obj[`${subj}||${res}`]=url;
-  else delete obj[`${subj}||${res}`];
-  try{ localStorage.setItem(LINK_KEY,JSON.stringify(obj)); }catch(e){}
-}
+   Resource key reference:
+     qb  = Question Bank       sp  = Sample Paper
+     nt  = Notes               mk  = Mock Test
+     py  = PYQs                mm  = Mind Maps
+     dn  = Digital Notes       hw  = Handwritten Notes
+     iq  = IMP Questions       it  = IMP Topics
+     cp  = Chapter-wise PYQs   ot  = Other IMP Data
 
-/* ══ LINK MODAL ══ */
-// Inject modal + toast into DOM
-document.body.insertAdjacentHTML('beforeend',`
-<div class="link-modal-overlay" id="linkModalOverlay">
-  <div class="link-modal">
-    <div class="lm-head">
-      <div>
-        <div class="lm-title" id="lmTitle">Add Link</div>
-        <div class="lm-subj" id="lmSubj"></div>
-      </div>
-      <button class="lm-close" id="lmClose" title="Close">✕</button>
-    </div>
-    <div class="lm-label">Paste your link / URL</div>
-    <input class="lm-input" id="lmInput" type="url" placeholder="https://t.me/your-channel or any URL…"/>
-    <div class="lm-current" id="lmCurrent">
-      <span>🔗</span><span id="lmCurrentUrl"></span>
-    </div>
-    <div class="lm-actions">
-      <button class="lm-save" id="lmSave">💾 Save Link</button>
-      <button class="lm-clear" id="lmClear">🗑 Remove</button>
-      <button class="lm-cancel" id="lmCancel">Cancel</button>
-    </div>
-  </div>
-</div>
-<div class="rb-toast" id="rbToast">⚠️ No link added yet — click ✏️ to add one</div>
-`);
+   Leave "" empty if no link yet — button will show "Coming Soon".
+   Supports Telegram links, Google Drive, YouTube, any URL.
+══════════════════════════════════════════════════════════════════ */
+const LINKS = {
 
-// Modal state
-let _curSubj='',_curRes='',_curBtn=null;
+  // ──────────────────────────────────────────
+  // 📚 CLASS 12 CBSE — COMMERCE
+  // ──────────────────────────────────────────
 
-function openModal(subjName,resLabel,resKey,btn){
-  _curSubj=subjName; _curRes=resKey; _curBtn=btn;
-  const existing=getLink(subjName,resKey);
-  document.getElementById('lmTitle').textContent=(existing?'Edit':'Add')+' Link';
-  document.getElementById('lmSubj').textContent=`${subjName} → ${resLabel}`;
-  document.getElementById('lmInput').value=existing||'';
-  const cur=document.getElementById('lmCurrent');
-  const curUrl=document.getElementById('lmCurrentUrl');
-  if(existing){ cur.classList.add('show'); curUrl.textContent=existing; }
-  else { cur.classList.remove('show'); curUrl.textContent=''; }
-  document.getElementById('lmClear').classList.toggle('show',!!existing);
-  document.getElementById('linkModalOverlay').classList.add('open');
-  setTimeout(()=>document.getElementById('lmInput').focus(),200);
-}
-function closeModal(){
-  document.getElementById('linkModalOverlay').classList.remove('open');
-}
-function saveModal(){
-  let url=document.getElementById('lmInput').value.trim();
-  if(url && !url.startsWith('http')&&!url.startsWith('/')) url='https://'+url;
-  setLink(_curSubj,_curRes,url);
-  if(_curBtn) refreshBtn(_curBtn,_curSubj,_curRes);
-  closeModal();
-}
-function clearModal(){
-  setLink(_curSubj,_curRes,'');
-  if(_curBtn) refreshBtn(_curBtn,_curSubj,_curRes);
-  closeModal();
-}
+  "Accountancy": {
+    qb : "",   // Question Bank
+    sp : "",   // Sample Paper
+    nt : "",   // Notes
+    mk : "",   // Mock Test
+    py : "",   // PYQs
+    mm : "",   // Mind Maps
+    dn : "",   // Digital Notes
+    hw : "",   // Handwritten Notes
+    iq : "",   // IMP Questions
+    it : "",   // IMP Topics
+    cp : "",   // Chapter-wise PYQs
+    ot : "",   // Other IMP Data
+  },
 
-document.getElementById('lmSave').addEventListener('click',saveModal);
-document.getElementById('lmClear').addEventListener('click',clearModal);
-document.getElementById('lmClose').addEventListener('click',closeModal);
-document.getElementById('lmCancel').addEventListener('click',closeModal);
-document.getElementById('linkModalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
-document.getElementById('lmInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveModal();if(e.key==='Escape')closeModal();});
+  "Business Studies": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
 
-/* refresh single button visual */
-function refreshBtn(btn,subj,res){
-  const url=getLink(subj,res);
-  if(url) btn.classList.add('rb-linked');
-  else btn.classList.remove('rb-linked');
-}
+  "Economics": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
 
-/* toast */
-let _toastTimer=null;
-function showToast(msg){
-  const t=document.getElementById('rbToast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(_toastTimer);
-  _toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+  "Mathematics": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "Applied Mathematics": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "Entrepreneurship": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "English": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "Physical Education": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  // ──────────────────────────────────────────
+  // 🏆 CUET — COMMERCE SUBJECTS
+  // (separate links from Class 12 above)
+  // ──────────────────────────────────────────
+
+  "CUET-Accountancy": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "CUET-Business Studies": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "CUET-Economics": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "CUET-Mathematics": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "CUET-English": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "CUET-Physical Education": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+  "CUET-General Aptitude Test": {
+    qb : "",
+    sp : "",
+    nt : "",
+    mk : "",
+    py : "",
+    mm : "",
+    dn : "",
+    hw : "",
+    iq : "",
+    it : "",
+    cp : "",
+    ot : "",
+  },
+
+}; // ← END OF LINKS — do not delete this line
+
+/* helper — get link for a subject+resource key */
+function getLink(subjKey, resKey){
+  return (LINKS[subjKey] && LINKS[subjKey][resKey]) || '';
 }
 
 /* ══ SUBJECT CARDS ══ */
-function mkCard(subj){
-  const card=document.createElement('div');card.className='card';card.dataset.name=subj.n.toLowerCase();
+function mkCard(subj, linkKey){
+  // linkKey lets CUET cards use "CUET-Accountancy" etc.
+  const lk = linkKey || subj.n;
+
+  const card=document.createElement('div');
+  card.className='card';
+  card.dataset.name=subj.n.toLowerCase();
+
   const hd=document.createElement('div');hd.className='card-head';
-  hd.innerHTML=`<div class="left"><div class="ico">${subj.e}</div><div><div class="subj-name">${subj.n}</div><div class="subj-sub">${subj.s}</div></div></div>
-    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+  hd.innerHTML=`
+    <div class="left">
+      <div class="ico">${subj.e}</div>
+      <div>
+        <div class="subj-name">${subj.n}</div>
+        <div class="subj-sub">${subj.s}</div>
+      </div>
+    </div>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>`;
+
   const body=document.createElement('div');body.className='card-body';
   const grid=document.createElement('div');grid.className='btn-grid';
 
   RES.forEach(r=>{
-    // Wrapper row (btn + edit icon side by side)
-    const row=document.createElement('div');row.className='rb-row';
+    const url = getLink(lk, r.c);
+    const a=document.createElement('a');
+    // If URL exists → real link; else → # with "coming soon" style
+    a.href = url || '#';
+    if(url) a.target='_blank'; a.rel='noreferrer';
+    a.className=`rb ${r.c}${url?' rb-linked':''}`;
 
-    // Main resource button
-    const a=document.createElement('a');a.href='#';a.className=`rb ${r.c}`;
     const badge=r.tag==='new'?'<span class="btn-new">New</span>':r.tag==='hot'?'<span class="btn-hot">Hot</span>':'';
     a.innerHTML=`<span class="i">${r.i}</span>${r.l}${badge}`;
 
-    // Apply saved link state
-    const savedUrl=getLink(subj.n,r.c);
-    if(savedUrl) a.classList.add('rb-linked');
-
-    // Clicking the main button → open link or show toast
-    a.addEventListener('click',e=>{
-      e.preventDefault();
-      const url=getLink(subj.n,r.c);
-      if(url){ window.open(url,'_blank',`noreferrer`); }
-      else { showToast(`⚠️ No link yet for "${r.l}" — click ✏️ to add one`); }
-    });
-
-    // Edit / link button
-    const editBtn=document.createElement('button');
-    editBtn.className='rb-edit';
-    editBtn.title=`Add/edit link for ${r.l}`;
-    editBtn.innerHTML='✏️';
-    editBtn.addEventListener('click',e=>{
-      e.stopPropagation();
-      openModal(subj.n,r.l,r.c,a);
-    });
-
-    row.appendChild(a);
-    row.appendChild(editBtn);
-    grid.appendChild(row);
+    if(!url){
+      a.addEventListener('click',e=>e.preventDefault());
+      a.title='Coming soon — link not added yet';
+    }
+    grid.appendChild(a);
   });
 
   body.appendChild(grid);card.appendChild(hd);card.appendChild(body);
@@ -921,8 +984,13 @@ function mkCard(subj){
   });
   return card;
 }
-function render(arr,id){const el=document.getElementById(id);arr.forEach(s=>el.appendChild(mkCard(s)));}
-render(C12,'l-c12');render(CUET,'l-cuet');
+
+function render(arr, id, prefix){
+  const el=document.getElementById(id);
+  arr.forEach(s=>el.appendChild(mkCard(s, prefix ? prefix+s.n : s.n)));
+}
+render(C12,  'l-c12');
+render(CUET, 'l-cuet', 'CUET-');
 
 /* ══ SEARCH ══ */
 document.getElementById('searchBox').addEventListener('input',function(){
