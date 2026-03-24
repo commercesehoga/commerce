@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Thunder⚡ CBT — Results Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d0d14;
+  --surface: #16161f;
+  --surface2: #1e1e2d;
+  --border: rgba(255,255,255,0.07);
+  --accent: #a78bfa;
+  --accent2: #38bdf8;
+  --accent3: #34d399;
+  --danger: #f87171;
+  --warn: #fbbf24;
+  --text: #f1f0ff;
+  --muted: #7c7a9a;
+  --card-glow: rgba(167,139,250,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(167,139,250,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167,139,250,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* ─── HEADER ─── */
+header {
+  padding: 40px 0 30px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 36px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 0 24px rgba(106,17,203,0.45);
+}
+
+.brand-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.brand-name span { color: var(--accent); }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pill-tag {
+  background: rgba(167,139,250,0.1);
+  border: 1px solid rgba(167,139,250,0.25);
+  color: var(--accent);
+  padding: 5px 14px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ─── STUDENT IDENTITY ─── */
+#no-data-screen {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+#no-data-screen h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--muted);
+}
+
+#no-data-screen p {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 440px;
+  margin: 0 auto 30px;
+  line-height: 1.7;
+}
+
+.empty-icon { font-size: 64px; margin-bottom: 20px; opacity: 0.5; }
+
+/* ─── DASHBOARD ─── */
+#dashboard { display: none; }
+
+/* Student card */
+.student-card {
+  background: linear-gradient(135deg, rgba(106,17,203,0.18), rgba(37,117,252,0.12));
+  border: 1px solid rgba(167,139,250,0.2);
+  border-radius: 16px;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.student-avatar {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(106,17,203,0.4);
+}
+
+.student-info h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.student-info p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.student-badge {
+  margin-left: auto;
+  background: rgba(52,211,153,0.12);
+  border: 1px solid rgba(52,211,153,0.3);
+  color: var(--accent3);
+  padding: 6px 16px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ─── OVERALL STATS ─── */
+.section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+@media (max-width: 600px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.stat-box:hover {
+  transform: translateY(-3px);
+  border-color: rgba(167,139,250,0.25);
+}
+
+.stat-box .val {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.stat-box .lbl {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.val.purple { color: var(--accent); }
+.val.blue   { color: var(--accent2); }
+.val.green  { color: var(--accent3); }
+.val.red    { color: var(--danger); }
+
+/* ─── CHAPTER CARDS ─── */
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.chapter-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.chapter-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  border-radius: 16px 16px 0 0;
+}
+
+.chapter-card.good::before  { background: linear-gradient(90deg, #16a34a, #22c55e); }
+.chapter-card.ok::before    { background: linear-gradient(90deg, #d97706, #fbbf24); }
+.chapter-card.bad::before   { background: linear-gradient(90deg, #dc2626, #f87171); }
+
+.chapter-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+  border-color: rgba(167,139,250,0.2);
+}
+
+.ch-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.ch-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ch-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 3px;
+  line-height: 1.3;
+}
+
+.ch-score-badge {
+  padding: 4px 12px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-green  { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.25); }
+.badge-yellow { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+.badge-red    { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+.badge-grey   { background: rgba(124,122,154,0.15); color: #7c7a9a; border: 1px solid rgba(124,122,154,0.2); }
+
+/* Mini stat row inside card */
+.ch-mini-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ch-mini-stat {
+  flex: 1;
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.ch-mini-stat .mv {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.ch-mini-stat .ml {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1px;
+}
+
+/* Progress bar */
+.ch-progress-wrap {
+  margin-top: 6px;
+}
+
+.ch-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.ch-progress-bar {
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ch-progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  transition: width 1s cubic-bezier(.16,1,.3,1);
+}
+
+.ch-date {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Not attempted card */
+.chapter-card.not-attempted {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.chapter-card.not-attempted:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.not-attempted-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 10px;
+  text-align: center;
+  padding: 8px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+/* ─── PERFORMANCE CHART ─── */
+.perf-section {
+  margin-bottom: 36px;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 140px;
+  padding: 0 4px 0;
+}
+
+.bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar {
+  width: 100%;
+  max-width: 52px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, #6a11cb, #2575fc);
+  transition: height 1s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  min-height: 4px;
+}
+
+.bar.attempted { opacity: 1; }
+.bar.not-attempted-bar {
+  background: var(--surface2);
+  border: 1px dashed rgba(255,255,255,0.1);
+  opacity: 0.5;
+}
+
+.bar-pct {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.bar-lbl {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ─── BUTTONS ─── */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 36px;
+  justify-content: center;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.action-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.action-btn:active { transform: scale(0.96); }
+
+.btn-purple {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  box-shadow: 0 4px 14px rgba(106,17,203,0.4);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc2626, #f87171);
+  color: white;
+  box-shadow: 0 4px 14px rgba(220,38,38,0.35);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+footer a { color: var(--accent); text-decoration: none; }
+
+/* ─── TOAST ─── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 22px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 9999;
+  transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+  white-space: nowrap;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 480px) {
+  .student-card { padding: 16px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .bar-chart { height: 100px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-name">Thunder<span>study</span> CBT</div>
+    </div>
+    <div class="header-right">
+      <span class="pill-tag">Results Dashboard</span>
+    </div>
+  </header>
+
+  <!-- NO DATA STATE -->
+  <div id="no-data-screen">
+    <div class="empty-icon">📊</div>
+    <h2>No Test Data Yet</h2>
+    <p>
+      You haven't attempted any BST mock tests from this device yet.
+      Give at least one test and your results will appear here automatically.
+    </p>
+    <a href="../bst1" class="action-btn btn-purple" style="display:inline-flex; margin: 0 auto;">
+      ⚡ Start BST Chapter 1
+    </a>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+
+    <!-- Student card -->
+    <div class="student-card">
+      <div class="student-avatar">👤</div>
+      <div class="student-info">
+        <h2 id="student-name">Thunder</h2>
+        <p id="student-sub">Business Studies · Class 12 CBSE</p>
+      </div>
+      <div class="student-badge" id="rank-badge">📈 Active</div>
+    </div>
+
+    <!-- Overall stats -->
+    <div class="section-label">Overall Performance</div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="val purple" id="stat-attempted">0</div>
+        <div class="lbl">Tests Taken</div>
+      </div>
+      <div class="stat-box">
+        <div class="val blue" id="stat-score">0</div>
+        <div class="lbl">Total Score</div>
+      </div>
+      <div class="stat-box">
+        <div class="val green" id="stat-correct">0</div>
+        <div class="lbl">Correct</div>
+      </div>
+      <div class="stat-box">
+        <div class="val red" id="stat-wrong">0</div>
+        <div class="lbl">Wrong</div>
+      </div>
+    </div>
+
+    <!-- Bar chart -->
+    <div class="perf-section">
+      <div class="section-label">Chapter-wise Score %</div>
+      <div class="bar-chart" id="bar-chart"></div>
+    </div>
+
+    <!-- Chapter cards -->
+    <div class="section-label">Chapter Details</div>
+    <div class="chapters-grid" id="chapters-grid"></div>
+
+    <!-- Action buttons -->
+    <div class="btn-row">
+      <a href="https://t.me/thunderstudy_official" target="_blank" class="action-btn btn-purple">⚡ Join Telegram</a>
+      <a href="https://commercesehoga.blogspot.com/" target="_blank" class="action-btn btn-ghost">🌐 Website</a>
+      <button class="action-btn btn-danger" onclick="clearAllData()">🗑️ Clear All Data</button>
+    </div>
+
+  </div><!-- /dashboard -->
+
+  <footer>
+    <p>© 2025 <strong>Thunderstudy</strong> · <a href="https://t.me/thunderstudy_official" target="_blank">@thunderstudy_official</a></p>
+    <p style="margin-top:6px; font-size:11px;">Results are saved locally on this device only.</p>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ──────────────────────────────────────────────
+// CONFIG — all 8 chapters
+// ──────────────────────────────────────────────
+const CHAPTERS = [
+  { id: 1, title: "Nature & Significance of Management", key: "thunder_bst_result_1" },
+  { id: 2, title: "Principles of Management",           key: "thunder_bst_result_2" },
+  { id: 3, title: "Business Environment",               key: "thunder_bst_result_3" },
+  { id: 4, title: "Planning",                           key: "thunder_bst_result_4" },
+  { id: 5, title: "Organising",                         key: "thunder_bst_result_5" },
+  { id: 6, title: "Staffing",                           key: "thunder_bst_result_6" },
+  { id: 7, title: "Directing",                          key: "thunder_bst_result_7" },
+  { id: 8, title: "Controlling",                        key: "thunder_bst_result_8" },
+];
+
+// ──────────────────────────────────────────────
+// LOAD
+// ──────────────────────────────────────────────
+function loadResults() {
+  const results = [];
+  let studentName = null;
+
+  CHAPTERS.forEach(ch => {
+    const raw = localStorage.getItem(ch.key);
+    if (raw) {
+      try {
+        const d = JSON.parse(raw);
+        results.push({ ...ch, data: d });
+        if (!studentName && d.name) studentName = d.name;
+      } catch(e) {}
+    } else {
+      results.push({ ...ch, data: null });
+    }
+  });
+
+  return { results, studentName };
+}
+
+// ──────────────────────────────────────────────
+// RENDER
+// ──────────────────────────────────────────────
+function render() {
+  const { results, studentName } = loadResults();
+  const attempted = results.filter(r => r.data !== null);
+
+  if (attempted.length === 0) {
+    document.getElementById('no-data-screen').style.display = 'block';
+    document.getElementById('dashboard').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('no-data-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+
+  // Student info
+  const name = studentName || 'Thunder';
+  document.getElementById('student-name').textContent = name;
+  const avgPct = attempted.reduce((sum, r) => sum + r.data.percentage, 0) / attempted.length;
+  const badge = avgPct >= 70 ? '🏆 Top Performer' : avgPct >= 50 ? '📈 Improving' : '💪 Keep Going';
+  document.getElementById('rank-badge').textContent = badge;
+
+  // Overall stats
+  const totalCorrect  = attempted.reduce((s, r) => s + r.data.correct, 0);
+  const totalWrong    = attempted.reduce((s, r) => s + r.data.wrong, 0);
+  const totalScore    = attempted.reduce((s, r) => s + r.data.score, 0);
+
+  document.getElementById('stat-attempted').textContent = attempted.length + '/8';
+  document.getElementById('stat-score').textContent = totalScore;
+  document.getElementById('stat-correct').textContent = totalCorrect;
+  document.getElementById('stat-wrong').textContent = totalWrong;
+
+  // Bar chart
+  const barChart = document.getElementById('bar-chart');
+  barChart.innerHTML = '';
+  results.forEach(r => {
+    const pct = r.data ? Math.max(0, r.data.percentage) : 0;
+    const div = document.createElement('div');
+    div.className = 'bar-wrap';
+    div.innerHTML = `
+      <div class="bar-pct">${r.data ? Math.round(pct) + '%' : '—'}</div>
+      <div class="bar ${r.data ? 'attempted' : 'not-attempted-bar'}"
+           style="height:${r.data ? Math.max(8, pct * 1.3) : 14}px;"
+           title="Ch.${r.id}: ${r.title}">
+      </div>
+      <div class="bar-lbl">Ch.${r.id}</div>
+    `;
+    barChart.appendChild(div);
+  });
+
+  // Chapter cards
+  const grid = document.getElementById('chapters-grid');
+  grid.innerHTML = '';
+  results.forEach(r => {
+    const card = document.createElement('div');
+    const pct = r.data ? Math.max(0, r.data.percentage) : 0;
+    const grade = !r.data ? 'default' : pct >= 60 ? 'good' : pct >= 35 ? 'ok' : 'bad';
+    card.className = `chapter-card ${grade} ${!r.data ? 'not-attempted' : ''}`;
+
+    if (!r.data) {
+      card.innerHTML = `
+        <div class="ch-top">
+          <div>
+            <div class="ch-num">Chapter ${r.id}</div>
+            <div class="ch-title">${r.title}</div>
+          </div>
+          <span class="ch-score-badge badge-grey">—</span>
+        </div>
+        <div class="not-attempted-label">Not attempted yet</div>
+        <a href="../bst${r.id}" class="action-btn btn-purple" style="display:flex;margin-top:12px;justify-content:center;font-size:13px;padding:9px 16px;text-decoration:none;">
+          Start Test →
+        </a>
+      `;
+    } else {
+      const d = r.data;
+      const badgeClass = pct >= 60 ? 'badge-green' : pct >= 35 ? 'badge-yellow' : 'badge-red';
+      const barColor = pct >= 60
+        ? 'linear-gradient(90deg,#16a34a,#22c55e)'
+        : pct >= 35
+          ? 'linear-gradient(90deg,#d97706,#fbbf24)'
+          : 'linear-gradient(90deg,#dc2626,#f87171)';
+
+      const dateStr = d.date ? new Date(d.date).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '';
+
+      card.innerHTML = `
+        <div class="ch-top">
+          <div>
+            <div class="ch-num">Chapter ${r.id}</div>
+            <div class="ch-title">${r.title}</div>
+          </div>
+          <span class="ch-score-badge ${badgeClass}">${Math.round(pct)}%</span>
+        </div>
+
+        <div class="ch-mini-stats">
+          <div class="ch-mini-stat">
+            <div class="mv" style="color:#34d399;">${d.correct}</div>
+            <div class="ml">Correct</div>
+          </div>
+          <div class="ch-mini-stat">
+            <div class="mv" style="color:#f87171;">${d.wrong}</div>
+            <div class="ml">Wrong</div>
+          </div>
+          <div class="ch-mini-stat">
+            <div class="mv" style="color:#7c7a9a;">${d.unanswered}</div>
+            <div class="ml">Skipped</div>
+          </div>
+          <div class="ch-mini-stat">
+            <div class="mv" style="color:#a78bfa;">${d.score}</div>
+            <div class="ml">Score</div>
+          </div>
+        </div>
+
+        <div class="ch-progress-wrap">
+          <div class="ch-progress-label">
+            <span>Accuracy</span>
+            <span>${d.accuracy}%</span>
+          </div>
+          <div class="ch-progress-bar">
+            <div class="ch-progress-fill" style="width:${Math.min(100,d.accuracy)}%;background:${barColor};"></div>
+          </div>
+        </div>
+
+        ${dateStr ? `<div class="ch-date">📅 Attempted on ${dateStr}</div>` : ''}
+
+        <a href="../bst${r.id}" class="action-btn btn-ghost" style="display:flex;margin-top:12px;justify-content:center;font-size:12px;padding:8px 14px;text-decoration:none;border-radius:8px;">
+          🔁 Reattempt
+        </a>
+      `;
+    }
+
+    grid.appendChild(card);
+  });
+}
+
+// ──────────────────────────────────────────────
+// CLEAR DATA
+// ──────────────────────────────────────────────
+function clearAllData() {
+  if (!confirm('Delete ALL your saved test results from this device? This cannot be undone.')) return;
+  CHAPTERS.forEach(ch => localStorage.removeItem(ch.key));
+  showToast('All results cleared!');
+  setTimeout(() => render(), 600);
+}
+
+// ──────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ──────────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────────
+render();
+</script>
+
+</body>
+</html>
