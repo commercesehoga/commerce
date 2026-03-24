@@ -2108,8 +2108,24 @@ function updateTimerDisplay() {
 function renderQuestion() {
     const question = mockTest.questions[currentQuestionIndex];
     document.getElementById('current-section').textContent = question.section;
-    questionTextElement.innerHTML = question.text;
-    questionNumberElement.textContent = question.id;
+questionTextElement.innerHTML = `
+    <div style="
+        display:inline-block;
+        background: linear-gradient(135deg,#6a11cb,#2575fc);
+        color:white;
+        padding:4px 12px;
+        border-radius:20px;
+        font-size:12px;
+        font-weight:600;
+        margin-bottom:8px;
+    ">
+        📘 ${question.topic || "General"}
+    </div>
+    <div style="margin-top:8px;">
+        ${question.text}
+    </div>
+`;
+questionNumberElement.textContent = question.id;
     currentQNumberElement.textContent = question.id;
     optionsContainer.innerHTML = '';
 
