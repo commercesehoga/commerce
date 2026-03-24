@@ -1527,10 +1527,11 @@ userAnswer: null
 {
 id: 2,
 section: "Management Basics",
-text: "Management is described as an art of getting things done through whom?",
-options: { a: "Machines", b: "Oneself", c: "Others", d: "Computers" },
+text: "In the above flow diagram, which function ensures that actual performance matches planned performance?",
+image: "https://www.slideteam.net/media/catalog/product/cache/1280x720/p/r/principles_of_management_planning_organizing_staffing_directing_controlling_Slide01.jpg", // 👈 image here
+options: { a: "Planning", b: "Directing", c: "controlling", d: "Staffing" },
 correctAnswer: "c",
-explanation: "Management involves getting work done through people.",
+explanation: "Controlling ensures that what was planned is actually achieved",
 marked: false,
 userAnswer: null
 },
@@ -2119,8 +2120,16 @@ questionTextElement.innerHTML = `
         font-weight:600;
         margin-bottom:8px;
     ">
-        📘 ${question.section || "General"}
+        📘 ${question.topic || "General"}
     </div>
+
+    ${question.image ? `
+        <div style="margin:10px 0;">
+            <img src="${question.image}" 
+                 style="max-width:100%; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+        </div>
+    ` : ""}
+
     <div style="margin-top:8px;">
         ${question.text}
     </div>
