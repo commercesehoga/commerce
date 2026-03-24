@@ -1522,15 +1522,6 @@ Start Test
 </div><!-- end test-screen -->
 
 <script>
-        const CHAPTER_RESULT_KEY = "thunder_bst_result_1"; // change number per file
-
-function saveResultToLocalStorage(correct, incorrect, unanswered, totalScore) {
-    const maxScore = mockTest.questions.length * mockTest.markingScheme.correct;
-    const percentage = parseFloat(((Math.max(0,totalScore) / maxScore) * 100).toFixed(2));
-    const accuracy = correct + incorrect > 0 ? parseFloat((correct / (correct + incorrect) * 100).toFixed(2)) : 0;
-    const resultData = { name: localStorage.getItem("cbtUserName") || "Thunder", chapter: CHAPTER_RESULT_KEY, correct, wrong: incorrect, unanswered, score: totalScore, maxScore, percentage, accuracy, total: mockTest.questions.length, date: new Date().toISOString() };
-    try { localStorage.setItem(CHAPTER_RESULT_KEY, JSON.stringify(resultData)); } catch(e) {}
-}
 const mockTest = {
     title: "BST Mock",
     questions: [
@@ -2343,7 +2334,6 @@ function submitTest() {
     });
 
     const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
-saveResultToLocalStorage(correct, incorrect, unanswered, totalScore);
     const percentage = ((totalScore / (mockTest.questions.length * mockTest.markingScheme.correct)) * 100).toFixed(2);
     const accuracy = (correct / (correct + incorrect) * 100).toFixed(2);
 
