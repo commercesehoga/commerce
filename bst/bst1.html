@@ -2080,6 +2080,26 @@ function renderQuestion() {
         optionDiv.appendChild(textSpan);
         optionsContainer.appendChild(optionDiv);
     }
+        // Show explanation after test submission
+if (testSubmitted) {
+    const explanationDiv = document.createElement('div');
+    explanationDiv.style.marginTop = "15px";
+    explanationDiv.style.padding = "12px";
+    explanationDiv.style.borderRadius = "8px";
+    explanationDiv.style.background = "#f0f4ff";
+    explanationDiv.style.borderLeft = "4px solid #6a11cb";
+    explanationDiv.style.fontSize = "15px";
+explanationDiv.style.background = "linear-gradient(135deg,#eef2ff,#e0f2ff)";
+explanationDiv.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
+
+    explanationDiv.innerHTML = `
+        <strong>Explanation:</strong><br>
+        ${question.explanation || "No explanation available."}
+    `;
+
+    optionsContainer.appendChild(explanationDiv);
+}
+        
 
     markBtn.classList.toggle('marked', question.marked);
     markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
