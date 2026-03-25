@@ -2339,7 +2339,12 @@ document.addEventListener('keydown', function(e) {
 <script>
 function startMock() {
     const input = document.getElementById('username-input').value.trim();
-    const userName = input === "" ? "Thunder" : input;
+    if (input === "") {
+        alert("⚠️ Please enter your name to continue!");
+        document.getElementById('username-input').focus();
+        return;
+    }
+    const userName = input;
     localStorage.setItem("cbtUserName", userName);
     enterFullscreen();
     document.getElementById('start-screen').style.display = 'none';
