@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -260,9 +261,33 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 /* ══════════════════════════════════════════════
    MASTER CONFIG — Edit subjects & chapters here
 ══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   URL PATTERNS PER SUBJECT
+   baseUrl = folder where all chapter HTML files live
+   resultUrl = where result.html lives for that subject
+   Format: baseUrl + chapterId + ".html"
+══════════════════════════════════════════════ */
+const SUBJECT_URLS = {
+  bst: "https://commercesehoga.github.io/commerce/bst/",
+  eco: "https://commercesehoga.github.io/commerce/eco/",
+  acc: "https://commercesehoga.github.io/commerce/acc/",
+  eng: "https://commercesehoga.github.io/english/",
+  gat: "https://commercesehoga.github.io/gat/",
+};
+
+/* Result page URL — update if you host result.html elsewhere */
+const RESULT_URL = "https://commercesehoga.github.io/commerce/bst/result.html";
+
+/* Helper — builds full URL for any chapter */
+function buildUrl(subjId, chId){
+  const base = SUBJECT_URLS[subjId] || `https://commercesehoga.github.io/commerce/${subjId}/`;
+  return base + chId + ".html";
+}
+
 const SUBJECTS_MASTER = [
   {
     id:"bst", name:"Business Studies", icon:"📊", color:"#7c5ce0",
+    /* URL: https://commercesehoga.github.io/commerce/bst/bst1.html */
     chapters:[
       {id:"bst1",  name:"Ch 1 – Nature & Significance",    type:"chapwise"},
       {id:"bst2",  name:"Ch 2 – Principles",               type:"chapwise"},
@@ -298,6 +323,7 @@ const SUBJECTS_MASTER = [
   },
   {
     id:"acc", name:"Accountancy", icon:"📒", color:"#00d4ff",
+    /* URL: https://commercesehoga.github.io/commerce/acc/acc1.html */
     chapters:[
       {id:"acc1",  name:"Ch 1 – Introduction",             type:"chapwise"},
       {id:"acc2",  name:"Ch 2 – Theory Base",              type:"chapwise"},
@@ -319,6 +345,7 @@ const SUBJECTS_MASTER = [
   },
   {
     id:"eco", name:"Economics", icon:"📈", color:"#00e676",
+    /* URL: https://commercesehoga.github.io/commerce/eco/eco1.html */
     chapters:[
       {id:"eco1",  name:"Ch 1 – Intro to Macro",           type:"chapwise"},
       {id:"eco2",  name:"Ch 2 – National Income",          type:"chapwise"},
@@ -338,34 +365,42 @@ const SUBJECTS_MASTER = [
   },
   {
     id:"eng", name:"English", icon:"📝", color:"#ff6eb4",
+    /* URL: https://commercesehoga.github.io/english/eng1.html */
     chapters:[
-      {id:"eng-p1",  name:"Flamingo – Prose 1",            type:"chapwise"},
-      {id:"eng-p2",  name:"Flamingo – Prose 2",            type:"chapwise"},
-      {id:"eng-p3",  name:"Flamingo – Prose 3",            type:"chapwise"},
-      {id:"eng-pm1", name:"Flamingo – Poem 1",             type:"chapwise"},
-      {id:"eng-pm2", name:"Flamingo – Poem 2",             type:"chapwise"},
-      {id:"eng-v1",  name:"Vistas – Story 1",              type:"chapwise"},
-      {id:"eng-v2",  name:"Vistas – Story 2",              type:"chapwise"},
-      {id:"eng-full1",name:"Full Mock 1",                  type:"fullmock"},
-      {id:"eng-full2",name:"Full Mock 2",                  type:"fullmock"},
-      {id:"eng-pyq23",name:"PYQ 2023",                     type:"pyq"},
-      {id:"eng-pyq24",name:"PYQ 2024",                     type:"pyq"},
-      {id:"eng-pyq25",name:"PYQ 2025",                     type:"pyq"},
+      {id:"eng1",  name:"Unit 1 – Flamingo Prose",         type:"chapwise"},
+      {id:"eng2",  name:"Unit 2 – Flamingo Poem",          type:"chapwise"},
+      {id:"eng3",  name:"Unit 3 – Vistas Story",           type:"chapwise"},
+      {id:"eng4",  name:"Unit 4 – Writing Skills",         type:"chapwise"},
+      {id:"eng5",  name:"Unit 5 – Grammar",                type:"chapwise"},
+      {id:"eng-img1",  name:"Image Based Mock 1",          type:"imgbased"},
+      {id:"eng-img2",  name:"Image Based Mock 2",          type:"imgbased"},
+      {id:"eng-full1", name:"Full Mock 1",                 type:"fullmock"},
+      {id:"eng-full2", name:"Full Mock 2",                 type:"fullmock"},
+      {id:"eng-andr1", name:"A&R Chapterwise 1",           type:"andr"},
+      {id:"eng-pyq23", name:"PYQ 2023",                    type:"pyq"},
+      {id:"eng-pyq24", name:"PYQ 2024",                    type:"pyq"},
+      {id:"eng-pyq25", name:"PYQ 2025",                    type:"pyq"},
+      {id:"eng-sp1",   name:"Special Mock 1",              type:"special"},
     ]
   },
   {
     id:"gat", name:"General Aptitude", icon:"🧠", color:"#ffd700",
+    /* URL: https://commercesehoga.github.io/gat/gat1.html */
     chapters:[
       {id:"gat1",  name:"Quant Aptitude 1",                type:"chapwise"},
       {id:"gat2",  name:"Quant Aptitude 2",                type:"chapwise"},
       {id:"gat3",  name:"Logical Reasoning 1",             type:"chapwise"},
       {id:"gat4",  name:"Logical Reasoning 2",             type:"chapwise"},
       {id:"gat5",  name:"Verbal Ability 1",                type:"chapwise"},
-      {id:"gat-full1",name:"Full Mock 1",                  type:"fullmock"},
-      {id:"gat-full2",name:"Full Mock 2",                  type:"fullmock"},
-      {id:"gat-pyq23",name:"PYQ 2023",                     type:"pyq"},
-      {id:"gat-pyq24",name:"PYQ 2024",                     type:"pyq"},
-      {id:"gat-pyq25",name:"PYQ 2025",                     type:"pyq"},
+      {id:"gat-img1",  name:"Image Based Mock 1",          type:"imgbased"},
+      {id:"gat-img2",  name:"Image Based Mock 2",          type:"imgbased"},
+      {id:"gat-full1", name:"Full Mock 1",                 type:"fullmock"},
+      {id:"gat-full2", name:"Full Mock 2",                 type:"fullmock"},
+      {id:"gat-andr1", name:"A&R Chapterwise 1",           type:"andr"},
+      {id:"gat-pyq23", name:"PYQ 2023",                    type:"pyq"},
+      {id:"gat-pyq24", name:"PYQ 2024",                    type:"pyq"},
+      {id:"gat-pyq25", name:"PYQ 2025",                    type:"pyq"},
+      {id:"gat-sp1",   name:"Special Mock 1",              type:"special"},
     ]
   }
 ];
@@ -451,7 +486,7 @@ function renderTabs(){
     const s=SUBJECTS_MASTER.find(x=>x.id===id);if(!s)return;
     h+=`<div class="stab${id===AS?' active':''}" onclick="sw('${id}')">${s.icon} ${s.name}<span class="rx" onclick="event.stopPropagation();rm('${id}')">✕</span></div>`;
   });
-  h+=`<button class="stab-add" onclick="om('asmod')">+ Add Subject</button></div>`;
+  h+=`<button class="stab-add" onclick="openAddSubj()">+ Add Subject</button></div>`;
   document.getElementById('stabs').innerHTML=h;
 }
 
@@ -613,7 +648,7 @@ function renderMain(){
     const prev=hist.length>=2?hist[1]:null;
     const diff=prev?(p-prev.percentage).toFixed(1):null;
     const ttype=d.ci?.type||'chapwise';
-    const chUrl=`https://commercesehoga.github.io/commerce/${subj.id}/${d.chapterId}.html`;
+    const chUrl=buildUrl(subj.id, d.chapterId);
 
     let impH='';
     if(diff!==null){
@@ -671,7 +706,7 @@ function renderMain(){
   if(na.length>0){
     H+=`<div class="sec a" style="animation-delay:.28s">📋 Not Attempted (${na.length})</div><div class="nag a" style="animation-delay:.29s">`;
     na.forEach(ch=>{
-      const url=`https://commercesehoga.github.io/commerce/${subj.id}/${ch.id}.html`;
+      const url=buildUrl(subj.id, ch.id);
       H+=`<a class="nac" href="${url}" target="_blank">
         <div class="ni">📝</div>
         <div><div class="nn">${ch.name}</div><div class="ns">${ch.id.toUpperCase()} · ${TL[ch.type]||ch.type} · Go →</div></div>
