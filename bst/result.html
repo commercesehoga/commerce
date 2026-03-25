@@ -1590,12 +1590,12 @@ function saveProfile(){
 function renderSettings(){
   const sv=getSS();
   let H=`
-  <div class="sec a" style="margin-top:8px;">🔗 Google Sheet Status</div>
+  <div class="sec a" style="margin-top:8px;">🔗 connection Status</div>
   <div class="setup-card a">
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
       <div style="width:40px;height:40px;border-radius:50%;background:rgba(0,230,118,.15);border:2px solid rgba(0,230,118,.4);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">✅</div>
       <div>
-        <div style="font-size:14px;font-weight:800;color:var(--green);margin-bottom:3px;">Google Sheet Connected</div>
+        <div style="font-size:14px;font-weight:800;color:var(--green);margin-bottom:3px;">Internet Connected</div>
         <div style="font-size:11px;color:var(--muted2);">Results are automatically synced. The sheet URL is configured by the admin.</div>
       </div>
       <button class="btn bg2 btn-sm" onclick="testGsConnection()" style="margin-left:auto;">🧪 Test Connection</button>
