@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -308,11 +309,38 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 .cert-title{font-size:16px;font-weight:800;color:var(--yellow);}
 .cert-sub{font-size:12px;color:var(--text3);margin-top:3px;}
 
+/* ═══ RANK BADGES ═══ */
+.rank-badge-section{display:flex;flex-direction:column;gap:8px;min-width:160px;}
+.rank-badge-item{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:10px 14px;transition:all .2s;position:relative;overflow:hidden;}
+.rank-badge-item.earned{border-color:rgba(79,110,247,.25);}
+.rank-badge-item.locked{opacity:.45;filter:grayscale(.5);}
+.rank-badge-item.current{border-width:2px;box-shadow:var(--sh);}
+.rank-badge-icon{font-size:22px;flex-shrink:0;}
+.rank-badge-info{flex:1;min-width:0;}
+.rank-badge-name{font-size:12px;font-weight:800;white-space:nowrap;}
+.rank-badge-pct{font-size:10px;color:var(--text3);margin-top:1px;}
+.rank-badge-check{font-size:12px;flex-shrink:0;}
+.rank-current-glow{position:absolute;inset:0;border-radius:12px;pointer-events:none;}
+
 /* MOCK SUBJ TABS */
 .mock-subj-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
 
 /* MOCK TYPE SECTION HEADER */
 .mock-type-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;margin-bottom:12px;font-size:13px;font-weight:800;}
+
+/* ═══ WELCOME / EMPTY STATE ═══ */
+.welcome-wrap{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.welcome-card{background:var(--card);border:1px solid var(--border);border-radius:28px;padding:48px 40px;max-width:560px;width:100%;text-align:center;box-shadow:var(--sh2);position:relative;overflow:hidden;}
+.welcome-card::before{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;border-radius:50%;background:linear-gradient(135deg,rgba(79,110,247,.08),rgba(124,58,237,.05));}
+.welcome-card::after{content:'';position:absolute;bottom:-60px;left:-60px;width:200px;height:200px;border-radius:50%;background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(79,110,247,.04));}
+.welcome-logo{width:72px;height:72px;background:linear-gradient(135deg,#4f6ef7,#7c3aed);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 24px;box-shadow:0 8px 28px rgba(79,110,247,.35);}
+.welcome-title{font-size:28px;font-weight:900;color:var(--text);letter-spacing:-.5px;margin-bottom:10px;}
+.welcome-sub{font-size:14px;color:var(--text3);line-height:1.7;margin-bottom:28px;}
+.welcome-steps{display:flex;flex-direction:column;gap:12px;text-align:left;margin-bottom:28px;position:relative;z-index:1;}
+.welcome-step{display:flex;align-items:flex-start;gap:14px;background:var(--card2);border-radius:14px;padding:14px 16px;}
+.welcome-step-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.welcome-step-text{font-size:13px;font-weight:600;color:var(--text);line-height:1.5;}
+.welcome-step-text span{color:var(--text3);font-weight:400;display:block;font-size:11px;margin-top:2px;}
 </style>
 </head>
 <body>
@@ -437,24 +465,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 /* ════════════ CONFIG ════════════ */
 const GS_URL = "https://script.google.com/macros/s/AKfycbxrI9TAPt1jNgDH4wiBmaPUTt69KQD8AlkB1f_PZMSi3zo8aJjw-_N-1cF8ST3u1vMZ/exec";
 
-// ── SUBJECT URLS ──
 const SUBJECT_URLS = {
   bst:"https://commercesehoga.github.io/commerce/bst/",
   eco:"https://commercesehoga.github.io/commerce/eco/",
   acc:"https://commercesehoga.github.io/commerce/acc/",
   eng:"https://commercesehoga.github.io/english/",
   gat:"https://commercesehoga.github.io/gat/",
-  // Science
   phy:"https://commercesehoga.github.io/science/phy/",
   che:"https://commercesehoga.github.io/science/che/",
   bio:"https://commercesehoga.github.io/science/bio/",
   mat:"https://commercesehoga.github.io/science/mat/",
-  // Humanities
   his:"https://commercesehoga.github.io/humanities/his/",
   geo:"https://commercesehoga.github.io/humanities/geo/",
   pol:"https://commercesehoga.github.io/humanities/pol/",
   psy:"https://commercesehoga.github.io/humanities/psy/",
-  // Physical Education
   pe: "https://commercesehoga.github.io/physical/",
 };
 
@@ -549,17 +573,48 @@ const SUBJECTS_MASTER = [
   /* ══════════ LANGUAGES ══════════ */
   { id:"eng", name:"English", icon:"📝", color:"#ec4899", group:"Languages",
     chapters:[
-      {id:"eng1",name:"Unit 1 – Flamingo Prose",type:"chapwise"},
-      {id:"eng2",name:"Unit 2 – Flamingo Poem",type:"chapwise"},
-      {id:"eng3",name:"Unit 3 – Vistas",type:"chapwise"},
-      {id:"eng4",name:"Unit 4 – Writing Skills",type:"chapwise"},
-      {id:"eng5",name:"Unit 5 – Grammar",type:"chapwise"},
-      {id:"eng-full1",name:"Full Mock 1",type:"fullmock"},
-      {id:"eng-full2",name:"Full Mock 2",type:"fullmock"},
-      {id:"eng-pyq23",name:"PYQ 2023",type:"pyq"},
-      {id:"eng-pyq24",name:"PYQ 2024",type:"pyq"},
-      {id:"eng-pyq25",name:"PYQ 2025",type:"pyq"},
-      {id:"eng-sp1",name:"Special Mock 1",type:"special"},
+      /* ── VOCABULARY SECTION ── */
+      {id:"eng-voc-ows",    name:"One Word Substitution",     type:"vocabulary", section:"Vocabulary"},
+      {id:"eng-voc-spell",  name:"Commonly Mis-Spelt Words",  type:"vocabulary", section:"Vocabulary"},
+      {id:"eng-voc-idiom",  name:"Idioms",                    type:"vocabulary", section:"Vocabulary"},
+      {id:"eng-voc-synant", name:"Antonyms & Synonyms",       type:"vocabulary", section:"Vocabulary"},
+      {id:"eng-voc-phv",    name:"Phrasal Verbs",             type:"vocabulary", section:"Vocabulary"},
+      {id:"eng-voc-fos",    name:"Figure of Speech",          type:"vocabulary", section:"Vocabulary"},
+      {id:"eng-voc-va",     name:"Verbal Analogy",            type:"vocabulary", section:"Vocabulary"},
+      {id:"eng-voc-fw",     name:"Foreign Words in English",  type:"vocabulary", section:"Vocabulary"},
+      /* ── GRAMMAR SECTION ── */
+      {id:"eng-grm-basic",  name:"Grammar Basic",             type:"grammar", section:"Grammar"},
+      {id:"eng-grm-sc",     name:"Sentence Completion",       type:"grammar", section:"Grammar"},
+      {id:"eng-grm-cl",     name:"Clauses",                   type:"grammar", section:"Grammar"},
+      {id:"eng-grm-cond",   name:"Conditional Sentences",     type:"grammar", section:"Grammar"},
+      {id:"eng-grm-noun",   name:"Nouns",                     type:"grammar", section:"Grammar"},
+      {id:"eng-grm-pron",   name:"Pronouns",                  type:"grammar", section:"Grammar"},
+      {id:"eng-grm-adj",    name:"Adjectives",                type:"grammar", section:"Grammar"},
+      {id:"eng-grm-verb",   name:"Verbs",                     type:"grammar", section:"Grammar"},
+      {id:"eng-grm-sva",    name:"Subject Verb Agreement",    type:"grammar", section:"Grammar"},
+      {id:"eng-grm-mod",    name:"Modals",                    type:"grammar", section:"Grammar"},
+      {id:"eng-grm-adv",    name:"Adverb",                    type:"grammar", section:"Grammar"},
+      {id:"eng-grm-prep",   name:"Preposition",               type:"grammar", section:"Grammar"},
+      {id:"eng-grm-conj",   name:"Conjunction",               type:"grammar", section:"Grammar"},
+      {id:"eng-grm-tense",  name:"Tenses",                    type:"grammar", section:"Grammar"},
+      /* ── READING ABILITY SECTION ── */
+      {id:"eng-ra-cloze",   name:"Cloze Test",                type:"reading", section:"Reading Ability"},
+      {id:"eng-ra-para",    name:"Parajumbles",               type:"reading", section:"Reading Ability"},
+      {id:"eng-ra-letter",  name:"Letter Writing",            type:"reading", section:"Reading Ability"},
+      /* ── READING COMPREHENSION ── */
+      {id:"eng-rc1",        name:"Reading Comprehension 1",   type:"rc"},
+      {id:"eng-rc2",        name:"Reading Comprehension 2",   type:"rc"},
+      {id:"eng-rc3",        name:"Reading Comprehension 3",   type:"rc"},
+      {id:"eng-rc4",        name:"Reading Comprehension 4",   type:"rc"},
+      {id:"eng-rc5",        name:"Reading Comprehension 5",   type:"rc"},
+      {id:"eng-rc6",        name:"Reading Comprehension 6",   type:"rc"},
+      /* ── FULL MOCKS / PYQs ── */
+      {id:"eng-full1",      name:"Full Mock 1",               type:"fullmock"},
+      {id:"eng-full2",      name:"Full Mock 2",               type:"fullmock"},
+      {id:"eng-pyq23",      name:"PYQ 2023",                  type:"pyq"},
+      {id:"eng-pyq24",      name:"PYQ 2024",                  type:"pyq"},
+      {id:"eng-pyq25",      name:"PYQ 2025",                  type:"pyq"},
+      {id:"eng-sp1",        name:"Special Mock 1",            type:"special"},
     ]
   },
 
@@ -804,16 +859,32 @@ const SUBJECTS_MASTER = [
   },
 ];
 
-// All mock types (non-chapwise)
 const MOCK_TYPES = ['fullmock','pyq','special','andr','imgbased'];
-// ALL types including chapwise for More Mocks
-const ALL_TYPES_ORDERED = ['chapwise','fullmock','pyq','andr','imgbased','special'];
+const ALL_TYPES_ORDERED = ['vocabulary','grammar','reading','rc','chapwise','fullmock','pyq','andr','imgbased','special'];
 
-const TL={chapwise:"Chapter",imgbased:"Img Based",fullmock:"Full Mock",andr:"A&R",pyq:"PYQ",special:"Special"};
-const TC={chapwise:"rgba(79,110,247,.1)",imgbased:"rgba(6,182,212,.1)",fullmock:"rgba(16,185,129,.1)",andr:"rgba(249,115,22,.1)",pyq:"rgba(245,158,11,.1)",special:"rgba(236,72,153,.1)"};
-const TX={chapwise:"#4f6ef7",imgbased:"#06b6d4",fullmock:"#10b981",andr:"#f97316",pyq:"#f59e0b",special:"#ec4899"};
-const TYPE_ICONS={chapwise:"📖",fullmock:"🗂️",pyq:"📜",andr:"🔤",imgbased:"🖼️",special:"⭐"};
-const TYPE_LABELS={chapwise:"📖 Chapterwise Tests",fullmock:"🗂️ Full Mocks",pyq:"📜 Previous Year Questions",andr:"🔤 A&R Tests",imgbased:"🖼️ Image Based",special:"⭐ Special Mocks"};
+const TL={
+  chapwise:"Chapter",imgbased:"Img Based",fullmock:"Full Mock",andr:"A&R",pyq:"PYQ",special:"Special",
+  vocabulary:"Vocabulary",grammar:"Grammar",reading:"Reading Ability",rc:"Reading Comp",topicwise:"Topic"
+};
+const TC={
+  chapwise:"rgba(79,110,247,.1)",imgbased:"rgba(6,182,212,.1)",fullmock:"rgba(16,185,129,.1)",andr:"rgba(249,115,22,.1)",
+  pyq:"rgba(245,158,11,.1)",special:"rgba(236,72,153,.1)",
+  vocabulary:"rgba(124,58,237,.1)",grammar:"rgba(239,68,68,.1)",reading:"rgba(6,182,212,.1)",rc:"rgba(245,158,11,.1)"
+};
+const TX={
+  chapwise:"#4f6ef7",imgbased:"#06b6d4",fullmock:"#10b981",andr:"#f97316",
+  pyq:"#f59e0b",special:"#ec4899",
+  vocabulary:"#7c3aed",grammar:"#ef4444",reading:"#06b6d4",rc:"#f59e0b"
+};
+const TYPE_ICONS={
+  chapwise:"📖",fullmock:"🗂️",pyq:"📜",andr:"🔤",imgbased:"🖼️",special:"⭐",
+  vocabulary:"📖",grammar:"✍️",reading:"📰",rc:"🔍"
+};
+const TYPE_LABELS={
+  chapwise:"📖 Chapterwise Tests",fullmock:"🗂️ Full Mocks",pyq:"📜 Previous Year Questions",
+  andr:"🔤 A&R Tests",imgbased:"🖼️ Image Based",special:"⭐ Special Mocks",
+  vocabulary:"📖 Vocabulary",grammar:"✍️ Grammar",reading:"📰 Reading Ability",rc:"🔍 Reading Comprehension"
+};
 
 /* ════════════ XP SYSTEM ════════════ */
 const XP_LEVELS = [
@@ -824,9 +895,7 @@ const XP_LEVELS = [
   {level:5,min:2000,name:'Master',  icon:'🏆',color:'#f59e0b'},
   {level:6,min:3500,name:'Thunder', icon:'⚡',color:'#f97316'},
 ];
-function calcTotalXP(allAtt){
-  return allAtt.reduce((sum,d)=>sum+10+Math.round((d.percentage||0)/2),0);
-}
+function calcTotalXP(allAtt){return allAtt.reduce((sum,d)=>sum+10+Math.round((d.percentage||0)/2),0);}
 function getXPLevel(xp){
   let lvl=XP_LEVELS[0];
   for(const l of XP_LEVELS){if(xp>=l.min)lvl=l;else break;}
@@ -835,6 +904,20 @@ function getXPLevel(xp){
   const progress=next?((xp-lvl.min)/(next.min-lvl.min))*100:100;
   return{...lvl,xp,nextMin:next?.min,nextName:next?.name,progress:Math.min(progress,100)};
 }
+
+/* ════════════ RANK SYSTEM ════════════ */
+const RANK_TIERS = [
+  {name:'Rookie',   icon:'📚', color:'#9298b5', bg:'rgba(146,152,181,.1)', border:'rgba(146,152,181,.2)', min:0,   max:39.9},
+  {name:'Bronze',   icon:'🥉', color:'#cd7f32', bg:'rgba(205,127,50,.1)',  border:'rgba(205,127,50,.25)', min:40,  max:54.9},
+  {name:'Silver',   icon:'🥈', color:'#94a3b8', bg:'rgba(148,163,184,.1)', border:'rgba(148,163,184,.25)',min:55,  max:69.9},
+  {name:'Gold',     icon:'🥇', color:'#f59e0b', bg:'rgba(245,158,11,.1)',  border:'rgba(245,158,11,.25)', min:70,  max:84.9},
+  {name:'Thunder',  icon:'⚡', color:'#f97316', bg:'rgba(249,115,22,.1)',  border:'rgba(249,115,22,.25)', min:85,  max:100},
+];
+function getRankTier(p){
+  for(let i=RANK_TIERS.length-1;i>=0;i--){if(p>=RANK_TIERS[i].min)return RANK_TIERS[i];}
+  return RANK_TIERS[0];
+}
+function gRank(p){const t=getRankTier(p);return{name:t.name,icon:t.icon,color:t.color};}
 
 /* ════════════ STREAK ════════════ */
 function calcStreak(allAtt){
@@ -845,22 +928,14 @@ function calcStreak(allAtt){
   let cur=new Date(dateSet.has(todayStr)?today:new Date(+today-86400000));
   if(!dateSet.has(cur.toISOString().substring(0,10)))return 0;
   let streak=0;
-  while(true){
-    const ds=cur.toISOString().substring(0,10);
-    if(dateSet.has(ds)){streak++;cur=new Date(+cur-86400000);}
-    else break;
-  }
+  while(true){const ds=cur.toISOString().substring(0,10);if(dateSet.has(ds)){streak++;cur=new Date(+cur-86400000);}else break;}
   return streak;
 }
 function getBestStreak(allAtt){
   const dates=[...new Set(allAtt.map(d=>d.date?.substring(0,10)).filter(Boolean))].sort();
   if(!dates.length)return 0;
   let best=1,cur=1;
-  for(let i=1;i<dates.length;i++){
-    const diff=(new Date(dates[i])-new Date(dates[i-1]))/86400000;
-    if(diff===1){cur++;best=Math.max(best,cur);}
-    else cur=1;
-  }
+  for(let i=1;i<dates.length;i++){const diff=(new Date(dates[i])-new Date(dates[i-1]))/86400000;if(diff===1){cur++;best=Math.max(best,cur);}else cur=1;}
   return best;
 }
 
@@ -871,7 +946,7 @@ function rKey(s,c){return`thunderstudy_result_${s}_${c}`;}
 function hKey(s,c){return`thunderstudy_history_${s}_${c}`;}
 function lR(s,c){try{return JSON.parse(localStorage.getItem(rKey(s,c)));}catch(e){return null;}}
 function lH(s,c){try{return JSON.parse(localStorage.getItem(hKey(s,c))||'[]');}catch(e){return[];}}
-function getSS(){try{return JSON.parse(localStorage.getItem('ts_subs')||'["bst"]');}catch(e){return["bst"];}}
+function getSS(){try{return JSON.parse(localStorage.getItem('ts_subs')||'[]');}catch(e){return[];}}
 function saveSS(a){localStorage.setItem('ts_subs',JSON.stringify(a));}
 function getProfile(){try{return JSON.parse(localStorage.getItem('ts_profile')||'{}');}catch(e){return{};}}
 function syncHistory(){
@@ -889,13 +964,6 @@ function syncHistory(){
 }
 
 /* ════════════ HELPERS ════════════ */
-function gRank(p){
-  if(p>=85)return{name:'Thunder',icon:'⚡',color:'#f59e0b'};
-  if(p>=70)return{name:'Gold',icon:'🥇',color:'#f59e0b'};
-  if(p>=55)return{name:'Silver',icon:'🥈',color:'#94a3b8'};
-  if(p>=40)return{name:'Bronze',icon:'🥉',color:'#cd7f32'};
-  return{name:'Rookie',icon:'📚',color:'#9298b5'};
-}
 function rClr(p){return p>=75?'#10b981':p>=50?'#4f6ef7':p>=35?'#f59e0b':'#f43f5e';}
 function fd(iso){try{return new Date(iso).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}catch(e){return'—';}}
 function fdS(iso){try{return new Date(iso).toLocaleDateString('en-IN',{day:'2-digit',month:'short'});}catch(e){return'—';}}
@@ -930,12 +998,50 @@ function goPage(id){
 /* ════════════ HOME PAGE ════════════ */
 function renderHome(){
   syncHistory();
-  const sv=getSS(),prof=getProfile(),allAtt=getAllAtt();
+  const sv=getSS();
+
+  // ── EMPTY STATE: no subjects selected ──
+  if(!sv.length){
+    const H=`<div class="welcome-wrap">
+      <div class="welcome-card">
+        <div class="welcome-logo">⚡</div>
+        <div class="welcome-title">Welcome to Thunderstudy!</div>
+        <div class="welcome-sub">Your all-in-one CUET preparation dashboard. Track chapter scores, mock tests, class rank & more — all in one place.</div>
+        <div class="welcome-steps">
+          <div class="welcome-step">
+            <div class="welcome-step-num">1</div>
+            <div class="welcome-step-text">Add your subjects
+              <span>Choose the subjects you're preparing for CUET</span>
+            </div>
+          </div>
+          <div class="welcome-step">
+            <div class="welcome-step-num">2</div>
+            <div class="welcome-step-text">Attempt chapter quizzes
+              <span>Your scores will automatically appear here</span>
+            </div>
+          </div>
+          <div class="welcome-step">
+            <div class="welcome-step-num">3</div>
+            <div class="welcome-step-text">Track your progress
+              <span>See trends, badges, predictions & class rank</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-prim" style="width:100%;justify-content:center;padding:14px;font-size:14px;" onclick="openAddSubjModal()">➕ Select Your Subjects to Get Started</button>
+        <div style="margin-top:14px;font-size:11px;color:var(--text3);">You can add or remove subjects anytime from Settings</div>
+      </div>
+    </div>`;
+    document.getElementById('home-content').innerHTML=H;
+    return;
+  }
+
+  const prof=getProfile(),allAtt=getAllAtt();
   const uname=prof.name||'Student';
   const tS=allAtt.reduce((s,d)=>s+d.score,0);
   const tM=allAtt.reduce((s,d)=>s+d.maxScore,0);
   const overallP=tM>0?tS/tM*100:0;
   const rank=gRank(overallP);
+  const currentTier=getRankTier(overallP);
   const totalXP=calcTotalXP(allAtt);
   const xpInfo=getXPLevel(totalXP);
   const streak=calcStreak(allAtt);
@@ -950,20 +1056,48 @@ function renderHome(){
   const goals=prof.goals||{};
   let H='';
 
-  H+=`<div class="rank-hero" style="background:linear-gradient(135deg,${rank.name==='Thunder'?'#f59e0b,#f97316':rank.name==='Gold'?'#f59e0b,#d97706':rank.name==='Silver'?'#64748b,#94a3b8':rank.name==='Bronze'?'#cd7f32,#b45309':'#4f6ef7,#7c3aed'})">
-    <div class="rh-label">CUET Preparation Rank</div>
-    <div class="rh-name">${uname}</div>
-    <div class="rh-rank-pill">${rank.icon} ${rank.name} Rank &nbsp;·&nbsp; ${overallP.toFixed(1)}% Overall</div>
-    ${prof.college?`<div style="font-size:12px;opacity:.8;margin-bottom:16px;">🎯 Target: ${prof.college}</div>`:''}
-    <div class="rh-stats">
-      <div class="rh-stat"><div class="rh-val">${allAtt.length}</div><div class="rh-lbl">Tests Done</div></div>
-      <div class="rh-stat"><div class="rh-val">${sv.length}</div><div class="rh-lbl">Subjects</div></div>
-      <div class="rh-stat"><div class="rh-val">${tS}</div><div class="rh-lbl">Total Score</div></div>
-      <div class="rh-stat"><div class="rh-val">${tM>0?(tS/tM*100).toFixed(1)+'%':'—'}</div><div class="rh-lbl">Accuracy</div></div>
-      <div class="rh-stat"><div class="rh-val">${totalXP}</div><div class="rh-lbl">XP Earned</div></div>
+  /* ── HERO + RANK BADGES (side by side) ── */
+  const heroGrad=currentTier.name==='Thunder'?'linear-gradient(135deg,#f97316,#f59e0b)':
+    currentTier.name==='Gold'?'linear-gradient(135deg,#f59e0b,#d97706)':
+    currentTier.name==='Silver'?'linear-gradient(135deg,#64748b,#94a3b8)':
+    currentTier.name==='Bronze'?'linear-gradient(135deg,#cd7f32,#b45309)':
+    'linear-gradient(135deg,#4f6ef7,#7c3aed)';
+
+  H+=`<div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:stretch;margin-bottom:16px;">
+    <div class="rank-hero" style="background:${heroGrad};margin-bottom:0;">
+      <div class="rh-label">CUET Preparation Rank</div>
+      <div class="rh-name">${uname}</div>
+      <div class="rh-rank-pill">${rank.icon} ${rank.name} Rank &nbsp;·&nbsp; ${overallP.toFixed(1)}% Overall</div>
+      ${prof.college?`<div style="font-size:12px;opacity:.8;margin-bottom:16px;">🎯 Target: ${prof.college}</div>`:''}
+      <div class="rh-stats">
+        <div class="rh-stat"><div class="rh-val">${allAtt.length}</div><div class="rh-lbl">Tests Done</div></div>
+        <div class="rh-stat"><div class="rh-val">${sv.length}</div><div class="rh-lbl">Subjects</div></div>
+        <div class="rh-stat"><div class="rh-val">${tS}</div><div class="rh-lbl">Total Score</div></div>
+        <div class="rh-stat"><div class="rh-val">${tM>0?(tS/tM*100).toFixed(1)+'%':'—'}</div><div class="rh-lbl">Accuracy</div></div>
+        <div class="rh-stat"><div class="rh-val">${totalXP}</div><div class="rh-lbl">XP Earned</div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;min-width:155px;">
+      <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:4px;padding:0 2px;">🏅 Rank Badges</div>
+      ${RANK_TIERS.map(tier=>{
+        const earned=overallP>=tier.min;
+        const isCurrent=tier.name===currentTier.name;
+        const nextTier=RANK_TIERS.find(t=>t.min>currentTier.min);
+        const pctToNext=nextTier?Math.min(((overallP-currentTier.min)/(nextTier.min-currentTier.min))*100,100):100;
+        return`<div class="rank-badge-item ${earned?'earned':''} ${isCurrent?'current':''} ${!earned?'locked':''}" style="${isCurrent?`border-color:${tier.border};background:${tier.bg};`:''}">
+          <div class="rank-badge-icon">${tier.icon}</div>
+          <div class="rank-badge-info">
+            <div class="rank-badge-name" style="${isCurrent?`color:${tier.color}`:'color:var(--text2)'}">${tier.name}</div>
+            <div class="rank-badge-pct">${tier.min}%${tier.max<100?'+':''}</div>
+            ${isCurrent&&nextTier?`<div style="height:3px;background:var(--border);border-radius:4px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:${pctToNext}%;background:${tier.color};border-radius:4px;transition:width 1s ease;"></div></div>`:''}
+          </div>
+          <div class="rank-badge-check">${isCurrent?'⬅️':earned?'✅':''}</div>
+        </div>`;
+      }).reverse().join('')}
     </div>
   </div>`;
 
+  /* ── STREAK ── */
   const streakGrad=streak>=7?'linear-gradient(135deg,rgba(249,115,22,.12),rgba(245,158,11,.06))':'linear-gradient(135deg,rgba(249,115,22,.08),rgba(245,158,11,.04))';
   H+=`<div class="streak-card" style="background:${streakGrad}">
     <div class="streak-flame">${streak>=7?'🔥':streak>=3?'🔥':'💤'}</div>
@@ -972,7 +1106,7 @@ function renderHome(){
       <div class="streak-lbl">Day Streak</div>
     </div>
     <div style="flex:1;padding:0 12px;">
-      <div style="font-size:13px;font-weight:700;margin-bottom:4px;">${streak===0?'Start studying today to build your streak!':streak===1?'Great start! Come back tomorrow to keep it going.':streak<7?`${streak} days strong — keep it up! 🚀`:`${streak}-day streak — you're on fire! ⚡`}</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px;">${streak===0?'Start studying today to build your streak!':streak===1?'Great start! Come back tomorrow.':streak<7?`${streak} days strong — keep it up! 🚀`:`${streak}-day streak — you're on fire! ⚡`}</div>
       <div style="font-size:11px;color:var(--text3);">${streak>=7?'🏆 Week Warrior unlocked!':streak>=3?`${7-streak} more days for Week Warrior 🏆`:'Study daily to build your streak'}</div>
     </div>
     <div class="streak-best">
@@ -981,6 +1115,7 @@ function renderHome(){
     </div>
   </div>`;
 
+  /* ── XP BAR ── */
   H+=`<div class="xp-card">
     <div class="xp-top">
       <div><div class="xp-level-pill">${xpInfo.icon} Level ${xpInfo.level} · ${xpInfo.name}</div></div>
@@ -992,6 +1127,7 @@ function renderHome(){
     <div class="xp-nums"><span>${xpInfo.xp} XP</span><span>${xpInfo.progress.toFixed(0)}% to next level${xpInfo.nextMin?' ('+xpInfo.nextMin+' XP)':''}</span></div>
   </div>`;
 
+  /* ── QUICK ACTIONS ── */
   H+=`<div class="sec-hdr"><div class="sec-title">⚡ Quick Actions</div></div>
   <div class="quick-links" style="margin-bottom:24px;">
     <div class="ql-item" onclick="goPage('scoreboard')"><div class="ql-icon">📊</div><div class="ql-name">View Scoreboard</div><div class="ql-desc">Overall stats & charts</div></div>
@@ -1002,6 +1138,7 @@ function renderHome(){
     <div class="ql-item" onclick="openProfileModal()"><div class="ql-icon">🎯</div><div class="ql-name">Set Goals</div><div class="ql-desc">Target % per subject</div></div>
   </div>`;
 
+  /* ── GOALS ── */
   const goalSubjs=sv.map(sId=>SUBJECTS_MASTER.find(s=>s.id===sId)).filter(Boolean);
   if(goalSubjs.length>0){
     H+=`<div class="sec-hdr"><div class="sec-title">🎯 My CUET Goals</div><div class="sec-link" onclick="openProfileModal()">Edit Goals →</div></div>
@@ -1019,6 +1156,7 @@ function renderHome(){
     H+=`</div>`;
   }
 
+  /* ── HEATMAP ── */
   H+=`<div class="sec-hdr"><div class="sec-title">📅 Study Activity — Last 6 Months</div></div>
   <div class="card card-p" style="margin-bottom:24px;">${buildHeatmap(allAtt)}
     <div style="display:flex;align-items:center;gap:6px;margin-top:12px;font-size:10px;color:var(--text3);">
@@ -1028,9 +1166,11 @@ function renderHome(){
     </div>
   </div>`;
 
+  /* ── PREDICTED ── */
   H+=`<div class="sec-hdr"><div class="sec-title">🔮 Predicted CUET Score</div></div>`;
   H+=buildPredicted(sv);
 
+  /* ── SUBJECT CARDS ── */
   H+=`<div class="sec-hdr" style="margin-top:24px;"><div class="sec-title">📚 Your Subjects</div><div class="sec-link" onclick="openAddSubjModal()">+ Add →</div></div>`;
   sv.forEach(sId=>{
     const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
@@ -1052,6 +1192,7 @@ function renderHome(){
     </div>`;
   });
 
+  /* ── TARGET SETTER ── */
   H+=`<div class="sec-hdr" style="margin-top:24px;"><div class="sec-title">🎯 Target Score Planner</div></div>`;
   H+=buildTargetSetter(sv);
 
@@ -1172,6 +1313,10 @@ function calcTarget(){
 /* ════════════ SCOREBOARD PAGE ════════════ */
 function renderScoreboard(){
   const sv=getSS(),allAtt=getAllAtt(),prof=getProfile();
+  if(!sv.length){
+    document.getElementById('scoreboard-content').innerHTML=`<div class="empty"><div class="empty-icon">📊</div><div class="empty-title">No Subjects Added</div><div class="empty-sub">Add subjects first to see your scoreboard.</div><button class="btn btn-prim" style="margin-top:16px" onclick="openAddSubjModal()">+ Add Subject</button></div>`;
+    return;
+  }
   const tS=allAtt.reduce((s,d)=>s+d.score,0);
   const tM=allAtt.reduce((s,d)=>s+d.maxScore,0);
   const tC=allAtt.reduce((s,d)=>s+d.correct,0);
@@ -1282,7 +1427,6 @@ function renderScoreboard(){
   },100);
 }
 
-/* ── WEEKLY TREND CHART ── */
 function getWeeklyData(filterSId){
   const allAtt=getAllAtt();
   const filtered=filterSId==='all'?allAtt:allAtt.filter(d=>d.subjectId===filterSId);
@@ -1324,10 +1468,7 @@ function buildTrendChart(filterSId){
   if(!datasets.length){tc.parentElement.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:200px;color:var(--text3);font-size:13px;">No data yet — complete some tests to see your trend.</div>';return;}
   CI['trend']=new Chart(tc.getContext('2d'),{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',labels:{color:'#5a5f7a',font:{size:10},boxWidth:10}}},scales:{x:{grid:{display:false},ticks:{color:'#9298b5',font:{size:10}}},y:{min:0,max:100,grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#9298b5',font:{size:10},callback:v=>v+'%'}}}}});
 }
-function updateTrendChart(){
-  const sel=document.getElementById('trend-subj-sel');
-  if(sel)buildTrendChart(sel.value);
-}
+function updateTrendChart(){const sel=document.getElementById('trend-subj-sel');if(sel)buildTrendChart(sel.value);}
 
 /* ════════════ EXPORT PDF ════════════ */
 function exportPDF(){
@@ -1596,7 +1737,7 @@ function buildChCard(d,sId){
     <div class="ch-top">
       <div><div class="ch-name">${d.ci?.name||d.chapterId}</div><div class="ch-id">${d.chapterId.toUpperCase()}</div></div>
       <div>
-        <div class="ch-type-badge" style="background:${TC[ttype]};color:${TX[ttype]};margin-bottom:4px;">${TL[ttype]||ttype}</div>
+        <div class="ch-type-badge" style="background:${TC[ttype]||TC.chapwise};color:${TX[ttype]||TX.chapwise};margin-bottom:4px;">${TL[ttype]||ttype}</div>
         <div style="display:flex;align-items:center;justify-content:flex-end;">
           <svg width="50" height="50" viewBox="0 0 50 50" style="transform:rotate(-90deg)">
             <circle fill="none" stroke="var(--border)" stroke-width="4" cx="25" cy="25" r="22"/>
@@ -1624,7 +1765,7 @@ function buildChCard(d,sId){
   </div>`;
 }
 
-/* ════════════ MORE MOCKS PAGE — NOW SHOWS ALL TYPES ════════════ */
+/* ════════════ MORE MOCKS PAGE ════════════ */
 function renderMocks(){
   const sv=getSS();
   if(!sv.length){
@@ -1639,49 +1780,101 @@ function renderMocks(){
 
   const subj=SUBJECTS_MASTER.find(s=>s.id===currentMockSubj);
   if(subj){
-    // Stats for ALL chapters
     const allChapters=subj.chapters;
     const attempted=allChapters.filter(c=>lR(currentMockSubj,c.id));
-    const chapWise=allChapters.filter(c=>c.type==='chapwise');
-    const mockOnly=allChapters.filter(c=>MOCK_TYPES.includes(c.type));
-    const mockAttempted=mockOnly.filter(c=>lR(currentMockSubj,c.id));
-    const chapAttempted=chapWise.filter(c=>lR(currentMockSubj,c.id));
 
     H+=`<div class="stat-grid" style="margin-bottom:20px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));">
       <div class="stat-card"><div class="stat-icon bg-acc">📚</div><div class="stat-val c-acc">${allChapters.length}</div><div class="stat-lbl">Total Tests</div></div>
       <div class="stat-card"><div class="stat-icon bg-green">✅</div><div class="stat-val c-green">${attempted.length}</div><div class="stat-lbl">Completed</div></div>
       <div class="stat-card"><div class="stat-icon bg-yellow">⏳</div><div class="stat-val c-yellow">${allChapters.length-attempted.length}</div><div class="stat-lbl">Remaining</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:rgba(79,110,247,.1)">📖</div><div class="stat-val c-acc">${chapAttempted.length}/${chapWise.length}</div><div class="stat-lbl">Chapterwise</div></div>
-      <div class="stat-card"><div class="stat-icon bg-teal">🗂️</div><div class="stat-val" style="color:var(--teal)">${mockAttempted.length}/${mockOnly.length}</div><div class="stat-lbl">Mocks</div></div>
     </div>`;
 
-    // Render each type in order
-    ALL_TYPES_ORDERED.forEach(type=>{
-      const typeTests=allChapters.filter(c=>c.type===type);
-      if(!typeTests.length)return;
-      const typeDone=typeTests.filter(c=>lR(currentMockSubj,c.id));
-      const bgColor=TC[type]||'rgba(79,110,247,.08)';
-      const txColor=TX[type]||'var(--acc)';
+    // For English, show section groupings (Vocabulary / Grammar / Reading Ability / RC) then rest
+    if(currentMockSubj==='eng'){
+      // Group by section first, then by type
+      const sectionMap={vocabulary:'Vocabulary',grammar:'Grammar',reading:'Reading Ability',rc:'Reading Comprehension'};
+      const nonSectionTypes=['fullmock','pyq','special'];
 
-      H+=`<div style="margin-bottom:24px;">
-        <div class="mock-type-hdr" style="background:${bgColor};color:${txColor};">
-          ${TYPE_LABELS[type]||type}
-          <span style="margin-left:auto;font-size:11px;background:rgba(0,0,0,.06);border-radius:20px;padding:2px 10px;">${typeDone.length}/${typeTests.length} done</span>
-        </div>
-        <div class="mock-grid">`;
-      typeTests.forEach((ch,i)=>{
-        const r=lR(currentMockSubj,ch.id);
-        const clr=r?rClr(r.percentage):'var(--text3)';
-        H+=`<div class="mock-card ${r?'done':''}" onclick="window.open('${(SUBJECT_URLS[currentMockSubj]||'')+ch.id}.html','_blank')" style="cursor:pointer;">
-          <div class="mock-num">${i+1}</div>
-          <div style="width:38px;height:38px;border-radius:10px;background:${bgColor};display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">${TYPE_ICONS[type]||subj.icon}</div>
-          <div class="mock-title">${ch.name}</div>
-          <div class="mock-subj" style="color:${txColor}">${TL[type]}</div>
-          ${r?`<div class="mock-score" style="color:${clr}">${r.percentage.toFixed(1)}%</div><div class="mock-date">${r.score}/${r.maxScore} · ${fd(r.date)}</div>`:'<div style="font-size:12px;color:var(--text3);">Not attempted yet</div>'}
-        </div>`;
+      Object.entries(sectionMap).forEach(([type,sectionName])=>{
+        const typeTests=allChapters.filter(c=>c.type===type);
+        if(!typeTests.length)return;
+        const typeDone=typeTests.filter(c=>lR(currentMockSubj,c.id));
+        const bgColor=TC[type]||'rgba(79,110,247,.08)';
+        const txColor=TX[type]||'var(--acc)';
+        H+=`<div style="margin-bottom:24px;">
+          <div class="mock-type-hdr" style="background:${bgColor};color:${txColor};">
+            ${TYPE_ICONS[type]||'📖'} ${sectionName}
+            <span style="margin-left:auto;font-size:11px;background:rgba(0,0,0,.06);border-radius:20px;padding:2px 10px;">${typeDone.length}/${typeTests.length} done</span>
+          </div>
+          <div class="mock-grid">`;
+        typeTests.forEach((ch,i)=>{
+          const r=lR(currentMockSubj,ch.id);
+          const clr=r?rClr(r.percentage):'var(--text3)';
+          H+=`<div class="mock-card ${r?'done':''}" onclick="window.open('${(SUBJECT_URLS[currentMockSubj]||'')+ch.id}.html','_blank')" style="cursor:pointer;">
+            <div class="mock-num">${i+1}</div>
+            <div style="width:38px;height:38px;border-radius:10px;background:${bgColor};display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">${TYPE_ICONS[type]||subj.icon}</div>
+            <div class="mock-title">${ch.name}</div>
+            <div class="mock-subj" style="color:${txColor}">${TL[type]}</div>
+            ${r?`<div class="mock-score" style="color:${clr}">${r.percentage.toFixed(1)}%</div><div class="mock-date">${r.score}/${r.maxScore} · ${fd(r.date)}</div>`:'<div style="font-size:12px;color:var(--text3);">Not attempted yet</div>'}
+          </div>`;
+        });
+        H+=`</div></div>`;
       });
-      H+=`</div></div>`;
-    });
+
+      // Non-section types (full mocks, PYQ, special)
+      nonSectionTypes.forEach(type=>{
+        const typeTests=allChapters.filter(c=>c.type===type);
+        if(!typeTests.length)return;
+        const typeDone=typeTests.filter(c=>lR(currentMockSubj,c.id));
+        const bgColor=TC[type]||'rgba(79,110,247,.08)';
+        const txColor=TX[type]||'var(--acc)';
+        H+=`<div style="margin-bottom:24px;">
+          <div class="mock-type-hdr" style="background:${bgColor};color:${txColor};">
+            ${TYPE_LABELS[type]||type}
+            <span style="margin-left:auto;font-size:11px;background:rgba(0,0,0,.06);border-radius:20px;padding:2px 10px;">${typeDone.length}/${typeTests.length} done</span>
+          </div>
+          <div class="mock-grid">`;
+        typeTests.forEach((ch,i)=>{
+          const r=lR(currentMockSubj,ch.id);
+          const clr=r?rClr(r.percentage):'var(--text3)';
+          H+=`<div class="mock-card ${r?'done':''}" onclick="window.open('${(SUBJECT_URLS[currentMockSubj]||'')+ch.id}.html','_blank')" style="cursor:pointer;">
+            <div class="mock-num">${i+1}</div>
+            <div style="width:38px;height:38px;border-radius:10px;background:${bgColor};display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">${TYPE_ICONS[type]||subj.icon}</div>
+            <div class="mock-title">${ch.name}</div>
+            <div class="mock-subj" style="color:${txColor}">${TL[type]}</div>
+            ${r?`<div class="mock-score" style="color:${clr}">${r.percentage.toFixed(1)}%</div><div class="mock-date">${r.score}/${r.maxScore} · ${fd(r.date)}</div>`:'<div style="font-size:12px;color:var(--text3);">Not attempted yet</div>'}
+          </div>`;
+        });
+        H+=`</div></div>`;
+      });
+    } else {
+      // Standard rendering for non-English subjects
+      ALL_TYPES_ORDERED.forEach(type=>{
+        const typeTests=allChapters.filter(c=>c.type===type);
+        if(!typeTests.length)return;
+        const typeDone=typeTests.filter(c=>lR(currentMockSubj,c.id));
+        const bgColor=TC[type]||'rgba(79,110,247,.08)';
+        const txColor=TX[type]||'var(--acc)';
+        H+=`<div style="margin-bottom:24px;">
+          <div class="mock-type-hdr" style="background:${bgColor};color:${txColor};">
+            ${TYPE_LABELS[type]||type}
+            <span style="margin-left:auto;font-size:11px;background:rgba(0,0,0,.06);border-radius:20px;padding:2px 10px;">${typeDone.length}/${typeTests.length} done</span>
+          </div>
+          <div class="mock-grid">`;
+        typeTests.forEach((ch,i)=>{
+          const r=lR(currentMockSubj,ch.id);
+          const clr=r?rClr(r.percentage):'var(--text3)';
+          H+=`<div class="mock-card ${r?'done':''}" onclick="window.open('${(SUBJECT_URLS[currentMockSubj]||'')+ch.id}.html','_blank')" style="cursor:pointer;">
+            <div class="mock-num">${i+1}</div>
+            <div style="width:38px;height:38px;border-radius:10px;background:${bgColor};display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">${TYPE_ICONS[type]||subj.icon}</div>
+            <div class="mock-title">${ch.name}</div>
+            <div class="mock-subj" style="color:${txColor}">${TL[type]}</div>
+            ${r?`<div class="mock-score" style="color:${clr}">${r.percentage.toFixed(1)}%</div><div class="mock-date">${r.score}/${r.maxScore} · ${fd(r.date)}</div>`:'<div style="font-size:12px;color:var(--text3);">Not attempted yet</div>'}
+          </div>`;
+        });
+        H+=`</div></div>`;
+      });
+    }
   }
   document.getElementById('mocks-content').innerHTML=H;
 }
@@ -1858,13 +2051,6 @@ function renderSettings(){
   const allAtt=getAllAtt();
   const pendingSync=allAtt.length;
 
-  // Group subjects for display
-  const groups={};
-  SUBJECTS_MASTER.forEach(s=>{
-    if(!groups[s.group])groups[s.group]=[];
-    groups[s.group].push(s);
-  });
-
   let H=`
   <div class="card card-p" style="margin-bottom:16px;">
     <div class="sec-hdr"><div class="sec-title">🔗 Google Sheet Connection</div></div>
@@ -1879,9 +2065,9 @@ function renderSettings(){
 
   <div class="card card-p" style="margin-bottom:16px;">
     <div class="sec-hdr"><div class="sec-title">📚 Active Subjects</div></div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+    ${sv.length?`<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
       ${sv.map(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);return s?`<div style="display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:30px;background:var(--card2);border:1.5px solid var(--border);font-size:12px;font-weight:600;">${s.icon} ${s.name}<span onclick="rmSubj('${sId}')" style="cursor:pointer;color:var(--red);font-size:16px;line-height:1;margin-left:2px;">×</span></div>`:''}).join('')}
-    </div>
+    </div>`:`<div style="font-size:13px;color:var(--text3);margin-bottom:14px;">No subjects added yet.</div>`}
     <button class="btn btn-prim" onclick="openAddSubjModal()">+ Add Subject</button>
   </div>
 
@@ -1929,7 +2115,7 @@ function openProfileModal(){
   document.getElementById('pf-class').value=p.class||'';
   document.getElementById('pf-college').value=p.college||'';
   const goals=p.goals||{};
-  document.getElementById('goal-sliders').innerHTML=sv.map(sId=>{
+  document.getElementById('goal-sliders').innerHTML=sv.length?sv.map(sId=>{
     const s=SUBJECTS_MASTER.find(x=>x.id===sId);if(!s)return'';
     const v=goals[sId]||75;
     return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
@@ -1937,7 +2123,7 @@ function openProfileModal(){
       <input type="range" style="flex:1;accent-color:var(--acc)" min="30" max="100" value="${v}" id="g-${sId}" oninput="document.getElementById('gv-${sId}').textContent=this.value+'%'">
       <div style="font-size:13px;font-weight:800;font-family:var(--mono);color:var(--acc);width:40px" id="gv-${sId}">${v}%</div>
     </div>`;
-  }).join('');
+  }).join(''):'<div style="font-size:12px;color:var(--text3);">Add subjects first to set goals.</div>';
   openModal('profile-modal');
 }
 function saveProfile(){
@@ -1949,10 +2135,9 @@ function saveProfile(){
   closeModal('profile-modal');renderHome();
 }
 
-/* ════════════ ADD SUBJECT MODAL — WITH GROUPS ════════════ */
+/* ════════════ ADD SUBJECT MODAL ════════════ */
 function openAddSubjModal(){
   const sv=getSS();
-  // Group subjects
   const groups={};
   SUBJECTS_MASTER.forEach(s=>{
     if(!groups[s.group])groups[s.group]=[];
