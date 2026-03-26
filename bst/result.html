@@ -310,6 +310,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 
 /* MOCK SUBJ TABS */
 .mock-subj-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+
+/* MOCK TYPE SECTION HEADER */
+.mock-type-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;margin-bottom:12px;font-size:13px;font-weight:800;}
 </style>
 </head>
 <body>
@@ -375,7 +378,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 
   <div class="page" id="page-mocks">
     <div class="topbar">
-      <div><div class="page-title">📝 More Mocks</div><div class="page-sub">Full mocks, PYQs & special tests</div></div>
+      <div><div class="page-title">📝 More Mocks</div><div class="page-sub">All tests — chapterwise, full mocks, PYQs & more</div></div>
     </div>
     <div id="mocks-content"></div>
   </div>
@@ -433,16 +436,31 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 <script>
 /* ════════════ CONFIG ════════════ */
 const GS_URL = "https://script.google.com/macros/s/AKfycbxrI9TAPt1jNgDH4wiBmaPUTt69KQD8AlkB1f_PZMSi3zo8aJjw-_N-1cF8ST3u1vMZ/exec";
+
+// ── SUBJECT URLS ──
 const SUBJECT_URLS = {
   bst:"https://commercesehoga.github.io/commerce/bst/",
   eco:"https://commercesehoga.github.io/commerce/eco/",
   acc:"https://commercesehoga.github.io/commerce/acc/",
   eng:"https://commercesehoga.github.io/english/",
   gat:"https://commercesehoga.github.io/gat/",
+  // Science
+  phy:"https://commercesehoga.github.io/science/phy/",
+  che:"https://commercesehoga.github.io/science/che/",
+  bio:"https://commercesehoga.github.io/science/bio/",
+  mat:"https://commercesehoga.github.io/science/mat/",
+  // Humanities
+  his:"https://commercesehoga.github.io/humanities/his/",
+  geo:"https://commercesehoga.github.io/humanities/geo/",
+  pol:"https://commercesehoga.github.io/humanities/pol/",
+  psy:"https://commercesehoga.github.io/humanities/psy/",
+  // Physical Education
+  pe: "https://commercesehoga.github.io/physical/",
 };
 
 const SUBJECTS_MASTER = [
-  { id:"bst", name:"Business Studies", icon:"📊", color:"#4f6ef7",
+  /* ══════════ COMMERCE ══════════ */
+  { id:"bst", name:"Business Studies", icon:"📊", color:"#4f6ef7", group:"Commerce",
     chapters:[
       {id:"bst1",name:"Ch 1 – Nature & Significance",type:"chapwise"},
       {id:"bst2",name:"Ch 2 – Principles",type:"chapwise"},
@@ -476,22 +494,19 @@ const SUBJECTS_MASTER = [
       {id:"bst-sp1",name:"Special Mock 1",type:"special"},
     ]
   },
-  { id:"eco", name:"Economics", icon:"📈", color:"#10b981",
+  { id:"eco", name:"Economics", icon:"📈", color:"#10b981", group:"Commerce",
     chapters:[
-      /* ── Macroeconomics ── */
       {id:"macro1",name:"Macro Ch 1 – National Income Basics",type:"chapwise"},
       {id:"macro2",name:"Macro Ch 2 – Related Aggregates",type:"chapwise"},
       {id:"macro3",name:"Macro Ch 3 – Money & Banking",type:"chapwise"},
       {id:"macro4",name:"Macro Ch 4 – Income Determination",type:"chapwise"},
       {id:"macro5",name:"Macro Ch 5 – Government Budget",type:"chapwise"},
       {id:"macro6",name:"Macro Ch 6 – Balance of Payments",type:"chapwise"},
-      /* ── Microeconomics ── */
       {id:"micro1",name:"Micro Ch 1 – Introduction",type:"chapwise"},
       {id:"micro2",name:"Micro Ch 2 – Consumer Equilibrium",type:"chapwise"},
       {id:"micro3",name:"Micro Ch 3 – Demand",type:"chapwise"},
       {id:"micro4",name:"Micro Ch 4 – Production & Costs",type:"chapwise"},
       {id:"micro5",name:"Micro Ch 5 – Supply & Market",type:"chapwise"},
-      /* ── Indian Economic Development ── */
       {id:"indian1",name:"IED Ch 1 – Indian Economy on Eve",type:"chapwise"},
       {id:"indian2",name:"IED Ch 2 – Indian Economy 1950–90",type:"chapwise"},
       {id:"indian3",name:"IED Ch 3 – Liberalisation",type:"chapwise"},
@@ -500,7 +515,6 @@ const SUBJECTS_MASTER = [
       {id:"indian6",name:"IED Ch 6 – Rural Development",type:"chapwise"},
       {id:"indian7",name:"IED Ch 7 – Employment",type:"chapwise"},
       {id:"indian8",name:"IED Ch 8 – Infrastructure",type:"chapwise"},
-      /* ── Other Types ── */
       {id:"eco-img1",name:"Image Based Mock 1",type:"imgbased"},
       {id:"eco-img2",name:"Image Based Mock 2",type:"imgbased"},
       {id:"eco-full1",name:"Full Mock 1",type:"fullmock"},
@@ -511,7 +525,7 @@ const SUBJECTS_MASTER = [
       {id:"eco-pyq25",name:"PYQ 2025",type:"pyq"},
     ]
   },
-  { id:"acc", name:"Accountancy", icon:"📒", color:"#06b6d4",
+  { id:"acc", name:"Accountancy", icon:"📒", color:"#06b6d4", group:"Commerce",
     chapters:[
       {id:"acc1",name:"Ch 1 – Introduction",type:"chapwise"},
       {id:"acc2",name:"Ch 2 – Theory Base",type:"chapwise"},
@@ -531,7 +545,9 @@ const SUBJECTS_MASTER = [
       {id:"acc-pyq25",name:"PYQ 2025",type:"pyq"},
     ]
   },
-  { id:"eng", name:"English", icon:"📝", color:"#ec4899",
+
+  /* ══════════ LANGUAGES ══════════ */
+  { id:"eng", name:"English", icon:"📝", color:"#ec4899", group:"Languages",
     chapters:[
       {id:"eng1",name:"Unit 1 – Flamingo Prose",type:"chapwise"},
       {id:"eng2",name:"Unit 2 – Flamingo Poem",type:"chapwise"},
@@ -546,7 +562,9 @@ const SUBJECTS_MASTER = [
       {id:"eng-sp1",name:"Special Mock 1",type:"special"},
     ]
   },
-  { id:"gat", name:"General Aptitude", icon:"🧠", color:"#f59e0b",
+
+  /* ══════════ APTITUDE ══════════ */
+  { id:"gat", name:"General Aptitude", icon:"🧠", color:"#f59e0b", group:"Aptitude",
     chapters:[
       {id:"gat1",name:"Quant Aptitude 1",type:"chapwise"},
       {id:"gat2",name:"Quant Aptitude 2",type:"chapwise"},
@@ -560,12 +578,242 @@ const SUBJECTS_MASTER = [
       {id:"gat-pyq25",name:"PYQ 2025",type:"pyq"},
       {id:"gat-sp1",name:"Special Mock 1",type:"special"},
     ]
-  }
+  },
+
+  /* ══════════ SCIENCE ══════════ */
+  { id:"phy", name:"Physics", icon:"⚛️", color:"#6366f1", group:"Science",
+    chapters:[
+      {id:"phy1",name:"Ch 1 – Electric Charges & Fields",type:"chapwise"},
+      {id:"phy2",name:"Ch 2 – Electrostatic Potential",type:"chapwise"},
+      {id:"phy3",name:"Ch 3 – Current Electricity",type:"chapwise"},
+      {id:"phy4",name:"Ch 4 – Moving Charges & Magnetism",type:"chapwise"},
+      {id:"phy5",name:"Ch 5 – Magnetism & Matter",type:"chapwise"},
+      {id:"phy6",name:"Ch 6 – Electromagnetic Induction",type:"chapwise"},
+      {id:"phy7",name:"Ch 7 – Alternating Current",type:"chapwise"},
+      {id:"phy8",name:"Ch 8 – Electromagnetic Waves",type:"chapwise"},
+      {id:"phy9",name:"Ch 9 – Ray Optics",type:"chapwise"},
+      {id:"phy10",name:"Ch 10 – Wave Optics",type:"chapwise"},
+      {id:"phy11",name:"Ch 11 – Dual Nature",type:"chapwise"},
+      {id:"phy12",name:"Ch 12 – Atoms",type:"chapwise"},
+      {id:"phy13",name:"Ch 13 – Nuclei",type:"chapwise"},
+      {id:"phy14",name:"Ch 14 – Semiconductor Devices",type:"chapwise"},
+      {id:"phy-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"phy-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"phy-full3",name:"Full Mock 3",type:"fullmock"},
+      {id:"phy-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"phy-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"phy-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"phy-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
+  { id:"che", name:"Chemistry", icon:"🧪", color:"#14b8a6", group:"Science",
+    chapters:[
+      {id:"che1",name:"Ch 1 – Solutions",type:"chapwise"},
+      {id:"che2",name:"Ch 2 – Electrochemistry",type:"chapwise"},
+      {id:"che3",name:"Ch 3 – Chemical Kinetics",type:"chapwise"},
+      {id:"che4",name:"Ch 4 – d & f Block Elements",type:"chapwise"},
+      {id:"che5",name:"Ch 5 – Coordination Compounds",type:"chapwise"},
+      {id:"che6",name:"Ch 6 – Haloalkanes & Haloarenes",type:"chapwise"},
+      {id:"che7",name:"Ch 7 – Alcohols, Phenols & Ethers",type:"chapwise"},
+      {id:"che8",name:"Ch 8 – Aldehydes & Ketones",type:"chapwise"},
+      {id:"che9",name:"Ch 9 – Amines",type:"chapwise"},
+      {id:"che10",name:"Ch 10 – Biomolecules",type:"chapwise"},
+      {id:"che-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"che-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"che-full3",name:"Full Mock 3",type:"fullmock"},
+      {id:"che-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"che-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"che-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"che-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
+  { id:"bio", name:"Biology", icon:"🔬", color:"#22c55e", group:"Science",
+    chapters:[
+      {id:"bio1",name:"Ch 1 – Reproduction in Organisms",type:"chapwise"},
+      {id:"bio2",name:"Ch 2 – Sexual Reproduction in Flowering Plants",type:"chapwise"},
+      {id:"bio3",name:"Ch 3 – Human Reproduction",type:"chapwise"},
+      {id:"bio4",name:"Ch 4 – Reproductive Health",type:"chapwise"},
+      {id:"bio5",name:"Ch 5 – Principles of Inheritance",type:"chapwise"},
+      {id:"bio6",name:"Ch 6 – Molecular Basis of Inheritance",type:"chapwise"},
+      {id:"bio7",name:"Ch 7 – Evolution",type:"chapwise"},
+      {id:"bio8",name:"Ch 8 – Human Health & Disease",type:"chapwise"},
+      {id:"bio9",name:"Ch 9 – Microbes in Human Welfare",type:"chapwise"},
+      {id:"bio10",name:"Ch 10 – Biotechnology Principles",type:"chapwise"},
+      {id:"bio11",name:"Ch 11 – Biotechnology Applications",type:"chapwise"},
+      {id:"bio12",name:"Ch 12 – Organisms & Populations",type:"chapwise"},
+      {id:"bio13",name:"Ch 13 – Ecosystem",type:"chapwise"},
+      {id:"bio14",name:"Ch 14 – Biodiversity & Conservation",type:"chapwise"},
+      {id:"bio-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"bio-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"bio-full3",name:"Full Mock 3",type:"fullmock"},
+      {id:"bio-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"bio-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"bio-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"bio-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
+  { id:"mat", name:"Mathematics", icon:"📐", color:"#f97316", group:"Science",
+    chapters:[
+      {id:"mat1",name:"Ch 1 – Relations & Functions",type:"chapwise"},
+      {id:"mat2",name:"Ch 2 – Inverse Trigonometric Functions",type:"chapwise"},
+      {id:"mat3",name:"Ch 3 – Matrices",type:"chapwise"},
+      {id:"mat4",name:"Ch 4 – Determinants",type:"chapwise"},
+      {id:"mat5",name:"Ch 5 – Continuity & Differentiability",type:"chapwise"},
+      {id:"mat6",name:"Ch 6 – Application of Derivatives",type:"chapwise"},
+      {id:"mat7",name:"Ch 7 – Integrals",type:"chapwise"},
+      {id:"mat8",name:"Ch 8 – Application of Integrals",type:"chapwise"},
+      {id:"mat9",name:"Ch 9 – Differential Equations",type:"chapwise"},
+      {id:"mat10",name:"Ch 10 – Vector Algebra",type:"chapwise"},
+      {id:"mat11",name:"Ch 11 – 3D Geometry",type:"chapwise"},
+      {id:"mat12",name:"Ch 12 – Linear Programming",type:"chapwise"},
+      {id:"mat13",name:"Ch 13 – Probability",type:"chapwise"},
+      {id:"mat-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"mat-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"mat-full3",name:"Full Mock 3",type:"fullmock"},
+      {id:"mat-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"mat-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"mat-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"mat-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
+
+  /* ══════════ HUMANITIES ══════════ */
+  { id:"pol", name:"Political Science", icon:"🏛️", color:"#8b5cf6", group:"Humanities",
+    chapters:[
+      {id:"pol1",name:"Ch 1 – The Cold War Era",type:"chapwise"},
+      {id:"pol2",name:"Ch 2 – End of Bipolarity",type:"chapwise"},
+      {id:"pol3",name:"Ch 3 – US Hegemony",type:"chapwise"},
+      {id:"pol4",name:"Ch 4 – Alternative Centres",type:"chapwise"},
+      {id:"pol5",name:"Ch 5 – Contemporary South Asia",type:"chapwise"},
+      {id:"pol6",name:"Ch 6 – International Organisations",type:"chapwise"},
+      {id:"pol7",name:"Ch 7 – Security in Contemporary World",type:"chapwise"},
+      {id:"pol8",name:"Ch 8 – Environment & Natural Resources",type:"chapwise"},
+      {id:"pol9",name:"Ch 9 – Globalisation",type:"chapwise"},
+      {id:"pol10",name:"Ch 10 – Nation-Building & Its Problems",type:"chapwise"},
+      {id:"pol11",name:"Ch 11 – Era of One-Party Dominance",type:"chapwise"},
+      {id:"pol12",name:"Ch 12 – Politics of Planned Development",type:"chapwise"},
+      {id:"pol13",name:"Ch 13 – India's External Relations",type:"chapwise"},
+      {id:"pol14",name:"Ch 14 – Challenges to Congress System",type:"chapwise"},
+      {id:"pol15",name:"Ch 15 – Crisis of Democratic Order",type:"chapwise"},
+      {id:"pol16",name:"Ch 16 – Rise of Popular Movements",type:"chapwise"},
+      {id:"pol17",name:"Ch 17 – Regional Aspirations",type:"chapwise"},
+      {id:"pol18",name:"Ch 18 – Recent Developments in Indian Politics",type:"chapwise"},
+      {id:"pol-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"pol-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"pol-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"pol-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"pol-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"pol-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
+  { id:"geo", name:"Geography", icon:"🌏", color:"#0ea5e9", group:"Humanities",
+    chapters:[
+      {id:"geo1",name:"Ch 1 – Human Geography",type:"chapwise"},
+      {id:"geo2",name:"Ch 2 – World Population Distribution",type:"chapwise"},
+      {id:"geo3",name:"Ch 3 – Population Composition",type:"chapwise"},
+      {id:"geo4",name:"Ch 4 – Human Development",type:"chapwise"},
+      {id:"geo5",name:"Ch 5 – Primary Activities",type:"chapwise"},
+      {id:"geo6",name:"Ch 6 – Secondary Activities",type:"chapwise"},
+      {id:"geo7",name:"Ch 7 – Tertiary & Quaternary Activities",type:"chapwise"},
+      {id:"geo8",name:"Ch 8 – Transport & Communication",type:"chapwise"},
+      {id:"geo9",name:"Ch 9 – International Trade",type:"chapwise"},
+      {id:"geo10",name:"Ch 10 – Human Settlements",type:"chapwise"},
+      {id:"geo11",name:"Ch 11 – India – Location",type:"chapwise"},
+      {id:"geo12",name:"Ch 12 – Morphology of India",type:"chapwise"},
+      {id:"geo13",name:"Ch 13 – Drainage Systems",type:"chapwise"},
+      {id:"geo14",name:"Ch 14 – Climate of India",type:"chapwise"},
+      {id:"geo15",name:"Ch 15 – Natural Vegetation",type:"chapwise"},
+      {id:"geo16",name:"Ch 16 – Soils",type:"chapwise"},
+      {id:"geo17",name:"Ch 17 – Natural Hazards",type:"chapwise"},
+      {id:"geo-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"geo-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"geo-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"geo-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"geo-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"geo-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
+  { id:"his", name:"History", icon:"📜", color:"#d97706", group:"Humanities",
+    chapters:[
+      {id:"his1",name:"Ch 1 – Bricks, Beads and Bones",type:"chapwise"},
+      {id:"his2",name:"Ch 2 – Kings, Farmers and Towns",type:"chapwise"},
+      {id:"his3",name:"Ch 3 – Kinship, Caste and Class",type:"chapwise"},
+      {id:"his4",name:"Ch 4 – Thinkers, Beliefs and Buildings",type:"chapwise"},
+      {id:"his5",name:"Ch 5 – Through the Eyes of Travellers",type:"chapwise"},
+      {id:"his6",name:"Ch 6 – Bhakti-Sufi Traditions",type:"chapwise"},
+      {id:"his7",name:"Ch 7 – An Imperial Capital: Vijayanagara",type:"chapwise"},
+      {id:"his8",name:"Ch 8 – Peasants, Zamindars and the State",type:"chapwise"},
+      {id:"his9",name:"Ch 9 – Kings and Chronicles",type:"chapwise"},
+      {id:"his10",name:"Ch 10 – Colonialism and the Countryside",type:"chapwise"},
+      {id:"his11",name:"Ch 11 – Rebels and the Raj",type:"chapwise"},
+      {id:"his12",name:"Ch 12 – Colonial Cities",type:"chapwise"},
+      {id:"his13",name:"Ch 13 – Mahatma Gandhi",type:"chapwise"},
+      {id:"his14",name:"Ch 14 – Understanding Partition",type:"chapwise"},
+      {id:"his15",name:"Ch 15 – Framing the Constitution",type:"chapwise"},
+      {id:"his-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"his-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"his-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"his-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"his-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"his-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
+  { id:"psy", name:"Psychology", icon:"🧠", color:"#a855f7", group:"Humanities",
+    chapters:[
+      {id:"psy1",name:"Ch 1 – Variations in Psychological Attributes",type:"chapwise"},
+      {id:"psy2",name:"Ch 2 – Self and Personality",type:"chapwise"},
+      {id:"psy3",name:"Ch 3 – Meeting Life Challenges",type:"chapwise"},
+      {id:"psy4",name:"Ch 4 – Psychological Disorders",type:"chapwise"},
+      {id:"psy5",name:"Ch 5 – Therapeutic Approaches",type:"chapwise"},
+      {id:"psy6",name:"Ch 6 – Attitude and Social Cognition",type:"chapwise"},
+      {id:"psy7",name:"Ch 7 – Social Influence & Group Processes",type:"chapwise"},
+      {id:"psy8",name:"Ch 8 – Psychology and Life",type:"chapwise"},
+      {id:"psy9",name:"Ch 9 – Developing Psychological Skills",type:"chapwise"},
+      {id:"psy-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"psy-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"psy-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"psy-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"psy-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"psy-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
+
+  /* ══════════ PHYSICAL EDUCATION ══════════ */
+  { id:"pe", name:"Physical Education", icon:"🏃", color:"#ef4444", group:"Physical Education",
+    chapters:[
+      {id:"pe1",name:"Ch 1 – Planning in Sports",type:"chapwise"},
+      {id:"pe2",name:"Ch 2 – Sports & Nutrition",type:"chapwise"},
+      {id:"pe3",name:"Ch 3 – Yoga as Preventive Measure",type:"chapwise"},
+      {id:"pe4",name:"Ch 4 – Physical Education & Sports for CWSN",type:"chapwise"},
+      {id:"pe5",name:"Ch 5 – Children & Sports",type:"chapwise"},
+      {id:"pe6",name:"Ch 6 – Women & Sports",type:"chapwise"},
+      {id:"pe7",name:"Ch 7 – Test & Measurement in Sports",type:"chapwise"},
+      {id:"pe8",name:"Ch 8 – Physiology & Sports",type:"chapwise"},
+      {id:"pe9",name:"Ch 9 – Sports Medicine",type:"chapwise"},
+      {id:"pe10",name:"Ch 10 – Kinesiology, Biomechanics & Sports",type:"chapwise"},
+      {id:"pe11",name:"Ch 11 – Psychology & Sports",type:"chapwise"},
+      {id:"pe12",name:"Ch 12 – Training in Sports",type:"chapwise"},
+      {id:"pe-full1",name:"Full Mock 1",type:"fullmock"},
+      {id:"pe-full2",name:"Full Mock 2",type:"fullmock"},
+      {id:"pe-full3",name:"Full Mock 3",type:"fullmock"},
+      {id:"pe-pyq23",name:"PYQ 2023",type:"pyq"},
+      {id:"pe-pyq24",name:"PYQ 2024",type:"pyq"},
+      {id:"pe-pyq25",name:"PYQ 2025",type:"pyq"},
+      {id:"pe-sp1",name:"Special Mock 1",type:"special"},
+    ]
+  },
 ];
+
+// All mock types (non-chapwise)
+const MOCK_TYPES = ['fullmock','pyq','special','andr','imgbased'];
+// ALL types including chapwise for More Mocks
+const ALL_TYPES_ORDERED = ['chapwise','fullmock','pyq','andr','imgbased','special'];
 
 const TL={chapwise:"Chapter",imgbased:"Img Based",fullmock:"Full Mock",andr:"A&R",pyq:"PYQ",special:"Special"};
 const TC={chapwise:"rgba(79,110,247,.1)",imgbased:"rgba(6,182,212,.1)",fullmock:"rgba(16,185,129,.1)",andr:"rgba(249,115,22,.1)",pyq:"rgba(245,158,11,.1)",special:"rgba(236,72,153,.1)"};
 const TX={chapwise:"#4f6ef7",imgbased:"#06b6d4",fullmock:"#10b981",andr:"#f97316",pyq:"#f59e0b",special:"#ec4899"};
+const TYPE_ICONS={chapwise:"📖",fullmock:"🗂️",pyq:"📜",andr:"🔤",imgbased:"🖼️",special:"⭐"};
+const TYPE_LABELS={chapwise:"📖 Chapterwise Tests",fullmock:"🗂️ Full Mocks",pyq:"📜 Previous Year Questions",andr:"🔤 A&R Tests",imgbased:"🖼️ Image Based",special:"⭐ Special Mocks"};
 
 /* ════════════ XP SYSTEM ════════════ */
 const XP_LEVELS = [
@@ -594,8 +842,6 @@ function calcStreak(allAtt){
   if(!dateSet.size)return 0;
   const today=new Date();
   const todayStr=today.toISOString().substring(0,10);
-  const yesterdayStr=new Date(+today-86400000).toISOString().substring(0,10);
-  // Start from today if active, else from yesterday (grace period)
   let cur=new Date(dateSet.has(todayStr)?today:new Date(+today-86400000));
   if(!dateSet.has(cur.toISOString().substring(0,10)))return 0;
   let streak=0;
@@ -704,7 +950,6 @@ function renderHome(){
   const goals=prof.goals||{};
   let H='';
 
-  // RANK HERO
   H+=`<div class="rank-hero" style="background:linear-gradient(135deg,${rank.name==='Thunder'?'#f59e0b,#f97316':rank.name==='Gold'?'#f59e0b,#d97706':rank.name==='Silver'?'#64748b,#94a3b8':rank.name==='Bronze'?'#cd7f32,#b45309':'#4f6ef7,#7c3aed'})">
     <div class="rh-label">CUET Preparation Rank</div>
     <div class="rh-name">${uname}</div>
@@ -719,13 +964,12 @@ function renderHome(){
     </div>
   </div>`;
 
-  // ── STREAK ──
-  const streakGrad = streak>=7?'linear-gradient(135deg,rgba(249,115,22,.12),rgba(245,158,11,.06))':'linear-gradient(135deg,rgba(249,115,22,.08),rgba(245,158,11,.04))';
+  const streakGrad=streak>=7?'linear-gradient(135deg,rgba(249,115,22,.12),rgba(245,158,11,.06))':'linear-gradient(135deg,rgba(249,115,22,.08),rgba(245,158,11,.04))';
   H+=`<div class="streak-card" style="background:${streakGrad}">
     <div class="streak-flame">${streak>=7?'🔥':streak>=3?'🔥':'💤'}</div>
     <div>
       <div class="streak-num">${streak}</div>
-      <div class="streak-lbl">${streak===1?'Day Streak':'Day Streak'}</div>
+      <div class="streak-lbl">Day Streak</div>
     </div>
     <div style="flex:1;padding:0 12px;">
       <div style="font-size:13px;font-weight:700;margin-bottom:4px;">${streak===0?'Start studying today to build your streak!':streak===1?'Great start! Come back tomorrow to keep it going.':streak<7?`${streak} days strong — keep it up! 🚀`:`${streak}-day streak — you're on fire! ⚡`}</div>
@@ -737,37 +981,27 @@ function renderHome(){
     </div>
   </div>`;
 
-  // ── XP BAR ──
   H+=`<div class="xp-card">
     <div class="xp-top">
-      <div>
-        <div class="xp-level-pill">${xpInfo.icon} Level ${xpInfo.level} · ${xpInfo.name}</div>
-      </div>
+      <div><div class="xp-level-pill">${xpInfo.icon} Level ${xpInfo.level} · ${xpInfo.name}</div></div>
       <div style="text-align:right;font-size:11px;color:var(--text3);">
         ${xpInfo.nextName?`<span style="font-weight:700;color:var(--acc)">${xpInfo.nextMin-xpInfo.xp} XP</span> to ${xpInfo.icon} → ${XP_LEVELS[xpInfo.level]?.icon} ${xpInfo.nextName}`:'<span style="color:var(--orange);font-weight:800;">⚡ MAX LEVEL!</span>'}
       </div>
     </div>
-    <div class="xp-track">
-      <div class="xp-fill" id="xp-fill-bar" style="width:0%"></div>
-    </div>
-    <div class="xp-nums">
-      <span>${xpInfo.xp} XP</span>
-      <span>${xpInfo.progress.toFixed(0)}% to next level${xpInfo.nextMin?' ('+xpInfo.nextMin+' XP)':''}</span>
-    </div>
+    <div class="xp-track"><div class="xp-fill" id="xp-fill-bar" style="width:0%"></div></div>
+    <div class="xp-nums"><span>${xpInfo.xp} XP</span><span>${xpInfo.progress.toFixed(0)}% to next level${xpInfo.nextMin?' ('+xpInfo.nextMin+' XP)':''}</span></div>
   </div>`;
 
-  // QUICK LINKS
   H+=`<div class="sec-hdr"><div class="sec-title">⚡ Quick Actions</div></div>
   <div class="quick-links" style="margin-bottom:24px;">
     <div class="ql-item" onclick="goPage('scoreboard')"><div class="ql-icon">📊</div><div class="ql-name">View Scoreboard</div><div class="ql-desc">Overall stats & charts</div></div>
     <div class="ql-item" onclick="goPage('subjects')"><div class="ql-icon">📚</div><div class="ql-name">Subject Scores</div><div class="ql-desc">Chapter-wise results</div></div>
-    <div class="ql-item" onclick="goPage('mocks')"><div class="ql-icon">📝</div><div class="ql-name">More Mocks</div><div class="ql-desc">Full tests & PYQs</div></div>
+    <div class="ql-item" onclick="goPage('mocks')"><div class="ql-icon">📝</div><div class="ql-name">More Mocks</div><div class="ql-desc">All tests & PYQs</div></div>
     <div class="ql-item" onclick="goPage('rank')"><div class="ql-icon">🏆</div><div class="ql-name">Class Rank</div><div class="ql-desc">Live leaderboard</div></div>
     <div class="ql-item" onclick="openAddSubjModal()"><div class="ql-icon">➕</div><div class="ql-name">Add Subject</div><div class="ql-desc">Track more subjects</div></div>
     <div class="ql-item" onclick="openProfileModal()"><div class="ql-icon">🎯</div><div class="ql-name">Set Goals</div><div class="ql-desc">Target % per subject</div></div>
   </div>`;
 
-  // GOALS
   const goalSubjs=sv.map(sId=>SUBJECTS_MASTER.find(s=>s.id===sId)).filter(Boolean);
   if(goalSubjs.length>0){
     H+=`<div class="sec-hdr"><div class="sec-title">🎯 My CUET Goals</div><div class="sec-link" onclick="openProfileModal()">Edit Goals →</div></div>
@@ -785,7 +1019,6 @@ function renderHome(){
     H+=`</div>`;
   }
 
-  // HEATMAP
   H+=`<div class="sec-hdr"><div class="sec-title">📅 Study Activity — Last 6 Months</div></div>
   <div class="card card-p" style="margin-bottom:24px;">${buildHeatmap(allAtt)}
     <div style="display:flex;align-items:center;gap:6px;margin-top:12px;font-size:10px;color:var(--text3);">
@@ -795,11 +1028,9 @@ function renderHome(){
     </div>
   </div>`;
 
-  // PREDICTED
   H+=`<div class="sec-hdr"><div class="sec-title">🔮 Predicted CUET Score</div></div>`;
   H+=buildPredicted(sv);
 
-  // SUBJECTS
   H+=`<div class="sec-hdr" style="margin-top:24px;"><div class="sec-title">📚 Your Subjects</div><div class="sec-link" onclick="openAddSubjModal()">+ Add →</div></div>`;
   sv.forEach(sId=>{
     const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
@@ -810,7 +1041,7 @@ function renderHome(){
       <div style="width:44px;height:44px;background:${subj.color}18;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">${subj.icon}</div>
       <div style="flex:1;min-width:140px;">
         <div style="font-size:14px;font-weight:800;">${subj.name}</div>
-        <div style="font-size:11px;color:var(--text3);margin-top:2px;">${att.length}/${subj.chapters.length} chapters</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">${att.length}/${subj.chapters.length} chapters · <span style="color:var(--text3);font-weight:600;">${subj.group}</span></div>
       </div>
       <div style="width:120px;">
         <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px;"><span>Progress</span><span style="font-weight:700;color:${clr}">${pct.toFixed(1)}%</span></div>
@@ -821,7 +1052,6 @@ function renderHome(){
     </div>`;
   });
 
-  // TARGET
   H+=`<div class="sec-hdr" style="margin-top:24px;"><div class="sec-title">🎯 Target Score Planner</div></div>`;
   H+=buildTargetSetter(sv);
 
@@ -974,7 +1204,6 @@ function renderScoreboard(){
     <div class="stat-card"><div class="stat-icon" style="background:rgba(148,163,184,.1);">⏭️</div><div class="stat-val c-text3">${tSk}</div><div class="stat-lbl">Skipped</div></div>
   </div>`;
 
-  // Charts row
   H+=`<div class="grid-2" style="margin-bottom:20px;">
     <div class="card card-p">
       <div class="sec-hdr"><div class="sec-title">📊 Questions Breakdown</div></div>
@@ -994,7 +1223,6 @@ function renderScoreboard(){
     </div>
   </div>`;
 
-  // ── WEEKLY PERFORMANCE TREND CHART ──
   H+=`<div class="card card-p" style="margin-bottom:20px;">
     <div class="sec-hdr">
       <div class="sec-title">📈 Weekly Score Trend</div>
@@ -1006,7 +1234,6 @@ function renderScoreboard(){
     <div style="height:200px;"><canvas id="sc-trend"></canvas></div>
   </div>`;
 
-  // Subject progress
   H+=`<div class="card" style="margin-bottom:20px;overflow:hidden;">
     <div style="padding:18px 22px 10px;"><div class="sec-title">📈 Subject Progress</div></div>`;
   sv.forEach(sId=>{
@@ -1025,7 +1252,6 @@ function renderScoreboard(){
   });
   H+=`</div>`;
 
-  // Badges
   const badges=[];
   if(allAtt.length>=1)badges.push({icon:'🎯',name:'First Step',on:true});
   if(allAtt.some(d=>d.percentage>=100))badges.push({icon:'💯',name:'Perfect Score',on:true});
@@ -1061,8 +1287,6 @@ function getWeeklyData(filterSId){
   const allAtt=getAllAtt();
   const filtered=filterSId==='all'?allAtt:allAtt.filter(d=>d.subjectId===filterSId);
   if(!filtered.length)return{labels:[],datasets:[]};
-
-  // Last 10 weeks
   const weeks=[];
   const now=new Date();
   for(let i=9;i>=0;i--){
@@ -1072,7 +1296,6 @@ function getWeeklyData(filterSId){
     wEnd.setDate(wEnd.getDate()+6);
     weeks.push({start:wStart,end:wEnd,label:`W${10-i}`});
   }
-
   if(filterSId==='all'){
     const sv=getSS();
     const datasets=sv.map(sId=>{
@@ -1118,7 +1341,6 @@ function exportPDF(){
   const totalXP=calcTotalXP(allAtt);
   const streak=calcStreak(allAtt);
   const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-
   let rows='';
   sv.forEach(sId=>{
     const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
@@ -1128,7 +1350,6 @@ function exportPDF(){
       rows+=`<tr><td>${subj.icon} ${subj.name}</td><td>${ch.name}</td><td>${TL[ch.type]||ch.type}</td><td style="color:${clr};font-weight:700">${r.percentage.toFixed(1)}%</td><td>${r.score}/${r.maxScore}</td><td>${r.correct} ✓ ${r.incorrect} ✗</td><td>${new Date(r.date).toLocaleDateString('en-IN')}</td></tr>`;
     });
   });
-
   const subjRows=sv.map(sId=>{
     const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return'';
     const att=[];subj.chapters.forEach(ch=>{const r=lR(sId,ch.id);if(r)att.push(r);});
@@ -1136,47 +1357,14 @@ function exportPDF(){
     const clr=pct>=75?'#10b981':pct>=50?'#4f6ef7':pct>=35?'#f59e0b':'#f43f5e';
     return`<tr><td>${subj.icon} ${subj.name}</td><td>${att.length}/${subj.chapters.length}</td><td style="color:${clr};font-weight:700">${pct.toFixed(1)}%</td><td>${att.reduce((s,d)=>s+d.correct,0)}</td><td>${att.reduce((s,d)=>s+d.incorrect,0)}</td></tr>`;
   }).join('');
-
   const w=window.open('','_blank');
   w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Thunderstudy Progress Report</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Segoe UI',sans-serif;color:#1a1d2e;background:#fff;padding:32px;}
-    .header{background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;padding:28px 32px;border-radius:16px;margin-bottom:24px;}
-    .header h1{font-size:26px;margin-bottom:4px;}
-    .header p{opacity:.8;font-size:13px;}
-    .stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
-    .stat{background:#f7f8fd;border:1px solid #e8ecf4;border-radius:12px;padding:16px 20px;flex:1;min-width:120px;text-align:center;}
-    .stat .val{font-size:22px;font-weight:800;color:#4f6ef7;}
-    .stat .lbl{font-size:10px;color:#9298b5;text-transform:uppercase;letter-spacing:.5px;margin-top:3px;}
-    h2{font-size:14px;font-weight:800;margin:20px 0 10px;color:#1a1d2e;border-bottom:2px solid #e8ecf4;padding-bottom:6px;}
-    table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:20px;}
-    th{background:#4f6ef7;color:#fff;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
-    td{padding:8px 10px;border-bottom:1px solid #e8ecf4;}
-    tr:hover td{background:#f7f8fd;}
-    .print-btn{background:#4f6ef7;color:#fff;border:none;padding:10px 24px;border-radius:30px;cursor:pointer;font-size:13px;font-weight:700;margin-bottom:20px;}
-    @media print{.print-btn{display:none;}.header{-webkit-print-color-adjust:exact;print-color-adjust:exact;}th{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
-    .badge-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px;}
-    .badge{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(79,110,247,.1);color:#4f6ef7;border:1.5px solid rgba(79,110,247,.2);}
-  </style></head><body>
+  <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Segoe UI',sans-serif;color:#1a1d2e;background:#fff;padding:32px;}.header{background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;padding:28px 32px;border-radius:16px;margin-bottom:24px;}.header h1{font-size:26px;margin-bottom:4px;}.header p{opacity:.8;font-size:13px;}.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}.stat{background:#f7f8fd;border:1px solid #e8ecf4;border-radius:12px;padding:16px 20px;flex:1;min-width:120px;text-align:center;}.stat .val{font-size:22px;font-weight:800;color:#4f6ef7;}.stat .lbl{font-size:10px;color:#9298b5;text-transform:uppercase;letter-spacing:.5px;margin-top:3px;}h2{font-size:14px;font-weight:800;margin:20px 0 10px;color:#1a1d2e;border-bottom:2px solid #e8ecf4;padding-bottom:6px;}table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:20px;}th{background:#4f6ef7;color:#fff;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px;}td{padding:8px 10px;border-bottom:1px solid #e8ecf4;}tr:hover td{background:#f7f8fd;}.print-btn{background:#4f6ef7;color:#fff;border:none;padding:10px 24px;border-radius:30px;cursor:pointer;font-size:13px;font-weight:700;margin-bottom:20px;}@media print{.print-btn{display:none;}.header{-webkit-print-color-adjust:exact;print-color-adjust:exact;}th{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}</style></head><body>
   <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
-  <div class="header">
-    <h1>⚡ Thunderstudy Progress Report</h1>
-    <p>${prof.name||'Student'} &nbsp;·&nbsp; Generated on ${today} &nbsp;·&nbsp; ${rank.icon} ${rank.name} Rank</p>
-  </div>
-  <div class="stats">
-    <div class="stat"><div class="val">${allAtt.length}</div><div class="lbl">Tests Done</div></div>
-    <div class="stat"><div class="val">${op}%</div><div class="lbl">Overall %</div></div>
-    <div class="stat"><div class="val">${tS}/${tM}</div><div class="lbl">Score</div></div>
-    <div class="stat"><div class="val">${tC}</div><div class="lbl">Correct</div></div>
-    <div class="stat"><div class="val">${tW}</div><div class="lbl">Wrong</div></div>
-    <div class="stat"><div class="val">${totalXP} XP</div><div class="lbl">XP Earned</div></div>
-    <div class="stat"><div class="val">${streak}</div><div class="lbl">Day Streak</div></div>
-  </div>
-  <h2>📚 Subject Summary</h2>
-  <table><thead><tr><th>Subject</th><th>Done</th><th>Avg %</th><th>Correct</th><th>Wrong</th></tr></thead><tbody>${subjRows}</tbody></table>
-  <h2>📝 All Attempts</h2>
-  <table><thead><tr><th>Subject</th><th>Chapter</th><th>Type</th><th>Score %</th><th>Score</th><th>C/W</th><th>Date</th></tr></thead><tbody>${rows||'<tr><td colspan="7" style="text-align:center;color:#9298b5;padding:20px">No results yet</td></tr>'}</tbody></table>
+  <div class="header"><h1>⚡ Thunderstudy Progress Report</h1><p>${prof.name||'Student'} &nbsp;·&nbsp; Generated on ${today} &nbsp;·&nbsp; ${rank.icon} ${rank.name} Rank</p></div>
+  <div class="stats"><div class="stat"><div class="val">${allAtt.length}</div><div class="lbl">Tests Done</div></div><div class="stat"><div class="val">${op}%</div><div class="lbl">Overall %</div></div><div class="stat"><div class="val">${tS}/${tM}</div><div class="lbl">Score</div></div><div class="stat"><div class="val">${tC}</div><div class="lbl">Correct</div></div><div class="stat"><div class="val">${tW}</div><div class="lbl">Wrong</div></div><div class="stat"><div class="val">${totalXP} XP</div><div class="lbl">XP Earned</div></div><div class="stat"><div class="val">${streak}</div><div class="lbl">Day Streak</div></div></div>
+  <h2>📚 Subject Summary</h2><table><thead><tr><th>Subject</th><th>Done</th><th>Avg %</th><th>Correct</th><th>Wrong</th></tr></thead><tbody>${subjRows}</tbody></table>
+  <h2>📝 All Attempts</h2><table><thead><tr><th>Subject</th><th>Chapter</th><th>Type</th><th>Score %</th><th>Score</th><th>C/W</th><th>Date</th></tr></thead><tbody>${rows||'<tr><td colspan="7" style="text-align:center;color:#9298b5;padding:20px">No results yet</td></tr>'}</tbody></table>
   </body></html>`);
   w.document.close();
 }
@@ -1206,11 +1394,9 @@ function switchSubjTab(sId){
   renderSubjTab(sId);
 }
 
-/* ── CHECK CERTIFICATE ELIGIBILITY ── */
 function checkCertEligibility(sId){
   const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return null;
-  const mockTypes=['fullmock','pyq','special','andr','imgbased'];
-  const mocks=subj.chapters.filter(c=>mockTypes.includes(c.type));
+  const mocks=subj.chapters.filter(c=>MOCK_TYPES.includes(c.type));
   if(!mocks.length)return null;
   const attempted=mocks.filter(c=>lR(sId,c.id));
   if(attempted.length<mocks.length)return{eligible:false,done:attempted.length,total:mocks.length,avg:0};
@@ -1224,28 +1410,21 @@ function renderSubjTab(sId){
   destroyCharts();
   const att=[];subj.chapters.forEach(ch=>{const r=lR(sId,ch.id);if(r)att.push({...r,ci:ch});});
 
-  // ── CERTIFICATE CHECK ──
   const certInfo=checkCertEligibility(sId);
   let certH='';
   if(certInfo){
     if(certInfo.eligible){
       certH=`<div class="cert-unlock">
         <div class="cert-icon">🏅</div>
-        <div style="flex:1">
-          <div class="cert-title">🎉 Certificate Unlocked!</div>
-          <div class="cert-sub">You completed all ${certInfo.total} mocks with ${certInfo.avg.toFixed(1)}% avg — outstanding work!</div>
-        </div>
+        <div style="flex:1"><div class="cert-title">🎉 Certificate Unlocked!</div><div class="cert-sub">You completed all ${certInfo.total} mocks with ${certInfo.avg.toFixed(1)}% avg — outstanding!</div></div>
         <button class="btn btn-prim" onclick="openCertificate('${sId}')">🏅 View & Download</button>
       </div>`;
     } else if(certInfo.done>0){
       const remaining=certInfo.total-certInfo.done;
-      const neededAvg=certInfo.avg<90?`Avg: ${certInfo.avg.toFixed(1)}% (need 90%+)`:'';
       certH=`<div style="background:rgba(79,110,247,.05);border:1.5px dashed rgba(79,110,247,.2);border-radius:var(--r2);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
         <div style="font-size:28px">🔒</div>
-        <div>
-          <div style="font-size:13px;font-weight:700;">Certificate — ${remaining>0?`${remaining} more mocks needed`:`Score 90%+ avg to unlock`}</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px;">${certInfo.done}/${certInfo.total} mocks done · ${neededAvg}</div>
-        </div>
+        <div><div style="font-size:13px;font-weight:700;">Certificate — ${remaining>0?`${remaining} more mocks needed`:`Score 90%+ avg to unlock`}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">${certInfo.done}/${certInfo.total} mocks done · Avg: ${certInfo.avg.toFixed(1)}% (need 90%+)</div></div>
       </div>`;
     }
   }
@@ -1335,91 +1514,55 @@ function renderSubjTab(sId){
   },100);
 }
 
-/* ── CERTIFICATE DOWNLOAD ── */
+/* ── CERTIFICATE ── */
 function openCertificate(sId){
   const subj=SUBJECTS_MASTER.find(s=>s.id===sId);
   const prof=getProfile();
   const certInfo=checkCertEligibility(sId);
   if(!certInfo||!certInfo.eligible)return;
-
   const cvs=document.createElement('canvas');
   cvs.width=1100;cvs.height=750;
   const ctx=cvs.getContext('2d');
-
-  // Background
   const bg=ctx.createLinearGradient(0,0,1100,750);
   bg.addColorStop(0,'#f0f3fa');bg.addColorStop(1,'#e8ecf4');
   ctx.fillStyle=bg;ctx.fillRect(0,0,1100,750);
-
-  // Outer border
   ctx.strokeStyle='#4f6ef7';ctx.lineWidth=10;
   ctx.beginPath();ctx.roundRect(14,14,1072,722,20);ctx.stroke();
   ctx.strokeStyle='rgba(79,110,247,.3)';ctx.lineWidth=2;
   ctx.beginPath();ctx.roundRect(24,24,1052,702,16);ctx.stroke();
-
-  // Header strip
   const hGrad=ctx.createLinearGradient(0,0,1100,0);
   hGrad.addColorStop(0,'#4f6ef7');hGrad.addColorStop(1,'#7c3aed');
   ctx.fillStyle=hGrad;ctx.beginPath();ctx.roundRect(14,14,1072,110,20);ctx.fill();
-
-  // ⚡ Logo area
   ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='bold 38px sans-serif';ctx.textAlign='center';
   ctx.fillText('⚡ Thunder CBT — Certificate of Excellence',550,82);
-
-  // Gold star decorations
-  ['✦','✦','✦'].forEach((s,i)=>{
-    ctx.fillStyle='rgba(245,158,11,.4)';ctx.font='20px sans-serif';
-    ctx.fillText(s,80+i*30,82);ctx.fillText(s,1060-i*30,82);
-  });
-
-  // "This is to certify that"
-  ctx.fillStyle='#5a5f7a';ctx.font='18px sans-serif';
-  ctx.fillText('This is to certify that',550,185);
-
-  // Name
+  ctx.fillStyle='#5a5f7a';ctx.font='18px sans-serif';ctx.fillText('This is to certify that',550,185);
   const nameGrad=ctx.createLinearGradient(300,200,800,260);
   nameGrad.addColorStop(0,'#4f6ef7');nameGrad.addColorStop(1,'#7c3aed');
   ctx.fillStyle=nameGrad;ctx.font='bold 60px sans-serif';
   ctx.fillText(prof.name||'Student',550,255);
-
-  // Underline
   const nameW=ctx.measureText(prof.name||'Student').width;
   ctx.strokeStyle='rgba(79,110,247,.4)';ctx.lineWidth=2;
   ctx.beginPath();ctx.moveTo(550-nameW/2,268);ctx.lineTo(550+nameW/2,268);ctx.stroke();
-
-  // Body text
   ctx.fillStyle='#5a5f7a';ctx.font='20px sans-serif';
   ctx.fillText('has successfully completed all mock tests in',550,320);
   ctx.fillStyle='#1a1d2e';ctx.font='bold 34px sans-serif';
   ctx.fillText(`${subj.icon}  ${subj.name}`,550,375);
   ctx.fillStyle='#5a5f7a';ctx.font='20px sans-serif';
   ctx.fillText(`with an average score of`,550,420);
-
-  // Score badge
-  const scoreText=certInfo.avg.toFixed(1)+'%';
   ctx.fillStyle=certInfo.avg>=95?'#10b981':certInfo.avg>=90?'#4f6ef7':'#f59e0b';
   ctx.font='bold 48px monospace';
-  ctx.fillText(scoreText,550,475);
-
+  ctx.fillText(certInfo.avg.toFixed(1)+'%',550,475);
   ctx.fillStyle='#5a5f7a';ctx.font='18px sans-serif';
   ctx.fillText('demonstrating exceptional preparation and dedication.',550,515);
-
-  // Date
   ctx.fillStyle='#9298b5';ctx.font='15px sans-serif';
   ctx.fillText(`Issued on ${new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'})}`,550,590);
-
-  // Bottom decoration
   ctx.fillStyle='rgba(79,110,247,.08)';ctx.beginPath();ctx.arc(150,700,80,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='rgba(124,58,237,.06)';ctx.beginPath();ctx.arc(950,680,100,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='rgba(245,158,11,.12)';ctx.beginPath();ctx.arc(550,720,60,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='#f59e0b';ctx.font='22px sans-serif';ctx.fillText('🏅 Thunder CBT · CUET Preparation',550,660);
-
-  // Show in modal
   const preview=document.getElementById('cert-preview');
   const img=document.createElement('img');
   img.src=cvs.toDataURL();img.style.cssText='width:100%;border-radius:12px;border:1px solid var(--border);';
   preview.innerHTML='';preview.appendChild(img);
-
   document.getElementById('cert-dl-btn').onclick=()=>{
     const a=document.createElement('a');
     a.download=`${subj.name.replace(/\s/g,'_')}_Certificate.png`;
@@ -1481,39 +1624,63 @@ function buildChCard(d,sId){
   </div>`;
 }
 
-/* ════════════ MOCKS PAGE ════════════ */
+/* ════════════ MORE MOCKS PAGE — NOW SHOWS ALL TYPES ════════════ */
 function renderMocks(){
   const sv=getSS();
-  if(!sv.length){document.getElementById('mocks-content').innerHTML=`<div class="empty"><div class="empty-icon">📝</div><div class="empty-title">No Subjects Added</div><button class="btn btn-prim" style="margin-top:16px" onclick="openAddSubjModal()">+ Add Subject</button></div>`;return;}
+  if(!sv.length){
+    document.getElementById('mocks-content').innerHTML=`<div class="empty"><div class="empty-icon">📝</div><div class="empty-title">No Subjects Added</div><button class="btn btn-prim" style="margin-top:16px" onclick="openAddSubjModal()">+ Add Subject</button></div>`;
+    return;
+  }
   if(!currentMockSubj||!sv.includes(currentMockSubj))currentMockSubj=sv[0];
-  const mockTypes=['fullmock','pyq','special','andr','imgbased'];
+
   let H=`<div class="mock-subj-tabs">`;
   sv.forEach(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);if(!s)return;H+=`<div class="subj-tab ${sId===currentMockSubj?'active':''}" onclick="switchMockSubj('${sId}')">${s.icon} ${s.name}</div>`;});
   H+=`</div>`;
+
   const subj=SUBJECTS_MASTER.find(s=>s.id===currentMockSubj);
   if(subj){
-    const mocks=subj.chapters.filter(c=>mockTypes.includes(c.type));
-    const attempted=mocks.filter(c=>lR(currentMockSubj,c.id));
-    H+=`<div class="stat-grid" style="margin-bottom:20px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));">
-      <div class="stat-card"><div class="stat-icon bg-acc">📝</div><div class="stat-val c-acc">${mocks.length}</div><div class="stat-lbl">Total Mocks</div></div>
+    // Stats for ALL chapters
+    const allChapters=subj.chapters;
+    const attempted=allChapters.filter(c=>lR(currentMockSubj,c.id));
+    const chapWise=allChapters.filter(c=>c.type==='chapwise');
+    const mockOnly=allChapters.filter(c=>MOCK_TYPES.includes(c.type));
+    const mockAttempted=mockOnly.filter(c=>lR(currentMockSubj,c.id));
+    const chapAttempted=chapWise.filter(c=>lR(currentMockSubj,c.id));
+
+    H+=`<div class="stat-grid" style="margin-bottom:20px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));">
+      <div class="stat-card"><div class="stat-icon bg-acc">📚</div><div class="stat-val c-acc">${allChapters.length}</div><div class="stat-lbl">Total Tests</div></div>
       <div class="stat-card"><div class="stat-icon bg-green">✅</div><div class="stat-val c-green">${attempted.length}</div><div class="stat-lbl">Completed</div></div>
-      <div class="stat-card"><div class="stat-icon bg-yellow">⏳</div><div class="stat-val c-yellow">${mocks.length-attempted.length}</div><div class="stat-lbl">Remaining</div></div>
+      <div class="stat-card"><div class="stat-icon bg-yellow">⏳</div><div class="stat-val c-yellow">${allChapters.length-attempted.length}</div><div class="stat-lbl">Remaining</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:rgba(79,110,247,.1)">📖</div><div class="stat-val c-acc">${chapAttempted.length}/${chapWise.length}</div><div class="stat-lbl">Chapterwise</div></div>
+      <div class="stat-card"><div class="stat-icon bg-teal">🗂️</div><div class="stat-val" style="color:var(--teal)">${mockAttempted.length}/${mockOnly.length}</div><div class="stat-lbl">Mocks</div></div>
     </div>`;
-    mockTypes.forEach(type=>{
-      const typeMocks=mocks.filter(c=>c.type===type);if(!typeMocks.length)return;
-      H+=`<div class="sec-hdr"><div class="sec-title" style="color:${TX[type]}">${type==='fullmock'?'🗂️ Full Mocks':type==='pyq'?'📜 Previous Year Questions':type==='special'?'⭐ Special Mocks':type==='andr'?'🔤 A&R Tests':'🖼️ Image Based'}</div><div class="sec-link">${typeMocks.filter(c=>lR(currentMockSubj,c.id)).length}/${typeMocks.length} done</div></div>
-      <div class="mock-grid" style="margin-bottom:20px;">`;
-      typeMocks.forEach((ch,i)=>{
-        const r=lR(currentMockSubj,ch.id);const clr=r?rClr(r.percentage):'var(--text3)';
+
+    // Render each type in order
+    ALL_TYPES_ORDERED.forEach(type=>{
+      const typeTests=allChapters.filter(c=>c.type===type);
+      if(!typeTests.length)return;
+      const typeDone=typeTests.filter(c=>lR(currentMockSubj,c.id));
+      const bgColor=TC[type]||'rgba(79,110,247,.08)';
+      const txColor=TX[type]||'var(--acc)';
+
+      H+=`<div style="margin-bottom:24px;">
+        <div class="mock-type-hdr" style="background:${bgColor};color:${txColor};">
+          ${TYPE_LABELS[type]||type}
+          <span style="margin-left:auto;font-size:11px;background:rgba(0,0,0,.06);border-radius:20px;padding:2px 10px;">${typeDone.length}/${typeTests.length} done</span>
+        </div>
+        <div class="mock-grid">`;
+      typeTests.forEach((ch,i)=>{
+        const r=lR(currentMockSubj,ch.id);
+        const clr=r?rClr(r.percentage):'var(--text3)';
         H+=`<div class="mock-card ${r?'done':''}" onclick="window.open('${(SUBJECT_URLS[currentMockSubj]||'')+ch.id}.html','_blank')" style="cursor:pointer;">
           <div class="mock-num">${i+1}</div>
-          <div style="width:38px;height:38px;border-radius:10px;background:${TC[type]};display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">${subj.icon}</div>
+          <div style="width:38px;height:38px;border-radius:10px;background:${bgColor};display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">${TYPE_ICONS[type]||subj.icon}</div>
           <div class="mock-title">${ch.name}</div>
-          <div class="mock-subj" style="color:${TX[type]}">${TL[type]}</div>
+          <div class="mock-subj" style="color:${txColor}">${TL[type]}</div>
           ${r?`<div class="mock-score" style="color:${clr}">${r.percentage.toFixed(1)}%</div><div class="mock-date">${r.score}/${r.maxScore} · ${fd(r.date)}</div>`:'<div style="font-size:12px;color:var(--text3);">Not attempted yet</div>'}
         </div>`;
       });
-      H+=`</div>`;
+      H+=`</div></div>`;
     });
   }
   document.getElementById('mocks-content').innerHTML=H;
@@ -1528,11 +1695,9 @@ function renderRank(){
 
 async function fetchLb(){
   try{
-    // Use redirect:follow for GAS redirects, no-cors fallback handled below
     const res=await fetch(GS_URL+'?action=getAll',{method:'GET',redirect:'follow'});
     if(!res.ok)throw new Error('HTTP '+res.status);
     const text=await res.text();
-    // Strip XSSI prefix if present
     const clean=text.replace(/^\)\]\}'\s*/,'').trim();
     if(!clean||clean[0]!=='[')throw new Error('Invalid response format');
     const data=JSON.parse(clean);
@@ -1544,18 +1709,15 @@ async function fetchLb(){
       `<div class="card card-p" style="margin-bottom:20px;border:1.5px solid rgba(244,63,94,.2);">
         <div style="color:var(--red);font-size:13px;font-weight:600;">⚠️ Could not load leaderboard.</div>
         <div style="font-size:12px;color:var(--text3);margin-top:6px;">Error: ${escH(e.message)}</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:4px;">Check that the Google Apps Script is deployed as a Web App with access set to <strong>Anyone</strong>.</div>
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
           <button class="btn btn-ghost" onclick="refreshLb()">↺ Retry</button>
           <button class="btn btn-prim" onclick="testAndSyncToSheet()">🔗 Test & Sync to Sheet</button>
         </div>
-      </div>
-      ${renderDemoRank()}`;
+      </div>${renderDemoRank()}`;
   }
 }
 function refreshLb(){LB_DATA=null;renderRank();}
 
-/* ── SYNC ALL RESULTS TO SHEET ── */
 async function syncAllToSheet(){
   const sv=getSS(),prof=getProfile();
   const uname=prof.name||localStorage.getItem('cbtUserName')||'Student';
@@ -1574,7 +1736,7 @@ async function syncAllToSheet(){
       await fetch(GS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(d)});
       ok++;
     }catch(e){fail++;}
-    await new Promise(r=>setTimeout(r,120));// throttle
+    await new Promise(r=>setTimeout(r,120));
   }
   return{success:true,ok,fail,total:results.length};
 }
@@ -1608,7 +1770,7 @@ function renderDemoRank(){
 
 function renderLbView(data){
   if(!data||!Array.isArray(data)||!data.length){
-    document.getElementById('rank-inner').innerHTML=`<div class="card card-p" style="text-align:center;padding:40px;color:var(--text3);">No class data yet. Complete tests and sync to see the leaderboard!<br><br><button class="btn btn-prim" onclick="testAndSyncToSheet()">📤 Sync My Results</button></div>`;
+    document.getElementById('rank-inner').innerHTML=`<div class="card card-p" style="text-align:center;padding:40px;color:var(--text3);">No class data yet.<br><br><button class="btn btn-prim" onclick="testAndSyncToSheet()">📤 Sync My Results</button></div>`;
     return;
   }
   const rows=data.map(r=>({
@@ -1617,10 +1779,9 @@ function renderLbView(data){
     percentage:parseFloat(r[6])||0,timestamp:r[0]||'',date:r[12]||r[0]||''
   })).filter(r=>r.name&&r.name!=='Name'&&r.name!=='TEST');
 
-  if(!rows.length){document.getElementById('rank-inner').innerHTML=`<div class="card card-p" style="text-align:center;padding:40px;color:var(--text3);">No valid data found in sheet.</div>`;return;}
+  if(!rows.length){document.getElementById('rank-inner').innerHTML=`<div class="card card-p" style="text-align:center;padding:40px;color:var(--text3);">No valid data found.</div>`;return;}
 
   const top=[...rows].sort((a,b)=>b.percentage-a.percentage).slice(0,3);
-  const totalTests=rows.length;
   const students=[...new Set(rows.map(r=>r.name))].length;
   const avgPct=rows.length?(rows.reduce((s,r)=>s+r.percentage,0)/rows.length).toFixed(1):0;
   const byStu={};
@@ -1633,7 +1794,7 @@ function renderLbView(data){
     <button class="btn btn-prim" onclick="testAndSyncToSheet()">📤 Sync My Results</button>
   </div>
   <div class="stat-grid" style="margin-bottom:20px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));">
-    <div class="stat-card"><div class="stat-icon bg-acc">📝</div><div class="stat-val c-acc">${totalTests}</div><div class="stat-lbl">Total Tests</div></div>
+    <div class="stat-card"><div class="stat-icon bg-acc">📝</div><div class="stat-val c-acc">${rows.length}</div><div class="stat-lbl">Total Tests</div></div>
     <div class="stat-card"><div class="stat-icon bg-teal">👥</div><div class="stat-val" style="color:var(--teal)">${students}</div><div class="stat-lbl">Students</div></div>
     <div class="stat-card"><div class="stat-icon bg-yellow">📊</div><div class="stat-val c-yellow">${avgPct}%</div><div class="stat-lbl">Class Avg</div></div>
     <div class="stat-card"><div class="stat-icon bg-green">🏆</div><div class="stat-val c-green">${top[0]?.percentage.toFixed(1)||0}%</div><div class="stat-lbl">Top Score</div></div>
@@ -1696,6 +1857,14 @@ function renderSettings(){
   const sv=getSS();
   const allAtt=getAllAtt();
   const pendingSync=allAtt.length;
+
+  // Group subjects for display
+  const groups={};
+  SUBJECTS_MASTER.forEach(s=>{
+    if(!groups[s.group])groups[s.group]=[];
+    groups[s.group].push(s);
+  });
+
   let H=`
   <div class="card card-p" style="margin-bottom:16px;">
     <div class="sec-hdr"><div class="sec-title">🔗 Google Sheet Connection</div></div>
@@ -1731,7 +1900,7 @@ function testConnSettings(){
   const el=document.getElementById('conn-status');
   el.innerHTML=`<span style="color:var(--yellow)">⏳ Testing connection…</span>`;
   fetch(GS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({name:'TEST',subject:'test',chapter:'test',score:0,maxScore:100,percentage:0,correct:0,wrong:0,skipped:0,timeTaken:0,accuracy:0,date:new Date().toISOString()})})
-  .then(()=>{el.innerHTML=`<span style="color:var(--green)">✅ POST sent! (no-cors mode — check your sheet to confirm data arrived)</span>`;})
+  .then(()=>{el.innerHTML=`<span style="color:var(--green)">✅ POST sent! (no-cors mode — check your sheet to confirm)</span>`;})
   .catch(e=>{el.innerHTML=`<span style="color:var(--red)">❌ ${escH(e.message)}</span>`;});
 }
 
@@ -1741,7 +1910,7 @@ async function syncFromSettings(btn){
   btn.disabled=false;
   if(r.success){
     btn.textContent=`✅ ${r.ok}/${r.total} synced`;
-    document.getElementById('conn-status').innerHTML=`<span style="color:var(--green)">✅ Synced ${r.ok}/${r.total} results to sheet. ${r.fail>0?`(${r.fail} failed)`:''}</span>`;
+    document.getElementById('conn-status').innerHTML=`<span style="color:var(--green)">✅ Synced ${r.ok}/${r.total} results. ${r.fail>0?`(${r.fail} failed)`:''}</span>`;
     setTimeout(()=>btn.textContent=`📤 Sync ${r.total} Results`,3000);
   } else {
     btn.textContent='❌ Sync failed';
@@ -1780,18 +1949,29 @@ function saveProfile(){
   closeModal('profile-modal');renderHome();
 }
 
-/* ════════════ ADD SUBJECT MODAL ════════════ */
+/* ════════════ ADD SUBJECT MODAL — WITH GROUPS ════════════ */
 function openAddSubjModal(){
   const sv=getSS();
-  document.getElementById('add-subj-list').innerHTML=SUBJECTS_MASTER.map(s=>{
-    const added=sv.includes(s.id);
-    return`<div class="subj-opt ${added?'added':''}" onclick="${added?'':'addSubj(\''+s.id+'\')'}">
-      <div class="subj-opt-l"><div style="font-size:22px">${s.icon}</div>
-        <div><div class="subj-opt-name">${s.name}</div><div style="font-size:10px;color:var(--text3);margin-top:1px;">${s.chapters.length} chapters</div></div>
-      </div>
-      <div style="font-size:11px;font-weight:700;color:${added?'var(--text3)':'var(--acc)'}">${added?'Added ✓':'+ Add'}</div>
-    </div>`;
-  }).join('');
+  // Group subjects
+  const groups={};
+  SUBJECTS_MASTER.forEach(s=>{
+    if(!groups[s.group])groups[s.group]=[];
+    groups[s.group].push(s);
+  });
+  let html='';
+  Object.entries(groups).forEach(([grpName,subjs])=>{
+    html+=`<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin:14px 0 8px 4px;">${grpName}</div>`;
+    subjs.forEach(s=>{
+      const added=sv.includes(s.id);
+      html+=`<div class="subj-opt ${added?'added':''}" onclick="${added?'':'addSubj(\''+s.id+'\')'}">
+        <div class="subj-opt-l"><div style="font-size:22px">${s.icon}</div>
+          <div><div class="subj-opt-name">${s.name}</div><div style="font-size:10px;color:var(--text3);margin-top:1px;">${s.chapters.length} chapters · ${s.group}</div></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:${added?'var(--text3)':'var(--acc)'}">${added?'Added ✓':'+ Add'}</div>
+      </div>`;
+    });
+  });
+  document.getElementById('add-subj-list').innerHTML=html;
   openModal('add-subj-modal');
 }
 function addSubj(id){
