@@ -1946,21 +1946,6 @@ async function testAndSyncToSheet(){
   }
 }
 
-function renderDemoRank(){
-  return`<div class="card card-p">
-    <div style="font-size:11px;color:var(--text3);text-align:center;padding:10px 0 0;">Demo data — connect Google Sheet for live data</div>
-    <div class="podium">
-      ${[{n:'Anjali',s:92,c:'#f59e0b'},{n:'Rahul',s:87,c:'#94a3b8'},{n:'Priya',s:83,c:'#cd7f32'}].map((p,i)=>`
-      <div class="podium-item">
-        ${i===0?`<div class="podium-av p1" style="background:linear-gradient(135deg,#f59e0b,#d97706);margin:0 auto 6px;position:relative;"><span class="podium-crown">👑</span>${p.n[0]}</div>`:`<div class="podium-av" style="background:linear-gradient(135deg,${p.c},${p.c}aa);margin:0 auto 6px;">${p.n[0]}</div>`}
-        <div class="podium-name">${p.n}</div>
-        <div class="podium-score" style="color:${p.c}">${p.s}%</div>
-        <div class="podium-block p${i+1}">${i===0?'🥇':i===1?'🥈':'🥉'}</div>
-      </div>`).join('')}
-    </div>
-  </div>`;
-}
-
 function renderLbView(data){
   if(!data||!Array.isArray(data)||!data.length){
     document.getElementById('rank-inner').innerHTML=`<div class="card card-p" style="text-align:center;padding:40px;color:var(--text3);">No class data yet.<br><br><button class="btn btn-prim" onclick="testAndSyncToSheet()">📤 Sync My Results</button></div>`;
