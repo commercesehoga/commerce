@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -276,6 +277,94 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 .spin{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* ═══ MOBILE BOTTOM DOCK ═══ */
+.mobile-dock{display:none;}
+
+@media(max-width:768px){
+  /* Hide desktop sidebar */
+  .sidebar{display:none;}
+
+  /* Main takes full width, add bottom padding for dock */
+  body{flex-direction:column;}
+  .main{height:100dvh;padding-bottom:72px;}
+  .page{padding:20px 16px;}
+
+  /* Dock container */
+  .mobile-dock{
+    display:flex;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    height:68px;
+    background:var(--sidebar);
+    border-top:1px solid var(--border);
+    z-index:100;
+    padding:0 4px env(safe-area-inset-bottom,0);
+    box-shadow:0 -4px 24px rgba(79,110,247,.10);
+    align-items:stretch;
+    /* Slide-up entrance animation */
+    animation:dockSlideUp .45s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes dockSlideUp{
+    from{transform:translateY(100%);opacity:0;}
+    to{transform:translateY(0);opacity:1;}
+  }
+
+  /* Each dock item */
+  .dock-item{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    cursor:pointer;
+    border-radius:16px;
+    margin:6px 2px;
+    transition:transform .25s cubic-bezier(.34,1.56,.64,1), background .18s;
+    position:relative;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .dock-item:active{transform:scale(.88) translateY(0);}
+  .dock-item.active{
+    background:linear-gradient(135deg,rgba(79,110,247,.12),rgba(124,58,237,.08));
+    transform:translateY(-10px) scale(1.08);
+    margin-bottom:-4px;
+  }
+
+  /* Active pill indicator */
+  .dock-item.active::after{
+    content:'';
+    position:absolute;
+    bottom:-8px;
+    left:50%;
+    transform:translateX(-50%);
+    width:20px;height:3px;
+    border-radius:2px;
+    background:linear-gradient(90deg,#4f6ef7,#7c3aed);
+    box-shadow:0 1px 6px rgba(79,110,247,.4);
+  }
+
+  .dock-icon{
+    font-size:22px;
+    line-height:1;
+    transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  .dock-item.active .dock-icon{
+    transform:scale(1.15);
+    filter:drop-shadow(0 2px 6px rgba(79,110,247,.4));
+  }
+
+  .dock-label{
+    font-size:9px;
+    font-weight:700;
+    color:var(--text3);
+    letter-spacing:.3px;
+    line-height:1;
+    transition:color .18s;
+  }
+  .dock-item.active .dock-label{color:var(--acc);font-weight:800;}
+}
+
 /* EMPTY */
 .empty{text-align:center;padding:60px 20px;}
 .empty-icon{font-size:52px;margin-bottom:14px;}
@@ -341,8 +430,50 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 .welcome-step-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .welcome-step-text{font-size:13px;font-weight:600;color:var(--text);line-height:1.5;}
 .welcome-step-text span{color:var(--text3);font-weight:400;display:block;font-size:11px;margin-top:2px;}
+/* ═══ ONBOARDING ═══ */
+.ob-overlay{display:none;position:fixed;inset:0;background:linear-gradient(135deg,rgba(79,110,247,.12),rgba(124,58,237,.08));backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:16px;}
+.ob-overlay.open{display:flex;}
+.ob-box{background:var(--card);border-radius:28px;padding:36px 32px;max-width:520px;width:100%;border:1px solid var(--border);box-shadow:0 24px 80px rgba(79,110,247,.18);animation:mIn .4s cubic-bezier(.34,1.56,.64,1) both;max-height:92vh;overflow-y:auto;}
+.ob-step{display:none;}.ob-step.active{display:block;}
+.ob-progress{display:flex;gap:6px;margin-bottom:28px;}
+.ob-prog-dot{flex:1;height:4px;border-radius:4px;background:var(--border);transition:background .4s;}
+.ob-prog-dot.done{background:linear-gradient(90deg,#4f6ef7,#7c3aed);}
+.ob-icon{font-size:44px;text-align:center;margin-bottom:16px;}
+.ob-title{font-size:22px;font-weight:900;text-align:center;letter-spacing:-.4px;margin-bottom:8px;}
+.ob-sub{font-size:13px;color:var(--text3);text-align:center;line-height:1.6;margin-bottom:24px;}
+.ob-subj-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:300px;overflow-y:auto;margin-bottom:20px;}
+.ob-subj-card{background:var(--card2);border:1.5px solid var(--border);border-radius:14px;padding:12px;cursor:pointer;transition:all .18s;text-align:center;}
+.ob-subj-card:hover{border-color:var(--acc);}
+.ob-subj-card.sel{background:linear-gradient(135deg,rgba(79,110,247,.1),rgba(124,58,237,.06));border-color:var(--acc);}
+.ob-subj-card.sel .ob-subj-check{opacity:1;transform:scale(1);}
+.ob-subj-icon{font-size:26px;margin-bottom:4px;}
+.ob-subj-name{font-size:11px;font-weight:700;line-height:1.3;}
+.ob-subj-marks{font-size:9px;color:var(--text3);margin-top:2px;font-family:var(--mono);}
+.ob-subj-check{width:18px;height:18px;border-radius:50%;background:var(--acc);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;margin:4px auto 0;opacity:0;transform:scale(.5);transition:all .2s cubic-bezier(.34,1.56,.64,1);}
+.ob-marks-total{background:linear-gradient(135deg,rgba(79,110,247,.08),rgba(124,58,237,.05));border:1.5px solid rgba(79,110,247,.2);border-radius:16px;padding:16px 20px;margin-bottom:20px;text-align:center;}
+.ob-marks-num{font-size:38px;font-weight:900;font-family:var(--mono);color:var(--acc);}
+.ob-marks-denom{font-size:16px;color:var(--text3);font-family:var(--mono);}
+.ob-preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:20px;}
+.ob-preset{background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .18s;}
+.ob-preset:hover{border-color:var(--acc);}
+.ob-preset.sel{background:rgba(79,110,247,.08);border-color:var(--acc);}
+.ob-preset-val{font-size:16px;font-weight:900;font-family:var(--mono);color:var(--acc);}
+.ob-preset-lbl{font-size:9px;color:var(--text3);margin-top:2px;font-weight:700;}
+.ob-slider-wrap{margin-bottom:20px;}
+.ob-slider{width:100%;accent-color:var(--acc);height:6px;margin:8px 0;}
+.ob-slider-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);font-family:var(--mono);}
+.ob-btn{width:100%;padding:14px;border-radius:16px;font-size:14px;font-weight:800;border:none;cursor:pointer;font-family:var(--fn);transition:all .18s;}
+.ob-btn-prim{background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;box-shadow:0 6px 20px rgba(79,110,247,.3);}
+.ob-btn-prim:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(79,110,247,.4);}
+.ob-btn-prim:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.ob-btn-ghost{background:var(--card2);color:var(--text2);border:1.5px solid var(--border);margin-bottom:10px;}
+/* CUET improvement card */
+.cuet-target-card{background:linear-gradient(135deg,rgba(79,110,247,.07),rgba(124,58,237,.04));border:1.5px solid rgba(79,110,247,.2);border-radius:var(--r2);padding:22px 24px;margin-bottom:20px;}
+.cuet-gap-bar{height:12px;background:var(--border);border-radius:10px;overflow:hidden;margin:12px 0;}
+.cuet-gap-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#4f6ef7,#7c3aed);transition:width 1.2s cubic-bezier(.34,1.56,.64,1);}
+.cuet-subj-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card2);border-radius:12px;margin-bottom:8px;}
+.cuet-need{font-size:11px;font-weight:800;font-family:var(--mono);min-width:80px;text-align:right;}
 </style>
-</head>
 <body>
 
 <!-- SIDEBAR -->
@@ -427,6 +558,64 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
   </div>
 </div>
 
+<!-- ONBOARDING OVERLAY -->
+<div class="ob-overlay" id="ob-overlay">
+  <div class="ob-box">
+    <div class="ob-progress">
+      <div class="ob-prog-dot done" id="ob-dot-1"></div>
+      <div class="ob-prog-dot" id="ob-dot-2"></div>
+      <div class="ob-prog-dot" id="ob-dot-3"></div>
+    </div>
+
+    <!-- STEP 1: Name & College -->
+    <div class="ob-step active" id="ob-step-1">
+      <div class="ob-icon">⚡</div>
+      <div class="ob-title">Welcome to Thunderstudy!</div>
+      <div class="ob-sub">Let's set up your CUET preparation dashboard in 3 quick steps.</div>
+      <div class="form-row"><div class="form-lbl">Your Name</div><input class="form-inp" id="ob-name" placeholder="Enter your full name" oninput="obValidate1()"></div>
+      <div class="form-row"><div class="form-lbl">Target College</div><input class="form-inp" id="ob-college" placeholder="e.g. Delhi University, Christ, Jamia..." oninput="obValidate1()"></div>
+      <div class="form-row"><div class="form-lbl">Class / Batch</div><input class="form-inp" id="ob-class" placeholder="e.g. Class 12, 2025–26"></div>
+      <button class="ob-btn ob-btn-prim" id="ob-next-1" onclick="obNext(2)" disabled>Continue →</button>
+    </div>
+
+    <!-- STEP 2: Subject Selection -->
+    <div class="ob-step" id="ob-step-2">
+      <div class="ob-icon">📚</div>
+      <div class="ob-title">Pick Your Subjects</div>
+      <div class="ob-sub">Each subject = <strong>250 marks</strong> in CUET. Select all subjects you're appearing for.</div>
+      <div class="ob-subj-grid" id="ob-subj-grid"></div>
+      <div id="ob-marks-preview" style="display:none;" class="ob-marks-total">
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Your CUET Total</div>
+        <div><span class="ob-marks-num" id="ob-marks-num">0</span><span class="ob-marks-denom">&thinsp;marks possible</span></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;" id="ob-subj-count-label">0 subjects selected</div>
+      </div>
+      <button class="ob-btn ob-btn-prim" id="ob-next-2" onclick="obNext(3)" disabled>Set My Target →</button>
+    </div>
+
+    <!-- STEP 3: CUET Target -->
+    <div class="ob-step" id="ob-step-3">
+      <div class="ob-icon">🎯</div>
+      <div class="ob-title">Set Your CUET Target</div>
+      <div class="ob-sub" id="ob-target-sub">How many marks do you want to score in CUET?</div>
+      <div class="ob-marks-total" style="margin-bottom:16px;">
+        <div style="font-size:10px;font-weight:700;color:var(--text3);margin-bottom:6px;">CUET TOTAL MARKS</div>
+        <div><span class="ob-marks-num" id="ob-total-disp">1000</span><span class="ob-marks-denom" id="ob-total-denom"> / 1000</span></div>
+      </div>
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:10px;">⚡ Quick Presets</div>
+      <div class="ob-preset-grid" id="ob-preset-grid"></div>
+      <div class="ob-slider-wrap">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div style="font-size:13px;font-weight:700;">Or set manually</div>
+          <div style="font-size:18px;font-weight:900;font-family:var(--mono);color:var(--acc);" id="ob-slider-val">850</div>
+        </div>
+        <input type="range" class="ob-slider" id="ob-target-slider" min="0" max="1000" step="25" value="850" oninput="obSliderChange(this.value)">
+        <div class="ob-slider-labels"><span id="ob-slider-min">0</span><span id="ob-slider-max">1000</span></div>
+      </div>
+      <button class="ob-btn ob-btn-prim" onclick="obFinish()">🚀 Start My Journey!</button>
+    </div>
+  </div>
+</div>
+
 <!-- ADD SUBJECT MODAL -->
 <div class="modal-ov" id="add-subj-modal">
   <div class="modal-box">
@@ -459,7 +648,43 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
   </div>
 </div>
 
+<!-- CUET TARGET EDIT MODAL -->
+<div class="modal-ov" id="ct-modal">
+  <div class="modal-box">
+    <div class="modal-title"><span>🎯 Change CUET Target</span><span class="modal-close" onclick="closeModal('ct-modal')">×</span></div>
+    <div id="ct-modal-body"></div>
+  </div>
+</div>
+
 <div class="tooltip" id="tooltip"></div>
+
+<!-- MOBILE BOTTOM DOCK -->
+<nav class="mobile-dock" id="mobile-dock">
+  <div class="dock-item active" id="dock-home" onclick="goPage('home')">
+    <span class="dock-icon">🏠</span>
+    <span class="dock-label">Home</span>
+  </div>
+  <div class="dock-item" id="dock-scoreboard" onclick="goPage('scoreboard')">
+    <span class="dock-icon">📊</span>
+    <span class="dock-label">Scores</span>
+  </div>
+  <div class="dock-item" id="dock-subjects" onclick="goPage('subjects')">
+    <span class="dock-icon">📚</span>
+    <span class="dock-label">Subjects</span>
+  </div>
+  <div class="dock-item" id="dock-mocks" onclick="goPage('mocks')">
+    <span class="dock-icon">📝</span>
+    <span class="dock-label">Mocks</span>
+  </div>
+  <div class="dock-item" id="dock-rank" onclick="goPage('rank')">
+    <span class="dock-icon">🏆</span>
+    <span class="dock-label">Rank</span>
+  </div>
+  <div class="dock-item" id="dock-settings" onclick="goPage('settings')">
+    <span class="dock-icon">⚙️</span>
+    <span class="dock-label">Settings</span>
+  </div>
+</nav>
 
 <script>
 /* ════════════ CONFIG ════════════ */
@@ -986,6 +1211,10 @@ function goPage(id){
   document.querySelectorAll('.nav-item').forEach(n=>{
     if(n.getAttribute('onclick')===`goPage('${id}')`)n.classList.add('active');
   });
+  // Sync mobile dock active state
+  document.querySelectorAll('.dock-item').forEach(d=>d.classList.remove('active'));
+  const dockEl=document.getElementById('dock-'+id);
+  if(dockEl)dockEl.classList.add('active');
   destroyCharts();
   if(id==='home')renderHome();
   else if(id==='scoreboard')renderScoreboard();
@@ -1412,6 +1641,9 @@ function renderScoreboard(){
   </div>`;
 
   document.getElementById('scoreboard-content').innerHTML=H;
+  // Inject CUET target card at the top
+  const sbc=document.getElementById('scoreboard-content');
+  if(sv.length)renderCuetTargetCard(sbc,allAtt,sv);
   setTimeout(()=>{
     const subjs=sv.map(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);if(!s)return null;const att=[];s.chapters.forEach(ch=>{const r=lR(sId,ch.id);if(r)att.push(r);});return{name:s.name,pct:att.length>0?att.reduce((a,d)=>a+d.percentage,0)/att.length:0,color:s.color};}).filter(Boolean);
     const d=document.getElementById('sc-donut');
@@ -2158,8 +2390,251 @@ document.querySelectorAll('.modal-ov').forEach(el=>el.addEventListener('click',e
 function showTip(e,text){const t=document.getElementById('tooltip');t.textContent=text;t.style.display='block';t.style.left=(e.clientX+10)+'px';t.style.top=(e.clientY-30)+'px';}
 function hideTip(){document.getElementById('tooltip').style.display='none';}
 
+/* ════════════ ONBOARDING ════════════ */
+let _obSelSubjs=[];
+let _obTargetMarks=850;
+
+function shouldShowOnboarding(){
+  return !localStorage.getItem('ts_ob_done')&&!getSS().length;
+}
+
+function startOnboarding(){
+  _obSelSubjs=[];_obTargetMarks=850;
+  const grid=document.getElementById('ob-subj-grid');
+  let html='';
+  SUBJECTS_MASTER.forEach(s=>{
+    html+=`<div class="ob-subj-card" id="ob-sc-${s.id}" onclick="obToggleSubj('${s.id}')">
+      <div class="ob-subj-icon">${s.icon}</div>
+      <div class="ob-subj-name">${s.name}</div>
+      <div class="ob-subj-marks">250 marks</div>
+      <div class="ob-subj-check">✓</div>
+    </div>`;
+  });
+  grid.innerHTML=html;
+  document.getElementById('ob-overlay').classList.add('open');
+  obValidate1();obUpdateProgress(1);
+}
+
+function obValidate1(){
+  const ok=document.getElementById('ob-name').value.trim().length>=2;
+  document.getElementById('ob-next-1').disabled=!ok;
+}
+
+function obToggleSubj(id){
+  const idx=_obSelSubjs.indexOf(id);
+  if(idx>-1)_obSelSubjs.splice(idx,1); else _obSelSubjs.push(id);
+  document.querySelectorAll('.ob-subj-card').forEach(c=>c.classList.remove('sel'));
+  _obSelSubjs.forEach(sid=>{const el=document.getElementById('ob-sc-'+sid);if(el)el.classList.add('sel');});
+  const total=_obSelSubjs.length*250;
+  const preview=document.getElementById('ob-marks-preview');
+  if(_obSelSubjs.length>0){
+    preview.style.display='block';
+    document.getElementById('ob-marks-num').textContent=total;
+    document.getElementById('ob-subj-count-label').textContent=`${_obSelSubjs.length} subject${_obSelSubjs.length>1?'s':''} selected · ${total} marks total`;
+  } else { preview.style.display='none'; }
+  document.getElementById('ob-next-2').disabled=_obSelSubjs.length===0;
+}
+
+function obNext(step){
+  if(step===3){
+    const total=_obSelSubjs.length*250;
+    const presets=obGetPresets(total);
+    let html='';
+    presets.forEach(p=>{
+      html+=`<div class="ob-preset" id="ob-preset-${p.val}" onclick="obSelectPreset(${p.val},${total})">
+        <div class="ob-preset-val">${p.val}</div><div class="ob-preset-lbl">${p.label}</div>
+      </div>`;
+    });
+    document.getElementById('ob-preset-grid').innerHTML=html;
+    const defTarget=presets[1]?.val||Math.round(total*0.85/25)*25;
+    _obTargetMarks=defTarget;
+    document.getElementById('ob-total-disp').textContent=defTarget;
+    document.getElementById('ob-total-denom').textContent=` / ${total}`;
+    document.getElementById('ob-target-sub').textContent=`You have ${_obSelSubjs.length} subject${_obSelSubjs.length>1?'s':''} → ${total} total CUET marks. What's your target?`;
+    const slider=document.getElementById('ob-target-slider');
+    slider.max=total;slider.min=0;slider.step=25;slider.value=defTarget;
+    document.getElementById('ob-slider-val').textContent=defTarget;
+    document.getElementById('ob-slider-min').textContent='0';
+    document.getElementById('ob-slider-max').textContent=total;
+    obSelectPreset(defTarget,total);
+  }
+  document.querySelectorAll('.ob-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('ob-step-'+step).classList.add('active');
+  obUpdateProgress(step);
+}
+
+function obGetPresets(total){
+  return[
+    {val:Math.round(total*0.95/25)*25,label:'🔥 Dream Score'},
+    {val:Math.round(total*0.85/25)*25,label:'💪 Ambitious'},
+    {val:Math.round(total*0.75/25)*25,label:'👍 Comfortable'},
+    {val:Math.round(total*0.65/25)*25,label:'📚 Starter'}
+  ].filter(p=>p.val>0&&p.val<=total);
+}
+
+function obSelectPreset(val,total){
+  _obTargetMarks=val;
+  document.getElementById('ob-total-disp').textContent=val;
+  document.getElementById('ob-target-slider').value=val;
+  document.getElementById('ob-slider-val').textContent=val;
+  document.querySelectorAll('.ob-preset').forEach(el=>el.classList.remove('sel'));
+  const el=document.getElementById('ob-preset-'+val);if(el)el.classList.add('sel');
+}
+
+function obSliderChange(val){
+  val=parseInt(val);_obTargetMarks=val;
+  document.getElementById('ob-total-disp').textContent=val;
+  document.getElementById('ob-slider-val').textContent=val;
+  document.querySelectorAll('.ob-preset').forEach(el=>el.classList.remove('sel'));
+  const total=_obSelSubjs.length*250;
+  obGetPresets(total).forEach(p=>{if(p.val===val){const el=document.getElementById('ob-preset-'+p.val);if(el)el.classList.add('sel');}});
+}
+
+function obUpdateProgress(step){
+  [1,2,3].forEach(i=>{const d=document.getElementById('ob-dot-'+i);if(d)d.classList.toggle('done',i<=step);});
+}
+
+function obFinish(){
+  const name=document.getElementById('ob-name').value.trim();
+  const college=document.getElementById('ob-college').value.trim();
+  const cls=document.getElementById('ob-class').value.trim();
+  const total=_obSelSubjs.length*250;
+  const p={name,college,class:cls,goals:{},cuetTarget:{totalMarks:total,targetMarks:_obTargetMarks,subjectCount:_obSelSubjs.length}};
+  localStorage.setItem('ts_profile',JSON.stringify(p));
+  if(name)localStorage.setItem('cbtUserName',name);
+  saveSS(_obSelSubjs);
+  localStorage.setItem('ts_ob_done','1');
+  document.getElementById('ob-overlay').classList.remove('open');
+  renderHome();
+}
+
+/* ════════════ CUET TARGET HELPERS ════════════ */
+function getCuetTarget(){
+  const p=getProfile();
+  if(p.cuetTarget)return p.cuetTarget;
+  const sv=getSS();
+  return{totalMarks:sv.length*250,targetMarks:Math.round(sv.length*250*0.85/25)*25,subjectCount:sv.length};
+}
+function saveCuetTarget(ct){
+  const p=getProfile();p.cuetTarget=ct;
+  localStorage.setItem('ts_profile',JSON.stringify(p));
+}
+function renderCuetTargetCard(containerEl,allAtt,sv){
+  const ct=getCuetTarget();
+  const total=ct.totalMarks||sv.length*250;
+  const target=ct.targetMarks||Math.round(total*0.85/25)*25;
+  let projected=0;const subjRows=[];
+  sv.forEach(sId=>{
+    const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
+    const att=[];subj.chapters.forEach(ch=>{const r=lR(sId,ch.id);if(r)att.push(r);});
+    const avgPct=att.length>0?att.reduce((s,d)=>s+d.percentage,0)/att.length:0;
+    const projMarks=Math.round(avgPct/100*250);
+    const targetPerSubj=Math.round(target/sv.length/25)*25;
+    const gap=Math.max(0,targetPerSubj-projMarks);
+    projected+=projMarks;
+    subjRows.push({subj,avgPct,projMarks,targetPerSubj,gap,att:att.length});
+  });
+  const gap=Math.max(0,target-projected);
+  const fillPct=Math.min(100,projected/total*100);
+  const targetPct=Math.min(100,target/total*100);
+  const statusColor=projected>=target?'var(--green)':gap<=total*0.1?'var(--yellow)':'var(--red)';
+  const statusMsg=projected>=target?'🎉 You\'re on track! Keep it up!':gap<=50?`⚡ Almost there! Just ${gap} marks to go.`:`📈 Need ${gap} more marks to hit your target.`;
+  let html=`<div class="cuet-target-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+      <div>
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);">🎯 CUET Target Tracker</div>
+        <div style="font-size:21px;font-weight:900;margin-top:4px;font-family:var(--mono);line-height:1.2;">
+          <span style="color:${statusColor}">${projected}</span>
+          <span style="font-size:12px;color:var(--text3);"> projected / </span>
+          <span style="color:var(--acc)">${target}</span>
+          <span style="font-size:12px;color:var(--text3);"> target / </span>
+          <span style="color:var(--text3)">${total}</span>
+          <span style="font-size:11px;color:var(--text3);font-weight:500;"> max</span>
+        </div>
+        <div style="font-size:12px;margin-top:6px;font-weight:700;color:${statusColor}">${statusMsg}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:9px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Gap to close</div>
+        <div style="font-size:30px;font-weight:900;font-family:var(--mono);color:${statusColor}">${gap}</div>
+        <div style="font-size:9px;color:var(--text3);">marks</div>
+      </div>
+    </div>
+    <div style="position:relative;height:14px;background:var(--border);border-radius:10px;margin-bottom:6px;">
+      <div style="position:absolute;top:0;left:0;height:100%;width:${fillPct.toFixed(1)}%;border-radius:10px;background:linear-gradient(90deg,#4f6ef7,#7c3aed);transition:width 1.2s cubic-bezier(.34,1.56,.64,1);"></div>
+      <div style="position:absolute;top:-5px;bottom:-5px;left:${targetPct.toFixed(1)}%;width:2.5px;background:var(--yellow);border-radius:2px;transform:translateX(-50%);">
+        <div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:800;color:var(--yellow);white-space:nowrap;background:var(--card);padding:1px 4px;border-radius:4px;">TARGET ${target}</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:18px;"><span>0</span><span>You: ${projected}</span><span>${total}</span></div>
+    <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:10px;">Per Subject — How much more you need</div>
+    ${subjRows.map(row=>{
+      const rowFill=Math.min(100,row.avgPct);
+      const gColor=row.gap===0?'var(--green)':row.avgPct>=60?'var(--yellow)':'var(--red)';
+      return`<div class="cuet-subj-row">
+        <div style="font-size:18px;flex-shrink:0;">${row.subj.icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:11px;font-weight:700;">${row.subj.name}</span>
+            <span style="font-size:10px;color:var(--text3);">${row.att} test${row.att!==1?'s':''} done</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:${rowFill.toFixed(1)}%;background:${row.subj.color};border-radius:4px;transition:width 1.2s ease;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:9px;margin-top:3px;color:var(--text3);font-family:var(--mono);">
+            <span>${row.avgPct.toFixed(0)}% avg → ~${row.projMarks}/250</span>
+            <span>Need: ${row.targetPerSubj}/250</span>
+          </div>
+        </div>
+        <div class="cuet-need" style="color:${gColor}">${row.gap===0?'✅ On track':'+'+row.gap+' needed'}</div>
+      </div>`;
+    }).join('')}
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div style="font-size:11px;color:var(--text3);">Based on your current chapter test avg% · <span onclick="openCuetTargetEditor()" style="color:var(--acc);cursor:pointer;font-weight:700;">Change target ✏️</span></div>
+      <div style="font-size:11px;font-weight:700;color:var(--text3);">${sv.length} subject${sv.length>1?'s':''} · ${total} max marks</div>
+    </div>
+  </div>`;
+  containerEl.insertAdjacentHTML('afterbegin',html);
+}
+
+function openCuetTargetEditor(){
+  const ct=getCuetTarget();const sv=getSS();const total=sv.length*250;
+  const presets=obGetPresets(total);
+  const curTarget=ct.targetMarks||Math.round(total*.85);
+  let html=`<div style="text-align:center;margin-bottom:16px;">
+    <div style="font-size:10px;color:var(--text3);font-weight:700;margin-bottom:4px;">YOUR CUET TARGET</div>
+    <div style="font-size:32px;font-weight:900;font-family:var(--mono);"><span id="ct-disp" style="color:var(--acc)">${curTarget}</span><span style="color:var(--text3);font-size:16px;"> / ${total}</span></div>
+  </div>
+  <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:8px;">Quick Presets</div>
+  <div class="ob-preset-grid" style="margin-bottom:16px;">
+    ${presets.map(p=>`<div class="ob-preset ${p.val===curTarget?'sel':''}" onclick="ctSelectPreset(${p.val},${total})"><div class="ob-preset-val">${p.val}</div><div class="ob-preset-lbl">${p.label}</div></div>`).join('')}
+  </div>
+  <input type="range" class="ob-slider" id="ct-slider" min="0" max="${total}" step="25" value="${curTarget}" oninput="ctSlide(this.value,${total})">
+  <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:20px;"><span>0</span><span>${total}</span></div>
+  <button class="ob-btn ob-btn-prim" onclick="ctSave(${total})">💾 Save Target</button>`;
+  document.getElementById('ct-modal-body').innerHTML=html;
+  openModal('ct-modal');
+}
+function ctSelectPreset(val,total){
+  document.getElementById('ct-disp').textContent=val;
+  document.getElementById('ct-slider').value=val;
+  document.querySelectorAll('#ct-modal-body .ob-preset').forEach(el=>el.classList.remove('sel'));
+  [...document.querySelectorAll('#ct-modal-body .ob-preset')].find(el=>el.querySelector('.ob-preset-val')?.textContent==val)?.classList.add('sel');
+}
+function ctSlide(val,total){
+  document.getElementById('ct-disp').textContent=val;
+  document.querySelectorAll('#ct-modal-body .ob-preset').forEach(el=>el.classList.remove('sel'));
+}
+function ctSave(total){
+  const val=parseInt(document.getElementById('ct-slider').value);
+  const ct=getCuetTarget();ct.targetMarks=val;ct.totalMarks=total;
+  saveCuetTarget(ct);closeModal('ct-modal');renderScoreboard();
+}
+
 /* ════════════ INIT ════════════ */
-window.addEventListener('load',()=>{syncHistory();renderHome();});
+window.addEventListener('load',()=>{
+  syncHistory();renderHome();
+  if(shouldShowOnboarding())startOnboarding();
+});
 </script>
 </body>
 </html>
