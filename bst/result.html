@@ -1692,13 +1692,17 @@ function testConnSettings(){
   .then(()=>el.innerHTML=`<span style="color:var(--green)">✅ POST sent (no-cors mode). Check your sheet to confirm.</span>`)
   .catch(e=>el.innerHTML=`<span style="color:var(--red)">❌ ${escH(e.message)}</span>`);
 }
-async function syncFromSettings(btn){
-  btn.disabled=true;btn.textContent='⏳ Syncing…';setSyncDot('syncing');
-  const r=await syncAllToSheet();
-  btn.disabled=false;
-  if(r.success){setSyncDot('synced');btn.textContent=`✅ ${r.ok}/${r.total} synced`;document.getElementById('conn-status').innerHTML=`<span style="color:var(--green)">✅ Synced ${r.ok}/${r.total}. ${r.fail>0?`(${r.fail} failed)`:''}</span>`;setTimeout(()=>btn.textContent=`📤 Sync ${r.total} Results to Sheet`,3000);}
-  else{setSyncDot('failed');btn.textContent='❌ Sync failed';document.getElementById('conn-status').innerHTML=`<span style="color:var(--red)">❌ ${r.msg}</span>`;}
-}
+if(r.success){
+    setSyncDot('synced');
+    if(r.upToDate){
+      btn.textContent='✅ Already up to date';
+      document.getElementById('conn-status').innerHTML=`<span style="color:var(--green)">✅ All results already synced — nothing new to send.</span>`;
+    } else {
+      btn.textContent=`✅ ${r.ok}/${r.total} synced`;
+      document.getElementById('conn-status').innerHTML=`<span style="color:var(--green)">✅ Synced ${r.ok}/${r.total}. ${r.fail>0?`(${r.fail} failed)`:''}</span>`;
+    }
+    setTimeout(()=>btn.textContent=`📤 Sync Results to Sheet`,3000);
+  }
 function rmSubj(id){if(!confirm(`Remove ${id.toUpperCase()} from your subjects?`))return;saveSS(getSS().filter(x=>x!==id));renderSettings();}
 function clearSubj(sId){const s=SUBJECTS_MASTER.find(x=>x.id===sId);if(!s||!confirm(`Delete all ${s.name} results from this device?`))return;s.chapters.forEach(ch=>{localStorage.removeItem(rKey(sId,ch.id));localStorage.removeItem(hKey(sId,ch.id));});alert(`${s.name} results cleared.`);renderSettings();}
 function clearAll(){if(!confirm('Delete ALL results? This cannot be undone.'))return;SUBJECTS_MASTER.forEach(s=>s.chapters.forEach(ch=>{localStorage.removeItem(rKey(s.id,ch.id));localStorage.removeItem(hKey(s.id,ch.id));}));location.reload();}
@@ -1828,25 +1832,37 @@ function ctSave(total){
 /* ══════════════════════════════════════════
    SYNC TO SHEET
 ══════════════════════════════════════════ */
-async function syncAllToSheet(){
+function getSyncedKeys(){
+  try{return JSON.parse(localStorage.getItem('ts_synced')||'{}');}catch(e){return{};}
+}
+function markSynced(keys){
+  const s=getSyncedKeys();
+  keys.forEach(k=>s[k]=1);
+  localStorage.setItem('ts_synced',JSON.stringify(s));
+}
+  async function syncAllToSheet(){
   const sv=getSS(),prof=getProfile();
   const uname=prof.name||localStorage.getItem('cbtUserName')||'Student';
+  const synced=getSyncedKeys();
   const results=[];
   sv.forEach(sId=>{
     const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
     subj.chapters.forEach(ch=>{
       const r=lR(sId,ch.id);if(!r)return;
-      results.push({name:uname,subject:sId,chapter:ch.id,score:r.score,maxScore:r.maxScore,percentage:r.percentage,correct:r.correct||0,wrong:r.incorrect||0,skipped:r.unanswered||0,timeTaken:r.timeTaken||0,accuracy:r.accuracy||0,date:r.date||new Date().toISOString()});
+      const key=`${sId}_${ch.id}_${r.date}`;
+      if(synced[key])return; // skip already synced
+      results.push({key,name:uname,subject:sId,chapter:ch.id,score:r.score,maxScore:r.maxScore,percentage:r.percentage,correct:r.correct||0,wrong:r.incorrect||0,skipped:r.unanswered||0,timeTaken:r.timeTaken||0,accuracy:r.accuracy||0,date:r.date||new Date().toISOString()});
     });
   });
-  if(!results.length)return{success:false,msg:'No results to sync'};
-  const sends=results.map(d=>
+  if(!results.length)return{success:true,ok:0,fail:0,total:0,upToDate:true};
+  const sends=results.map(({key,...d})=>
     fetch(GS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(d)})
-      .then(()=>({ok:true})).catch(()=>({ok:false}))
+      .then(()=>({ok:true,key})).catch(()=>({ok:false,key}))
   );
   const settled=await Promise.all(sends);
-  const ok=settled.filter(r=>r.ok).length,fail=settled.filter(r=>!r.ok).length;
-  return{success:true,ok,fail,total:results.length};
+  const good=settled.filter(r=>r.ok);
+  markSynced(good.map(r=>r.key)); // only mark successful ones
+  return{success:true,ok:good.length,fail:settled.filter(r=>!r.ok).length,total:results.length};
 }
 
 async function testAndSyncToSheet(){
