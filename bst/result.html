@@ -749,7 +749,7 @@ function getAllAtt(){
   const sv=getSS(),all=[];
   sv.forEach(sId=>{
     const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
-    subj.chapters.forEach(ch=>{const r=lR(sId,ch.id);if(r)all.push({...r,subjectId:sId,subjectName:subj.name,subjectIcon:subj.icon,ci:ch});});
+    subj.chapters.forEach(ch=>{const r=lR(sId,ch.id);if(r)all.push({...r,correct:r.correct||0,incorrect:r.incorrect||0,unanswered:r.unanswered||0,subjectId:sId,subjectName:subj.name,subjectIcon:subj.icon,ci:ch});});
   });
   return all;
 }
@@ -1165,9 +1165,9 @@ function openCertificate(sId){
   const cvs=document.createElement('canvas');cvs.width=1100;cvs.height=750;
   const ctx=cvs.getContext('2d');
   ctx.fillStyle='#f0f3fa';ctx.fillRect(0,0,1100,750);
-  ctx.strokeStyle='#4f6ef7';ctx.lineWidth=9;ctx.beginPath();ctx.roundRect(12,12,1076,726,18);ctx.stroke();
+  ctx.strokeStyle='#4f6ef7';ctx.lineWidth=9;ctx.beginPath();ctx.rect(12,12,1076,726);ctx.stroke();
   const hGrad=ctx.createLinearGradient(0,0,1100,0);hGrad.addColorStop(0,'#4f6ef7');hGrad.addColorStop(1,'#7c3aed');
-  ctx.fillStyle=hGrad;ctx.beginPath();ctx.roundRect(12,12,1076,105,18);ctx.fill();
+  ctx.fillStyle=hGrad;ctx.beginPath();ctx.rect(12,12,1076,105);ctx.fill();
   ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='bold 36px sans-serif';ctx.textAlign='center';ctx.fillText('⚡ Thunder CBT — Certificate of Excellence',550,78);
   ctx.fillStyle='#5a5f7a';ctx.font='17px sans-serif';ctx.fillText('This is to certify that',550,180);
   const ng=ctx.createLinearGradient(300,200,800,260);ng.addColorStop(0,'#4f6ef7');ng.addColorStop(1,'#7c3aed');
@@ -1692,17 +1692,25 @@ function testConnSettings(){
   .then(()=>el.innerHTML=`<span style="color:var(--green)">✅ POST sent (no-cors mode). Check your sheet to confirm.</span>`)
   .catch(e=>el.innerHTML=`<span style="color:var(--red)">❌ ${escH(e.message)}</span>`);
 }
-if(r.success){
-    setSyncDot('synced');
-    if(r.upToDate){
+async function syncFromSettings(btn){
+  btn.disabled=true;btn.textContent='⏳ Syncing…';
+  setSyncDot('syncing');
+  const r=await syncAllToSheet();
+  setSyncDot(r.success?'synced':'failed');
+  if(r.success){
+    if(r.upToDate||r.total===0){
       btn.textContent='✅ Already up to date';
       document.getElementById('conn-status').innerHTML=`<span style="color:var(--green)">✅ All results already synced — nothing new to send.</span>`;
     } else {
       btn.textContent=`✅ ${r.ok}/${r.total} synced`;
       document.getElementById('conn-status').innerHTML=`<span style="color:var(--green)">✅ Synced ${r.ok}/${r.total}. ${r.fail>0?`(${r.fail} failed)`:''}</span>`;
     }
-    setTimeout(()=>btn.textContent=`📤 Sync Results to Sheet`,3000);
+    setTimeout(()=>{btn.disabled=false;btn.textContent=`📤 Sync ${getAllAtt().length} Results to Sheet`;},3000);
+  } else {
+    btn.disabled=false;btn.textContent='❌ Sync failed. Retry?';
+    document.getElementById('conn-status').innerHTML=`<span style="color:var(--red)">❌ Sync failed. Check your connection.</span>`;
   }
+}
 function rmSubj(id){if(!confirm(`Remove ${id.toUpperCase()} from your subjects?`))return;saveSS(getSS().filter(x=>x!==id));renderSettings();}
 function clearSubj(sId){const s=SUBJECTS_MASTER.find(x=>x.id===sId);if(!s||!confirm(`Delete all ${s.name} results from this device?`))return;s.chapters.forEach(ch=>{localStorage.removeItem(rKey(sId,ch.id));localStorage.removeItem(hKey(sId,ch.id));});alert(`${s.name} results cleared.`);renderSettings();}
 function clearAll(){if(!confirm('Delete ALL results? This cannot be undone.'))return;SUBJECTS_MASTER.forEach(s=>s.chapters.forEach(ch=>{localStorage.removeItem(rKey(s.id,ch.id));localStorage.removeItem(hKey(s.id,ch.id));}));location.reload();}
