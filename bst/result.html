@@ -1840,14 +1840,12 @@ async function syncAllToSheet(){
     });
   });
   if(!results.length)return{success:false,msg:'No results to sync'};
-  let ok=0,fail=0;
-  for(const d of results){
-    try{
-      await fetch(GS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(d)});
-      ok++;
-    }catch(e){fail++;}
-    await new Promise(r=>setTimeout(r,100));
-  }
+  const sends=results.map(d=>
+    fetch(GS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(d)})
+      .then(()=>({ok:true})).catch(()=>({ok:false}))
+  );
+  const settled=await Promise.all(sends);
+  const ok=settled.filter(r=>r.ok).length,fail=settled.filter(r=>!r.ok).length;
   return{success:true,ok,fail,total:results.length};
 }
 
