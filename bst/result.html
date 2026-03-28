@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -420,24 +421,31 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 .ie-dropzone{border:2px dashed var(--border);border-radius:var(--r);padding:26px;text-align:center;transition:all .2s;cursor:pointer;display:block;}
 .ie-dropzone:hover,.ie-dropzone.drag{border-color:var(--acc);background:rgba(79,110,247,.04);}
 
+/* ── BACK TO TOP ── */
+.btt-btn{position:fixed;bottom:24px;right:24px;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;font-size:16px;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(79,110,247,.35);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;z-index:90;font-family:var(--fn);}
+.btt-btn.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+@media(max-width:768px){.btt-btn{bottom:82px;}}
+
 /* ── MOBILE BOTTOM DOCK ── */
 .mobile-dock{display:none;}
 @media(max-width:768px){
   .sidebar{display:none;}
   body{flex-direction:column;}
-  .main{height:100dvh;padding-bottom:76px;}
+  .main{height:100dvh;padding-bottom:90px;}
   .page{padding:18px 14px;}
-  .mobile-dock{display:flex;position:fixed;bottom:0;left:0;right:0;height:66px;background:var(--sidebar);border-top:1px solid var(--border);z-index:100;padding:0 2px env(safe-area-inset-bottom,0);box-shadow:0 -4px 24px rgba(79,110,247,.10);align-items:stretch;animation:dockSlideUp .45s cubic-bezier(.34,1.56,.64,1) both;}
-  @keyframes dockSlideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-  .dock-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border-radius:14px;margin:5px 1px;transition:transform .25s cubic-bezier(.34,1.56,.64,1),background .18s;position:relative;-webkit-tap-highlight-color:transparent;}
-  .dock-item:active{transform:scale(.88);}
-  .dock-item.active{background:linear-gradient(135deg,rgba(79,110,247,.12),rgba(124,58,237,.08));transform:translateY(-9px) scale(1.07);margin-bottom:-4px;}
-  .dock-item.active::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:18px;height:3px;border-radius:2px;background:linear-gradient(90deg,#4f6ef7,#7c3aed);}
-  .dock-icon{font-size:18px;line-height:1;}
-  .dock-item.active .dock-icon{transform:scale(1.15);filter:drop-shadow(0 2px 6px rgba(79,110,247,.4));}
-  .dock-label{font-size:8px;font-weight:700;color:var(--text3);letter-spacing:.3px;line-height:1;}
-  .dock-item.active .dock-label{color:var(--acc);font-weight:800;}
+  .mobile-dock{display:flex;position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:calc(100% - 20px);max-width:420px;height:64px;background:#ffffff;border-radius:28px;border:1px solid var(--border);z-index:100;padding:0 4px;box-shadow:0 4px 24px rgba(0,0,0,.10);align-items:center;justify-content:space-around;animation:dockSlideUp .45s cubic-bezier(.34,1.56,.64,1) both;}
+  @keyframes dockSlideUp{from{transform:translateX(-50%) translateY(80px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
+  .dock-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;cursor:pointer;position:relative;height:64px;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
+  .dock-item:active{opacity:.7;}
+  .dock-icon{font-size:18px;line-height:1;transition:transform .25s cubic-bezier(.34,1.56,.64,1);}
+  .dock-label{font-size:8px;font-weight:700;color:var(--text3);letter-spacing:.2px;line-height:1;margin-bottom:10px;margin-top:3px;transition:color .2s;}
+  .dock-item.active .dock-label{color:#4f6ef7;font-weight:800;}
+  .dock-item.active .dock-icon{display:none;}
+  .dock-bubble{display:none;width:46px;height:46px;border-radius:50%;background:#4f6ef7;align-items:center;justify-content:center;font-size:22px;position:absolute;top:-14px;left:50%;transform:translateX(-50%);box-shadow:0 4px 14px rgba(79,110,247,.45);}
+  .dock-item.active .dock-bubble{display:flex;}
+  .dock-item.active .dock-label{margin-top:34px;margin-bottom:8px;}
 }
+
 </style>
 </head>
 <body>
@@ -656,17 +664,46 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
   </div>
 </div>
 
+<button class="btt-btn" id="btt-btn" onclick="document.querySelector('.main').scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 <div class="tooltip" id="tooltip"></div>
 
 <!-- MOBILE BOTTOM DOCK -->
 <nav class="mobile-dock" id="mobile-dock">
-  <div class="dock-item active" id="dock-home" onclick="goPage('home')"><span class="dock-icon">🏠</span><span class="dock-label">Home</span></div>
-  <div class="dock-item" id="dock-scoreboard" onclick="goPage('scoreboard')"><span class="dock-icon">📊</span><span class="dock-label">Scores</span></div>
-  <div class="dock-item" id="dock-subjects" onclick="goPage('subjects')"><span class="dock-icon">📚</span><span class="dock-label">Subjects</span></div>
-  <div class="dock-item" id="dock-mocks" onclick="goPage('mocks')"><span class="dock-icon">📝</span><span class="dock-label">Mocks</span></div>
-  <div class="dock-item" id="dock-analytics" onclick="goPage('analytics')"><span class="dock-icon">📈</span><span class="dock-label">Insights</span></div>
-  <div class="dock-item" id="dock-rank" onclick="goPage('rank')"><span class="dock-icon">🏆</span><span class="dock-label">Rank</span></div>
-  <div class="dock-item" id="dock-settings" onclick="goPage('settings')"><span class="dock-icon">⚙️</span><span class="dock-label">Settings</span></div>
+  <div class="dock-item" id="dock-scoreboard" onclick="goPage('scoreboard')">
+    <div class="dock-bubble">📊</div>
+    <span class="dock-icon">📊</span>
+    <span class="dock-label">Scores</span>
+  </div>
+  <div class="dock-item" id="dock-subjects" onclick="goPage('subjects')">
+    <div class="dock-bubble">📚</div>
+    <span class="dock-icon">📚</span>
+    <span class="dock-label">Subjects</span>
+  </div>
+  <div class="dock-item" id="dock-mocks" onclick="goPage('mocks')">
+    <div class="dock-bubble">📝</div>
+    <span class="dock-icon">📝</span>
+    <span class="dock-label">Mocks</span>
+  </div>
+  <div class="dock-item active" id="dock-home" onclick="goPage('home')">
+    <div class="dock-bubble">🏠</div>
+    <span class="dock-icon">🏠</span>
+    <span class="dock-label">Home</span>
+  </div>
+  <div class="dock-item" id="dock-analytics" onclick="goPage('analytics')">
+    <div class="dock-bubble">📈</div>
+    <span class="dock-icon">📈</span>
+    <span class="dock-label">Insights</span>
+  </div>
+  <div class="dock-item" id="dock-rank" onclick="goPage('rank')">
+    <div class="dock-bubble">🏆</div>
+    <span class="dock-icon">🏆</span>
+    <span class="dock-label">Rank</span>
+  </div>
+  <div class="dock-item" id="dock-settings" onclick="goPage('settings')">
+    <div class="dock-bubble">⚙️</div>
+    <span class="dock-icon">⚙️</span>
+    <span class="dock-label">Settings</span>
+  </div>
 </nav>
 
 <script>
@@ -712,11 +749,55 @@ function getRankTier(p){for(let i=RANK_TIERS.length-1;i>=0;i--){if(p>=RANK_TIERS
 function gRank(p){const t=getRankTier(p);return{name:t.name,icon:t.icon,color:t.color};}
 
 /* STREAK */
-function calcStreak(a){const ds=new Set(a.map(d=>d.date?.substring(0,10)).filter(Boolean));if(!ds.size)return 0;const today=new Date(),ts=today.toISOString().substring(0,10);let cur=new Date(ds.has(ts)?today:new Date(+today-86400000));if(!ds.has(cur.toISOString().substring(0,10)))return 0;let s=0;while(true){const x=cur.toISOString().substring(0,10);if(ds.has(x)){s++;cur=new Date(+cur-86400000);}else break;}return s;}
-function getBestStreak(a){const dates=[...new Set(a.map(d=>d.date?.substring(0,10)).filter(Boolean))].sort();if(!dates.length)return 0;let best=1,cur=1;for(let i=1;i<dates.length;i++){const diff=(new Date(dates[i])-new Date(dates[i-1]))/86400000;if(diff===1){cur++;best=Math.max(best,cur);}else cur=1;}return best;}
+function toLocalDate(iso){
+  // Always use local date string to avoid UTC midnight cutoff issues
+  if(!iso)return null;
+  const d=new Date(iso);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function calcStreak(a){
+  const ds=new Set(a.map(d=>toLocalDate(d.date)).filter(Boolean));
+  if(!ds.size)return 0;
+  const today=new Date(),todayStr=toLocalDate(today.toISOString());
+  const yesterdayStr=toLocalDate(new Date(+today-86400000).toISOString());
+  if(!ds.has(todayStr)&&!ds.has(yesterdayStr))return 0;
+  let cur=new Date(ds.has(todayStr)?today:new Date(+today-86400000));
+  let s=0;
+  while(true){const x=toLocalDate(cur.toISOString());if(ds.has(x)){s++;cur=new Date(+cur-86400000);}else break;}
+  return s;
+}
+function getBestStreak(a){
+  const dates=[...new Set(a.map(d=>toLocalDate(d.date)).filter(Boolean))].sort();
+  if(!dates.length)return 0;
+  let best=1,cur=1;
+  for(let i=1;i<dates.length;i++){
+    const diff=(new Date(dates[i])-new Date(dates[i-1]))/86400000;
+    if(Math.round(diff)===1){cur++;best=Math.max(best,cur);}else cur=1;
+  }
+  return best;
+}
 
 /* GLOBALS */
 let CI={},LB_DATA=null,currentSubjectTab=null,currentMockSubj=null,currentAnalyticsTab='weak';
+
+/* ── TOAST ── */
+function showToast(msg,type='success',duration=2400){
+  let t=document.getElementById('ts-toast');
+  if(!t){t=document.createElement('div');t.id='ts-toast';document.body.appendChild(t);}
+  t.textContent=msg;
+  t.style.cssText=`position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:${type==='success'?'#10b981':type==='error'?'#f43f5e':'#f59e0b'};
+    color:#fff;padding:9px 20px;border-radius:30px;font-size:13px;font-weight:700;
+    font-family:var(--fn);z-index:9999;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);
+    box-shadow:0 4px 20px rgba(0,0,0,.18);pointer-events:none;white-space:nowrap;`;
+  requestAnimationFrame(()=>{
+    t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+  });
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>{
+    t.style.opacity='0';t.style.transform='translateX(-50%) translateY(10px)';
+  },duration);
+}
 
 /* STORAGE */
 function rKey(s,c){return`thunderstudy_result_${s}_${c}`;}
@@ -753,7 +834,25 @@ function getAllAtt(){
   });
   return all;
 }
-function destroyCharts(){Object.values(CI).forEach(c=>{try{if(c&&typeof c.destroy==='function')c.destroy();}catch(e){}});CI={};}
+function destroyCharts(){
+  Object.entries(CI).forEach(([k,c])=>{
+    try{
+      if(c&&typeof c.destroy==='function'){
+        // Check if canvas still exists in DOM before destroying
+        if(c.canvas&&document.contains(c.canvas)){
+          c.canvas.getContext('2d').clearRect(0,0,c.canvas.width,c.canvas.height);
+        }
+        c.destroy();
+      }
+    }catch(e){}
+  });
+  CI={};
+  // Also clean up any orphaned Chart instances on canvases still in DOM
+  document.querySelectorAll('canvas').forEach(cv=>{
+    const existing=Chart.getChart(cv);
+    if(existing){try{existing.destroy();}catch(e){}}
+  });
+}
 
 /* ══════════════════════════════════════════
    SYNC STATUS DOT
@@ -852,8 +951,13 @@ function goPage(id){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')===`goPage('${id}')`)n.classList.add('active');});
-  document.querySelectorAll('.dock-item').forEach(d=>d.classList.remove('active'));
-  const de=document.getElementById('dock-'+id);if(de)de.classList.add('active');
+document.querySelectorAll('.dock-item').forEach(d=>d.classList.remove('active'));
+  const de=document.getElementById('dock-'+id);
+  if(de){
+    de.classList.add('active');
+  } else {
+    // pages not in main dock (mocks, settings) — no dock item highlights
+  }
   destroyCharts();
   const map={home:renderHome,scoreboard:renderScoreboard,subjects:renderSubjects,mocks:renderMocks,analytics:renderAnalytics,rank:renderRank,settings:renderSettings};
   if(map[id])map[id]();
@@ -1122,9 +1226,18 @@ function checkCertEligibility(sId){
   const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return null;
   const mocks=subj.chapters.filter(c=>MOCK_TYPES.includes(c.type));if(!mocks.length)return null;
   const attempted=mocks.filter(c=>lR(sId,c.id));
-  if(attempted.length<mocks.length)return{eligible:false,done:attempted.length,total:mocks.length,avg:0};
-  const avg=attempted.reduce((s,c)=>{const r=lR(sId,c.id);return s+(r?r.percentage:0);},0)/attempted.length;
-  return{eligible:avg>=90,done:attempted.length,total:mocks.length,avg};
+  const avg=attempted.length>0
+    ?attempted.reduce((s,c)=>{const r=lR(sId,c.id);return s+(r?r.percentage:0);},0)/attempted.length
+    :0;
+  // FIXED: must have ALL mocks attempted AND avg >= 90%
+  const allDone=attempted.length>=mocks.length;
+  return{
+    eligible:allDone&&avg>=90,
+    done:attempted.length,
+    total:mocks.length,
+    avg,
+    allDone
+  };
 }
 
 function renderSubjTab(sId){
@@ -1863,14 +1976,22 @@ function markSynced(keys){
     });
   });
   if(!results.length)return{success:true,ok:0,fail:0,total:0,upToDate:true};
-  const sends=results.map(({key,...d})=>
+const sends=results.map(({key,...d})=>
     fetch(GS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(d)})
-      .then(()=>({ok:true,key})).catch(()=>({ok:false,key}))
+      .then(()=>({ok:true,key}))
+      .catch(()=>({ok:false,key}))
   );
-  const settled=await Promise.all(sends);
-  const good=settled.filter(r=>r.ok);
-  markSynced(good.map(r=>r.key)); // only mark successful ones
-  return{success:true,ok:good.length,fail:settled.filter(r=>!r.ok).length,total:results.length};
+  const settled=await Promise.allSettled(sends);
+  const good=settled
+    .filter(r=>r.status==='fulfilled'&&r.value?.ok)
+    .map(r=>r.value.key);
+  // Only mark synced after a small delay to let the sheet process
+  if(good.length){
+    await new Promise(r=>setTimeout(r,400));
+    markSynced(good);
+  }
+  const failCount=settled.length-good.length;
+  return{success:true,ok:good.length,fail:failCount,total:results.length};
 }
 
 async function testAndSyncToSheet(){
@@ -1890,7 +2011,18 @@ async function testAndSyncToSheet(){
 ══════════════════════════════════════════ */
 let _obSelSubjs=[],_obTargetMarks=850;
 
-function shouldShowOnboarding(){return !localStorage.getItem('ts_ob_done')&&!getSS().length;}
+function shouldShowOnboarding(){
+  // Show onboarding if: never completed OR completed but somehow has no subjects
+  const done=localStorage.getItem('ts_ob_done');
+  const hasSubs=getSS().length>0;
+  if(!done)return true;
+  if(done&&!hasSubs){
+    // Reset the flag so onboarding runs fresh
+    localStorage.removeItem('ts_ob_done');
+    return true;
+  }
+  return false;
+}
 
 function startOnboarding(){
   _obSelSubjs=[];_obTargetMarks=850;
@@ -2029,7 +2161,9 @@ function saveProfile(){
   const p={name:document.getElementById('pf-name').value.trim(),class:document.getElementById('pf-class').value.trim(),college:document.getElementById('pf-college').value.trim(),goals,cuetTarget:getCuetTarget()};
   localStorage.setItem('ts_profile',JSON.stringify(p));
   if(p.name)localStorage.setItem('cbtUserName',p.name);
-  closeModal('profile-modal');renderHome();
+  closeModal('profile-modal');
+  showToast('✅ Profile saved!');
+  renderHome();
 }
 
 /* ══════════════════════════════════════════
@@ -2057,7 +2191,12 @@ function openAddSubjModal(){
 }
 
 function addSubj(id){
-  const sv=getSS();if(!sv.includes(id)){sv.push(id);saveSS(sv);}
+  const sv=getSS();
+  if(!sv.includes(id)){
+    sv.push(id);saveSS(sv);
+    const s=SUBJECTS_MASTER.find(x=>x.id===id);
+    showToast(`✅ ${s?.name||id} added!`);
+  }
   closeModal('add-subj-modal');renderHome();
 }
 
@@ -2078,6 +2217,11 @@ function hideTip(){document.getElementById('tooltip').style.display='none';}
    INIT
 ══════════════════════════════════════════ */
 window.addEventListener('load',()=>{
+  // Back to top button visibility
+document.querySelector('.main').addEventListener('scroll',function(){
+  const btn=document.getElementById('btt-btn');
+  if(btn)btn.classList.toggle('visible',this.scrollTop>300);
+},{passive:true});
   syncHistory();
 
   if(shouldShowOnboarding()){
