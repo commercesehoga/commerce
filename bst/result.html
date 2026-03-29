@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
 <title>⚡ Thunderstudy</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root {
   --bg:#f0f3fa;--sidebar:#ffffff;--card:#ffffff;--card2:#f7f8fd;--border:#e8ecf4;
@@ -288,6 +290,42 @@ body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
 .badge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:700;border:1.5px solid;}
 .badge.on{background:rgba(79,110,247,.08);color:var(--acc);border-color:rgba(79,110,247,.2);}
 .badge.off{background:var(--card2);color:var(--text3);border-color:var(--border);opacity:.6;}
+
+/* ── SOCIAL BUTTONS ── */
+.social-btn{display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:16px;font-size:13px;font-weight:800;color:#fff;border:none;cursor:pointer;font-family:var(--fn);text-decoration:none;transition:all .25s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;flex:1;min-width:140px;justify-content:center;}
+.social-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);transform:translateX(-100%);transition:transform .4s ease;}
+.social-btn:hover::before{transform:translateX(0);}
+.social-btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.social-btn:active{transform:translateY(0);}
+.social-tg{background:linear-gradient(135deg,#0088cc,#006699);}
+.social-ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);}
+.social-x{background:linear-gradient(135deg,#000000,#333333);}
+.social-yt{background:linear-gradient(135deg,#ff0000,#cc0000);}
+.social-bug{background:linear-gradient(135deg,#7c3aed,#4f6ef7);width:100%;}
+@keyframes socialPulse{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 8px 28px rgba(0,0,0,.3)}}
+.social-btn{animation:socialPulse 2.5s ease-in-out infinite;}
+
+/* ── LOG TABS ── */
+.log-tabs{display:flex;gap:6px;margin-bottom:14px;}
+.log-tab{flex:1;padding:9px;border-radius:12px;font-size:12px;font-weight:800;border:1.5px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;text-align:center;transition:all .2s;}
+.log-tab.active{background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;border-color:transparent;}
+.log-entry{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);transition:background .15s;}
+.log-entry:hover{background:var(--card2);}
+.log-entry:last-child{border-bottom:none;}
+
+/* ── BADGE DOWNLOAD CARD ── */
+.badge-dl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:12px;}
+.badge-dl-item{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 10px;text-align:center;transition:all .2s;cursor:pointer;position:relative;}
+.badge-dl-item:hover{transform:translateY(-3px);box-shadow:var(--sh2);}
+.badge-dl-item.earned{border-color:rgba(79,110,247,.3);}
+.badge-dl-item.locked{filter:grayscale(1);opacity:.55;}
+.badge-dl-item.locked:hover{filter:grayscale(.5);opacity:.75;}
+
+/* ── CERT LEVEL DISPLAY ── */
+.cert-level-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.cert-level-pill{padding:6px 14px;border-radius:30px;font-size:12px;font-weight:800;border:2px solid;transition:all .2s;cursor:default;}
+.cert-level-pill.earned{opacity:1;}
+.cert-level-pill.locked{filter:grayscale(1);opacity:.4;}
 
 /* ── SPIN ── */
 .spin{display:inline-block;width:15px;height:15px;border:2px solid var(--border);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite;}
@@ -2409,6 +2447,81 @@ function renderLbView(data){
 function renderSettings(){
   const sv=getSS(),allAtt=getAllAtt();
   let H=`
+  <!-- COMMUNITY LINKS -->
+  <div class="card card-p" style="margin-bottom:14px;">
+    <div class="sec-hdr"><div class="sec-title">🌐 Join Our Community</div></div>
+    <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:9px;">
+      <a href="https://t.me/THUNDERSTUDY" target="_blank" class="social-btn social-tg">📢 Telegram</a>
+      <a href="https://instagram.com/THUNDERSTUDY_OFFICIAL" target="_blank" class="social-btn social-ig">📸 Instagram</a>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:9px;">
+      <a href="https://x.com/THUNDERSTUDY_OFFICIAL" target="_blank" class="social-btn social-x">𝕏 X (Twitter)</a>
+      <a href="https://youtube.com/@THUNDERSTUDY_OFFICIAL" target="_blank" class="social-btn social-yt">▶️ YouTube</a>
+    </div>
+    <a href="https://t.me/mindmaster_robot" target="_blank" class="social-btn social-bug" style="display:flex;width:100%;box-sizing:border-box;">🐛 Feedback / Bug Report</a>
+  </div>
+
+  <!-- LOGS -->
+  <div class="card card-p" style="margin-bottom:14px;">
+    <div class="sec-hdr"><div class="sec-title">📋 Activity Logs</div></div>
+    <div class="log-tabs">
+      <div class="log-tab active" id="ltab-hp" onclick="switchLogTab('hp')">💜 HP Log</div>
+      <div class="log-tab" id="ltab-xp" onclick="switchLogTab('xp')">⚡ XP Log</div>
+      <div class="log-tab" id="ltab-rp" onclick="switchLogTab('rp')">🏅 RP Log</div>
+    </div>
+    <div id="log-panel" style="max-height:260px;overflow-y:auto;border-radius:12px;background:var(--card2);border:1px solid var(--border);"></div>
+  </div>
+
+  <!-- BADGE DOWNLOAD -->
+  <div class="card card-p" style="margin-bottom:14px;">
+    <div class="sec-hdr"><div class="sec-title">🏅 Download Rank Badges</div></div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">Earned badges download in full color · Locked badges download in grayscale</div>
+    <div class="badge-dl-grid" id="badge-dl-grid"></div>
+  </div>
+
+<!-- CERTIFICATE DOWNLOAD -->
+  <div class="card card-p" style="margin-bottom:14px;">
+    <div class="sec-hdr"><div class="sec-title">🏆 Download Certificate</div></div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Choose how to unlock & download your certificate as PDF.</div>
+    <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:8px;">Your Rank Levels</div>
+    <div class="cert-level-row" id="cert-level-row"></div>
+    <div class="form-row" style="margin-bottom:12px;">
+      <div class="form-lbl">Select Subject</div>
+      <select class="form-inp" id="cert-subj-sel" onchange="updateCertOptions()">
+        ${sv.map(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);return s?`<option value="${sId}">${s.icon} ${s.name}</option>`:''}).join('')}
+      </select>
+    </div>
+    <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:9px;">Choose Unlock Method</div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:10px;">
+      <div id="cert-opt-hp" style="border:2px solid rgba(124,58,237,.3);background:rgba(124,58,237,.06);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer;transition:all .2s;" onclick="downloadCertPDF('hp')" onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='var(--sh2)'" onmouseleave="this.style.transform='none';this.style.boxShadow='none'">
+        <div style="font-size:26px;">💜</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:#7c3aed;">Pay 500 HP</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">Spend 500 Honor Points · Your HP: <strong id="cert-hp-show" style="color:#7c3aed;">${getHP().total}</strong></div>
+        </div>
+        <div id="cert-opt-hp-badge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:${getHP().total>=500?'rgba(16,185,129,.1)':'rgba(244,63,94,.1)'};color:${getHP().total>=500?'var(--green)':'var(--red)'};">${getHP().total>=500?'✅ Available':'❌ Need more HP'}</div>
+      </div>
+      <div id="cert-opt-xp" style="border:2px solid rgba(79,110,247,.3);background:rgba(79,110,247,.06);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer;transition:all .2s;" onclick="downloadCertPDF('xp')" onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='var(--sh2)'" onmouseleave="this.style.transform='none';this.style.boxShadow='none'">
+        <div style="font-size:26px;">⚡</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:var(--acc);">Pay 500 XP</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">Spend 500 Experience Points · Your XP: <strong id="cert-xp-show" style="color:var(--acc);">${calcTotalXP(getAllAtt())}</strong></div>
+        </div>
+        <div id="cert-opt-xp-badge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:${calcTotalXP(getAllAtt())>=500?'rgba(16,185,129,.1)':'rgba(244,63,94,.1)'};color:${calcTotalXP(getAllAtt())>=500?'var(--green)':'var(--red)'};">${calcTotalXP(getAllAtt())>=500?'✅ Available':'❌ Need more XP'}</div>
+      </div>
+      <div id="cert-opt-free" style="border:2px solid rgba(16,185,129,.3);background:rgba(16,185,129,.06);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer;transition:all .2s;" onclick="downloadCertPDF('free')" onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='var(--sh2)'" onmouseleave="this.style.transform='none';this.style.boxShadow='none'">
+        <div style="font-size:26px;">🏆</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:var(--green);">FREE — Score 90%+ Overall</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">Average 90%+ across all mocks in selected subject — no cost!</div>
+        </div>
+        <div id="cert-opt-free-badge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:rgba(16,185,129,.1);color:var(--green);">Check subject →</div>
+      </div>
+    </div>
+    <div id="cert-dl-status" style="font-size:12px;font-weight:600;margin-top:4px;min-height:16px;text-align:center;"></div>
+  </div>
+
+  <!-- SYNC -->
   <div class="card card-p" style="margin-bottom:14px;">
     <div class="sec-hdr"><div class="sec-title">🔗 Google Sheet Sync</div><span class="sync-dot" id="sync-dot-settings" title="Sync status" style="width:10px;height:10px;flex-shrink:0;"></span></div>
     <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Results are auto-saved locally. Sync manually to push to the class leaderboard Google Sheet.</div>
@@ -2419,86 +2532,51 @@ function renderSettings(){
     <div id="conn-status" style="margin-top:9px;font-size:12px;"></div>
   </div>
 
+  <!-- IMPORT EXPORT -->
   <div class="card card-p" style="margin-bottom:14px;">
     <div class="sec-hdr"><div class="sec-title">📦 Import / Export Data</div></div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Back up your results to a file or restore from a previous backup. Use this to transfer data between devices.</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Back up your results to a file or restore from a previous backup.</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
       <button class="btn btn-prim" onclick="exportData()">⬇️ Export Backup (.json)</button>
       <button class="btn btn-ghost" onclick="openModal('ie-modal')">📂 Import Backup</button>
     </div>
   </div>
 
+  <!-- SUBJECTS -->
   <div class="card card-p" style="margin-bottom:14px;">
     <div class="sec-hdr"><div class="sec-title">📚 Active Subjects</div></div>
     ${sv.length?`<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;">${sv.map(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);return s?`<div style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:30px;background:var(--card2);border:1.5px solid var(--border);font-size:12px;font-weight:600;">${s.icon} ${s.name}<span onclick="rmSubj('${sId}')" style="cursor:pointer;color:var(--red);font-size:15px;line-height:1;margin-left:2px;">×</span></div>`:''}).join('')}</div>`:`<div style="font-size:12px;color:var(--text3);margin-bottom:12px;">No subjects added yet.</div>`}
     <button class="btn btn-prim" onclick="openAddSubjModal()">+ Add Subject</button>
   </div>
 
-<div class="card card-p" style="margin-bottom:14px;">
+  <!-- HP -->
+  <div class="card card-p" style="margin-bottom:14px;">
     <div class="sec-hdr">
       <div class="sec-title">💜 HP — Honor Points</div>
       <div style="font-size:20px;font-weight:900;font-family:var(--mono);color:#7c3aed;">${getHP().total} HP</div>
     </div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:14px;">Earn HP by completing sections with 80%+, and promo codes. Convert HP → XP or use 300 HP to unlock certificates! 🏆</div>
-
-    <!-- HP LOG GROUPED -->
-    ${(()=>{
-      const log=getHP().log;
-      const mockLogs=log.filter(l=>l.amount>0&&!l.reason.startsWith('Promo code'));
-      const promoLogs=log.filter(l=>l.reason.startsWith('Promo code'));
-      const negLogs=log.filter(l=>l.amount<0);
-      let html='';
-      if(mockLogs.length||negLogs.length){
-        html+=`<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:6px;">🎮 Mock Completions & Conversions</div>`;
-        html+=`<div style="background:var(--card2);border-radius:14px;padding:10px 13px;margin-bottom:12px;max-height:140px;overflow-y:auto;">`;
-        const combined=[...mockLogs,...negLogs].sort((a,b)=>new Date(b.date)-new Date(a.date));
-        if(combined.length){
-          html+=combined.map(l=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="font-size:15px;">${l.amount<0?'💸':'🎮'}</span><div style="flex:1;font-size:11px;font-weight:600;color:var(--text2);">${l.reason}</div><div style="font-size:12px;font-weight:800;color:${l.amount<0?'var(--red)':'#7c3aed'};font-family:var(--mono);">${l.amount>0?'+':''}${l.amount}</div><div style="font-size:10px;color:var(--text3);flex-shrink:0;">${fdS(l.date)}</div></div>`).join('');
-        } else {
-          html+=`<div style="text-align:center;color:var(--text3);font-size:12px;padding:12px;">Complete mock sections with 80%+ to earn HP!</div>`;
-        }
-        html+=`</div>`;
-      } else {
-        html+=`<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:6px;">🎮 Mock Completions</div>`;
-        html+=`<div style="background:var(--card2);border-radius:14px;padding:12px;margin-bottom:12px;text-align:center;color:var(--text3);font-size:12px;">Complete mock sections with 80%+ to earn HP!</div>`;
-      }
-      html+=`<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:6px;">🎟️ Promo Code History</div>`;
-      html+=`<div style="background:var(--card2);border-radius:14px;padding:10px 13px;margin-bottom:14px;max-height:120px;overflow-y:auto;">`;
-      if(promoLogs.length){
-        html+=promoLogs.map(l=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="font-size:15px;">🎟️</span><div style="flex:1;font-size:11px;font-weight:600;color:var(--text2);">${l.reason}</div><div style="font-size:12px;font-weight:800;color:#7c3aed;font-family:var(--mono);">+${l.amount}</div><div style="font-size:10px;color:var(--text3);flex-shrink:0;">${fdS(l.date)}</div></div>`).join('');
-      } else {
-        html+=`<div style="text-align:center;color:var(--text3);font-size:12px;padding:12px;">No promo codes redeemed yet.</div>`;
-      }
-      html+=`</div>`;
-      return html;
-    })()}
-
-    <!-- CONVERT HP → XP -->
+    <div style="font-size:12px;color:var(--text3);margin-bottom:14px;">Earn HP by completing sections with 80%+, and promo codes.</div>
     <div style="background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(79,110,247,.05));border:1.5px solid rgba(124,58,237,.25);border-radius:14px;padding:14px 16px;margin-bottom:14px;">
       <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#7c3aed;margin-bottom:6px;">⚡ Convert HP → XP</div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">100 HP = 50 XP &nbsp;·&nbsp; You have <strong style="color:#7c3aed">${getHP().total} HP</strong> → can convert <strong style="color:var(--acc)">${Math.floor(getHP().total/100)*50} XP</strong></div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">100 HP = 50 XP · You have <strong style="color:#7c3aed">${getHP().total} HP</strong> → can convert <strong style="color:var(--acc)">${Math.floor(getHP().total/100)*50} XP</strong></div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
         <input type="number" id="hp-convert-amt" placeholder="HP to convert (min 100)" min="100" max="${getHP().total}" step="100" class="filter-inp" style="flex:1;min-width:160px;">
         <button class="btn btn-prim" style="background:linear-gradient(135deg,#7c3aed,#4f6ef7);" onclick="convertHPtoXP()">⚡ Convert</button>
       </div>
       <div id="convert-status" style="font-size:12px;font-weight:600;margin-top:8px;min-height:16px;"></div>
     </div>
-
-    <!-- UNLOCK CERTIFICATE WITH HP -->
     <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1.5px solid rgba(245,158,11,.3);border-radius:14px;padding:14px 16px;margin-bottom:14px;">
       <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--yellow);margin-bottom:6px;">🏅 Unlock Certificate with HP</div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Spend <strong style="color:var(--yellow)">300 HP</strong> to unlock a certificate for any subject — even without the 90% avg requirement.</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Spend <strong style="color:var(--yellow)">300 HP</strong> to unlock a certificate for any subject.</div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
         <select class="filter-sel" id="cert-hp-subj" style="flex:1;">
-          ${getSS().map(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);return s?`<option value="${sId}">${s.icon} ${s.name}</option>`:''}).join('')}
+          ${sv.map(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);return s?`<option value="${sId}">${s.icon} ${s.name}</option>`:''}).join('')}
         </select>
         <button class="btn" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;font-weight:800;" onclick="unlockCertWithHP()">🏅 Use 300 HP</button>
       </div>
       <div id="cert-hp-status" style="font-size:12px;font-weight:600;margin-top:8px;min-height:16px;"></div>
       ${getHPUnlockedCerts().length?`<div style="margin-top:10px;font-size:11px;color:var(--text3);">✅ HP-unlocked: <strong>${getHPUnlockedCerts().map(id=>{const s=SUBJECTS_MASTER.find(x=>x.id===id);return s?s.name:id;}).join(', ')}</strong></div>`:''}
     </div>
-
-    <!-- PROMO CODE -->
     <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:9px;">🎟️ Redeem Promo Code <span style="font-size:10px;font-weight:600;color:var(--text3);text-transform:none;">(${JSON.parse(localStorage.getItem('ts_promos_used')||'[]').length}/${MAX_PROMOS} used)</span></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
       <input class="filter-inp" id="promo-inp" placeholder="Enter promo code…" style="flex:1;min-width:160px;" onkeydown="if(event.key==='Enter')applyPromo()">
@@ -2508,8 +2586,7 @@ function renderSettings(){
     <div id="promo-status" style="font-size:12px;font-weight:600;min-height:18px;"></div>
   </div>
 
-
-
+  <!-- KEYBOARD -->
   <div class="card card-p" style="margin-bottom:14px;">
     <div class="sec-hdr"><div class="sec-title">⌨️ Keyboard Shortcuts</div></div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;">
@@ -2517,6 +2594,7 @@ function renderSettings(){
     </div>
   </div>
 
+  <!-- CLEAR DATA -->
   <div class="card card-p" style="margin-bottom:14px;">
     <div class="sec-hdr"><div class="sec-title">🗑️ Clear Data</div></div>
     <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Delete saved results from this device. This cannot be undone.</div>
@@ -2525,11 +2603,505 @@ function renderSettings(){
       <button class="btn" style="background:rgba(244,63,94,.14);color:var(--red);border:1.5px solid rgba(244,63,94,.3);" onclick="clearAll()">💣 Clear All Data</button>
     </div>
   </div>`;
+
   document.getElementById('settings-content').innerHTML=H;
-  // Sync the dot state in settings
+
+  // Sync dot state
   const navDot=document.getElementById('sync-dot-nav');
   const settDot=document.getElementById('sync-dot-settings');
   if(navDot&&settDot){settDot.className=navDot.className;settDot.title=navDot.title;}
+
+  // Init log panel
+  switchLogTab('hp');
+
+  // Init badge download grid
+  renderBadgeDLGrid();
+
+  // Init cert level row
+  renderCertLevelRow();
+}
+/* ══════════════════════════════════════════
+   LOG TABS
+══════════════════════════════════════════ */
+function switchLogTab(tab){
+  ['hp','xp','rp'].forEach(t=>{
+    const el=document.getElementById('ltab-'+t);
+    if(el)el.classList.toggle('active',t===tab);
+  });
+  const panel=document.getElementById('log-panel');
+  if(!panel)return;
+
+  if(tab==='hp'){
+    const log=getHP().log;
+    if(!log.length){panel.innerHTML=`<div style="text-align:center;padding:24px;color:var(--text3);font-size:13px;">No HP activity yet.</div>`;return;}
+    panel.innerHTML=log.map(l=>`
+      <div class="log-entry">
+        <div style="font-size:20px;flex-shrink:0;">${l.amount>0?'💜':'💸'}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l.reason}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:1px;">${fd(l.date)}</div>
+        </div>
+        <div style="font-size:14px;font-weight:900;font-family:var(--mono);color:${l.amount>0?'#7c3aed':'var(--red)'};flex-shrink:0;">${l.amount>0?'+':''}${l.amount} HP</div>
+      </div>`).join('');
+  }
+
+  else if(tab==='xp'){
+    const allAtt=getAllAtt();
+    const bonusXP=JSON.parse(localStorage.getItem('ts_bonus_xp')||'0');
+    const hpLog=getHP().log.filter(l=>l.reason&&l.reason.includes('Converted'));
+    const entries=[];
+    allAtt.forEach(d=>{
+      const xp=10+Math.round((d.percentage||0)/2);
+      entries.push({icon:'📝',reason:`${d.subjectName} — ${d.ci?.name||d.chapterId}`,xp,date:d.date,color:'var(--acc)'});
+    });
+    hpLog.forEach(l=>{
+      const match=l.reason.match(/(\d+) HP → (\d+) XP/);
+      if(match)entries.push({icon:'⚡',reason:`Converted ${match[1]} HP → XP`,xp:parseInt(match[2]),date:l.date,color:'#7c3aed'});
+    });
+    entries.sort((a,b)=>new Date(b.date)-new Date(a.date));
+    const totalXP=calcTotalXP(allAtt);
+    if(!entries.length){panel.innerHTML=`<div style="text-align:center;padding:24px;color:var(--text3);font-size:13px;">No XP activity yet.</div>`;return;}
+    panel.innerHTML=`<div style="padding:10px 12px;background:linear-gradient(135deg,rgba(79,110,247,.08),rgba(124,58,237,.05));border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:12px;font-weight:800;color:var(--acc);">Total XP: ${totalXP}</div>
+      <div style="font-size:10px;color:var(--text3);">${entries.length} activities</div>
+    </div>`+entries.map(e=>`
+      <div class="log-entry">
+        <div style="font-size:18px;flex-shrink:0;">${e.icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.reason}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:1px;">${fd(e.date)}</div>
+        </div>
+        <div style="font-size:13px;font-weight:900;font-family:var(--mono);color:${e.color};flex-shrink:0;">+${e.xp} XP</div>
+      </div>`).join('');
+  }
+
+  else if(tab==='rp'){
+    const rpData=getRPData();
+    const log=rpData.log||[];
+    if(!log.length){panel.innerHTML=`<div style="text-align:center;padding:24px;color:var(--text3);font-size:13px;">No RP activity yet.</div>`;return;}
+    panel.innerHTML=log.map(l=>{
+      const isUp=l.rp>0,isPromote=l.promoted,isDemote=l.demoted||l.forced3;
+      const icon=l.forced3?'😬':isPromote?'🎉':isDemote?'📉':isUp?'⚡':'📊';
+      const color=isPromote?'var(--green)':isDemote?'var(--red)':isUp?'var(--acc)':'var(--yellow)';
+      const rankChange=(l.rankBefore&&l.rankAfter&&l.rankBefore!==l.rankAfter)?` · ${l.rankBefore}→${l.rankAfter}`:'';
+      return`<div class="log-entry">
+        <div style="font-size:18px;flex-shrink:0;">${icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l.reason}${rankChange}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:1px;">${fd(l.date)}</div>
+        </div>
+        <div style="font-size:13px;font-weight:900;font-family:var(--mono);color:${color};flex-shrink:0;">${l.rp>0?'+':''}${l.rp} RP</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+/* ══════════════════════════════════════════
+   BADGE DOWNLOAD GRID
+══════════════════════════════════════════ */
+function renderBadgeDLGrid(){
+  const grid=document.getElementById('badge-dl-grid');
+  if(!grid)return;
+  const rpData=getRPData();
+  grid.innerHTML=RANK_TIERS.map((tier,ti)=>{
+    const earned=ti<=rpData.rankIndex;
+    return`<div class="badge-dl-item ${earned?'earned':'locked'}" onclick="downloadBadgePNG('${tier.name}',${earned})" title="${earned?'Download':'Download (grayscale)'} ${tier.name} badge">
+      <div style="margin-bottom:6px;">${getBadgeSVG(tier.name,56,'dl-'+tier.name)}</div>
+      <div style="font-size:11px;font-weight:800;color:${earned?tier.color:'var(--text3)'};">${tier.name}</div>
+      <div style="font-size:9px;color:var(--text3);margin-top:2px;">${earned?'⬇️ Download':'🔒 Locked'}</div>
+    </div>`;
+  }).join('');
+}
+
+function downloadBadgePNG(rankName,earned){
+  const tier=RANK_TIERS.find(t=>t.name===rankName);
+  const prof=getProfile();
+  const uname=prof.name||'Student';
+  const cvs=document.createElement('canvas');
+  cvs.width=400;cvs.height=480;
+  const ctx=cvs.getContext('2d');
+
+  // Background
+  if(earned){
+    const grad=ctx.createLinearGradient(0,0,400,480);
+    grad.addColorStop(0,'#f0f3fa');grad.addColorStop(1,'#e8ecf4');
+    ctx.fillStyle=grad;
+  } else {
+    ctx.fillStyle='#e8e8e8';
+  }
+  ctx.fillRect(0,0,400,480);
+
+  // Border
+  ctx.strokeStyle=earned?(tier?.color||'#4f6ef7'):'#aaa';
+  ctx.lineWidth=4;
+  ctx.beginPath();ctx.roundRect(8,8,384,464,20);ctx.stroke();
+
+  // Render SVG badge via Image
+  const svgStr=getBadgeSVG(rankName,180,'png-dl');
+  const svgBlob=new Blob([svgStr],{type:'image/svg+xml'});
+  const url=URL.createObjectURL(svgBlob);
+  const img=new Image();
+  img.onload=()=>{
+    // If locked, apply grayscale via canvas filter
+    if(!earned){ctx.filter='grayscale(1) opacity(0.5)';}
+    ctx.drawImage(img,110,40,180,180);
+    ctx.filter='none';
+    URL.revokeObjectURL(url);
+
+    // Rank name
+    ctx.textAlign='center';
+    if(earned){
+      const tg=ctx.createLinearGradient(100,240,300,280);
+      tg.addColorStop(0,tier?.color||'#4f6ef7');tg.addColorStop(1,'#7c3aed');
+      ctx.fillStyle=tg;
+    } else {
+      ctx.fillStyle='#999';
+    }
+    ctx.font='bold 28px sans-serif';
+    ctx.fillText(rankName+' Rank',200,252);
+
+    // Student name
+    ctx.fillStyle=earned?'#1a1d2e':'#666';
+    ctx.font='bold 20px sans-serif';
+    ctx.fillText(uname,200,292);
+
+    // Status label
+    ctx.font='14px sans-serif';
+    ctx.fillStyle=earned?(tier?.color||'#4f6ef7'):'#999';
+    ctx.fillText(earned?'✅ Rank Achieved':'🔒 Not Yet Achieved',200,322);
+
+    // Divider
+    ctx.strokeStyle=earned?(tier?.color||'#4f6ef7')+'60':'#ccc';
+    ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(60,345);ctx.lineTo(340,345);ctx.stroke();
+
+    // Thunderstudy logo text
+    const lgrd=ctx.createLinearGradient(100,360,300,400);
+    lgrd.addColorStop(0,'#4f6ef7');lgrd.addColorStop(1,'#7c3aed');
+    ctx.fillStyle=earned?lgrd:'#aaa';
+    ctx.font='bold 22px sans-serif';
+    ctx.fillText('⚡ THUNDERSTUDY',200,380);
+
+    ctx.fillStyle='#9298b5';
+    ctx.font='12px sans-serif';
+    ctx.fillText('CUET Preparation Platform',200,406);
+
+    ctx.fillStyle='#b0b5c8';
+    ctx.font='11px sans-serif';
+    ctx.fillText(new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}),200,432);
+
+    // Download
+    const a=document.createElement('a');
+    a.download=`${rankName}_Badge_${uname.replace(/\s/g,'_')}_Thunderstudy.png`;
+    a.href=cvs.toDataURL('image/png');
+    a.click();
+    showToast(`⬇️ ${rankName} badge downloaded!`,'success');
+  };
+  img.src=url;
+}
+
+/* ══════════════════════════════════════════
+   CERT LEVEL ROW
+══════════════════════════════════════════ */
+function renderCertLevelRow(){
+  const el=document.getElementById('cert-level-row');
+  if(!el)return;
+  const allAtt=getAllAtt();
+  const totalXP=calcTotalXP(allAtt);
+  const xpInfo=getXPLevel(totalXP);
+  el.innerHTML=XP_LEVELS.map(lv=>{
+    const isEarned=totalXP>=lv.min;
+    const isCurrent=lv.level===xpInfo.level;
+    return`<div class="cert-level-pill ${isEarned?'earned':'locked'}" style="color:${isEarned?lv.color:'#999'};border-color:${isEarned?lv.color+'50':'#ddd'};background:${isEarned?lv.color+'12':'#f5f5f5'};">
+      ${lv.icon} ${lv.name}${isCurrent?' ◀':''}
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════
+   DOWNLOAD CERTIFICATE AS PDF
+══════════════════════════════════════════ */
+function updateCertOptions(){
+  // Refresh badges when subject changes
+  const sel=document.getElementById('cert-subj-sel');
+  if(!sel)return;
+  const sId=sel.value;
+  const subj=SUBJECTS_MASTER.find(s=>s.id===sId);
+  const hp=getHP().total;
+  const xp=calcTotalXP(getAllAtt());
+  // HP badge
+  const hpB=document.getElementById('cert-opt-hp-badge');
+  if(hpB){hpB.textContent=hp>=500?'✅ Available':'❌ Need more HP';hpB.style.background=hp>=500?'rgba(16,185,129,.1)':'rgba(244,63,94,.1)';hpB.style.color=hp>=500?'var(--green)':'var(--red)';}
+  const hpS=document.getElementById('cert-hp-show');if(hpS)hpS.textContent=hp;
+  // XP badge
+  const xpB=document.getElementById('cert-opt-xp-badge');
+  if(xpB){xpB.textContent=xp>=500?'✅ Available':'❌ Need more XP';xpB.style.background=xp>=500?'rgba(16,185,129,.1)':'rgba(244,63,94,.1)';xpB.style.color=xp>=500?'var(--green)':'var(--red)';}
+  const xpS=document.getElementById('cert-xp-show');if(xpS)xpS.textContent=xp;
+  // Free badge
+  if(subj){
+    const att=subj.chapters.filter(c=>MOCK_TYPES.includes(c.type)).map(c=>lR(sId,c.id)).filter(Boolean);
+    const avg=att.length?att.reduce((s,d)=>s+d.percentage,0)/att.length:0;
+    const fB=document.getElementById('cert-opt-free-badge');
+    if(fB){fB.textContent=avg>=90?'✅ Eligible — Free!':att.length?`${avg.toFixed(1)}% avg (need 90%+)`:'No mocks done';fB.style.background=avg>=90?'rgba(16,185,129,.1)':'rgba(245,158,11,.1)';fB.style.color=avg>=90?'var(--green)':'var(--yellow)';}
+  }
+}
+
+function downloadCertPDF(method){
+  const sel=document.getElementById('cert-subj-sel');
+  const st=document.getElementById('cert-dl-status');
+  if(!sel){if(st)st.innerHTML=`<span style="color:var(--red)">❌ Select a subject first.</span>`;return;}
+  const sId=sel.value;
+  const subj=SUBJECTS_MASTER.find(s=>s.id===sId);
+  if(!subj){if(st)st.innerHTML=`<span style="color:var(--red)">❌ Invalid subject.</span>`;return;}
+
+  const prof=getProfile();
+  const uname=prof.name||'Student';
+  const college=prof.college||'';
+  const allAtt=getAllAtt();
+  const totalXP=calcTotalXP(allAtt);
+  const xpInfo=getXPLevel(totalXP);
+  const hp=getHP();
+
+  // Get subject mock avg
+  const mockChs=subj.chapters.filter(c=>MOCK_TYPES.includes(c.type));
+  const mockAtt=mockChs.map(c=>lR(sId,c.id)).filter(Boolean);
+  const mockAvg=mockAtt.length?mockAtt.reduce((s,d)=>s+d.percentage,0)/mockAtt.length:0;
+
+  // All chapters score
+  const att=[];subj.chapters.forEach(ch=>{const r=lR(sId,ch.id);if(r)att.push(r);});
+  const tScore=att.reduce((s,d)=>s+d.score,0);
+  const tMax=att.reduce((s,d)=>s+d.maxScore,0);
+  const avgPct=att.length>0?att.reduce((s,d)=>s+d.percentage,0)/att.length:0;
+
+  // ── CHECK ELIGIBILITY ──
+  if(method==='hp'){
+    if(hp.total<500){if(st)st.innerHTML=`<span style="color:var(--red)">❌ Need 500 HP. You have ${hp.total} HP.</span>`;return;}
+    if(!confirm(`Spend 500 HP to download this certificate?\nRemaining after: ${hp.total-500} HP`))return;
+    // Deduct HP
+    hp.total-=500;
+    hp.log.unshift({amount:-500,reason:`Certificate PDF downloaded — ${subj.name}`,date:new Date().toISOString()});
+    localStorage.setItem('ts_hp',JSON.stringify(hp));
+    // Also deduct from RP rank if at Rookie (drain XP equivalent)
+    _deductRankPoints(50,'Certificate HP spend');
+    showToast('💜 500 HP spent for certificate!','success');
+  } else if(method==='xp'){
+    if(totalXP<500){if(st)st.innerHTML=`<span style="color:var(--red)">❌ Need 500 XP. You have ${totalXP} XP.</span>`;return;}
+    if(!confirm(`Spend 500 XP to download this certificate?\nThis will reduce your XP and may affect your level.`))return;
+    // Deduct XP via bonus_xp
+    const curBonus=JSON.parse(localStorage.getItem('ts_bonus_xp')||'0');
+    const newBonus=curBonus-500;
+    localStorage.setItem('ts_bonus_xp',JSON.stringify(newBonus));
+    // Log in HP log for record
+    const hpLog=getHP();
+    hpLog.log.unshift({amount:0,reason:`Certificate PDF — 500 XP spent for ${subj.name}`,date:new Date().toISOString()});
+    localStorage.setItem('ts_hp',JSON.stringify(hpLog));
+    // Deduct RP
+    _deductRankPoints(30,'Certificate XP spend');
+    showToast('⚡ 500 XP spent for certificate!','success');
+  } else if(method==='free'){
+    if(mockAvg<90){
+      if(st)st.innerHTML=`<span style="color:var(--red)">❌ Need 90%+ avg in ${subj.name} mocks. Current: ${mockAvg.toFixed(1)}%</span>`;
+      return;
+    }
+  } else {
+    if(st)st.innerHTML=`<span style="color:var(--red)">❌ Choose an unlock method.</span>`;return;
+  }
+
+  // Ask for place
+  const place=prompt('Enter Place/City for the certificate:','New Delhi');
+  if(place===null)return;
+
+  if(st)st.innerHTML=`<span style="color:var(--yellow)">⏳ Generating PDF…</span>`;
+
+  try{
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+    const W=297,H=210;
+
+    // Background
+    doc.setFillColor(248,249,255);
+    doc.rect(0,0,W,H,'F');
+
+    // Outer border
+    doc.setDrawColor(79,110,247);
+    doc.setLineWidth(3);
+    doc.rect(8,8,W-16,H-16);
+    doc.setLineWidth(1);
+    doc.rect(12,12,W-24,H-24);
+
+    // Corner dots
+    const corners=[[12,12],[W-12,12],[12,H-12],[W-12,H-12]];
+    doc.setFillColor(79,110,247);
+    corners.forEach(([cx,cy])=>{doc.circle(cx,cy,3,'F');});
+
+    // Top header bar
+    doc.setFillColor(79,110,247);
+    doc.rect(0,0,W,28,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(14);
+    doc.setFont('helvetica','bold');
+    doc.text(`${subj.name.toUpperCase()} — CERTIFICATE OF ACHIEVEMENT`,W/2,17,{align:'center'});
+    doc.setFontSize(9);
+    doc.setFont('helvetica','normal');
+    doc.text('THUNDERSTUDY · CUET Preparation Platform',W/2,24,{align:'center'});
+
+    // THUNDERSTUDY title
+    doc.setTextColor(79,110,247);
+    doc.setFontSize(22);
+    doc.setFont('helvetica','bold');
+    doc.text('THUNDERSTUDY',W/2,48,{align:'center'});
+    doc.setFontSize(9);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(146,152,181);
+    doc.text('Official Achievement Certificate',W/2,55,{align:'center'});
+
+    // Decorative line
+    doc.setDrawColor(79,110,247);
+    doc.setLineWidth(0.5);
+    doc.line(40,59,W-40,59);
+
+    // Certify text
+    doc.setFontSize(11);
+    doc.setTextColor(90,95,122);
+    doc.setFont('helvetica','normal');
+    doc.text('This is to certify that',W/2,70,{align:'center'});
+
+    // Student name
+    doc.setFontSize(26);
+    doc.setFont('helvetica','bold');
+    doc.setTextColor(26,29,46);
+    doc.text(uname,W/2,84,{align:'center'});
+
+    // Underline
+    const nameW=doc.getTextWidth(uname);
+    doc.setDrawColor(124,58,237);
+    doc.setLineWidth(0.8);
+    doc.line(W/2-nameW/2,87,W/2+nameW/2,87);
+
+    // from THUNDERSTUDY
+    doc.setFontSize(10);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(90,95,122);
+    doc.text('from  THUNDERSTUDY',W/2,95,{align:'center'});
+
+    // has achieved rank
+    doc.setFontSize(11);
+    doc.setTextColor(26,29,46);
+    doc.text('has successfully achieved Rank',W/2,106,{align:'center'});
+
+    // Rank name — NO EMOJI
+    doc.setFontSize(20);
+    doc.setFont('helvetica','bold');
+    doc.setTextColor(79,110,247);
+    doc.text(xpInfo.name.toUpperCase(),W/2,118,{align:'center'});
+
+    // Subject
+    doc.setFontSize(11);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(26,29,46);
+    doc.text(`in  ${subj.name}`,W/2,129,{align:'center'});
+
+    // College
+    doc.setFontSize(10);
+    doc.setTextColor(90,95,122);
+    doc.text(`conducted under Dream  ${college||'_______________'}`,W/2,137,{align:'center'});
+
+    // Score box
+    doc.setFillColor(240,243,250);
+    doc.setDrawColor(79,110,247);
+    doc.setLineWidth(0.5);
+    doc.rect(W/2-40,143,80,18,'FD');
+    doc.setFontSize(10);
+    doc.setFont('helvetica','bold');
+    doc.setTextColor(79,110,247);
+    doc.text(`Score: ${tScore}/${tMax}  (${avgPct.toFixed(1)}%)`,W/2,154,{align:'center'});
+
+    // Unlock method label
+    doc.setFontSize(8);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(146,152,181);
+    const methodLabel=method==='hp'?'Unlocked with 500 HP':method==='xp'?'Unlocked with 500 XP':'Unlocked — 90%+ Achievement';
+    doc.text(methodLabel,W/2,163,{align:'center'});
+
+    // Dedication text
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica','italic');
+    const dedText='This accomplishment reflects dedication, hard work, and excellence in performance. We congratulate the student for this outstanding achievement and wish them continued success in all future endeavors.';
+    const splitDed=doc.splitTextToSize(dedText,W-80);
+    doc.text(splitDed,W/2,169,{align:'center'});
+
+    // Bottom divider
+    doc.setDrawColor(79,110,247);
+    doc.setLineWidth(0.4);
+    doc.line(40,176,W-40,176);
+
+    // Date, Place, Signatory
+    const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+    doc.setFontSize(9);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(90,95,122);
+    doc.text(`Date: ${today}`,40,183);
+    doc.text(`Place: ${place||'___________'}`,W/2,183,{align:'center'});
+    doc.setFont('helvetica','bold');
+    doc.setTextColor(79,110,247);
+    doc.text('Authorized Signatory',W-40,183,{align:'right'});
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(146,152,181);
+    doc.text('THUNDERSTUDY',W-40,189,{align:'right'});
+
+    // Badge image
+    const badgeSvgStr=getBadgeSVG(RANK_TIERS[getRPData().rankIndex].name,60,'cert-pdf');
+    const svgBlob=new Blob([badgeSvgStr],{type:'image/svg+xml'});
+    const svgUrl=URL.createObjectURL(svgBlob);
+    const badgeImg=new Image();
+    badgeImg.onload=()=>{
+      const bc=document.createElement('canvas');bc.width=120;bc.height=120;
+      const bctx=bc.getContext('2d');bctx.drawImage(badgeImg,0,0,120,120);
+      doc.addImage(bc.toDataURL('image/png'),'PNG',W-52,30,36,36);
+      URL.revokeObjectURL(svgUrl);
+      const fname=`${uname.replace(/\s/g,'_')}_${(college||'Thunderstudy').replace(/\s/g,'_')}_${subj.name.replace(/\s/g,'_')}_Certificate.pdf`;
+      doc.save(fname);
+      if(st)st.innerHTML=`<span style="color:var(--green)">✅ Certificate downloaded!</span>`;
+      showToast('📄 Certificate PDF saved!','success');
+      updateCertOptions();
+    };
+    badgeImg.onerror=()=>{
+      const fname=`${uname.replace(/\s/g,'_')}_${(college||'Thunderstudy').replace(/\s/g,'_')}_${subj.name.replace(/\s/g,'_')}_Certificate.pdf`;
+      doc.save(fname);
+      if(st)st.innerHTML=`<span style="color:var(--green)">✅ Certificate downloaded!</span>`;
+      updateCertOptions();
+    };
+    badgeImg.src=svgUrl;
+
+  }catch(err){
+    if(st)st.innerHTML=`<span style="color:var(--red)">❌ PDF error: ${escH(err.message)}</span>`;
+    console.error('PDF error:',err);
+  }
+}
+
+function _deductRankPoints(amount,reason){
+  // Deduct RP and possibly demote rank
+  const data=getRPData();
+  const rankBefore=RANK_TIERS[data.rankIndex].name;
+  const rem=data.rp-amount;
+  if(rem>=0){
+    data.rp=rem;
+  } else {
+    if(data.rankIndex>0){
+      data.rankIndex--;
+      data.rp=Math.max(0,RANK_TIERS[data.rankIndex].threshold-Math.abs(rem));
+    } else {
+      data.rp=0;
+    }
+  }
+  const rankAfter=RANK_TIERS[data.rankIndex].name;
+  data.log=data.log||[];
+  data.log.unshift({rp:-amount,reason,date:new Date().toISOString(),rankBefore,rankAfter});
+  if(data.log.length>50)data.log=data.log.slice(0,50);
+  saveRPData(data);
+  if(rankBefore!==rankAfter){
+    showToast(`📉 Rank dropped to ${rankAfter} after certificate spend`,'error');
+  }
 }
 
 function applyPromo(){
