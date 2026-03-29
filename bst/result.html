@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2447,6 +2448,15 @@ function renderLbView(data){
 function renderSettings(){
   const sv=getSS(),allAtt=getAllAtt();
   let H=`
+  <!-- CURRENCY GUIDE -->
+  <div class="card card-p" style="margin-bottom:14px;">
+    <div class="sec-hdr"><div class="sec-title">💰 Currency Guide</div></div>
+    <div style="display:flex;gap:9px;flex-wrap:wrap;">
+      <button onclick="openCurrencyGuide('hp')" class="btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(79,110,247,.08));border:2px solid rgba(124,58,237,.3);color:#7c3aed;font-size:13px;font-weight:800;padding:13px;">💜 HP Guide</button>
+      <button onclick="openCurrencyGuide('xp')" class="btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,rgba(79,110,247,.12),rgba(124,58,237,.08));border:2px solid rgba(79,110,247,.3);color:var(--acc);font-size:13px;font-weight:800;padding:13px;">⚡ XP Guide</button>
+      <button onclick="openCurrencyGuide('rp')" class="btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(249,115,22,.08));border:2px solid rgba(245,158,11,.3);color:var(--yellow);font-size:13px;font-weight:800;padding:13px;">🏅 RP Guide</button>
+    </div>
+  </div>
   <!-- COMMUNITY LINKS -->
   <div class="card card-p" style="margin-bottom:14px;">
     <div class="sec-hdr"><div class="sec-title">🌐 Join Our Community</div></div>
@@ -3110,6 +3120,207 @@ function applyPromo(){
   const st=document.getElementById('promo-status');
   if(st)st.innerHTML=`<span style="color:${result.ok?'var(--green)':'var(--red)'}">${result.msg}</span>`;
   if(result.ok){inp.value='';setTimeout(()=>renderSettings(),400);}
+}
+
+function openCurrencyGuide(type){
+  const existing=document.getElementById('currency-guide-modal');
+  if(existing)existing.remove();
+
+  const configs={
+    hp:{
+      title:'💜 HP — Honor Points',
+      color:'#7c3aed',
+      bg:'rgba(124,58,237,.08)',
+      border:'rgba(124,58,237,.3)',
+      current: getHP().total,
+      unit:'HP',
+      sections:[
+        {
+          id:'earn',
+          icon:'📈',
+          label:'Earn',
+          labelColor:'var(--green)',
+          bg:'rgba(16,185,129,.05)',
+          border:'rgba(16,185,129,.2)',
+          items:[
+            {icon:'🎁',title:'Section Gift','desc':'Complete all tests in a section (e.g. all Full Mocks of BST) with 80%+ average → +50 HP. Full Mock sections give +50–80 HP bonus.'},
+            {icon:'🎟️',title:'Promo Codes','desc':'Hidden inside Thunderstudy books → +50 HP each. Max 5 codes per student.'},
+            {icon:'📖',title:'Study Notes / Material','desc':'Study for 5 hours using Thunderstudy study material → +30 HP.'},
+          ]
+        },
+        {
+          id:'spend',
+          icon:'💸',
+          label:'Spend',
+          labelColor:'var(--acc)',
+          bg:'rgba(79,110,247,.05)',
+          border:'rgba(79,110,247,.2)',
+          items:[
+            {icon:'📄',title:'Certificate PDF','desc':'Spend 500 HP → Download a subject Certificate PDF.'},
+            {icon:'⚡',title:'Convert to XP','desc':'100 HP → 50 XP. Any multiple of 100. Done via Settings.'},
+            {icon:'📚',title:'Best Notes / Study Material','desc':'100 HP → unlock 1 notes or study material for your subject.'},
+          ]
+        },
+        {
+          id:'loss',
+          icon:'📉',
+          label:'Loss',
+          labelColor:'var(--red)',
+          bg:'rgba(244,63,94,.05)',
+          border:'rgba(244,63,94,.2)',
+          items:[
+            {icon:'😬',title:'Rank Demotion Penalty','desc':'When RP demotes you at Rookie floor OR Apex rank → −50 HP penalty.'},
+          ]
+        },
+      ]
+    },
+    xp:{
+      title:'⚡ XP — Experience Points',
+      color:'#4f6ef7',
+      bg:'rgba(79,110,247,.08)',
+      border:'rgba(79,110,247,.3)',
+      current: calcTotalXP(getAllAtt()),
+      unit:'XP',
+      sections:[
+        {
+          id:'earn',
+          icon:'📈',
+          label:'Earn',
+          labelColor:'var(--green)',
+          bg:'rgba(16,185,129,.05)',
+          border:'rgba(16,185,129,.2)',
+          items:[
+            {icon:'📝',title:'Every Test Attempt','desc':'Each attempt gives 10 XP base + (your % ÷ 2). So 80% score = 10 + 40 = 50 XP.'},
+            {icon:'💜',title:'Convert HP → XP','desc':'100 HP = 50 XP. Convert any multiple of 100 in Settings.'},
+            {icon:'👑',title:'Apex Rank Bonus','desc':'Scoring well at Apex rank awards bonus XP directly.'},
+          ]
+        },
+        {
+          id:'spend',
+          icon:'💸',
+          label:'Spend',
+          labelColor:'var(--acc)',
+          bg:'rgba(79,110,247,.05)',
+          border:'rgba(79,110,247,.2)',
+          items:[
+            {icon:'📄',title:'Certificate PDF','desc':'Spend 500 XP → Download a subject Certificate PDF in Settings.'},
+          ]
+        },
+        {
+          id:'loss',
+          icon:'📉',
+          label:'Loss',
+          labelColor:'var(--red)',
+          bg:'rgba(244,63,94,.05)',
+          border:'rgba(244,63,94,.2)',
+          items:[
+            {icon:'😬',title:'Rank Floor Penalty','desc':'At Rookie floor, RP penalties drain 50 XP instead of rank demotion.'},
+            {icon:'👑',title:'Apex Rank Penalty','desc':'At Apex, bad scores (≤30%) drain 50 XP and can demote you back to Thunder.'},
+            {icon:'📄',title:'Certificate Spend','desc':'Spending 500 XP for a certificate reduces your XP and may lower your level.'},
+          ]
+        },
+      ]
+    },
+    rp:{
+      title:'🏅 RP — Rank Points',
+      color:'#f59e0b',
+      bg:'rgba(245,158,11,.08)',
+      border:'rgba(245,158,11,.3)',
+      current: (()=>{const d=getRPData();return d.rp+' RP · '+RANK_TIERS[d.rankIndex].name;})(),
+      unit:'RP',
+      sections:[
+        {
+          id:'earn',
+          icon:'📈',
+          label:'Earn',
+          labelColor:'var(--green)',
+          bg:'rgba(16,185,129,.05)',
+          border:'rgba(16,185,129,.2)',
+          items:[
+            {icon:'✅',title:'Score 81–100%','desc':'+80 to +90 RP per test.'},
+            {icon:'📗',title:'Score 61–80%','desc':'+60 to +80 RP per test.'},
+            {icon:'📙',title:'Score 31–60%','desc':'+30 to +60 RP per test (scales linearly).'},
+          ]
+        },
+        {
+          id:'spend',
+          icon:'📉',
+          label:'Lose / Spend',
+          labelColor:'var(--red)',
+          bg:'rgba(244,63,94,.05)',
+          border:'rgba(244,63,94,.2)',
+          items:[
+            {icon:'❌',title:'Score ≤30%','desc':'−30 RP. Can trigger rank demotion.'},
+            {icon:'😬',title:'3 Consecutive Bad Tests','desc':'3 tests ≤30% in a row → instant demotion to previous rank, streak resets.'},
+            {icon:'📄',title:'Certificate via HP','desc':'Downloading certificate (HP method) costs −50 RP.'},
+            {icon:'📄',title:'Certificate via XP','desc':'Downloading certificate (XP method) costs −30 RP.'},
+            {icon:'🔰',title:'Rookie Floor','desc':'At Rookie rank, RP penalties drain 50 XP instead of going below 0.'},
+            {icon:'👑',title:'Apex Rank','desc':'At Apex, −30 RP per bad test. Enough bad tests demotes you back to Thunder.'},
+          ]
+        },
+        {
+          id:'tiers',
+          icon:'🏆',
+          label:'Rank Tiers',
+          labelColor:'var(--yellow)',
+          bg:'rgba(245,158,11,.05)',
+          border:'rgba(245,158,11,.2)',
+          items:[
+            {icon:'🥉',title:'Rookie','desc':'Starting rank. 0 RP.'},
+            {icon:'🔍',title:'Explorer','desc':'Unlock at 150 RP.'},
+            {icon:'🥇',title:'Bronze','desc':'Unlock at 250 RP.'},
+            {icon:'💎',title:'Silver','desc':'Unlock at 350 RP.'},
+            {icon:'💠',title:'Elite','desc':'Unlock at 500 RP.'},
+            {icon:'⚜️',title:'Gold','desc':'Unlock at 700 RP.'},
+            {icon:'⚡',title:'Thunder','desc':'Unlock at 1000 RP.'},
+            {icon:'👑',title:'Apex','desc':'Special — maintain at Thunder level. Score well to stay!'},
+          ]
+        },
+      ]
+    }
+  };
+
+  const cfg=configs[type];
+  const rpData=getRPData();
+  const currentTier=RANK_TIERS[rpData.rankIndex];
+
+  let sectionsH=cfg.sections.map(sec=>`
+    <div style="background:${sec.bg};border:1.5px solid ${sec.border};border-radius:16px;padding:16px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <div style="font-size:20px;">${sec.icon}</div>
+        <div style="font-size:14px;font-weight:900;color:${sec.labelColor};">${sec.label}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        ${sec.items.map(item=>`
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--card);border-radius:11px;padding:11px 13px;">
+            <div style="font-size:20px;flex-shrink:0;margin-top:1px;">${item.icon}</div>
+            <div>
+              <div style="font-size:13px;font-weight:800;margin-bottom:2px;">${item.title}</div>
+              <div style="font-size:11px;color:var(--text3);line-height:1.6;">${item.desc}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+
+  const modal=document.createElement('div');
+  modal.id='currency-guide-modal';
+  modal.style.cssText=`position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:flex-start;justify-content:center;backdrop-filter:blur(8px);padding:16px;overflow-y:auto;`;
+  modal.innerHTML=`
+  <div style="background:var(--card);border-radius:26px;padding:28px;max-width:520px;width:100%;border:2px solid ${cfg.border};box-shadow:0 24px 80px rgba(0,0,0,.2);animation:mIn .35s cubic-bezier(.34,1.56,.64,1);margin:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div style="font-size:20px;font-weight:900;">${cfg.title}</div>
+      <span onclick="document.getElementById('currency-guide-modal').remove()" style="cursor:pointer;color:var(--text3);font-size:28px;line-height:1;">×</span>
+    </div>
+    <div style="background:${cfg.bg};border:1.5px solid ${cfg.border};border-radius:14px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;gap:12px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);">Your Current</div>
+      <div style="font-size:22px;font-weight:900;font-family:var(--mono);color:${cfg.color};margin-left:auto;">${cfg.current} ${type==='rp'?'':cfg.unit}</div>
+    </div>
+    ${sectionsH}
+    <button onclick="document.getElementById('currency-guide-modal').remove()" class="btn btn-prim" style="width:100%;justify-content:center;margin-top:4px;">Got it! ✓</button>
+  </div>`;
+
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
 }
 
 function showPromoHint(){
