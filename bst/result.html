@@ -780,26 +780,174 @@ function getXPLevel(xp){let l=XP_LEVELS[0];for(const x of XP_LEVELS){if(xp>=x.mi
 
 /* RANK */
 const RANK_TIERS=[
-  {name:'Rookie',  icon:'🥉',color:'#cd7f32',bg:'rgba(205,127,50,.1)', border:'rgba(205,127,50,.25)', min:0,  max:19.9},
-  {name:'Explorer',icon:'🥈',color:'#94a3b8',bg:'rgba(148,163,184,.1)',border:'rgba(148,163,184,.25)',min:20, max:39.9},
-  {name:'Bronze',  icon:'🥇',color:'#f59e0b',bg:'rgba(245,158,11,.1)', border:'rgba(245,158,11,.25)', min:40, max:49.9},
-  {name:'Silver',  icon:'💎',color:'#60a8f0',bg:'rgba(96,168,240,.1)', border:'rgba(96,168,240,.25)', min:50, max:59.9},
-  {name:'Elite',   icon:'💠',color:'#10c8a0',bg:'rgba(16,200,160,.1)', border:'rgba(16,200,160,.25)', min:60, max:69.9},
-  {name:'Gold',    icon:'⚜️',color:'#a855f7',bg:'rgba(168,85,247,.1)', border:'rgba(168,85,247,.25)', min:70, max:79.9},
-  {name:'Thunder', icon:'⚡',color:'#ef4444',bg:'rgba(239,68,68,.1)',  border:'rgba(239,68,68,.25)',  min:80, max:89.9},
-  {name:'Apex',    icon:'👑',color:'#f97316',bg:'rgba(249,115,22,.1)', border:'rgba(249,115,22,.25)', min:90, max:100},
+  {name:'Rookie',  icon:'🥉',color:'#cd7f32',bg:'rgba(205,127,50,.1)', border:'rgba(205,127,50,.25)', threshold:100},
+  {name:'Explorer',icon:'🥈',color:'#94a3b8',bg:'rgba(148,163,184,.1)',border:'rgba(148,163,184,.25)',threshold:150},
+  {name:'Bronze',  icon:'🥇',color:'#f59e0b',bg:'rgba(245,158,11,.1)', border:'rgba(245,158,11,.25)', threshold:250},
+  {name:'Silver',  icon:'💎',color:'#60a8f0',bg:'rgba(96,168,240,.1)', border:'rgba(96,168,240,.25)', threshold:350},
+  {name:'Elite',   icon:'💠',color:'#10c8a0',bg:'rgba(16,200,160,.1)', border:'rgba(16,200,160,.25)', threshold:500},
+  {name:'Gold',    icon:'⚜️',color:'#a855f7',bg:'rgba(168,85,247,.1)', border:'rgba(168,85,247,.25)', threshold:700},
+  {name:'Thunder', icon:'⚡',color:'#ef4444',bg:'rgba(239,68,68,.1)',  border:'rgba(239,68,68,.25)',  threshold:1000},
+  {name:'Apex',    icon:'👑',color:'#f97316',bg:'rgba(249,115,22,.1)', border:'rgba(249,115,22,.25)', threshold:20},
 ];
 
-function getRankTier(pct) {
-  let tier = RANK_TIERS[0];
-  for (const t of RANK_TIERS) {
-    if (pct >= t.min) tier = t;
-    else break;
-  }
-  return tier;
+function getRankTier(pct){const d=getRPData();return RANK_TIERS[d.rankIndex]||RANK_TIERS[0];}
+function gRank(p){const t=getRankTier(p);return{name:t.name,icon:t.icon,color:t.color};}
+/* ══════════════════════════════════════════
+   RP RANK SYSTEM
+══════════════════════════════════════════ */
+function getRPData(){try{return JSON.parse(localStorage.getItem('ts_rp_data')||'{"rankIndex":0,"rp":0,"apexBonus":0,"consecutiveBad":0,"log":[]}');}catch(e){return{rankIndex:0,rp:0,apexBonus:0,consecutiveBad:0,log:[]};}}
+function saveRPData(d){localStorage.setItem('ts_rp_data',JSON.stringify(d));}
+
+function calcRPGain(pct){
+  if(pct<=30)return -30;
+  if(pct<=60)return Math.round(30+(pct-31)/29*30);
+  if(pct<=80)return Math.round(60+(pct-60)/20*20);
+  return Math.round(80+(pct-80)/20*10);
 }
 
-function gRank(p){const t=getRankTier(p);return{name:t.name,icon:t.icon,color:t.color};}
+function applyTestRP(pct){
+  const data=getRPData();
+  const rpGain=calcRPGain(pct);
+  const isBad=pct<=30;
+  const rankBefore=RANK_TIERS[data.rankIndex].name;
+  let promoted=false,demoted=false,xpChange=0,forced3=false;
+
+  if(isBad){data.consecutiveBad=(data.consecutiveBad||0)+1;}
+  else{data.consecutiveBad=0;}
+
+  /* ── 3 CONSECUTIVE BAD MOCKS → FORCE DEMOTION ── */
+  if(data.consecutiveBad>=3){
+    data.consecutiveBad=0;
+    if(data.rankIndex>0){
+      data.rankIndex--;data.rp=0;data.apexBonus=0;demoted=true;forced3=true;
+    } else {
+      data.rp=0;
+      const bxp=Math.max(0,JSON.parse(localStorage.getItem('ts_bonus_xp')||'0')-50);
+      localStorage.setItem('ts_bonus_xp',JSON.stringify(bxp));
+      xpChange=-50;forced3=true;
+    }
+    const rankAfter=RANK_TIERS[data.rankIndex].name;
+    data.log=data.log||[];
+    data.log.unshift({rp:rpGain,reason:`3 bad mocks in a row → demoted to ${rankAfter}`,date:new Date().toISOString(),rankBefore,rankAfter,xpChange,forced3:true});
+    if(data.log.length>50)data.log=data.log.slice(0,50);
+    saveRPData(data);
+    return{rpGain,promoted,demoted,xpChange,data,forced3:true};
+  }
+
+  const isAtApex=data.rankIndex===RANK_TIERS.length-1;
+
+  if(isAtApex){
+    /* ── AT APEX ── */
+    if(rpGain>0){
+      data.apexBonus=Math.min(20,(data.apexBonus||0)+rpGain);
+      // 30 RP = 30 XP at Apex (good)
+      const bxp=JSON.parse(localStorage.getItem('ts_bonus_xp')||'0')+rpGain;
+      localStorage.setItem('ts_bonus_xp',JSON.stringify(bxp));
+      xpChange=rpGain;
+    } else {
+      const penalty=30;
+      let rem=(data.apexBonus||0)-penalty;
+      if(rem>=0){data.apexBonus=rem;}
+      else{
+        // Demote Apex → Thunder, carry deficit into Thunder RP
+        data.rankIndex--;
+        data.rp=Math.max(0,RANK_TIERS[data.rankIndex].threshold-Math.abs(rem));
+        data.apexBonus=0;demoted=true;
+      }
+      // -30 RP = -50 XP at Apex (bad)
+      const bxp=Math.max(0,JSON.parse(localStorage.getItem('ts_bonus_xp')||'0')-50);
+      localStorage.setItem('ts_bonus_xp',JSON.stringify(bxp));
+      xpChange=-50;
+    }
+  } else {
+    /* ── NORMAL RANKS ── */
+    if(rpGain>=0){
+      data.rp+=rpGain;
+      if(data.rp>=RANK_TIERS[data.rankIndex].threshold){
+        if(data.rankIndex<RANK_TIERS.length-1){
+          data.rankIndex++;data.rp=0;
+          if(data.rankIndex===RANK_TIERS.length-1)data.apexBonus=0;
+          promoted=true;
+        } else {data.rp=RANK_TIERS[data.rankIndex].threshold;}
+      }
+    } else {
+      const rem=data.rp-30;
+      if(rem>=0){data.rp=rem;}
+      else{
+        if(data.rankIndex>0){
+          // Demote and carry deficit into previous rank RP
+          data.rankIndex--;
+          data.rp=Math.max(0,RANK_TIERS[data.rankIndex].threshold-Math.abs(rem));
+          demoted=true;
+        } else {
+          // Rookie floor — drain XP instead
+          data.rp=0;
+          const bxp=Math.max(0,JSON.parse(localStorage.getItem('ts_bonus_xp')||'0')-50);
+          localStorage.setItem('ts_bonus_xp',JSON.stringify(bxp));
+          xpChange=-50;
+        }
+      }
+    }
+  }
+
+  const rankAfter=RANK_TIERS[data.rankIndex].name;
+  data.log=data.log||[];
+  data.log.unshift({rp:rpGain,reason:`Test: ${pct.toFixed(1)}%`,date:new Date().toISOString(),rankBefore,rankAfter,xpChange});
+  if(data.log.length>50)data.log=data.log.slice(0,50);
+  saveRPData(data);
+  return{rpGain,promoted,demoted,xpChange,data,forced3:false};
+}
+
+function processNewResultsForRP(){
+  let processed={};
+  try{processed=JSON.parse(localStorage.getItem('ts_rp_processed')||'{}');}catch(e){}
+  const sv=getSS();let anyNew=false;let lastResult=null;
+  sv.forEach(sId=>{
+    const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
+    subj.chapters.forEach(ch=>{
+      const r=lR(sId,ch.id);if(!r)return;
+      const key=`${sId}_${ch.id}_${r.date}`;
+      if(!processed[key]){lastResult=applyTestRP(r.percentage||0);processed[key]=1;anyNew=true;}
+    });
+  });
+  if(anyNew){localStorage.setItem('ts_rp_processed',JSON.stringify(processed));if(lastResult)showRPToast(lastResult);}
+}
+
+function initRPSystem(){
+  if(localStorage.getItem('ts_rp_init')){processNewResultsForRP();return;}
+  // First ever load — replay all history chronologically
+  const allRes=[];
+  getSS().forEach(sId=>{
+    const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
+    subj.chapters.forEach(ch=>{
+      const r=lR(sId,ch.id);if(!r)return;
+      const key=`${sId}_${ch.id}_${r.date}`;
+      allRes.push({key,pct:r.percentage||0,date:new Date(r.date||0)});
+    });
+  });
+  allRes.sort((a,b)=>a.date-b.date);
+  const processed={};
+  allRes.forEach(({key,pct})=>{applyTestRP(pct);processed[key]=1;});
+  localStorage.setItem('ts_rp_processed',JSON.stringify(processed));
+  localStorage.setItem('ts_rp_init','1');
+}
+
+function showRPToast(result){
+  const{rpGain,promoted,demoted,xpChange,data,forced3}=result;
+  const tier=RANK_TIERS[data.rankIndex];
+  let msg='',bg='';
+  if(forced3){msg=`😬 3 bad mocks! Rank dropped → ${tier.icon} ${tier.name}`;bg='#ef4444';}
+  else if(promoted){msg=`🎉 RANK UP! → ${tier.icon} ${tier.name}`;bg='linear-gradient(135deg,#f59e0b,#f97316)';}
+  else if(demoted){msg=`📉 Rank dropped → ${tier.icon} ${tier.name}`;bg='#ef4444';}
+  else if(rpGain>0){msg=`⚡ +${rpGain} RP${xpChange>0?` · +${xpChange} XP`:''} · ${tier.name}`;bg='linear-gradient(135deg,#4f6ef7,#7c3aed)';}
+  else{msg=`📉 ${rpGain} RP${xpChange<0?` · ${xpChange} XP`:''} · ${tier.name}`;bg='#f43f5e';}
+  let t=document.getElementById('rp-toast');
+  if(!t){t=document.createElement('div');t.id='rp-toast';document.body.appendChild(t);}
+  t.innerHTML=msg;
+  t.style.cssText=`position:fixed;top:70px;right:24px;background:${bg};color:#fff;padding:12px 22px;border-radius:30px;font-size:14px;font-weight:800;font-family:var(--fn);z-index:99999;opacity:0;transform:translateY(-10px) scale(.95);transition:all .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 28px rgba(0,0,0,.25);pointer-events:none;`;
+  requestAnimationFrame(()=>{t.style.opacity='1';t.style.transform='translateY(0) scale(1)';});
+  clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},4000);
+}
 
 // ↓↓↓ PASTE THE ENTIRE getBadgeSVG FUNCTION HERE ↓↓↓
 function getBadgeSVG(rankName, size=72, uid='') {
@@ -1350,8 +1498,16 @@ function renderHome(){
   }
   const prof=getProfile(),allAtt=getAllAtt();
   const uname=prof.name||'Student';
-  const tS=allAtt.reduce((s,d)=>s+d.score,0),tM=allAtt.reduce((s,d)=>s+d.maxScore,0);
-  const overallP=tM>0?tS/tM*100:0,rank=gRank(overallP),currentTier=getRankTier(overallP);
+ const tS=allAtt.reduce((s,d)=>s+d.score,0),tM=allAtt.reduce((s,d)=>s+d.maxScore,0);
+  initRPSystem();
+  const rpData=getRPData();
+  const currentTier=RANK_TIERS[rpData.rankIndex];
+  const rank={name:currentTier.name,icon:currentTier.icon,color:currentTier.color};
+  const overallP=tM>0?tS/tM*100:0;
+  const isAtApex=rpData.rankIndex===RANK_TIERS.length-1;
+  const rpCurrent=isAtApex?rpData.apexBonus:rpData.rp;
+  const rpThreshold=currentTier.threshold;
+  const rpPct=rpThreshold>0?Math.min(100,rpCurrent/rpThreshold*100):100;
   const totalXP=calcTotalXP(allAtt),xpInfo=getXPLevel(totalXP);
   const streak=calcStreak(allAtt),bestStreak=getBestStreak(allAtt);
   document.getElementById('sb-av-disp').textContent=(uname[0]||'S').toUpperCase();
@@ -1376,18 +1532,28 @@ H+=`<div style="margin-bottom:14px;">
         <div class="rh-stat"><div class="rh-val">${totalXP}</div><div class="rh-lbl">XP Earned</div></div>
         <div class="rh-stat"><div class="rh-val">${streak}</div><div class="rh-lbl">🔥 Streak</div></div>
 <div class="rh-stat"><div class="rh-val">${overallP.toFixed(1)}%</div><div class="rh-lbl">Accuracy</div></div>
+        <div class="rh-stat"><div class="rh-val">${rpCurrent}<span style="font-size:11px;opacity:.6">/${rpThreshold}</span></div><div class="rh-lbl">⚡ RP</div></div>
         <div class="rh-stat"><div class="rh-val">${getHP().total}</div><div class="rh-lbl">💜 HP</div></div>
-      </div>
+</div>
     </div>
-  </div>
-  <div style="margin-bottom:18px;">
-    <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:9px;">🏅 Rank Badges</div>
+  </div>`;
+ H+=`<div style="margin-bottom:18px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;">
+      <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);">🏅 Rank Badges</div>
+      <div style="font-size:12px;font-weight:900;font-family:var(--mono);color:${currentTier.color};">⚡ ${rpCurrent} / ${rpThreshold} RP${isAtApex?' (Apex Bonus)':''}</div>
+    </div>
+    <div style="height:7px;background:var(--border);border-radius:7px;overflow:hidden;margin-bottom:10px;">
+      <div style="height:100%;width:${rpPct.toFixed(1)}%;background:${currentTier.color};border-radius:7px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);"></div>
+    </div>
+    ${rpData.consecutiveBad>0?`<div style="background:rgba(244,63,94,.08);border:1.5px solid rgba(244,63,94,.3);border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;"><div style="font-size:22px;">⚠️</div><div><div style="font-size:12px;font-weight:800;color:var(--red);">${rpData.consecutiveBad}/3 Bad Mocks — Demotion Risk!</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">${3-rpData.consecutiveBad} more test ≤30% = instant rank drop to previous rank</div></div></div>`:''}
     <div style="display:flex;flex-direction:column;gap:6px;">
-      ${RANK_TIERS.map(tier=>{const earned=overallP>=tier.min,isCurrent=tier.name===currentTier.name,nextTier=RANK_TIERS.find(t=>t.min>currentTier.min),pctToNext=nextTier?Math.min(((overallP-currentTier.min)/(nextTier.min-currentTier.min))*100,100):100;
+      ${RANK_TIERS.map((tier,ti)=>{const earned=ti<=rpData.rankIndex,isCurrent=ti===rpData.rankIndex;
         return`<div class="rank-badge-item ${earned?'earned':''} ${isCurrent?'current':''} ${!earned?'locked':''}" style="${isCurrent?`border-color:${tier.border};background:${tier.bg};`:''}">
           <div class="rank-badge-icon">${getBadgeSVG(tier.name,34,'lb-'+tier.name)}</div>
-          <div class="rank-badge-info"><div class="rank-badge-name" style="${isCurrent?`color:${tier.color}`:'color:var(--text2)'}">${tier.name}</div><div class="rank-badge-pct">${tier.min}%+</div>
-          ${isCurrent&&nextTier?`<div style="height:3px;background:var(--border);border-radius:3px;margin-top:3px;overflow:hidden;"><div style="height:100%;width:${pctToNext}%;background:${tier.color};border-radius:3px;"></div></div>`:''}
+          <div class="rank-badge-info">
+            <div class="rank-badge-name" style="${isCurrent?`color:${tier.color}`:'color:var(--text2)'}">${tier.name}</div>
+            <div class="rank-badge-pct">${isCurrent?`${rpCurrent} / ${rpThreshold} RP`:`${tier.threshold} RP to unlock`}</div>
+            ${isCurrent?`<div style="height:3px;background:var(--border);border-radius:3px;margin-top:3px;overflow:hidden;"><div style="height:100%;width:${rpPct.toFixed(0)}%;background:${tier.color};border-radius:3px;"></div></div>`:''}
           </div>
           <div class="rank-badge-check">${isCurrent?'⬅️':earned?'✅':''}</div>
         </div>`;
