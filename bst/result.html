@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -770,7 +771,11 @@ const TYPE_LABELS={chapwise:"📖 Chapterwise Tests",fullmock:"🗂️ Full Mock
 
 /* XP */
 const XP_LEVELS=[{level:1,min:0,name:'Rookie',icon:'📚',color:'#9298b5'},{level:2,min:200,name:'Learner',icon:'🎓',color:'#06b6d4'},{level:3,min:500,name:'Scholar',icon:'📖',color:'#4f6ef7'},{level:4,min:1000,name:'Expert',icon:'🌟',color:'#10b981'},{level:5,min:2000,name:'Master',icon:'🏆',color:'#f59e0b'},{level:6,min:3500,name:'Thunder',icon:'⚡',color:'#f97316'}];
-function calcTotalXP(a){return a.reduce((s,d)=>s+10+Math.round((d.percentage||0)/2),0);}
+function calcTotalXP(a){
+  const base=a.reduce((s,d)=>s+10+Math.round((d.percentage||0)/2),0);
+  const bonus=JSON.parse(localStorage.getItem('ts_bonus_xp')||'0');
+  return base+bonus;
+}
 function getXPLevel(xp){let l=XP_LEVELS[0];for(const x of XP_LEVELS){if(xp>=x.min)l=x;else break;}const i=XP_LEVELS.indexOf(l),n=XP_LEVELS[i+1],p=n?((xp-l.min)/(n.min-l.min))*100:100;return{...l,xp,nextMin:n?.min,nextName:n?.name,progress:Math.min(p,100)};}
 
 /* RANK */
@@ -982,6 +987,129 @@ function getBadgeSVG(rankName, size=72, uid='') {
   };
 
   return svgs[rankName] || svgs['Rookie'];
+}
+
+/* ══════════════════════════════════════════
+   HP SYSTEM
+══════════════════════════════════════════ */
+function getHP(){try{return JSON.parse(localStorage.getItem('ts_hp')||'{"total":0,"log":[]}');}catch(e){return{total:0,log:[]};}}
+function addHP(amount,reason){
+  const hp=getHP();
+  hp.total+=amount;
+  hp.log.unshift({amount,reason,date:new Date().toISOString()});
+  if(hp.log.length>50)hp.log=hp.log.slice(0,50);
+  localStorage.setItem('ts_hp',JSON.stringify(hp));
+  showHPToast(amount,reason);
+  return hp.total;
+}
+function showHPToast(amount,reason){
+  let t=document.getElementById('hp-toast');
+  if(!t){t=document.createElement('div');t.id='hp-toast';document.body.appendChild(t);}
+  t.innerHTML=`<span style="font-size:18px">💜</span> +${amount} HP <span style="font-size:11px;opacity:.8;">${reason}</span>`;
+  t.style.cssText=`position:fixed;top:24px;right:24px;background:linear-gradient(135deg,#7c3aed,#4f6ef7);color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:800;font-family:var(--fn);z-index:99999;opacity:0;transform:translateY(-10px) scale(.95);transition:all .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 28px rgba(124,58,237,.45);display:flex;align-items:center;gap:8px;pointer-events:none;`;
+  requestAnimationFrame(()=>{t.style.opacity='1';t.style.transform='translateY(0) scale(1)';});
+  clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(-10px) scale(.95)';},3000);
+}
+
+/* SECTION COMPLETION CHECK — awards 50HP when all tests in a type-group of a subject are 80%+ */
+function checkSectionCompletion(){
+  const sv=getSS();
+  const awarded=JSON.parse(localStorage.getItem('ts_hp_sections')||'{}');
+  sv.forEach(sId=>{
+    const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
+    const typeGroups={};
+    subj.chapters.forEach(ch=>{
+      if(!typeGroups[ch.type])typeGroups[ch.type]=[];
+      typeGroups[ch.type].push(ch);
+    });
+    Object.entries(typeGroups).forEach(([type,chs])=>{
+      const key=`${sId}_${type}`;
+      if(awarded[key])return;
+      const allDone=chs.every(ch=>{
+        const r=lR(sId,ch.id);
+        return r&&r.percentage>=80;
+      });
+      if(allDone){
+        awarded[key]=1;
+        localStorage.setItem('ts_hp_sections',JSON.stringify(awarded));
+        const hpGain=type==='fullmock'?Math.floor(Math.random()*(80-50+1))+50:50;
+        addHP(hpGain,`All ${TL[type]||type} of ${subj.name} cleared 80%+!`);
+        if(type==='fullmock'){
+          setTimeout(()=>showFullMockClaim(sId,subj,hpGain),800);
+        }
+      }
+    });
+  });
+}
+
+function showFullMockClaim(sId,subj,hpGain){
+  const existing=document.getElementById('fm-claim-modal');
+  if(existing)existing.remove();
+  const modal=document.createElement('div');
+  modal.id='fm-claim-modal';
+  modal.style.cssText=`position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9998;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:16px;`;
+  modal.innerHTML=`
+  <div style="background:var(--card);border-radius:28px;padding:32px 28px;max-width:480px;width:100%;border:1px solid var(--border);animation:mIn .4s cubic-bezier(.34,1.56,.64,1);text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(79,110,247,.04));pointer-events:none;border-radius:28px;"></div>
+    <div style="font-size:56px;margin-bottom:4px;animation:bounce .8s ease infinite alternate;">🎁</div>
+    <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--acc);margin-bottom:8px;">Section Complete!</div>
+    <div style="font-size:22px;font-weight:900;color:var(--text);margin-bottom:6px;">All Full Mocks Done! 🎉</div>
+    <div style="font-size:13px;color:var(--text3);line-height:1.7;margin-bottom:18px;">You completed all <strong>${subj.icon} ${subj.name}</strong> Full Mocks with 80%+ average. That's incredible preparation!</div>
+    <svg width="100%" viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" style="border-radius:16px;margin-bottom:18px;display:block;">
+      <defs>
+        <linearGradient id="fmBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6a65f0"/><stop offset="100%" stop-color="#4b44d4"/></linearGradient>
+        <filter id="fmGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="fmGlassBtn" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.45)"/><stop offset="100%" stop-color="rgba(255,255,255,0.15)"/></linearGradient>
+        <filter id="fmGlassGlow"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <rect width="1200" height="420" rx="30" fill="url(#fmBg)"/>
+      <circle cx="1000" cy="100" r="160" fill="white" opacity="0.06"/>
+      <circle cx="200" cy="350" r="180" fill="white" opacity="0.05"/>
+      <text x="60" y="80" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">SPECIAL OFFER</text>
+      <text x="60" y="140" font-size="40" fill="white" font-weight="700" filter="url(#fmGlow)">Best Books &amp; Sample Papers</text>
+      <text x="60" y="190" font-size="28" fill="#e0e0ff">For Class 12 &amp; CUET</text>
+      <rect x="60" y="220" width="260" height="50" rx="25" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)"/>
+      <text x="190" y="252" text-anchor="middle" fill="white" font-size="18" font-weight="600">🔥 Study Books</text>
+      <text x="60" y="320" font-size="26" font-weight="700"><tspan fill="#ffd700">Worth ₹99</tspan><tspan fill="white"> → </tspan><tspan fill="#00e6ff" filter="url(#fmGlow)">FREE</tspan></text>
+      <rect x="840" y="190" width="280" height="90" rx="25" fill="white" opacity="0.15"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="2.5s" repeatCount="indefinite"/></rect>
+      <rect x="840" y="190" width="280" height="90" rx="25" fill="url(#fmGlassBtn)" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+      <rect x="840" y="190" width="280" height="45" rx="25" fill="rgba(255,255,255,0.25)" opacity="0.4"/>
+      <text x="980" y="245" text-anchor="middle" fill="#111" font-size="26" font-weight="600">Get Free Now →</text>
+      <text x="1100" y="380" text-anchor="end" font-size="14" fill="rgba(255,255,255,0.65)">By Thunderstudy</text>
+    </svg>
+    <div style="background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(79,110,247,.07));border:2px solid rgba(124,58,237,.3);border-radius:18px;padding:16px 20px;margin-bottom:18px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--acc);margin-bottom:4px;">Your Reward</div>
+      <div style="font-size:38px;font-weight:900;font-family:var(--mono);color:var(--acc);">+${hpGain} <span style="font-size:22px;">💜 HP</span></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:3px;">Added to your account!</div>
+    </div>
+    <div style="display:flex;gap:9px;">
+      <a href="https://wondermayank.github.io/book/" target="_blank" class="btn btn-prim" style="flex:1;justify-content:center;padding:12px;font-size:13px;">📚 Get Free Books</a>
+      <button onclick="document.getElementById('fm-claim-modal').remove()" class="btn btn-ghost" style="flex:1;justify-content:center;padding:12px;font-size:13px;">✅ Awesome!</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+}
+
+/* PROMO CODES */
+const PROMO_CODES={
+  'accluffy':50,'bstluffy2':50,'ecoluffy3':50,'gatpika':50,'engpika':50,
+  'polisara':50,'hissara1':50,'geosara2':50,'chepragya':50,
+  'phypragya2':50,'biopragya3':50,'mathsaashi':50
+};
+const MAX_PROMOS=5;
+
+function redeemPromoCode(code){
+  code=code.trim().toLowerCase();
+  const hp=getHP();
+  const used=JSON.parse(localStorage.getItem('ts_promos_used')||'[]');
+  if(!PROMO_CODES[code])return{ok:false,msg:'❌ Invalid promo code. Check spelling!'};
+  if(used.includes(code))return{ok:false,msg:'⚠️ You already used this code!'};
+  if(used.length>=MAX_PROMOS)return{ok:false,msg:`🚫 Max ${MAX_PROMOS} promo codes allowed per student.`};
+  used.push(code);
+  localStorage.setItem('ts_promos_used',JSON.stringify(used));
+  addHP(PROMO_CODES[code],`Promo code: ${code}`);
+  return{ok:true,msg:`✅ Code redeemed! +${PROMO_CODES[code]} HP added!`,hp:PROMO_CODES[code]};
 }
 
 /* STREAK */
@@ -1204,6 +1332,7 @@ document.querySelectorAll('.dock-item').forEach(d=>d.classList.remove('active'))
 ══════════════════════════════════════════ */
 function renderHome(){
   syncHistory();
+  checkSectionCompletion();
   const sv=getSS();
   if(!sv.length){
     document.getElementById('home-content').innerHTML=`<div class="welcome-wrap"><div class="welcome-card">
@@ -1246,7 +1375,8 @@ H+=`<div style="margin-bottom:14px;">
         <div class="rh-stat"><div class="rh-val">${tS}</div><div class="rh-lbl">Total Score</div></div>
         <div class="rh-stat"><div class="rh-val">${totalXP}</div><div class="rh-lbl">XP Earned</div></div>
         <div class="rh-stat"><div class="rh-val">${streak}</div><div class="rh-lbl">🔥 Streak</div></div>
-        <div class="rh-stat"><div class="rh-val">${overallP.toFixed(1)}%</div><div class="rh-lbl">Accuracy</div></div>
+<div class="rh-stat"><div class="rh-val">${overallP.toFixed(1)}%</div><div class="rh-lbl">Accuracy</div></div>
+        <div class="rh-stat"><div class="rh-val">${getHP().total}</div><div class="rh-lbl">💜 HP</div></div>
       </div>
     </div>
   </div>
@@ -1285,7 +1415,35 @@ H+=`<div style="margin-bottom:14px;">
     <div class="ql-item" onclick="openProfileModal()"><div class="ql-icon">🎯</div><div class="ql-name">Set Goals</div><div class="ql-desc">Target % per subject</div></div>
   </div>`;
   if(sv.length>0){
-    H+=`<div class="sec-hdr"><div class="sec-title">🎯 My Goals</div><div class="sec-link" onclick="openProfileModal()">Edit →</div></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:20px;">`;
+    H+=`<div style="margin-bottom:20px;">
+  <a href="https://wondermayank.github.io/book/" target="_blank" style="display:block;text-decoration:none;border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(79,110,247,.25);transition:transform .2s,box-shadow .2s;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 14px 40px rgba(79,110,247,.35)'" onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow='0 8px 32px rgba(79,110,247,.25)'">
+   <svg width="100%" viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6a65f0"/><stop offset="100%" stop-color="#4b44d4"/></linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="glassBtn" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.45)"/><stop offset="100%" stop-color="rgba(255,255,255,0.15)"/></linearGradient>
+        <filter id="glassGlow"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="goldGrad"><stop offset="0%" stop-color="#ffd700"/><stop offset="100%" stop-color="#ffb300"/></linearGradient>
+        <linearGradient id="freeGrad"><stop offset="0%" stop-color="#00e6ff"/><stop offset="100%" stop-color="#7df9ff"/></linearGradient>
+      </defs>
+      <rect width="1200" height="420" rx="30" fill="url(#bg)"/>
+      <circle cx="1000" cy="100" r="160" fill="white" opacity="0.06"/>
+      <circle cx="200" cy="350" r="180" fill="white" opacity="0.05"/>
+      <text x="60" y="80" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">SPECIAL OFFER</text>
+      <text x="60" y="140" font-size="40" fill="white" font-weight="700" filter="url(#glow)">Best Books &amp; Sample Papers</text>
+      <text x="60" y="190" font-size="28" fill="#e0e0ff">For Class 12 &amp; CUET</text>
+      <rect x="60" y="220" width="260" height="50" rx="25" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)"/>
+      <text x="190" y="252" text-anchor="middle" fill="white" font-size="18" font-weight="600">🔥 Limited Offer</text>
+      <text x="60" y="320" font-size="26" font-weight="700"><tspan fill="#ffd700">Worth ₹99</tspan><tspan fill="white"> → </tspan><tspan fill="#00e6ff" filter="url(#glow)">FREE</tspan></text>
+      <rect x="840" y="190" width="280" height="90" rx="25" fill="white" opacity="0.15"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="2.5s" repeatCount="indefinite"/></rect>
+      <rect x="840" y="190" width="280" height="90" rx="25" fill="url(#glassBtn)" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+      <rect x="840" y="190" width="280" height="45" rx="25" fill="rgba(255,255,255,0.25)" opacity="0.4"/>
+      <text x="980" y="245" text-anchor="middle" fill="#111" font-size="26" font-weight="600">Get Free Now →</text>
+      <text x="1100" y="380" text-anchor="end" font-size="14" fill="rgba(255,255,255,0.65)">By Thunderstudy</text>
+    </svg>
+  </a>
+</div>
+    <div class="sec-hdr"><div class="sec-title">🎯 My Goals</div><div class="sec-link" onclick="openProfileModal()">Edit →</div></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:20px;">`;
     sv.forEach(sId=>{
       const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
       const target=goals[sId]||75,att=[];subj.chapters.forEach(ch=>{const r=lR(sId,ch.id);if(r)att.push(r);});
@@ -1472,10 +1630,11 @@ function checkCertEligibility(sId){
   const avg=attempted.length>0
     ?attempted.reduce((s,c)=>{const r=lR(sId,c.id);return s+(r?r.percentage:0);},0)/attempted.length
     :0;
-  // FIXED: must have ALL mocks attempted AND avg >= 90%
   const allDone=attempted.length>=mocks.length;
+  const hpUnlocked=getHPUnlockedCerts().includes(sId);
   return{
-    eligible:allDone&&avg>=90,
+    eligible:(allDone&&avg>=90)||hpUnlocked,
+    hpUnlocked,
     done:attempted.length,
     total:mocks.length,
     avg,
@@ -1542,6 +1701,35 @@ function openCertificate(sId){
   openModal('cert-modal');
 }
 
+function openCertificateHP(sId){
+  // Same as openCertificate but bypasses eligibility check
+  const subj=SUBJECTS_MASTER.find(s=>s.id===sId),prof=getProfile();
+  const mocks=subj.chapters.filter(c=>MOCK_TYPES.includes(c.type));
+  const attempted=mocks.filter(c=>lR(sId,c.id));
+  const avg=attempted.length>0?attempted.reduce((s,c)=>{const r=lR(sId,c.id);return s+(r?r.percentage:0);},0)/attempted.length:0;
+  const cvs=document.createElement('canvas');cvs.width=1100;cvs.height=750;
+  const ctx=cvs.getContext('2d');
+  ctx.fillStyle='#f0f3fa';ctx.fillRect(0,0,1100,750);
+  ctx.strokeStyle='#f59e0b';ctx.lineWidth=9;ctx.beginPath();ctx.rect(12,12,1076,726);ctx.stroke();
+  const hGrad=ctx.createLinearGradient(0,0,1100,0);hGrad.addColorStop(0,'#f59e0b');hGrad.addColorStop(1,'#f97316');
+  ctx.fillStyle=hGrad;ctx.beginPath();ctx.rect(12,12,1076,105);ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='bold 36px sans-serif';ctx.textAlign='center';ctx.fillText('⚡ Thunder CBT — Special Certificate (HP Unlocked)',550,78);
+  ctx.fillStyle='#5a5f7a';ctx.font='17px sans-serif';ctx.fillText('This is to certify that',550,180);
+  const ng=ctx.createLinearGradient(300,200,800,260);ng.addColorStop(0,'#f59e0b');ng.addColorStop(1,'#f97316');
+  ctx.fillStyle=ng;ctx.font='bold 58px sans-serif';ctx.fillText(prof.name||'Student',550,250);
+  ctx.fillStyle='#5a5f7a';ctx.font='19px sans-serif';ctx.fillText('has unlocked the certificate for',550,316);
+  ctx.fillStyle='#1a1d2e';ctx.font='bold 32px sans-serif';ctx.fillText(`${subj.icon}  ${subj.name}`,550,368);
+  ctx.fillStyle='#5a5f7a';ctx.font='19px sans-serif';ctx.fillText('using 300 Honor Points · Current avg:',550,415);
+  ctx.fillStyle='#f59e0b';ctx.font='bold 46px monospace';ctx.fillText(avg>0?avg.toFixed(1)+'%':'—',550,468);
+  ctx.fillStyle='#9298b5';ctx.font='14px sans-serif';ctx.fillText(`Issued on ${new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'})}`,550,586);
+  ctx.fillStyle='#f59e0b';ctx.font='20px sans-serif';ctx.fillText('💜 300 HP Spent · Thunder CBT · CUET Preparation',550,650);
+  const preview=document.getElementById('cert-preview');
+  const img=document.createElement('img');img.src=cvs.toDataURL();img.style.cssText='width:100%;border-radius:11px;border:1px solid var(--border);';
+  preview.innerHTML='';preview.appendChild(img);
+  document.getElementById('cert-dl-btn').onclick=()=>{const a=document.createElement('a');a.download=`${subj.name.replace(/\s/g,'_')}_HP_Certificate.png`;a.href=cvs.toDataURL('image/png');a.click();};
+  openModal('cert-modal');
+}
+
 function applySubjFilter(sId){
   const wrap=document.getElementById('subj-tab-content');if(!wrap||!wrap._att)return;
   const search=(document.getElementById(`fs-${sId}`)?.value||'').toLowerCase();
@@ -1587,6 +1775,24 @@ function renderMocks(){
   let H=`<div class="mock-subj-tabs">`;
   sv.forEach(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);if(!s)return;H+=`<div class="subj-tab ${sId===currentMockSubj?'active':''}" onclick="switchMockSubj('${sId}')">${s.icon} ${s.name}</div>`;});
   H+=`</div>`;
+
+  // GIFT PROGRESS BAR for current subject
+  const giftInfo=getMockGiftInfo(currentMockSubj);
+  H+=`<div style="background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(79,110,247,.05));border:1.5px solid rgba(124,58,237,.2);border-radius:16px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+    <div style="font-size:30px;">${giftInfo.allDone?'🎁':'🎁'}</div>
+    <div style="flex:1;min-width:160px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+        <div style="font-size:12px;font-weight:800;color:var(--acc);">Section Gift Progress</div>
+        <div style="font-size:11px;font-weight:700;color:var(--text3);">${giftInfo.completedSections}/${giftInfo.totalSections} sections at 80%+</div>
+      </div>
+      <div style="height:7px;background:var(--border);border-radius:7px;overflow:hidden;margin-bottom:4px;">
+        <div style="height:100%;width:${giftInfo.totalSections>0?(giftInfo.completedSections/giftInfo.totalSections*100).toFixed(1):0}%;background:linear-gradient(90deg,#7c3aed,#4f6ef7);border-radius:7px;transition:width 1s ease;"></div>
+      </div>
+      <div style="font-size:10px;color:var(--text3);">${giftInfo.allDone?'🎉 All sections complete!':giftInfo.completedSections>0?`${giftInfo.totalSections-giftInfo.completedSections} more sections needed`:'Complete sections with 80%+ to earn HP gifts!'}</div>
+    </div>
+    <button class="btn btn-prim" style="background:linear-gradient(135deg,#7c3aed,#4f6ef7);font-size:12px;" onclick="openGiftProgressModal()">🎁 View Rewards</button>
+  </div>`;
+
   const subj=SUBJECTS_MASTER.find(s=>s.id===currentMockSubj);
   if(subj){
     const allCh=subj.chapters,attempted=allCh.filter(c=>lR(currentMockSubj,c.id));
@@ -1596,7 +1802,50 @@ function renderMocks(){
       const typeTests=allCh.filter(c=>c.type===type);if(!typeTests.length)return;
       const typeDone=typeTests.filter(c=>lR(currentMockSubj,c.id));
       const bgColor=TC[type]||'rgba(79,110,247,.08)',txColor=TX[type]||'var(--acc)';
-      H+=`<div style="margin-bottom:22px;"><div class="mock-type-hdr" style="background:${bgColor};color:${txColor};">${TYPE_LABELS[type]||type}<span style="margin-left:auto;font-size:10px;background:rgba(0,0,0,.06);border-radius:18px;padding:2px 9px;">${typeDone.length}/${typeTests.length} done</span></div><div class="mock-grid">`;
+      const awarded=JSON.parse(localStorage.getItem('ts_hp_sections')||'{}');
+      const sectionKey=`${currentMockSubj}_${type}`;
+      const sectionDone=typeTests.every(ch=>{const r=lR(currentMockSubj,ch.id);return r&&r.percentage>=80;});
+      const sectionAwarded=!!awarded[sectionKey];
+      H+=`<div style="margin-bottom:22px;">
+        <div class="mock-type-hdr" style="background:${bgColor};color:${txColor};">
+          ${TYPE_LABELS[type]||type}
+          <span style="margin-left:auto;font-size:10px;background:rgba(0,0,0,.06);border-radius:18px;padding:2px 9px;">${typeDone.length}/${typeTests.length} done</span>
+          ${sectionDone?`<span style="font-size:10px;background:${sectionAwarded?'rgba(124,58,237,.15)':'rgba(16,185,129,.15)'};color:${sectionAwarded?'#7c3aed':'var(--green)'};border-radius:18px;padding:2px 9px;margin-left:5px;">${sectionAwarded?'💜 +HP Claimed!':'✅ 80%+ Done!'}</span>`:''}
+        </div>`;
+
+      // CLAIM BANNER — always show gift box button, state changes based on claimed/not
+      if(sectionDone){
+        if(!sectionAwarded){
+          H+=`<div style="background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(79,110,247,.08));border:2px solid rgba(124,58,237,.35);border-radius:14px;padding:13px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div style="font-size:28px;animation:bounce .8s ease infinite alternate;">🎁</div>
+            <div style="flex:1;min-width:140px;">
+              <div style="font-size:13px;font-weight:800;color:var(--acc);">Gift Ready to Claim!</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;">All ${TL[type]||type} done with 80%+ 🎉</div>
+            </div>
+            <button onclick="checkSectionCompletion();renderMocks();" class="btn btn-prim" style="background:linear-gradient(135deg,#7c3aed,#4f6ef7);font-size:12px;padding:9px 18px;">🎁 Claim +HP Gift</button>
+          </div>`;
+        } else {
+          H+=`<div style="background:rgba(124,58,237,.06);border:1.5px solid rgba(124,58,237,.2);border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+            <div style="font-size:20px;">💜</div>
+            <div style="flex:1;font-size:12px;font-weight:700;color:#7c3aed;">HP Gift Claimed! Great work on ${TL[type]||type}!</div>
+            <button onclick="openGiftProgressModal()" class="btn btn-ghost" style="font-size:11px;padding:6px 12px;">📊 My Progress</button>
+          </div>`;
+        }
+      } else {
+        // Show progress toward gift for this section
+        const pct=typeTests.length>0?typeDone.length/typeTests.length*100:0;
+        const above80=typeTests.filter(ch=>{const r=lR(currentMockSubj,ch.id);return r&&r.percentage>=80;}).length;
+        H+=`<div style="background:var(--card2);border-radius:11px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+          <div style="font-size:18px;">🎁</div>
+          <div style="flex:1;">
+            <div style="font-size:11px;font-weight:700;color:var(--text2);margin-bottom:3px;">Section Gift — ${above80}/${typeTests.length} at 80%+</div>
+            <div style="height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="height:100%;width:${typeTests.length>0?(above80/typeTests.length*100).toFixed(0):0}%;background:linear-gradient(90deg,#7c3aed,#4f6ef7);border-radius:4px;"></div></div>
+          </div>
+          <button onclick="openGiftProgressModal()" class="btn btn-ghost" style="font-size:11px;padding:6px 12px;">View All</button>
+        </div>`;
+      }
+
+      H+=`<div class="mock-grid">`;
       typeTests.forEach((ch,i)=>{
         const r=lR(currentMockSubj,ch.id),clr=r?rClr(r.percentage):'var(--text3)';
         H+=`<div class="mock-card ${r?'done':''}" onclick="window.open('${(SUBJECT_URLS[currentMockSubj]||'')+ch.id}.html','_blank')" style="cursor:pointer;"><div class="mock-num">${i+1}</div><div style="width:36px;height:36px;border-radius:9px;background:${bgColor};display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:8px;">${TYPE_ICONS[type]||subj.icon}</div><div class="mock-title">${ch.name}</div><div class="mock-subj" style="color:${txColor}">${TL[type]}</div>${r?`<div class="mock-score" style="color:${clr}">${r.percentage.toFixed(1)}%</div><div class="mock-date">${r.score}/${r.maxScore} · ${fd(r.date)}</div>`:'<div style="font-size:11px;color:var(--text3);">Not attempted</div>'}</div>`;
@@ -2019,6 +2268,82 @@ function renderSettings(){
     <button class="btn btn-prim" onclick="openAddSubjModal()">+ Add Subject</button>
   </div>
 
+<div class="card card-p" style="margin-bottom:14px;">
+    <div class="sec-hdr">
+      <div class="sec-title">💜 HP — Honor Points</div>
+      <div style="font-size:20px;font-weight:900;font-family:var(--mono);color:#7c3aed;">${getHP().total} HP</div>
+    </div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:14px;">Earn HP by completing sections with 80%+, and promo codes. Convert HP → XP or use 300 HP to unlock certificates! 🏆</div>
+
+    <!-- HP LOG GROUPED -->
+    ${(()=>{
+      const log=getHP().log;
+      const mockLogs=log.filter(l=>l.amount>0&&!l.reason.startsWith('Promo code'));
+      const promoLogs=log.filter(l=>l.reason.startsWith('Promo code'));
+      const negLogs=log.filter(l=>l.amount<0);
+      let html='';
+      if(mockLogs.length||negLogs.length){
+        html+=`<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:6px;">🎮 Mock Completions & Conversions</div>`;
+        html+=`<div style="background:var(--card2);border-radius:14px;padding:10px 13px;margin-bottom:12px;max-height:140px;overflow-y:auto;">`;
+        const combined=[...mockLogs,...negLogs].sort((a,b)=>new Date(b.date)-new Date(a.date));
+        if(combined.length){
+          html+=combined.map(l=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="font-size:15px;">${l.amount<0?'💸':'🎮'}</span><div style="flex:1;font-size:11px;font-weight:600;color:var(--text2);">${l.reason}</div><div style="font-size:12px;font-weight:800;color:${l.amount<0?'var(--red)':'#7c3aed'};font-family:var(--mono);">${l.amount>0?'+':''}${l.amount}</div><div style="font-size:10px;color:var(--text3);flex-shrink:0;">${fdS(l.date)}</div></div>`).join('');
+        } else {
+          html+=`<div style="text-align:center;color:var(--text3);font-size:12px;padding:12px;">Complete mock sections with 80%+ to earn HP!</div>`;
+        }
+        html+=`</div>`;
+      } else {
+        html+=`<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:6px;">🎮 Mock Completions</div>`;
+        html+=`<div style="background:var(--card2);border-radius:14px;padding:12px;margin-bottom:12px;text-align:center;color:var(--text3);font-size:12px;">Complete mock sections with 80%+ to earn HP!</div>`;
+      }
+      html+=`<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:6px;">🎟️ Promo Code History</div>`;
+      html+=`<div style="background:var(--card2);border-radius:14px;padding:10px 13px;margin-bottom:14px;max-height:120px;overflow-y:auto;">`;
+      if(promoLogs.length){
+        html+=promoLogs.map(l=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="font-size:15px;">🎟️</span><div style="flex:1;font-size:11px;font-weight:600;color:var(--text2);">${l.reason}</div><div style="font-size:12px;font-weight:800;color:#7c3aed;font-family:var(--mono);">+${l.amount}</div><div style="font-size:10px;color:var(--text3);flex-shrink:0;">${fdS(l.date)}</div></div>`).join('');
+      } else {
+        html+=`<div style="text-align:center;color:var(--text3);font-size:12px;padding:12px;">No promo codes redeemed yet.</div>`;
+      }
+      html+=`</div>`;
+      return html;
+    })()}
+
+    <!-- CONVERT HP → XP -->
+    <div style="background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(79,110,247,.05));border:1.5px solid rgba(124,58,237,.25);border-radius:14px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#7c3aed;margin-bottom:6px;">⚡ Convert HP → XP</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">100 HP = 50 XP &nbsp;·&nbsp; You have <strong style="color:#7c3aed">${getHP().total} HP</strong> → can convert <strong style="color:var(--acc)">${Math.floor(getHP().total/100)*50} XP</strong></div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <input type="number" id="hp-convert-amt" placeholder="HP to convert (min 100)" min="100" max="${getHP().total}" step="100" class="filter-inp" style="flex:1;min-width:160px;">
+        <button class="btn btn-prim" style="background:linear-gradient(135deg,#7c3aed,#4f6ef7);" onclick="convertHPtoXP()">⚡ Convert</button>
+      </div>
+      <div id="convert-status" style="font-size:12px;font-weight:600;margin-top:8px;min-height:16px;"></div>
+    </div>
+
+    <!-- UNLOCK CERTIFICATE WITH HP -->
+    <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1.5px solid rgba(245,158,11,.3);border-radius:14px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--yellow);margin-bottom:6px;">🏅 Unlock Certificate with HP</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">Spend <strong style="color:var(--yellow)">300 HP</strong> to unlock a certificate for any subject — even without the 90% avg requirement.</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <select class="filter-sel" id="cert-hp-subj" style="flex:1;">
+          ${getSS().map(sId=>{const s=SUBJECTS_MASTER.find(x=>x.id===sId);return s?`<option value="${sId}">${s.icon} ${s.name}</option>`:''}).join('')}
+        </select>
+        <button class="btn" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;font-weight:800;" onclick="unlockCertWithHP()">🏅 Use 300 HP</button>
+      </div>
+      <div id="cert-hp-status" style="font-size:12px;font-weight:600;margin-top:8px;min-height:16px;"></div>
+      ${getHPUnlockedCerts().length?`<div style="margin-top:10px;font-size:11px;color:var(--text3);">✅ HP-unlocked: <strong>${getHPUnlockedCerts().map(id=>{const s=SUBJECTS_MASTER.find(x=>x.id===id);return s?s.name:id;}).join(', ')}</strong></div>`:''}
+    </div>
+
+    <!-- PROMO CODE -->
+    <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:9px;">🎟️ Redeem Promo Code <span style="font-size:10px;font-weight:600;color:var(--text3);text-transform:none;">(${JSON.parse(localStorage.getItem('ts_promos_used')||'[]').length}/${MAX_PROMOS} used)</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+      <input class="filter-inp" id="promo-inp" placeholder="Enter promo code…" style="flex:1;min-width:160px;" onkeydown="if(event.key==='Enter')applyPromo()">
+      <button class="btn btn-prim" onclick="applyPromo()" style="background:linear-gradient(135deg,#7c3aed,#4f6ef7);">🎟️ Redeem</button>
+      <button class="btn btn-ghost" onclick="showPromoHint()" title="How to get promo codes">💡 Hint</button>
+    </div>
+    <div id="promo-status" style="font-size:12px;font-weight:600;min-height:18px;"></div>
+  </div>
+
+
+
   <div class="card card-p" style="margin-bottom:14px;">
     <div class="sec-hdr"><div class="sec-title">⌨️ Keyboard Shortcuts</div></div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;">
@@ -2039,6 +2364,51 @@ function renderSettings(){
   const navDot=document.getElementById('sync-dot-nav');
   const settDot=document.getElementById('sync-dot-settings');
   if(navDot&&settDot){settDot.className=navDot.className;settDot.title=navDot.title;}
+}
+
+function applyPromo(){
+  const inp=document.getElementById('promo-inp');if(!inp)return;
+  const result=redeemPromoCode(inp.value);
+  const st=document.getElementById('promo-status');
+  if(st)st.innerHTML=`<span style="color:${result.ok?'var(--green)':'var(--red)'}">${result.msg}</span>`;
+  if(result.ok){inp.value='';setTimeout(()=>renderSettings(),400);}
+}
+
+function showPromoHint(){
+  const modal=document.createElement('div');
+  modal.style.cssText=`position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9998;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:16px;`;
+  modal.innerHTML=`
+  <div style="background:var(--card);border-radius:26px;padding:28px;max-width:460px;width:100%;border:1px solid var(--border);animation:mIn .35s cubic-bezier(.34,1.56,.64,1);text-align:center;">
+    <div style="font-size:48px;margin-bottom:10px;">📚</div>
+    <div style="font-size:19px;font-weight:900;margin-bottom:8px;">How to Get Promo Codes?</div>
+    <div style="font-size:13px;color:var(--text3);line-height:1.8;margin-bottom:20px;">Promo codes are hidden inside our <strong style="color:var(--text)">study books & sample papers</strong>. Study the books and find the secret codes inside! 🔍</div>
+    <svg width="100%" viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" style="border-radius:14px;margin-bottom:18px;display:block;">
+      <defs>
+        <linearGradient id="hintBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6a65f0"/><stop offset="100%" stop-color="#4b44d4"/></linearGradient>
+        <filter id="hintGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="hintGlassBtn" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,0.45)"/><stop offset="100%" stop-color="rgba(255,255,255,0.15)"/></linearGradient>
+      </defs>
+      <rect width="1200" height="420" rx="30" fill="url(#hintBg)"/>
+      <circle cx="1000" cy="100" r="160" fill="white" opacity="0.06"/>
+      <circle cx="200" cy="350" r="180" fill="white" opacity="0.05"/>
+      <text x="60" y="80" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">PROMO CODES INSIDE</text>
+      <text x="60" y="140" font-size="40" fill="white" font-weight="700" filter="url(#hintGlow)">Best Books &amp; Sample Papers</text>
+      <text x="60" y="190" font-size="28" fill="#e0e0ff">For Class 12 &amp; CUET</text>
+      <rect x="60" y="220" width="260" height="50" rx="25" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)"/>
+      <text x="190" y="252" text-anchor="middle" fill="white" font-size="18" font-weight="600">🔥 Find Secret Codes</text>
+      <text x="60" y="320" font-size="26" font-weight="700"><tspan fill="#ffd700">Worth ₹99</tspan><tspan fill="white"> → </tspan><tspan fill="#00e6ff">FREE</tspan></text>
+      <rect x="840" y="190" width="280" height="90" rx="25" fill="url(#hintGlassBtn)" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+      <rect x="840" y="190" width="280" height="45" rx="25" fill="rgba(255,255,255,0.25)" opacity="0.4"/>
+      <text x="980" y="245" text-anchor="middle" fill="#111" font-size="26" font-weight="600">Get Free Now →</text>
+      <text x="1100" y="380" text-anchor="end" font-size="14" fill="rgba(255,255,255,0.65)">By Thunderstudy</text>
+    </svg>
+    <div style="display:flex;gap:9px;">
+      <a href="https://wondermayank.github.io/book/" target="_blank" class="btn btn-prim" style="flex:1;justify-content:center;padding:12px;font-size:13px;">📚 Get the Books</a>
+      <button onclick="this.closest('[style*=fixed]').remove()" class="btn btn-ghost" style="flex:1;justify-content:center;padding:12px;font-size:13px;">Got it!</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
 }
 
 function testConnSettings(){
@@ -2486,6 +2856,147 @@ document.querySelector('.main').addEventListener('scroll',function(){
     }
   }
 });
+/* HP → XP CONVERSION */
+function convertHPtoXP(){
+  const inp=document.getElementById('hp-convert-amt');
+  const st=document.getElementById('convert-status');
+  const amt=parseInt(inp?.value||0);
+  const hp=getHP();
+  if(!amt||amt<100){st.innerHTML=`<span style="color:var(--red)">❌ Minimum 100 HP to convert.</span>`;return;}
+  if(amt>hp.total){st.innerHTML=`<span style="color:var(--red)">❌ Not enough HP. You have ${hp.total} HP.</span>`;return;}
+  if(amt%100!==0){st.innerHTML=`<span style="color:var(--red)">❌ Must be a multiple of 100 (e.g. 100, 200, 300…)</span>`;return;}
+  const xpGain=Math.floor(amt/100)*50;
+  // Deduct HP
+  hp.total-=amt;
+  hp.log.unshift({amount:-amt,reason:`Converted ${amt} HP → ${xpGain} XP`,date:new Date().toISOString()});
+  localStorage.setItem('ts_hp',JSON.stringify(hp));
+  // Add XP bonus entry (stored separately so calcTotalXP picks it up)
+  const bonusXP=JSON.parse(localStorage.getItem('ts_bonus_xp')||'0')+xpGain;
+  localStorage.setItem('ts_bonus_xp',JSON.stringify(bonusXP));
+  st.innerHTML=`<span style="color:var(--green)">✅ Converted ${amt} HP → +${xpGain} XP! New HP: ${hp.total}</span>`;
+  inp.value='';
+  showToast(`⚡ +${xpGain} XP added!`,'success');
+  setTimeout(()=>renderSettings(),600);
+}
+
+/* HP-UNLOCKED CERTS */
+function getHPUnlockedCerts(){
+  try{return JSON.parse(localStorage.getItem('ts_hp_certs')||'[]');}catch(e){return[];}
+}
+
+function unlockCertWithHP(){
+  const sel=document.getElementById('cert-hp-subj');
+  const st=document.getElementById('cert-hp-status');
+  if(!sel){st.innerHTML=`<span style="color:var(--red)">❌ Select a subject.</span>`;return;}
+  const sId=sel.value;
+  const hp=getHP();
+  const unlocked=getHPUnlockedCerts();
+  if(unlocked.includes(sId)){
+    // Already unlocked — just open certificate
+    const subj=SUBJECTS_MASTER.find(s=>s.id===sId);
+    st.innerHTML=`<span style="color:var(--green)">✅ Already unlocked! Opening certificate…</span>`;
+    setTimeout(()=>openCertificateHP(sId),600);
+    return;
+  }
+  if(hp.total<300){st.innerHTML=`<span style="color:var(--red)">❌ Need 300 HP. You have ${hp.total} HP.</span>`;return;}
+  if(!confirm(`Spend 300 HP to permanently unlock the certificate for this subject?`))return;
+  // Deduct
+  hp.total-=300;
+  hp.log.unshift({amount:-300,reason:`Certificate unlocked via HP`,date:new Date().toISOString()});
+  localStorage.setItem('ts_hp',JSON.stringify(hp));
+  // Save unlock
+  unlocked.push(sId);
+  localStorage.setItem('ts_hp_certs',JSON.stringify(unlocked));
+  const subj=SUBJECTS_MASTER.find(s=>s.id===sId);
+  st.innerHTML=`<span style="color:var(--green)">🏅 Certificate unlocked for ${subj?.name||sId}! Remaining HP: ${hp.total}</span>`;
+  showToast(`🏅 Certificate unlocked!`,'success');
+  setTimeout(()=>{openCertificateHP(sId);renderSettings();},800);
+}
+/* ── MOCK GIFT PROGRESS HELPER ── */
+function getMockGiftInfo(sId){
+  const subj=SUBJECTS_MASTER.find(s=>s.id===sId);
+  if(!subj)return{completedSections:0,totalSections:0,allDone:false,sections:[]};
+  const awarded=JSON.parse(localStorage.getItem('ts_hp_sections')||'{}');
+  const typeGroups={};
+  subj.chapters.forEach(ch=>{
+    if(!typeGroups[ch.type])typeGroups[ch.type]=[];
+    typeGroups[ch.type].push(ch);
+  });
+  const sections=Object.entries(typeGroups).map(([type,chs])=>{
+    const above80=chs.filter(ch=>{const r=lR(sId,ch.id);return r&&r.percentage>=80;});
+    const attempted=chs.filter(ch=>lR(sId,ch.id));
+    const done=above80.length>=chs.length;
+    const claimed=!!awarded[`${sId}_${type}`];
+    return{type,label:TL[type]||type,total:chs.length,attempted:attempted.length,above80:above80.length,done,claimed};
+  });
+  const completedSections=sections.filter(s=>s.done).length;
+  const totalSections=sections.length;
+  return{completedSections,totalSections,allDone:completedSections>=totalSections,sections};
+}
+
+/* ── GIFT PROGRESS MODAL ── */
+function openGiftProgressModal(){
+  const sv=getSS();
+  const existing=document.getElementById('gift-modal');
+  if(existing)existing.remove();
+  const modal=document.createElement('div');
+  modal.id='gift-modal';
+  modal.style.cssText=`position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9998;display:flex;align-items:flex-start;justify-content:center;backdrop-filter:blur(8px);padding:16px;overflow-y:auto;`;
+
+  let bodyH=`<div style="background:var(--card);border-radius:26px;padding:28px;max-width:600px;width:100%;border:1px solid var(--border);animation:mIn .35s cubic-bezier(.34,1.56,.64,1);margin:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div>
+        <div style="font-size:19px;font-weight:900;">🎁 Gift Progress Tracker</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:3px;">Complete sections with 80%+ to earn HP gifts</div>
+      </div>
+      <span onclick="document.getElementById('gift-modal').remove()" style="cursor:pointer;color:var(--text3);font-size:26px;line-height:1;">×</span>
+    </div>`;
+
+  sv.forEach(sId=>{
+    const subj=SUBJECTS_MASTER.find(s=>s.id===sId);if(!subj)return;
+    const info=getMockGiftInfo(sId);
+    const pct=info.totalSections>0?(info.completedSections/info.totalSections*100):0;
+    bodyH+=`<div style="background:var(--card2);border-radius:16px;padding:16px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="font-size:22px;">${subj.icon}</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:800;">${subj.name}</div>
+          <div style="font-size:11px;color:var(--text3);">${info.completedSections}/${info.totalSections} sections at 80%+</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:18px;font-weight:900;font-family:var(--mono);color:${info.allDone?'var(--green)':'var(--acc)'};">${pct.toFixed(0)}%</div>
+          ${info.allDone?`<div style="font-size:10px;color:var(--green);font-weight:700;">All Done! 🎉</div>`:''}
+        </div>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:6px;overflow:hidden;margin-bottom:12px;">
+        <div style="height:100%;width:${pct.toFixed(1)}%;background:linear-gradient(90deg,#7c3aed,#4f6ef7);border-radius:6px;"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        ${info.sections.map(sec=>`<div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--card);border-radius:10px;border:1px solid var(--border);">
+          <div style="font-size:16px;">${sec.done?(sec.claimed?'💜':'🎁'):'📋'}</div>
+          <div style="flex:1;">
+            <div style="font-size:12px;font-weight:700;">${sec.label}</div>
+            <div style="font-size:10px;color:var(--text3);">${sec.above80}/${sec.total} at 80%+ · ${sec.attempted}/${sec.total} attempted</div>
+          </div>
+          <div style="text-align:right;min-width:80px;">
+            ${sec.done&&!sec.claimed?`<button onclick="checkSectionCompletion();document.getElementById('gift-modal').remove();renderMocks();" class="btn btn-prim" style="font-size:10px;padding:5px 10px;background:linear-gradient(135deg,#7c3aed,#4f6ef7);">🎁 Claim</button>`:
+            sec.done&&sec.claimed?`<span style="font-size:11px;font-weight:700;color:#7c3aed;">+HP Earned ✓</span>`:
+            `<span style="font-size:10px;color:var(--text3);">${sec.total-sec.above80} more needed</span>`}
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  });
+
+  bodyH+=`<div style="text-align:center;margin-top:6px;">
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Each section gives +50 HP when all tests score 80%+. Full Mock sections give a bonus!</div>
+    <button onclick="document.getElementById('gift-modal').remove()" class="btn btn-ghost" style="width:100%;justify-content:center;">Close</button>
+  </div></div>`;
+
+  modal.innerHTML=bodyH;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+}
 </script>
 </body>
 </html>
