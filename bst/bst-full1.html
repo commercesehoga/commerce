@@ -2359,14 +2359,29 @@ document.addEventListener('keydown', function(e) {
 
 <script>
 function startMock() {
-    const input = document.getElementById('username-input').value.trim();
-    if (input === "") {
-        alert("⚠️ Please enter your name to continue!");
-        document.getElementById('username-input').focus();
-        return;
+    const savedName = localStorage.getItem('cbtUserName') || 
+                      (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    
+    if (!savedName || savedName.trim() === '') {
+        // No name found — send to dashboard
+        const goToDash = confirm("⚠️ No name found!\n\nYou need to set your name in the Thunderstudy Dashboard first.\n\nClick OK to open Dashboard, or Cancel to enter name here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/', '_blank');
+            return;
+        }
+        // Fallback — let them type here
+        const input = document.getElementById('username-input').value.trim();
+        if (!input) {
+            alert("⚠️ Please enter your name to continue!");
+            document.getElementById('username-input').focus();
+            return;
+        }
+        localStorage.setItem("cbtUserName", input);
+    } else {
+        // Auto-fill and save
+        localStorage.setItem("cbtUserName", savedName.trim());
+        document.getElementById('username-input').value = savedName.trim();
     }
-    const userName = input;
-    localStorage.setItem("cbtUserName", userName);
     enterFullscreen();
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('instruction-screen').style.display = 'block';
@@ -2573,6 +2588,33 @@ function generatePDF() {
     printWin.document.close();
     printWin.focus();
 }
+
+   // Auto-fill name from dashboard on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('cbtUserName') || 
+                  (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    if (saved) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = saved;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.setAttribute('readonly', true);
+            inp.title = 'Name loaded from Dashboard';
+            // Add a small label below
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px;color:#4f6ef7;font-weight:600;margin-top:4px;">
+                    ✅ Loaded from Dashboard · 
+                    <span onclick="document.getElementById('username-input').removeAttribute('readonly');
+                                   document.getElementById('username-input').style.background='';
+                                   document.getElementById('username-input').style.borderColor='#a185de';
+                                   this.parentElement.remove();" 
+                          style="cursor:pointer;text-decoration:underline;">Change</span>
+                </div>`
+            );
+        }
+    }
+});
 </script>
 
 </body>
