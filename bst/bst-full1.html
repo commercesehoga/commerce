@@ -2291,6 +2291,27 @@ function submitTest() {
     try { index = JSON.parse(localStorage.getItem(indexKey) || '[]'); } catch(e) {}
     if (!index.includes(CHAPTER_ID)) index.push(CHAPTER_ID);
     localStorage.setItem(indexKey, JSON.stringify(index));
+   // AUTO-SYNC to Google Sheet
+const GS_URL = "https://script.google.com/macros/s/AKfycbxrI9TAPt1jNgDH4wiBmaPUTt69KQD8AlkB1f_PZMSi3zo8aJjw-_N-1cF8ST3u1vMZ/exec";
+fetch(GS_URL, {
+  method: 'POST',
+  mode: 'no-cors',
+  headers: { 'Content-Type': 'text/plain' },
+  body: JSON.stringify({
+    name: localStorage.getItem('cbtUserName') || 'Unknown',
+    subject: SUBJECT_ID,
+    chapter: CHAPTER_ID,
+    score: totalScore,
+    maxScore: maxScore,
+    percentage: parseFloat(percentage),
+    correct: correct,
+    wrong: incorrect,
+    skipped: unanswered,
+    timeTaken: mockTest.duration - timeLeft,
+    accuracy: parseFloat(accuracy),
+    date: new Date().toISOString()
+  })
+}).catch(() => {});
 
     // Show modal
     correctAnswersElement.textContent = correct;
