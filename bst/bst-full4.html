@@ -1,0 +1,2877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thunderstudy CBT</title>
+
+<script>
+/* ============================================================
+   ✏️  EDIT ONLY THESE TWO LINES FOR EACH CHAPTER
+   ============================================================ */
+const SUBJECT_ID  = "bst";        // e.g. "bst", "eco", "accounts"
+const CHAPTER_ID  = "bst-full4";       // e.g. "bst1", "bst2", "eco3"
+/* ============================================================ */
+</script>
+
+<style>
+        :root {
+    --primary-color: #a185de;
+    --secondary-color: #9CC9E6;
+    --correct-color: #90EE90;
+    --incorrect-color: #FF474D;
+    --neutral-color: #607d8b;
+    --light-bg: #f5f5f5;
+    --white: #ffffff;
+    --dark-text: #212121;
+    --light-text: #000000;
+    --dark-bg: #121212;
+    --dark-primary-color: #bb86fc;
+    --dark-secondary-color: #03dac6;
+    --dark-correct-color: #388e3c;
+    --dark-incorrect-color: #cf6679;
+    --dark-neutral-color: #aaaaaa;
+    --dark-light-text: #e0e0e0;
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-light-text);
+}
+
+body.dark-mode p,
+body.dark-mode span:not(.icon),
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label,
+body.dark-mode li {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode a:not(.fancy-btn):not(.footer-btn):not(.button2):not(.join-btn) {
+    color: #bb86fc !important;
+    text-decoration: underline;
+}
+
+body.dark-mode .fancy-btn,
+body.dark-mode .footer-btn,
+body.dark-mode .join-btn,
+body.dark-mode .submit-fancy-btn,
+body.dark-mode .more-btn,
+body.dark-mode .back-btn,
+body.dark-mode .report-btn {
+    color: white !important;
+}
+
+body.dark-mode #prev-btn {
+    color: var(--dark-primary-color) !important;
+    border-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #next-btn {
+    color: #000 !important;
+    background-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #mark-btn {
+    color: var(--dark-secondary-color) !important;
+    border-color: var(--dark-secondary-color) !important;
+}
+
+body.dark-mode #mark-btn.marked {
+    background-color: var(--dark-secondary-color) !important;
+    color: #000 !important;
+}
+
+body.dark-mode #start-test-btn {
+    color: white !important;
+}
+
+body.dark-mode .close-btn {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .stat-card h3 {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .question-number {
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .question-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .progress-text span {
+    color: #aaa !important;
+}
+
+body.dark-mode .palette-title span {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .test-info strong {
+    color: #fff !important;
+}
+
+body.dark-mode .test-info span {
+    color: #ccc !important;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1f1f1f;
+    color: var(--dark-light-text);
+    box-shadow: 2px 0 5px rgba(255,255,255,0.1);
+}
+
+body.dark-mode .sidebar-header h2,
+body.dark-mode .test-header h2,
+body.dark-mode .modal-header h2 {
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .timer {
+    background-color: var(--dark-incorrect-color);
+    color: #fff;
+}
+
+body.dark-mode .question-container {
+    background-color: #242424;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+}
+
+.option:hover {
+    border-color: #378ADD;
+    background: #E6F1FB;
+}
+
+.option.selected {
+    border-color: #185FA5;
+    background: #B5D4F4;
+}
+
+.option.correct {
+    border-color: #388e3c !important;
+    background: rgba(76, 175, 80, 0.15) !important;
+}
+
+.option.incorrect {
+    border-color: #e53935 !important;
+    background: rgba(244, 67, 54, 0.12) !important;
+}
+
+.opt-letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    background: #f5f5f5;
+    color: #555;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.option.selected .opt-letter {
+    background: #185FA5;
+    border-color: #185FA5;
+    color: #fff;
+}
+
+.option.correct .opt-letter {
+    background: #388e3c;
+    border-color: #388e3c;
+    color: #fff;
+}
+
+.option.incorrect .opt-letter {
+    background: #e53935;
+    border-color: #e53935;
+    color: #fff;
+}
+
+.opt-text {
+    font-size: 15px;
+    color: #212121;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.option.selected .opt-text {
+    color: #0C447C;
+    font-weight: 500;
+}
+
+.option.correct .opt-text {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.option.incorrect .opt-text {
+    color: #b71c1c;
+    font-weight: 500;
+}
+
+body.dark-mode .option {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .option:hover {
+    border-color: #378ADD !important;
+    background: #1a2a3a !important;
+}
+
+body.dark-mode .option.selected {
+    border-color: #64b5f6 !important;
+    background: #1a3050 !important;
+}
+
+body.dark-mode .opt-letter {
+    background: #333 !important;
+    border-color: #555 !important;
+    color: #ccc !important;
+}
+
+body.dark-mode .option.selected .opt-letter {
+    background: #185FA5 !important;
+    border-color: #185FA5 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .opt-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .option.selected .opt-text {
+    color: #90caf9 !important;
+}
+
+body.dark-mode .option.correct {
+    border-color: #66bb6a !important;
+    background: rgba(56,142,60,0.2) !important;
+}
+
+body.dark-mode .option.incorrect {
+    border-color: #ef9a9a !important;
+    background: rgba(207, 102, 121, 0.2) !important;
+}
+
+.option input[type="radio"] {
+    display: none;
+}
+
+.correct-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #388e3c;
+    font-size: 13px;
+}
+
+.incorrect-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #e53935;
+    font-size: 13px;
+}
+
+.instruction-box {
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #f3e8ff, #e0f2ff);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    line-height: 1.8;
+}
+
+.instruction-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6a11cb;
+    margin-bottom: 15px;
+    border-left: 5px solid #6a11cb;
+    padding-left: 10px;
+}
+
+.instruction-list {
+    padding-left: 20px;
+}
+
+.instruction-list li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.instruction-list li:hover {
+    transform: translateX(5px);
+    background: #f0f4ff;
+}
+
+.instruction-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.instruction-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #6a11cb;
+}
+
+#start-test-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 6px 15px rgba(101, 41, 255, 0.4);
+    transition: 0.3s;
+}
+
+#start-test-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(101, 41, 255, 0.6);
+}
+
+.sidebar {
+    width: 300px;
+    background-color: var(--white);
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    overflow-y: auto;
+    right: 0;
+    left: auto;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header h2 {
+    color: var(--primary-color);
+}
+
+.test-info {
+    margin-bottom: 20px;
+}
+
+.test-info p {
+    margin: 5px 0;
+    color: var(--light-text);
+}
+
+.question-palette {
+    margin-bottom: 20px;
+}
+
+.palette-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.palette-btn {
+    width: 100%;
+    max-width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: #FF474D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: auto;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.palette-btn:hover {
+    background-color: #EFBF04;
+}
+
+.palette-btn.answered {
+    background-color: #90ee90;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.marked {
+    background-color: #90D5FF;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.current {
+    background-color: #ffffff;
+    border: 2px solid var(--primary-color);
+}
+
+.palette-btn.review-correct {
+    background-color: #22c55e !important;
+    color: #fff !important;
+    border-color: #16a34a !important;
+}
+.palette-btn.review-wrong {
+    background-color: #ef4444 !important;
+    color: #fff !important;
+    border-color: #dc2626 !important;
+}
+.palette-btn.review-unanswered {
+    background-color: #3b82f6 !important;
+    color: #fff !important;
+    border-color: #2563eb !important;
+}
+
+.palette-btn.review-correct.current,
+.palette-btn.review-wrong.current,
+.palette-btn.review-unanswered.current {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+body.dark-mode .palette-btn.review-correct  { background-color: #16a34a !important; border-color: #15803d !important; }
+body.dark-mode .palette-btn.review-wrong    { background-color: #dc2626 !important; border-color: #b91c1c !important; }
+body.dark-mode .palette-btn.review-unanswered { background-color: #2563eb !important; border-color: #1d4ed8 !important; }
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+body.dark-mode .palette-btn {
+    background-color: #FF474D !important;
+    color: var(--dark-primary-color);
+    border: 2px solid var(--dark-primary-color);
+}
+
+body.dark-mode .palette-btn.answered {
+    background-color: #388e3c !important;
+    color: white !important;
+    border-color: #388e3c !important;
+}
+
+body.dark-mode .palette-btn.marked {
+    background-color: #03dac6 !important;
+    color: black !important;
+    border-color: #03dac6 !important;
+}
+
+body.dark-mode .palette-btn.current {
+    background-color: white !important;
+    border: 2px solid var(--dark-primary-color) !important;
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: var(--dark-primary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #a75dfc;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #00c4b4;
+}
+
+body.dark-mode .btn-outline {
+    border-color: var(--dark-primary-color);
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .mark-btn {
+    border-color: var(--dark-secondary-color);
+    color: var(--dark-secondary-color);
+}
+
+body.dark-mode .mark-btn.marked {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn {
+    background-color: var(--dark-correct-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn:hover {
+    background-color: #2a6e2c;
+}
+
+body.dark-mode .modal-content {
+    background-color: #242424;
+    color: var(--dark-light-text);
+}
+
+body.dark-mode .stat-card {
+    background-color: #1e1e1e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 0;
+    margin-right: 300px;
+    padding: 20px;
+}
+
+.test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.timer {
+    background-color: #FF0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #c6e977;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+.question-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.question-number {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.options {
+    margin-left: 0;
+}
+
+.navigation-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: #ffffff;
+}
+
+.mark-btn {
+    margin-left: 10px;
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.mark-btn.marked {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.submit-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background-color: var(--correct-color);
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #388e3c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+    color: var(--primary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--light-text);
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.correct-stat { color: var(--correct-color); }
+.incorrect-stat { color: var(--incorrect-color); }
+.score-stat { color: var(--secondary-color); }
+
+.detailed-results {
+    margin-top: 20px;
+}
+
+.detailed-results h3 {
+    margin-bottom: 10px;
+}
+
+.review-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.button2 {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.button2:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 12px rgba(0, 90, 153, 0.5);
+    color: #fff;
+}
+
+#dark-mode-toggle-bottom:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    box-shadow: 0 6px 20px rgba(101, 41, 255, 0.9);
+}
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    color: #333;
+    box-shadow: 0 4px 15px rgba(255, 210, 0, 0.7);
+}
+
+#test-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    z-index: 9998;
+    display: none;
+    overflow: auto;
+}
+
+#user-name-display {
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.instruction-checkbox input:checked + .custom-check {
+    background: rgba(106,17,203,0.1);
+    box-shadow: 0 0 10px rgba(106,17,203,0.4);
+}
+
+.instruction-checkbox input {
+    display: none;
+}
+
+.custom-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a11cb;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.instruction-checkbox input:checked + .custom-check::after {
+    content: "\2714";
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 16px;
+    color: #6a11cb;
+}
+
+.test-info {
+    text-align: left !important;
+    display: block !important;
+}
+
+.test-info p {
+    text-align: left !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 6px;
+    font-size: 16px !important;
+    margin: 6px 0 !important;
+}
+
+.test-info strong {
+    font-weight: 700 !important;
+    color: #000 !important;
+}
+
+.mobile-top-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .mobile-timer-clone {
+        background-color: #FF0000;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 15px;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    #mobile-name-display {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    #user-name-display { display: none !important; }
+    .sidebar .timer { display: none !important; }
+    .sidebar .sidebar-header { display: none !important; }
+
+    body { display: flex; flex-direction: column; }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        right: 0; left: 0;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
+    .question-palette { max-height: 200px; overflow-y: auto; }
+    .main-content { margin: 0 !important; width: 100%; padding: 10px; }
+
+    .navigation-btns {
+        flex-direction: row !important;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #prev-btn {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+        flex-shrink: 0;
+    }
+
+    #next-btn {
+        padding: 14px 28px !important;
+        font-size: 17px !important;
+        border-radius: 8px !important;
+        flex: 1;
+    }
+
+    .navigation-btns > div {
+        display: flex;
+        flex: 1;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #mark-btn {
+        font-size: 11px !important;
+        padding: 6px 8px !important;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .palette-grid { grid-template-columns: repeat(4, 1fr); }
+    .result-stats { grid-template-columns: 1fr; }
+}
+
+.fancy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.4px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+}
+
+.fancy-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+    border-radius: inherit;
+}
+
+.fancy-btn:hover::after { background: rgba(255,255,255,0.12); }
+.fancy-btn:active { transform: scale(0.96) !important; }
+.fancy-btn:hover { transform: translateY(-3px) scale(1.03); }
+
+.join-btn {
+    background: linear-gradient(135deg, #0088cc, #006699);
+    color: white;
+    box-shadow: 0 5px 18px rgba(0,136,204,0.45);
+}
+.join-btn:hover { box-shadow: 0 8px 24px rgba(0,136,204,0.65); color: white; }
+
+.submit-fancy-btn {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white;
+    box-shadow: 0 5px 18px rgba(34,197,94,0.45);
+    flex: 1;
+    max-width: 280px;
+}
+.submit-fancy-btn:hover { box-shadow: 0 8px 24px rgba(34,197,94,0.65); }
+
+.pdf-download-btn {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white !important;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+}
+.pdf-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(249,115,22,0.6);
+    color: white !important;
+}
+.pdf-download-btn:active { transform: scale(0.97); }
+
+#pdf-print-area { display: none; }
+
+@media print {
+    body > * { display: none !important; }
+    #pdf-print-area {
+        display: block !important;
+        font-family: Arial, sans-serif;
+        color: #111;
+        padding: 20px;
+        margin: 0;
+    }
+}
+
+.footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 0.3px;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, filter 0.18s;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-btn:hover {
+    transform: translateY(-3px) scale(1.06);
+    filter: brightness(1.1);
+    color: white;
+}
+
+.footer-btn:active { transform: scale(0.95); }
+
+.more-btn {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+    box-shadow: 0 4px 14px rgba(168,85,247,0.4);
+}
+.more-btn:hover { box-shadow: 0 7px 20px rgba(168,85,247,0.65); }
+
+.back-btn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 14px rgba(34,197,94,0.4);
+}
+.back-btn:hover { box-shadow: 0 7px 20px rgba(34,197,94,0.65); }
+
+.report-btn {
+    background: linear-gradient(135deg, #f97316, #dc2626);
+    box-shadow: 0 4px 14px rgba(239,68,68,0.4);
+}
+.report-btn:hover { box-shadow: 0 7px 20px rgba(239,68,68,0.65); }
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200) !important;
+    box-shadow: 0 4px 15px rgba(255,210,0,0.6) !important;
+}
+body.dark-mode #dark-mode-toggle-bottom .icon { color: #333 !important; }
+body.dark-mode #dark-mode-toggle-bottom span:not(.icon) { color: #333 !important; }
+
+body.dark-mode #start-screen {
+    background-color: #1a1a2e !important;
+}
+body.dark-mode #start-screen h1 { color: #bb86fc !important; }
+body.dark-mode #start-screen > p { color: #e0e0e0 !important; }
+body.dark-mode #start-screen li { color: #e0e0e0 !important; }
+body.dark-mode #start-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode #start-screen a[href*="t.me"] { color: #bb86fc !important; text-decoration: none !important; }
+body.dark-mode #start-screen strong { color: #fff !important; }
+body.dark-mode #start-screen input[type="text"] {
+    background: #2a2a2a !important;
+    color: #fff !important;
+    border-color: #555 !important;
+}
+
+body.dark-mode #instruction-screen { background: #1a1a2e !important; }
+body.dark-mode #instruction-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode .instruction-box { background: linear-gradient(135deg, #2d1f4e, #1a2a4e) !important; }
+body.dark-mode .instruction-title { color: #bb86fc !important; border-left-color: #bb86fc !important; }
+body.dark-mode .instruction-list li { background: #242424 !important; color: #e0e0e0 !important; }
+body.dark-mode .instruction-list li:hover { background: #2e2e4e !important; }
+body.dark-mode .custom-check { border-color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox input:checked + .custom-check::after { color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox { color: #e0e0e0 !important; }
+
+body.dark-mode #test-screen { background: #121212 !important; }
+
+body.dark-mode .mobile-top-bar {
+    background: #1f1f1f !important;
+    border-color: #333 !important;
+}
+body.dark-mode .mobile-timer-clone {
+    background-color: var(--dark-incorrect-color) !important;
+}
+
+body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- START SCREEN -->
+<div id="start-screen" style="
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: white; z-index: 9999; display: flex;
+    flex-direction: column; justify-content: flex-start; align-items: center;
+    text-align: center; padding: 40px 20px 40px;
+    overflow-y: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+<button id="dark-mode-toggle-bottom" aria-label="Toggle dark mode" title="Toggle dark mode"
+  style="position:absolute; top:18px; right:18px; font-size:22px; padding:8px 18px;
+  border-radius:40px; border:none; cursor:pointer;
+  background:linear-gradient(45deg,#6a11cb,#2575fc); color:white;
+  display:flex; align-items:center; gap:7px;
+  box-shadow:0 4px 15px rgba(101,41,255,0.5);
+  transition:background 0.4s ease, box-shadow 0.4s ease, transform 0.2s;">
+  <span class="icon" style="display:inline-block; transition:transform 0.6s ease;">🌙</span>
+  <span style="font-size:13px; font-weight:600; letter-spacing:0.5px;">Dark</span>
+</button>
+
+<h1 style="color: #a185de; font-size: 32px;" id="page-title">BST full mock</h1>
+<p style="font-size: 18px; margin: 10px 0;">Provided by <strong>Thunderstudy</strong></p>
+
+<a href="https://t.me/thunderstudy_official" target="_blank"
+  style="display:inline-flex; align-items:center; gap:8px; margin: 8px 0 14px;
+  background:linear-gradient(135deg,#0088cc,#006699); color:white; text-decoration:none;
+  padding:10px 24px; border-radius:30px; font-size:15px; font-weight:700;
+  box-shadow:0 5px 16px rgba(0,136,204,0.45);
+  transition:transform 0.18s, box-shadow 0.18s;"
+  onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 8px 22px rgba(0,136,204,0.65)'"
+  onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 5px 16px rgba(0,136,204,0.45)'"
+  onmousedown="this.style.transform='scale(0.97)'"
+  onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="flex-shrink:0;">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.607c-.148.666-.543.828-1.098.516l-3.04-2.24-1.467 1.413c-.162.162-.298.298-.611.298l.217-3.083 5.613-5.067c.244-.217-.054-.337-.378-.12L7.08 14.807 4.09 13.89c-.657-.205-.67-.657.137-.973l10.88-4.196c.548-.198 1.027.133.855.973z"/>
+  </svg>
+  @thunderstudy_official
+</a>
+
+<div style="max-width: 560px; text-align: left; margin: 10px auto 18px; background:#f8f4ff; border-radius:12px; padding:18px 22px; border-left:4px solid #a185de;">
+  <h2 style="margin-bottom:12px; color:#6a11cb; font-size:18px;">📋 Quick Overview</h2>
+  <ul style="text-align: left; line-height:2; font-size:15px; padding-left:18px;">
+    <li><strong>50 Questions</strong></li>
+    <li><strong>60 Minutes</strong> total time</li>
+    <li><strong>+5 marks</strong> for correct &nbsp;|&nbsp; <strong>−1 mark</strong> for wrong</li>
+    <li>No penalty for <strong>unanswered</strong> questions</li>
+    <li>Test <strong>auto-submits</strong> when time ends</li>
+    <li>Do <strong>not switch tabs</strong> or exit fullscreen during test</li>
+  </ul>
+</div>
+
+<div style="margin: 10px 0;">
+  <input type="text" id="username-input" placeholder="Enter your name"
+    style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+</div>
+
+<div style="display:flex; flex-direction:column; align-items:center; gap:11px; margin-top:6px;">
+
+  <button onclick="startMock()" style="
+      width:260px; background: linear-gradient(135deg,#6a11cb,#2575fc); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(101,41,255,0.45);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(101,41,255,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(101,41,255,0.45)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    🚀 Start Mock
+  </button>
+
+  <button onclick="window.location.href='https://commercesehoga.github.io/dashboard/'" style="
+      width:260px; background: linear-gradient(135deg,#22c55e,#15803d); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(34,197,94,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(34,197,94,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(34,197,94,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📊 Previous Result
+  </button>
+
+  <button onclick="window.open('https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html','_blank')" style="
+      width:260px; background: linear-gradient(135deg,#a855f7,#7e22ce); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(168,85,247,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(168,85,247,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(168,85,247,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📚 More Mock Tests
+  </button>
+
+</div>
+</div>
+
+<!-- INSTRUCTION SCREEN -->
+<div id="instruction-screen" style="
+position: fixed; top:0; left:0; width:100%; height:100%;
+background:white; z-index:9999; display:none; overflow:auto; padding:30px;">
+
+<h2 style="text-align:center; margin-bottom:20px;">Please read the instructions carefully</h2>
+
+<div class="instruction-box">
+<h3 class="instruction-title">General Instructions</h3>
+<ol class="instruction-list">
+<li>Total duration of test is <strong>60 minutes</strong>. Timer shown in sidebar.</li>
+<li>Test <strong>auto-submits</strong> when the timer reaches zero.</li>
+<li>The test runs in <strong>fullscreen mode</strong>. Exiting fullscreen starts a <strong>5-second countdown</strong> to auto-submit.</li>
+<li><strong>Do not switch tabs</strong>. Switching tabs starts a <strong>2-second countdown</strong> to auto-submit.</li>
+<li>Return to fullscreen or the tab before the countdown ends to continue safely.</li>
+<li>Question palette on the right shows answered, marked, and current status.</li>
+<li>Each correct answer: <strong>+5 marks</strong>. Each wrong answer: <strong>−1 mark</strong>. Unanswered: <strong>0 marks</strong>.</li>
+</ol>
+
+<div style="margin-top:20px;">
+    <strong>Question Status Legend:</strong>
+    <div class="legend" style="margin-top:10px;">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90ee90;"></div>
+            <span>Answered</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90D5FF;"></div>
+            <span>Marked</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="border: 1px solid var(--primary-color); background-color: white;"></div>
+            <span>Current</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FF474D; border: 1px solid #ddd;"></div>
+            <span>Unanswered</span>
+        </div>
+    </div>
+</div>
+
+<label class="instruction-checkbox">
+    <input type="checkbox" id="agree-checkbox">
+    <span class="custom-check"></span>
+    I have read and understood all instructions
+</label>
+
+<br><br>
+
+<button id="start-test-btn" disabled style="
+background:#3f51b5; color:white; padding:12px 24px; border:none;
+border-radius:5px; font-size:18px; cursor:not-allowed; opacity:0.6;">
+Start Test
+</button>
+</div>
+</div>
+
+<!-- TEST SCREEN -->
+<div id="test-screen">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="timer">01:00:00</div>
+    </div>
+
+    <div class="test-info">
+        <p><strong>Subject:</strong> <span id="subject-label">BST</span></p>
+        <p><strong>Questions:</strong> 50</p>
+        <p><strong>Duration:</strong> 60 minutes</p>
+        <p><strong>Marking:</strong> +5 / -1</p>
+        <p><strong>Chapter:</strong> <span id="current-section">-</span></p>
+    </div>
+
+    <div class="question-palette">
+        <div class="palette-title">
+            <span>Questions</span>
+            <span id="answered-count">0/50</span>
+        </div>
+        <div class="palette-grid" id="question-palette-grid"></div>
+
+        <div id="palette-legend" style="margin-top:12px; font-size:12px;"></div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+<div class="mobile-top-bar">
+    <div class="mobile-timer-clone">01:00:00</div>
+    <div id="mobile-name-display">👤 Thunder</div>
+</div>
+
+<div class="test-header">
+  <div id="user-name-display" style="
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color:white; padding:6px 14px; border-radius:20px;
+    font-weight:bold; font-size:14px;">
+👤 Thunder
+</div>
+<h2>Question <span id="current-q-number">1</span>/50</h2>
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress" id="test-progress"></div>
+</div>
+<div class="progress-text">
+<span>Progress &nbsp;</span>
+<span id="progress-percent">0%</span>
+</div>
+</div>
+</div>
+
+<div class="question-container">
+<div class="question-number">Question <span id="q-number">1</span></div>
+<div class="question-text" id="question-text"></div>
+<div class="options" id="options-container"></div>
+<div class="navigation-btns">
+<button class="btn btn-outline" id="prev-btn">&#8592; Previous</button>
+<div>
+<button class="mark-btn" id="mark-btn">Mark for Review</button>
+<button class="btn btn-primary" id="next-btn">Next &#8594;</button>
+</div>
+</div>
+</div>
+
+<div class="submit-section" style="
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; max-width: 620px; margin: 24px auto; gap: 14px; flex-wrap: wrap;">
+
+    <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn join-btn">
+        ⚡ Join Thunder
+    </a>
+
+    <button class="fancy-btn submit-fancy-btn" id="submit-test-btn">
+        ✅ Submit Test
+    </button>
+</div>
+
+<footer style="background: linear-gradient(135deg,#1a1a2e,#16213e); color: #e0e0e0; text-align: center; padding: 22px 16px; margin-top: 10px;">
+   <p style="font-size:13px; color:#aaa; margin-bottom:14px;">© 2025 Thunder. All Rights Reserved.</p>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:14px;">
+    <a href="https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html" target="_blank" class="footer-btn more-btn">
+        📚 More Mock
+    </a>
+    <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-btn back-btn">
+        🌐 Back To Website
+    </a>
+    <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-btn report-btn">
+        🚨 Report Error
+    </a>
+</div>
+</footer>
+
+<!-- Results Modal -->
+<div class="modal" id="results-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Test Results</h2>
+<button class="close-btn" id="close-modal">×</button>
+</div>
+<div class="result-stats">
+<div class="stat-card">
+<h3>Correct Answers</h3>
+<p class="correct-stat" id="correct-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Incorrect Answers</h3>
+<p class="incorrect-stat" id="incorrect-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Unanswered</h3>
+<p class="neutral-stat" id="unanswered">50</p>
+</div>
+<div class="stat-card">
+<h3>Total Score</h3>
+<p class="score-stat" id="total-score">0</p>
+</div>
+</div>
+<div class="detailed-results">
+<h3>Detailed Analysis</h3>
+<p>Percentage: <span id="percentage">0</span>%</p>
+<p>Accuracy: <span id="accuracy">0</span>%</p>
+</div>
+<div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+<button class="btn btn-secondary review-btn" id="review-btn" style="flex:1; margin-top:0;">Review Answers</button>
+<button class="btn pdf-download-btn" id="download-pdf-btn" style="flex:1;">📄 Download PDF</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+/* ============================================================
+   MOCK TEST DATA — Edit questions here
+   ============================================================ */
+const mockTest = {
+    title: "BST Mock",
+    questions: [
+{
+  id: 1,
+  section: "Management",
+  text: "Assertion (A): Management is considered a soft science rather than a hard science. Reason (R): Management principles are not as exact as principles of physics and chemistry because they deal with human behavior which is unpredictable.",
+  options: {
+    a: "Both (A) and (R) are true and (R) is the correct explanation of (A)",
+    b: "Both (A) and (R) are true and (R) is not the correct explanation of (A)",
+    c: "(A) is true, but (R) is false",
+    d: "(A) is false, but (R) is true"
+  },
+  correctAnswer: "a",
+  explanation: "Management is a soft science because its principles are flexible and deal with human behavior which is dynamic and unpredictable, unlike exact sciences.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 2,
+  section: "Management",
+  text: "The top-level management of a company decided to diversify into a new product line. They formulated the vision and long-term objectives. However, the middle-level managers found that the resources allocated were insufficient for implementation. This indicates a failure in which aspect of management?",
+  options: {
+    a: "Coordination between different levels of management",
+    b: "Scientific management techniques",
+    c: "Unity of command principle",
+    d: "Span of management"
+  },
+  correctAnswer: "a",
+  explanation: "This shows lack of coordination between top and middle levels. Top management should consult middle management about resource requirements before finalizing plans.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 3,
+  section: "Management",
+  text: "Which of the following best describes the 'Pervasive' nature of management?",
+  options: {
+    a: "Management is applicable only to business organizations",
+    b: "Management is applicable to all types of organizations regardless of size, location, or activity",
+    c: "Management is needed only at the top level",
+    d: "Management is a one-time activity"
+  },
+  correctAnswer: "b",
+  explanation: "Management is pervasive meaning it is universal - applicable to all organizations (business, government, educational, non-profit) and at all levels.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 4,
+  section: "Management",
+  text: "XYZ Ltd. has separate departments for production, marketing, finance, and human resources. Each department head reports to the CEO. However, there is frequent conflict between production and marketing regarding product specifications. This indicates a problem with:",
+  options: {
+    a: "Unity of command",
+    b: "Unity of direction",
+    c: "Coordination",
+    d: "Span of control"
+  },
+  correctAnswer: "c",
+  explanation: "Coordination is required to harmonize activities of different departments. The conflict shows lack of coordination between production and marketing functions.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 5,
+  section: "Principles of Management",
+  text: "Fayol's principle of 'Remuneration of Employees' emphasizes that compensation should be fair to both employees and the organization. Which of the following scenarios best reflects this principle being violated?",
+  options: {
+    a: "A company pays below-market wages to maximize short-term profits, resulting in high employee turnover",
+    b: "A company provides performance-based bonuses to top performers",
+    c: "A company offers stock options to all employees",
+    d: "A company gives annual salary increments based on inflation"
+  },
+  correctAnswer: "a",
+  explanation: "Paying below-market wages violates the principle as it is not fair to employees, leading to dissatisfaction and high turnover. Fair remuneration benefits both parties.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 6,
+  section: "Principles of Management",
+  text: "A manufacturing company follows Taylor's scientific management principles. They conducted a time study to determine standard time for each task and set piece-rate wages accordingly. However, workers started producing more quantity but quality declined. Which technique of Taylor might have been overlooked?",
+  options: {
+    a: "Method study",
+    b: "Fatigue study",
+    c: "Differential piece wage system",
+    d: "Functional foremanship"
+  },
+  correctAnswer: "a",
+  explanation: "Method study would have ensured the best method to produce quality output. Without proper method study, workers focus only on quantity to earn more.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 7,
+  section: "Principles of Management",
+  text: "Assertion (A): Fayol's principle of 'Order' includes both material order and social order. Reason (R): Material order ensures right place for everything, while social order ensures right person in the right job.",
+  options: {
+    a: "Both (A) and (R) are true and (R) is the correct explanation of (A)",
+    b: "Both (A) and (R) are true and (R) is not the correct explanation of (A)",
+    c: "(A) is true, but (R) is false",
+    d: "(A) is false, but (R) is true"
+  },
+  correctAnswer: "a",
+  explanation: "Fayol's 'Order' principle has two aspects - material order (proper arrangement) and social order (proper placement of people). Both are correctly explained.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 8,
+  section: "Principles of Management",
+  text: "In an organization, a marketing manager was given authority to approve advertising budgets up to ₹5 lakh. However, for any campaign exceeding this, approval from the Director was required. This practice is an application of which principle?",
+  options: {
+    a: "Centralization and Decentralization",
+    b: "Unity of Command",
+    c: "Scalar Chain",
+    d: "Discipline"
+  },
+  correctAnswer: "a",
+  explanation: "This reflects the balance between centralization (decisions reserved for top) and decentralization (decisions delegated to lower levels) as per Fayol's principle.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 9,
+  section: "Business Environment",
+  text: "The Government of India announced a new policy allowing 100% FDI in the defense sector. This led to several foreign companies establishing manufacturing units in India. This is an example of how the ________ dimension of business environment affects the ________ dimension.",
+  options: {
+    a: "Political; Economic",
+    b: "Economic; Social",
+    c: "Technological; Political",
+    d: "Legal; Technological"
+  },
+  correctAnswer: "a",
+  explanation: "Government policy (Political) directly impacts economic activities like FDI, investments, and business operations (Economic dimension).",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 10,
+  section: "Business Environment",
+  text: "The increasing awareness about environmental sustainability has forced many companies to adopt green manufacturing processes, use eco-friendly packaging, and invest in renewable energy. This demonstrates which feature of business environment?",
+  options: {
+    a: "Dynamic nature",
+    b: "Interrelatedness",
+    c: "Relative nature",
+    d: "Complexity"
+  },
+  correctAnswer: "b",
+  explanation: "This shows interrelatedness - social awareness about environment is influencing economic and technological decisions of businesses. One factor affects multiple others.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 11,
+  section: "Business Environment",
+  text: "A company that was manufacturing traditional incandescent bulbs faced a sudden decline in sales when LED technology became affordable and government promoted energy-efficient products. The company failed to anticipate this change and had to shut down. Which importance of business environment did the company ignore?",
+  options: {
+    a: "Identifying opportunities and getting first mover advantage",
+    b: "Identifying threats and getting warning signals",
+    c: "Helping in policy making",
+    d: "Tapping useful resources"
+  },
+  correctAnswer: "b",
+  explanation: "The company failed to recognize the threat from technological change and government policy. Environmental scanning would have given early warning signals.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 12,
+  section: "Planning",
+  text: "A company's objective was to increase market share by 15% in the next three years. However, after one year, they realized that a new competitor had entered with superior technology and aggressive pricing. The company had to revise its entire strategy. This highlights which limitation of planning?",
+  options: {
+    a: "Planning reduces creativity",
+    b: "Planning may not work in dynamic environment",
+    c: "Planning involves huge costs",
+    d: "Planning creates rigidity"
+  },
+  correctAnswer: "b",
+  explanation: "Unforeseen changes in the business environment (new competitor, technology) made the original plan ineffective, showing that planning may fail in dynamic environments.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 13,
+  section: "Planning",
+  text: "Arrange the following steps of the planning process in the correct sequence after setting objectives:\n(i) Evaluating alternative courses of action\n(ii) Developing premises\n(iii) Selecting the best alternative\n(iv) Identifying alternative courses of action\nChoose the correct option:",
+  options: {
+    a: "(ii), (iv), (i), (iii)",
+    b: "(iv), (ii), (i), (iii)",
+    c: "(ii), (i), (iv), (iii)",
+    d: "(iv), (i), (ii), (iii)"
+  },
+  correctAnswer: "a",
+  explanation: "After setting objectives: (1) Develop premises, (2) Identify alternatives, (3) Evaluate alternatives, (4) Select the best alternative.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 14,
+  section: "Planning",
+  text: "Which type of plan is a comprehensive framework that guides future decision-making and is more flexible than policies?",
+  options: {
+    a: "Procedure",
+    b: "Strategy",
+    c: "Rule",
+    d: "Budget"
+  },
+  correctAnswer: "b",
+  explanation: "Strategy is a comprehensive plan that considers internal and external factors and provides direction for achieving objectives. It is more flexible than policies.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 15,
+  section: "Planning",
+  text: "A company prepared a detailed annual budget allocating resources to various departments. During the year, the marketing department wanted to launch an unexpected promotional campaign but could not proceed due to lack of allocated funds. This scenario highlights:",
+  options: {
+    a: "Advantage of planning",
+    b: "Limitation of planning causing rigidity",
+    c: "Importance of controlling",
+    d: "Need for decentralization"
+  },
+  correctAnswer: "b",
+  explanation: "The budget created rigidity, not allowing flexibility to respond to unexpected opportunities. This is a key limitation of planning.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 16,
+  section: "Organising",
+  text: "In a functional organizational structure, a production manager receives conflicting instructions from the production head and the quality head regarding a manufacturing process. This violates which principle of management?",
+  options: {
+    a: "Unity of Direction",
+    b: "Unity of Command",
+    c: "Division of Work",
+    d: "Authority and Responsibility"
+  },
+  correctAnswer: "b",
+  explanation: "Receiving orders from two superiors violates the Unity of Command principle. In functional structure, this can be a drawback due to multiple specialist bosses.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 17,
+  section: "Organising",
+  text: "Assertion (A): Informal organization emerges spontaneously from social interactions among employees. Reason (R): Informal organization follows the official chain of command and is deliberately created by management.",
+  options: {
+    a: "Both (A) and (R) are true and (R) is the correct explanation of (A)",
+    b: "Both (A) and (R) are true and (R) is not the correct explanation of (A)",
+    c: "(A) is true, but (R) is false",
+    d: "(A) is false, but (R) is true"
+  },
+  correctAnswer: "c",
+  explanation: "Assertion is true (informal organization is spontaneous). Reason is false because following official chain of command and deliberate creation are characteristics of formal organization.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 18,
+  section: "Organising",
+  text: "A company has diversified into five different product categories including electronics, apparel, home appliances, personal care, and food processing. Each product category is managed as a separate division with its own marketing, production, and finance functions. This organizational structure is:",
+  options: {
+    a: "Functional structure",
+    b: "Divisional structure",
+    c: "Matrix structure",
+    d: "Network structure"
+  },
+  correctAnswer: "b",
+  explanation: "Divisional structure groups activities based on products, with each division having its own functional departments. Suitable for diversified companies.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 19,
+  section: "Organising",
+  text: "The CEO of a large corporation has delegated significant authority to regional managers to make operational decisions. However, strategic decisions like mergers, acquisitions, and major investments still require CEO approval. This represents:",
+  options: {
+    a: "Complete centralization",
+    b: "Complete decentralization",
+    c: "Balance between centralization and decentralization",
+    d: "Laissez-faire approach"
+  },
+  correctAnswer: "c",
+  explanation: "This shows optimal balance - operational decisions decentralized, strategic decisions centralized. Absolute centralization or decentralization is rarely practiced.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 20,
+  section: "Staffing",
+  text: "Which of the following statements correctly distinguishes between recruitment and selection?",
+  options: {
+    a: "Recruitment is a negative process, selection is positive",
+    b: "Recruitment creates a pool of applicants, selection chooses the most suitable",
+    c: "Recruitment comes after selection",
+    d: "Recruitment involves rejection, selection involves encouragement"
+  },
+  correctAnswer: "b",
+  explanation: "Recruitment is a positive process that creates a large pool of applicants. Selection is a negative process that rejects unsuitable candidates to choose the best fit.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 21,
+  section: "Staffing",
+  text: "A software company hires fresh graduates and puts them through a 6-month intensive training program that simulates real project environments with all necessary infrastructure. Trainees work on dummy projects under expert guidance. This training method is called:",
+  options: {
+    a: "Apprenticeship training",
+    b: "Internship training",
+    c: "Vestibule training",
+    d: "Job rotation"
+  },
+  correctAnswer: "c",
+  explanation: "Vestibule training uses duplicate work environment with all necessary equipment and expert trainers, allowing trainees to learn without disrupting actual work.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 22,
+  section: "Staffing",
+  text: "Assertion (A): External sources of recruitment bring fresh talent and new ideas into the organization. Reason (R): External recruitment is always cheaper and faster than internal recruitment.",
+  options: {
+    a: "Both (A) and (R) are true and (R) is the correct explanation of (A)",
+    b: "Both (A) and (R) are true and (R) is not the correct explanation of (A)",
+    c: "(A) is true, but (R) is false",
+    d: "(A) is false, but (R) is true"
+  },
+  correctAnswer: "c",
+  explanation: "Assertion is true (external sources bring new talent). Reason is false because external recruitment is often more expensive and time-consuming than internal recruitment.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 23,
+  section: "Staffing",
+  text: "Which of the following is NOT a step in the staffing process after recruitment?",
+  options: {
+    a: "Selection",
+    b: "Placement and Orientation",
+    c: "Performance Appraisal",
+    d: "Developing premises"
+  },
+  correctAnswer: "d",
+  explanation: "Developing premises is a step in planning, not in staffing. Staffing steps include recruitment, selection, placement, training, and performance appraisal.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 24,
+  section: "Directing",
+  text: "A manager uses a leadership style where he consults with subordinates before making decisions but retains final authority. He encourages participation but makes the final call. This leadership style is best described as:",
+  options: {
+    a: "Autocratic",
+    b: "Democratic/Participative",
+    c: "Laissez-faire",
+    d: "Bureaucratic"
+  },
+  correctAnswer: "b",
+  explanation: "Democratic/participative leadership involves consultation and participation, but the leader retains final decision-making authority. It differs from laissez-faire where leader abdicates authority.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 25,
+  section: "Directing",
+  text: "According to Maslow's hierarchy of needs, which need would be most relevant for a young executive who has just been promoted to a senior position and is seeking recognition from peers and superiors?",
+  options: {
+    a: "Physiological needs",
+    b: "Safety needs",
+    c: "Esteem needs",
+    d: "Self-actualization needs"
+  },
+  correctAnswer: "c",
+  explanation: "Esteem needs include recognition, status, and respect from others. A promoted executive seeks these recognition needs.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 26,
+  section: "Directing",
+  text: "A manager notices that employees are spreading rumors and misinformation through informal channels, causing confusion and anxiety. The manager decides to address this by organizing a town hall meeting to share accurate information directly. This approach aims to overcome which barrier to communication?",
+  options: {
+    a: "Semantic barriers",
+    b: "Psychological barriers",
+    c: "Organizational barriers",
+    d: "Personal barriers"
+  },
+  correctAnswer: "c",
+  explanation: "Organizational barriers include information overload and lack of proper channels. Formal communication through town halls helps overcome rumors from informal channels.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 27,
+  section: "Directing",
+  text: "Which of the following is NOT a non-financial incentive?",
+  options: {
+    a: "Job enrichment",
+    b: "Employee recognition programs",
+    c: "Profit sharing",
+    d: "Career advancement opportunities"
+  },
+  correctAnswer: "c",
+  explanation: "Profit sharing is a financial incentive as it involves monetary rewards. Job enrichment, recognition, and career advancement are non-financial incentives.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 28,
+  section: "Directing",
+  text: "A supervisor closely monitors every action of workers, gives detailed instructions for even the smallest tasks, and rarely trusts workers to make decisions. This supervisory style is likely to result in:",
+  options: {
+    a: "High employee motivation and creativity",
+    b: "Increased employee satisfaction",
+    c: "Low morale and high employee turnover",
+    d: "Better quality output always"
+  },
+  correctAnswer: "c",
+  explanation: "Over-supervision (close monitoring with no autonomy) leads to low morale, frustration, and high turnover. Effective supervision balances guidance with autonomy.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 29,
+  section: "Controlling",
+  text: "Which of the following best describes the relationship between planning and controlling?",
+  options: {
+    a: "Controlling is independent of planning",
+    b: "Planning is meaningless without controlling, and controlling is meaningless without planning",
+    c: "Planning comes after controlling",
+    d: "They are completely opposite functions"
+  },
+  correctAnswer: "b",
+  explanation: "Planning and controlling are interdependent. Plans provide standards for control, and control provides feedback for future planning. They are inseparable.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 30,
+  section: "Controlling",
+  text: "A company's actual production was 950 units against the standard of 1000 units. The variance is 5% below standard. According to the principle of 'Management by Exception', the management should:",
+  options: {
+    a: "Ignore this deviation as it is minor",
+    b: "Investigate only if the deviation is significant (beyond acceptable limits)",
+    c: "Stop all production immediately",
+    d: "Fire the production manager"
+  },
+  correctAnswer: "b",
+  explanation: "Management by Exception focuses on significant deviations only. Minor deviations within acceptable limits can be ignored to save management time and effort.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 31,
+  section: "Controlling",
+  text: "Assertion (A): Controlling ensures that actual performance aligns with planned performance. Reason (R): Controlling involves taking corrective action only after deviations have occurred.",
+  options: {
+    a: "Both (A) and (R) are true and (R) is the correct explanation of (A)",
+    b: "Both (A) and (R) are true and (R) is not the correct explanation of (A)",
+    c: "(A) is true, but (R) is false",
+    d: "(A) is false, but (R) is true"
+  },
+  correctAnswer: "c",
+  explanation: "Assertion is true (control ensures alignment). Reason is false because control can also be preventive (feedforward control) before deviations occur.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 32,
+  section: "Business Finance",
+  text: "A company is considering two projects - Project A requires high initial investment but has lower operational costs, while Project B requires lower initial investment but higher operational costs. Which financial decision is this related to?",
+  options: {
+    a: "Financing decision",
+    b: "Investment decision",
+    c: "Dividend decision",
+    d: "Working capital decision"
+  },
+  correctAnswer: "b",
+  explanation: "Investment decisions involve evaluating and selecting long-term assets/projects based on their returns and risks. This is a capital budgeting decision.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 33,
+  section: "Business Finance",
+  text: "A company's Interest Coverage Ratio (ICR) is very low (below 1.5). Which of the following would be the most appropriate recommendation for this company?",
+  options: {
+    a: "Increase debt to reduce equity",
+    b: "Avoid additional debt and focus on equity financing",
+    c: "Issue more preference shares",
+    d: "Reduce retained earnings"
+  },
+  correctAnswer: "b",
+  explanation: "Low ICR indicates the company's earnings are insufficient to cover interest payments. Adding more debt would increase financial risk. Equity financing is safer.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 34,
+  section: "Business Finance",
+  text: "A seasonal business dealing in woolen garments experiences high demand in winter and low demand in summer. Which factor affecting working capital is most relevant for this business?",
+  options: {
+    a: "Business cycle",
+    b: "Seasonal factors",
+    c: "Level of competition",
+    d: "Growth prospects"
+  },
+  correctAnswer: "b",
+  explanation: "Seasonal factors affect working capital requirements - more during peak season (inventory buildup) and less during off-season.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 35,
+  section: "Business Finance",
+  text: "A company with a stable and predictable revenue stream and high fixed asset investment would likely prefer which capital structure?",
+  options: {
+    a: "Higher debt proportion",
+    b: "Higher equity proportion",
+    c: "Only retained earnings",
+    d: "Equal debt and equity"
+  },
+  correctAnswer: "a",
+  explanation: "Stable earnings allow companies to take advantage of trading on equity (higher debt) as they can service debt reliably. Fixed asset heavy companies often use debt for long-term financing.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 36,
+  section: "Business Finance",
+  text: "A company's CFO is deciding whether to distribute profits as dividends or retain them for reinvestment. This decision is influenced by the company's growth plans, shareholder expectations, and tax considerations. This is an example of:",
+  options: {
+    a: "Investment decision",
+    b: "Financing decision",
+    c: "Dividend decision",
+    d: "Capital budgeting decision"
+  },
+  correctAnswer: "c",
+  explanation: "Dividend decision involves determining how much profit to distribute to shareholders vs. retain for reinvestment. It balances shareholder returns with growth needs.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 37,
+  section: "Financial Markets",
+  text: "Which of the following instruments is traded in the money market and is issued by the government to meet short-term liquidity needs?",
+  options: {
+    a: "Commercial paper",
+    b: "Certificate of deposit",
+    c: "Treasury bill",
+    d: "Debenture"
+  },
+  correctAnswer: "c",
+  explanation: "Treasury bills are short-term (91, 182, 364 days) instruments issued by the government. They are money market instruments.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 38,
+  section: "Financial Markets",
+  text: "Assertion (A): The secondary market provides liquidity to investors. Reason (R): In the secondary market, investors can buy and sell existing securities at prevailing market prices.",
+  options: {
+    a: "Both (A) and (R) are true and (R) is the correct explanation of (A)",
+    b: "Both (A) and (R) are true and (R) is not the correct explanation of (A)",
+    c: "(A) is true, but (R) is false",
+    d: "(A) is false, but (R) is true"
+  },
+  correctAnswer: "a",
+  explanation: "Secondary market provides liquidity by enabling trading of existing securities. Investors can convert securities into cash easily.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 39,
+  section: "Financial Markets",
+  text: "SEBI recently imposed a penalty on a stock exchange for failing to ensure proper surveillance of insider trading activities. Which function of SEBI is being emphasized here?",
+  options: {
+    a: "Regulating the business of stock exchanges",
+    b: "Promoting investor education",
+    c: "Registering and regulating intermediaries",
+    d: "Prohibiting fraudulent and unfair trade practices"
+  },
+  correctAnswer: "a",
+  explanation: "SEBI regulates stock exchanges and ensures they follow proper surveillance mechanisms to prevent insider trading and other malpractices.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 40,
+  section: "Financial Markets",
+  text: "A company wants to raise funds by issuing shares to the public for the first time. The entire process from filing the prospectus to listing on the stock exchange will take place in which market?",
+  options: {
+    a: "Primary market - IPO",
+    b: "Secondary market - FPO",
+    c: "Money market - Commercial paper",
+    d: "Capital market - Private placement"
+  },
+  correctAnswer: "a",
+  explanation: "IPO (Initial Public Offering) happens in the primary market where securities are issued for the first time. After listing, they trade in the secondary market.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 41,
+  section: "Marketing",
+  text: "A company adopts a marketing philosophy that focuses on aggressively promoting and selling products without considering whether they actually satisfy customer needs. This is characteristic of which marketing concept?",
+  options: {
+    a: "Production concept",
+    b: "Product concept",
+    c: "Selling concept",
+    d: "Societal marketing concept"
+  },
+  correctAnswer: "c",
+  explanation: "The selling concept focuses on aggressive promotion and sales push, assuming customers will buy if persuaded. It does not prioritize customer needs.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 42,
+  section: "Marketing",
+  text: "Which of the following best distinguishes 'marketing' from 'selling'?",
+  options: {
+    a: "Selling focuses on customer needs, marketing focuses on product features",
+    b: "Selling starts before production, marketing starts after production",
+    c: "Selling is product-centered, marketing is customer-centered",
+    d: "Selling and marketing are identical concepts"
+  },
+  correctAnswer: "c",
+  explanation: "Selling focuses on existing products and pushing them to customers. Marketing focuses on identifying and satisfying customer needs.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 43,
+  section: "Marketing",
+  text: "A company uses a pricing strategy where it sets a very high initial price for its innovative product to maximize profits from early adopters, then gradually reduces the price. This pricing strategy is called:",
+  options: {
+    a: "Penetration pricing",
+    b: "Skimming pricing",
+    c: "Competitive pricing",
+    d: "Cost-plus pricing"
+  },
+  correctAnswer: "b",
+  explanation: "Skimming pricing involves high initial price to capture early adopters, then lowering price to attract more price-sensitive customers.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 44,
+  section: "Marketing",
+  text: "A product has a brand name 'Tide', a symbol of a mountain, and the phrase 'America's #1 Detergent' printed on the package. The element of branding that provides legal protection is:",
+  options: {
+    a: "Brand name",
+    b: "Brand mark",
+    c: "Trademark",
+    d: "Trade dress"
+  },
+  correctAnswer: "c",
+  explanation: "Trademark provides legal protection for both brand name and brand mark. It prevents others from using similar identifying marks.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 45,
+  section: "Marketing",
+  text: "A company decides to use a distribution channel where it sells directly to consumers through its own website and retail stores, bypassing wholesalers and retailers. This is an example of:",
+  options: {
+    a: "Two-level channel",
+    b: "One-level channel",
+    c: "Zero-level channel (direct marketing)",
+    d: "Three-level channel"
+  },
+  correctAnswer: "c",
+  explanation: "Zero-level channel (direct marketing) has no intermediaries. The manufacturer sells directly to consumers through owned channels.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 46,
+  section: "Marketing",
+  text: "Which of the following is NOT a function of labeling?",
+  options: {
+    a: "Describes product and specifies its contents",
+    b: "Identification of product or brand",
+    c: "Determining the price of the product",
+    d: "Grading and classification of products"
+  },
+  correctAnswer: "c",
+  explanation: "Labeling provides information but does not determine price. Pricing is determined by marketing mix decisions based on costs, competition, and demand.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 47,
+  section: "Consumer Protection",
+  text: "Under the Consumer Protection Act, 2019, which of the following correctly represents the hierarchy of consumer dispute redressal forums?",
+  options: {
+    a: "District Commission → State Commission → National Commission",
+    b: "State Commission → District Commission → National Commission",
+    c: "National Commission → State Commission → District Commission",
+    d: "District Commission → National Commission → State Commission"
+  },
+  correctAnswer: "a",
+  explanation: "The hierarchy: District Commission (up to ₹1 crore), State Commission (₹1 crore to ₹10 crore), National Commission (above ₹10 crore). Appeals can go higher.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 48,
+  section: "Consumer Protection",
+  text: "A consumer purchased a mobile phone that stopped working within 15 days. The company's service center refused to replace it. The consumer filed a complaint. Which consumer right is being violated?",
+  options: {
+    a: "Right to Safety",
+    b: "Right to be Informed",
+    c: "Right to Seek Redressal",
+    d: "Right to Consumer Education"
+  },
+  correctAnswer: "c",
+  explanation: "The right to seek redressal ensures consumers have the right to fair settlement of genuine grievances. Denying replacement violates this right.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 49,
+  section: "Consumer Protection",
+  text: "Which of the following consumer responsibilities is most relevant when a consumer notices that a product's MRP is not displayed or the product lacks necessary safety certifications?",
+  options: {
+    a: "Responsibility to be aware",
+    b: "Responsibility to complain",
+    c: "Responsibility to think independently",
+    d: "Responsibility to be environmentally conscious"
+  },
+  correctAnswer: "a",
+  explanation: "Responsibility to be aware means consumers should be alert about product information, prices, certifications, and quality standards before purchasing.",
+  marked: false,
+  userAnswer: null
+},
+{
+  id: 50,
+  section: "Consumer Protection",
+  text: "An NGO working for consumer rights conducts awareness campaigns, files public interest litigations, and helps consumers file complaints. Under the Consumer Protection Act, 2019, who can file a complaint?",
+  options: {
+    a: "Only individual consumers",
+    b: "Individual consumers and registered consumer organizations",
+    c: "Only government agencies",
+    d: "Only lawyers"
+  },
+  correctAnswer: "b",
+  explanation: "Under the Act, complaints can be filed by: (a) individual consumers, (b) registered consumer organizations, (c) central/state government, and (d) legal heirs.",
+  marked: false,
+  userAnswer: null
+}
+
+  ], // end questions
+    duration: 60 * 60,
+    markingScheme: { correct: 5, incorrect: -1 }
+};
+
+/* ============================================================
+   CORE TEST ENGINE
+   ============================================================ */
+const timerElement = document.querySelector('.timer');
+const questionTextElement = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const questionNumberElement = document.getElementById('q-number');
+const currentQNumberElement = document.getElementById('current-q-number');
+const progressBar = document.getElementById('test-progress');
+const progressPercent = document.getElementById('progress-percent');
+const questionPaletteGrid = document.getElementById('question-palette-grid');
+const answeredCountElement = document.getElementById('answered-count');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const markBtn = document.getElementById('mark-btn');
+const submitTestBtn = document.getElementById('submit-test-btn');
+const resultsModal = document.getElementById('results-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const correctAnswersElement = document.getElementById('correct-answers');
+const incorrectAnswersElement = document.getElementById('incorrect-answers');
+const unansweredElement = document.getElementById('unanswered');
+const totalScoreElement = document.getElementById('total-score');
+const percentageElement = document.getElementById('percentage');
+const accuracyElement = document.getElementById('accuracy');
+const reviewBtn = document.getElementById('review-btn');
+
+let currentQuestionIndex = 0;
+let timeLeft = mockTest.duration;
+let timer;
+let testSubmitted = false;
+let testStarted = false;
+
+function initTest() {
+    renderQuestionPalette();
+    renderQuestion();
+    startTimer();
+    updateProgress();
+    renderLegend(false);
+    prevBtn.addEventListener('click', goToPreviousQuestion);
+    nextBtn.addEventListener('click', goToNextQuestion);
+    markBtn.addEventListener('click', toggleMarkForReview);
+    submitTestBtn.addEventListener('click', confirmSubmit);
+    closeModalBtn.addEventListener('click', closeResultsModal);
+    reviewBtn.addEventListener('click', reviewAnswers);
+    document.getElementById('download-pdf-btn').addEventListener('click', generatePDF);
+}
+
+function renderLegend(reviewMode) {
+    const leg = document.getElementById('palette-legend');
+    if (!leg) return;
+    if (reviewMode) {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#22c55e;"></div><span>Correct</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#ef4444;"></div><span>Wrong</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#3b82f6;"></div><span>Not Answered</span></div>
+        </div>`;
+    } else {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90ee90;"></div><span>Answered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90D5FF;"></div><span>Marked</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#FF474D;"></div><span>Unanswered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #a185de;"></div><span>Current</span></div>
+        </div>`;
+    }
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) { clearInterval(timer); submitTest(); }
+        if (timeLeft === 300) { alert('Only 5 minutes remaining!'); }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const hours = Math.floor(timeLeft / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
+    const seconds = timeLeft % 60;
+    const timeStr = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    timerElement.textContent = timeStr;
+    const mobileTimer = document.querySelector('.mobile-timer-clone');
+    if (mobileTimer) mobileTimer.textContent = timeStr;
+}
+
+function renderQuestion() {
+    const question = mockTest.questions[currentQuestionIndex];
+    document.getElementById('current-section').textContent = question.section;
+    questionTextElement.innerHTML = `
+        <div style="display:inline-block;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:8px;">
+            📘 ${question.section || "General"}
+        </div>
+        ${question.image ? `<div style="margin:10px 0;"><img src="${question.image}" style="max-width:100%;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>` : ""}
+        <div style="margin-top:8px;">${question.text}</div>
+    `;
+    questionNumberElement.textContent = question.id;
+    currentQNumberElement.textContent = question.id;
+    optionsContainer.innerHTML = '';
+
+    for (const [key, value] of Object.entries(question.options)) {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        if (testSubmitted) {
+            if (key === question.correctAnswer) optionDiv.classList.add('correct');
+            else if (key === question.userAnswer && key !== question.correctAnswer) optionDiv.classList.add('incorrect');
+        } else {
+            if (key === question.userAnswer) optionDiv.classList.add('selected');
+        }
+        if (!testSubmitted) {
+            optionDiv.addEventListener('click', () => {
+                optionsContainer.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                optionDiv.classList.add('selected');
+                selectAnswer(key);
+            });
+        }
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'question-option';
+        input.value = key;
+        input.checked = question.userAnswer === key;
+        input.disabled = testSubmitted;
+        const letterDiv = document.createElement('div');
+        letterDiv.className = 'opt-letter';
+        letterDiv.textContent = key.toUpperCase();
+        const textSpan = document.createElement('span');
+        textSpan.className = 'opt-text';
+        textSpan.textContent = value;
+        if (testSubmitted) {
+            if (key === question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'correct-indicator';
+                ind.textContent = ' ✓ Correct Answer';
+                textSpan.appendChild(ind);
+            } else if (key === question.userAnswer && key !== question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'incorrect-indicator';
+                ind.textContent = ' ✗ Your Answer';
+                textSpan.appendChild(ind);
+            }
+        }
+        optionDiv.appendChild(input);
+        optionDiv.appendChild(letterDiv);
+        optionDiv.appendChild(textSpan);
+        optionsContainer.appendChild(optionDiv);
+    }
+
+    if (testSubmitted) {
+        const explanationDiv = document.createElement('div');
+        explanationDiv.style.cssText = "margin-top:15px;padding:12px;border-radius:8px;background:linear-gradient(135deg,#eef2ff,#e0f2ff);border-left:4px solid #6a11cb;font-size:15px;box-shadow:0 4px 12px rgba(0,0,0,0.1);";
+        explanationDiv.innerHTML = `<strong>Explanation:</strong><br>${question.explanation || "No explanation available."}`;
+        optionsContainer.appendChild(explanationDiv);
+    }
+
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    nextBtn.style.visibility = currentQuestionIndex === mockTest.questions.length - 1 ? 'hidden' : 'visible';
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = currentQuestionIndex === mockTest.questions.length - 1;
+    updateQuestionPalette();
+}
+
+function selectAnswer(answer) {
+    mockTest.questions[currentQuestionIndex].userAnswer = answer;
+    updateQuestionPalette();
+    updateProgress();
+}
+
+function toggleMarkForReview() {
+    const question = mockTest.questions[currentQuestionIndex];
+    question.marked = !question.marked;
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    updateQuestionPalette();
+}
+
+function goToPreviousQuestion() {
+    if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+}
+
+function goToNextQuestion() {
+    if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+}
+
+function renderQuestionPalette() {
+    questionPaletteGrid.innerHTML = '';
+    mockTest.questions.forEach((question, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = question.id;
+        btn.addEventListener('click', () => navigateToQuestion(index));
+        questionPaletteGrid.appendChild(btn);
+    });
+    updateQuestionPalette();
+}
+
+function updateQuestionPalette() {
+    const paletteButtons = questionPaletteGrid.querySelectorAll('.palette-btn');
+    paletteButtons.forEach(btn => { btn.className = 'palette-btn'; });
+    mockTest.questions.forEach((question, index) => {
+        const btn = paletteButtons[index];
+        if (testSubmitted) {
+            if (!question.userAnswer) btn.classList.add('review-unanswered');
+            else if (question.userAnswer === question.correctAnswer) btn.classList.add('review-correct');
+            else btn.classList.add('review-wrong');
+        } else {
+            if (question.userAnswer) btn.classList.add('answered');
+            if (question.marked) btn.classList.add('marked');
+        }
+        if (index === currentQuestionIndex) btn.classList.add('current');
+    });
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    answeredCountElement.textContent = `${answeredCount}/${mockTest.questions.length}`;
+}
+
+function navigateToQuestion(index) {
+    currentQuestionIndex = index;
+    renderQuestion();
+}
+
+function updateProgress() {
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    const progress = (answeredCount / mockTest.questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    progressPercent.textContent = `${Math.round(progress)}%`;
+}
+
+function confirmSubmit() {
+    if (confirm('Are you sure you want to submit the test?')) { submitTest(); }
+}
+
+/* ============================================================
+   SUBMIT + SAVE RESULT TO LOCALSTORAGE
+   ============================================================ */
+function submitTest() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    clearInterval(timer);
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+
+    const totalQuestions = mockTest.questions.length;
+    const maxScore = totalQuestions * mockTest.markingScheme.correct;
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const percentage = ((totalScore / maxScore) * 100).toFixed(2);
+    const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
+
+    // Build per-question result (compact — no question text to keep storage small)
+    const questionResults = mockTest.questions.map(q => ({
+        id: q.id,
+        correct: q.userAnswer === q.correctAnswer,
+        answered: !!q.userAnswer,
+        userAnswer: q.userAnswer,
+        correctAnswer: q.correctAnswer
+    }));
+
+    // Save result to localStorage
+    const resultData = {
+        chapterId:    CHAPTER_ID,
+        subjectId:    SUBJECT_ID,
+        userName:     localStorage.getItem('cbtUserName') || 'Unknown',
+        date:         new Date().toISOString(),
+        score:        totalScore,
+        maxScore:     maxScore,
+        correct:      correct,
+        incorrect:    incorrect,
+        unanswered:   unanswered,
+        totalQ:       totalQuestions,
+        percentage:   parseFloat(percentage),
+        accuracy:     parseFloat(accuracy),
+        timeTaken:    mockTest.duration - timeLeft,  // seconds taken
+        questions:    questionResults
+    };
+
+    // Storage key: thunderstudy_result_<subjectId>_<chapterId>
+    const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+    localStorage.setItem(storageKey, JSON.stringify(resultData));
+
+    // Also maintain a master index of all attempted chapters for this subject
+    const indexKey = `thunderstudy_index_${SUBJECT_ID}`;
+    let index = [];
+    try { index = JSON.parse(localStorage.getItem(indexKey) || '[]'); } catch(e) {}
+    if (!index.includes(CHAPTER_ID)) index.push(CHAPTER_ID);
+    localStorage.setItem(indexKey, JSON.stringify(index));
+   // AUTO-SYNC to Google Sheet
+const GS_URL = "https://script.google.com/macros/s/AKfycbxrI9TAPt1jNgDH4wiBmaPUTt69KQD8AlkB1f_PZMSi3zo8aJjw-_N-1cF8ST3u1vMZ/exec";
+fetch(GS_URL, {
+  method: 'POST',
+  mode: 'no-cors',
+  headers: { 'Content-Type': 'text/plain' },
+  body: JSON.stringify({
+    name: localStorage.getItem('cbtUserName') || 'Unknown',
+    subject: SUBJECT_ID,
+    chapter: CHAPTER_ID,
+    score: totalScore,
+    maxScore: maxScore,
+    percentage: parseFloat(percentage),
+    correct: correct,
+    wrong: incorrect,
+    skipped: unanswered,
+    timeTaken: mockTest.duration - timeLeft,
+    accuracy: parseFloat(accuracy),
+    date: new Date().toISOString()
+  })
+}).then(() => {
+  try {
+    const syncKey = `${SUBJECT_ID}_${CHAPTER_ID}_${resultData.date}`;
+    const synced = JSON.parse(localStorage.getItem('ts_synced') || '{}');
+    synced[syncKey] = 1;
+    localStorage.setItem('ts_synced', JSON.stringify(synced));
+  } catch(e) {}
+}).catch(() => {});
+
+    // Show modal
+    correctAnswersElement.textContent = correct;
+    incorrectAnswersElement.textContent = incorrect;
+    unansweredElement.textContent = unanswered;
+    totalScoreElement.textContent = totalScore;
+    percentageElement.textContent = percentage;
+    accuracyElement.textContent = accuracy;
+    resultsModal.style.display = 'flex';
+    renderQuestion();
+
+    const submitBtn = document.getElementById('submit-test-btn');
+    submitBtn.textContent = '📄 Download PDF';
+    submitBtn.classList.remove('submit-fancy-btn');
+    submitBtn.classList.add('pdf-download-btn');
+    submitBtn.onclick = generatePDF;
+
+    renderLegend(true);
+}
+
+function closeResultsModal() { resultsModal.style.display = 'none'; }
+
+function reviewAnswers() {
+    resultsModal.style.display = 'none';
+    currentQuestionIndex = 0;
+    renderQuestion();
+}
+
+/* Tab switch guard */
+document.addEventListener("visibilitychange", function() {
+    if (!testStarted || testSubmitted) return;
+    if (document.hidden) startCountdown('tab');
+    else cancelCountdown();
+});
+
+/* Arrow key navigation */
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+    }
+});
+</script>
+
+<script>
+function startMock() {
+    const savedName = localStorage.getItem('cbtUserName') || 
+                      (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    
+    if (!savedName || savedName.trim() === '') {
+        // No name found — send to dashboard
+        const goToDash = confirm("⚠️ No name found!\n\nYou need to set your name in the Thunderstudy Dashboard first.\n\nClick OK to open Dashboard, or Cancel to enter name here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+            return;
+        }
+        // Fallback — let them type here
+        const input = document.getElementById('username-input').value.trim();
+        if (!input) {
+            alert("⚠️ Please enter your name to continue!");
+            document.getElementById('username-input').focus();
+            return;
+        }
+        localStorage.setItem("cbtUserName", input);
+    } else {
+        // Auto-fill and save
+        localStorage.setItem("cbtUserName", savedName.trim());
+        document.getElementById('username-input').value = savedName.trim();
+    }
+    enterFullscreen();
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('instruction-screen').style.display = 'block';
+}
+
+const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
+darkModeToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggles.forEach(btn => {
+            const iconSpan = btn.querySelector('.icon');
+            if (iconSpan) iconSpan.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    });
+});
+</script>
+
+<script>
+const checkbox = document.getElementById('agree-checkbox');
+const startBtn = document.getElementById('start-test-btn');
+
+checkbox.addEventListener('change', () => {
+    startBtn.disabled = !checkbox.checked;
+    startBtn.style.opacity = checkbox.checked ? "1" : "0.6";
+    startBtn.style.cursor = checkbox.checked ? "pointer" : "not-allowed";
+});
+
+startBtn.addEventListener('click', () => {
+    if (!checkbox.checked) { alert("Please accept instructions first!"); return; }
+    document.getElementById('instruction-screen').style.display = 'none';
+    document.getElementById('test-screen').style.display = 'block';
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name;
+    testStarted = true;
+    enterFullscreen();
+    initTest();
+});
+
+function enterFullscreen() {
+    const el = document.documentElement;
+    try {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+        else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    } catch(e) {}
+}
+
+document.addEventListener('fullscreenchange', onFSChange);
+document.addEventListener('webkitfullscreenchange', onFSChange);
+document.addEventListener('mozfullscreenchange', onFSChange);
+document.addEventListener('MSFullscreenChange', onFSChange);
+
+function isInFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+              document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function onFSChange() {
+    if (!testStarted || testSubmitted) return;
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    if (!isInFullscreen()) startCountdown('fullscreen');
+    else cancelCountdown();
+}
+
+let countdownTimer = null;
+let countdownSeconds = 0;
+
+function startCountdown(reason) {
+    if (!testStarted || testSubmitted) return;
+    if (countdownTimer) return;
+    countdownSeconds = (reason === 'tab') ? 2 : 5;
+    const msg  = (reason === 'tab') ? '⚠️ You switched tabs!' : '⚠️ You exited fullscreen!';
+    const hint = (reason === 'tab') ? 'Switch back to this tab to cancel.' : 'Click the button below to return to fullscreen.';
+    showOverlay(msg, hint, countdownSeconds, reason === 'fullscreen');
+    countdownTimer = setInterval(() => {
+        countdownSeconds--;
+        updateOverlayCount(countdownSeconds);
+        if (countdownSeconds <= 0) { cancelCountdown(); submitTest(); }
+    }, 1000);
+}
+
+function cancelCountdown() {
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    hideOverlay();
+}
+
+function showOverlay(msg, hint, secs, showBtn) {
+    let ov = document.getElementById('security-overlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'security-overlay';
+        ov.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:'Segoe UI',sans-serif;color:#fff;text-align:center;padding:24px;`;
+        document.body.appendChild(ov);
+    }
+    ov.innerHTML = `
+        <div style="font-size:60px;margin-bottom:14px;">🚨</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px;">${msg}</div>
+        <div style="font-size:15px;color:#fbbf24;margin-bottom:20px;">${hint}</div>
+        <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px;">Auto-submitting in</div>
+        <div id="overlay-count" style="font-size:72px;font-weight:900;color:#f87171;line-height:1;">${secs}</div>
+        <div style="font-size:14px;color:#9ca3af;margin-top:4px;">seconds</div>
+        ${showBtn ? `<button onclick="enterFullscreen()" style="margin-top:24px;padding:13px 34px;border-radius:30px;border:none;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,0.5);">🔲 Return to Fullscreen</button>` : ''}`;
+    ov.style.display = 'flex';
+}
+
+function updateOverlayCount(n) {
+    const el = document.getElementById('overlay-count');
+    if (el) el.textContent = n;
+}
+
+function hideOverlay() {
+    const ov = document.getElementById('security-overlay');
+    if (ov) ov.style.display = 'none';
+}
+</script>
+
+<div id="pdf-print-area"></div>
+
+<script>
+function generatePDF() {
+    const name = localStorage.getItem('cbtUserName') || 'Thunder';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const maxScore = mockTest.questions.length * mockTest.markingScheme.correct;
+    const pct = ((totalScore / maxScore) * 100).toFixed(1);
+    const optionLabel = { a:'A', b:'B', c:'C', d:'D' };
+
+    let questionsHTML = '';
+    mockTest.questions.forEach((q, i) => {
+        const isCorrect = q.userAnswer === q.correctAnswer;
+        const isWrong   = q.userAnswer && !isCorrect;
+        const isSkipped = !q.userAnswer;
+        const statusColor = isCorrect ? '#16a34a' : isWrong ? '#dc2626' : '#9ca3af';
+        const statusLabel = isCorrect ? '✓ Correct' : isWrong ? '✗ Wrong' : '— Skipped';
+        const rowBg = isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fafafa';
+        let optionsHTML = '';
+        for (const [key, val] of Object.entries(q.options)) {
+            const isRight = key === q.correctAnswer;
+            const isUser  = key === q.userAnswer;
+            let bg = 'transparent', fw = 'normal', prefix = '';
+            if (isRight) { bg = '#dcfce7'; fw = 'bold'; prefix = '✓ '; }
+            if (isUser && !isRight) { bg = '#fee2e2'; fw = 'bold'; prefix = '✗ '; }
+            optionsHTML += `<div style="display:flex;gap:8px;padding:4px 8px;margin:2px 0;border-radius:4px;background:${bg};font-weight:${fw};font-size:12px;"><span style="min-width:18px;font-weight:700;">${optionLabel[key]}.</span><span>${prefix}${val}</span></div>`;
+        }
+        let yourAnswer = isSkipped
+            ? '<span style="color:#9ca3af;">Not Attempted</span>'
+            : `<span style="color:${isCorrect?'#16a34a':'#dc2626'};font-weight:bold;">${optionLabel[q.userAnswer]}. ${q.options[q.userAnswer]}</span>`;
+        questionsHTML += `
+        <div style="margin-bottom:18px;padding:14px 16px;border-radius:8px;background:${rowBg};border:1px solid #e5e7eb;page-break-inside:avoid;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div style="font-weight:700;font-size:13px;color:#374151;">Q${i+1}. ${q.text}</div>
+                <div style="font-weight:700;font-size:12px;color:${statusColor};white-space:nowrap;margin-left:12px;">${statusLabel}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:8px;">${optionsHTML}</div>
+            <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;margin-top:4px;">
+                <span style="color:#6b7280;">Your answer: </span>${yourAnswer}&nbsp;&nbsp;
+                <span style="color:#6b7280;">Correct answer: </span>
+                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
+            </div>
+        </div>`;
+    });
+
+    const scoreColor = pct >= 60 ? '#16a34a' : pct >= 35 ? '#d97706' : '#dc2626';
+    const html = `<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;color:#111;">
+        <div style="background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:22px;font-weight:800;">⚡ Thunderstudy CBT</div><div style="font-size:13px;opacity:0.85;margin-top:3px;">Result Report — ${CHAPTER_ID.toUpperCase()}</div></div>
+                <div style="text-align:right;font-size:12px;opacity:0.85;"><div>📅 ${dateStr} &nbsp; 🕐 ${timeStr}</div><div style="margin-top:2px;">👤 ${name}</div></div>
+            </div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:16px 24px;border-radius:0 0 10px 10px;margin-bottom:20px;">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SCORE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${totalScore}<span style="font-size:14px;color:#6b7280;">/${maxScore}</span></div></div>
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">PERCENTAGE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${pct}%</div></div>
+                    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#16a34a;">CORRECT</div><div style="font-size:24px;font-weight:800;color:#16a34a;">${correct}</div></div>
+                    <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#dc2626;">WRONG</div><div style="font-size:24px;font-weight:800;color:#dc2626;">${incorrect}</div></div>
+                    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SKIPPED</div><div style="font-size:24px;font-weight:800;color:#6b7280;">${unanswered}</div></div>
+                </div>
+            </div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #6a11cb;">📋 Question-wise Answer Key</div>
+        ${questionsHTML}
+        <div style="text-align:center;margin-top:24px;padding:14px;background:#f1f5f9;border-radius:8px;font-size:12px;color:#6b7280;">Generated by <b>Thunderstudy CBT</b> &nbsp;|&nbsp; t.me/thunderstudy_official &nbsp;|&nbsp; ${dateStr}</div>
+    </div>`;
+
+    const printWin = window.open('', '_blank', 'width=950,height=700,scrollbars=yes');
+    if (!printWin) { alert('Popup blocked! Please allow popups for this site and try again.'); return; }
+    printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Thunderstudy_Result_${name}_${dateStr.replace(/ /g,'-')}</title>
+    <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:#fff;padding:20px;}@media print{body{padding:0;}.no-print{display:none !important;}}.print-btn{display:block;margin:0 auto 20px;padding:12px 36px;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;font-size:16px;font-weight:700;border:none;border-radius:30px;cursor:pointer;}</style>
+    </head><body><button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>${html}</body></html>`);
+    printWin.document.close();
+    printWin.focus();
+}
+
+   // Auto-fill name from dashboard on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('cbtUserName') || 
+                  (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    if (saved) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = saved;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.setAttribute('readonly', true);
+            inp.title = 'Name loaded from Dashboard';
+            // Add a small label below
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px;color:#4f6ef7;font-weight:600;margin-top:4px;">
+                    ✅ Loaded from Dashboard · 
+                    <span onclick="document.getElementById('username-input').removeAttribute('readonly');
+                                   document.getElementById('username-input').style.background='';
+                                   document.getElementById('username-input').style.borderColor='#a185de';
+                                   this.parentElement.remove();" 
+                          style="cursor:pointer;text-decoration:underline;">Change</span>
+                </div>`
+            );
+        }
+    }
+});
+</script>
+
+</body>
+</html>
