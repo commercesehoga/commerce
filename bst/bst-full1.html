@@ -2310,6 +2310,13 @@ fetch(GS_URL, {
     accuracy: parseFloat(accuracy),
     date: new Date().toISOString()
   })
+}).then(() => {
+  try {
+    const syncKey = `${SUBJECT_ID}_${CHAPTER_ID}_${resultData.date}`;
+    const synced = JSON.parse(localStorage.getItem('ts_synced') || '{}');
+    synced[syncKey] = 1;
+    localStorage.setItem('ts_synced', JSON.stringify(synced));
+  } catch(e) {}
 }).catch(() => {});
 
     // Show modal
