@@ -2300,27 +2300,27 @@ function submitTest() {
     const percentage = ((totalScore / maxScore) * 100).toFixed(2);
     const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
 
-    const resultData = {
-        chapterId: CHAPTER_ID,
-        subjectId: SUBJECT_ID,
-        userName: localStorage.getItem('cbtUserName') || 'Unknown',
-        studentId: localStorage.getItem('ts_student_id') || '',
-        date: new Date().toISOString(),
-        score: totalScore,
-        maxScore: maxScore,
-        correct: correct,
-        incorrect: incorrect,
-        unanswered: unanswered,
-        totalQ: totalQuestions,
-        percentage: parseFloat(percentage),
-        accuracy: parseFloat(accuracy),
-        timeTaken: mockTest.duration - timeLeft
-    };
+   const resultData = {
+    studentId: localStorage.getItem('ts_student_id') || '',
+    name: localStorage.getItem('cbtUserName') || 'Unknown', // Changed from userName
+    subject: SUBJECT_ID,                                   // Changed from subjectId
+    chapter: CHAPTER_ID,                                   // Changed from chapterId
+    date: new Date().toISOString(),
+    score: totalScore,
+    maxScore: maxScore,
+    correct: correct,
+    wrong: incorrect,
+    skipped: unanswered,
+    totalQ: totalQuestions,
+    percentage: parseFloat(percentage),
+    accuracy: parseFloat(accuracy),
+    timeTaken: mockTest.duration - timeLeft
+};
 
     const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
     localStorage.setItem(storageKey, JSON.stringify(resultData));
 
-    const GS_URL = "https://script.google.com/macros/s/AKfycbxrI9TAPt1jNgDH4wiBmaPUTt69KQD8AlkB1f_PZMSi3zo8aJjw-_N-1cF8ST3u1vMZ/exec";
+    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
     fetch(GS_URL, {
         method: 'POST',
         mode: 'no-cors',
