@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1246,9 +1247,13 @@ body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
   </ul>
 </div>
 
-<div style="margin: 10px 0;">
-  <input type="text" id="username-input" placeholder="Enter your name"
-    style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+<div style="margin: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <input type="text" id="username-input" placeholder="Enter your name"
+        style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+    
+    <div id="sid-display-area" style="font-size: 13px; font-weight: 700; color: #4f6ef7; background: rgba(79,110,247,0.1); padding: 5px 15px; border-radius: 20px; display: none;">
+        🪪 ID: <span id="sid-value">---</span>
+    </div>
 </div>
 
 <div style="display:flex; flex-direction:column; align-items:center; gap:11px; margin-top:6px;">
@@ -1355,10 +1360,13 @@ Start Test
 <!-- Sidebar -->
 <div class="sidebar">
     <div class="sidebar-header">
-        <div class="timer">01:00:00</div>
-    </div>
+    <div class="timer">01:00:00</div>
+    <div id="focus-laptop" style="font-size:12px; font-weight:bold; color:green; margin-top:5px;">● Focus On</div>
+</div>
 
     <div class="test-info">
+      <p><strong>Name:</strong> <span id="display-user-name">Thunder</span></p>
+    <p><strong>Student ID:</strong> <span id="display-user-sid" style="color:var(--acc); font-family:monospace;">---</span></p>
         <p><strong>Subject:</strong> <span id="subject-label">BST</span></p>
         <p><strong>Questions:</strong> 50</p>
         <p><strong>Duration:</strong> 60 minutes</p>
@@ -1382,6 +1390,7 @@ Start Test
 
 <div class="mobile-top-bar">
     <div class="mobile-timer-clone">01:00:00</div>
+    <div id="focus-mobile" style="font-size:10px; font-weight:bold; color:green;">● Focus On</div>
     <div id="mobile-name-display">👤 Thunder</div>
 </div>
 
@@ -1487,6 +1496,25 @@ Start Test
 </div>
 
 <script>
+  // Disable Right-Click, Copy, and Paste
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        e.preventDefault();
+    }
+});
+function detectDevTools() {
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        alert("Security Breach: DevTools detected. Test will auto-submit.");
+        submitTest();
+    }
+}
+// Check every 1 second during the test
+setInterval(() => { if(testStarted && !testSubmitted) detectDevTools(); }, 1000);
 /* ============================================================
    MOCK TEST DATA — Edit questions here
    ============================================================ */
@@ -2031,11 +2059,33 @@ let testSubmitted = false;
 let testStarted = false;
 
 function initTest() {
+    // 1. SHUFFLE OPTIONS ONLY (Questions stay 1 to 50)
+    mockTest.questions.forEach(q => {
+        let optionsArray = Object.entries(q.options); 
+        // Randomize the order of the options array
+        optionsArray.sort(() => Math.random() - 0.5); 
+        
+        let newOptions = {};
+        let newCorrectKey = "";
+        
+        optionsArray.forEach(([oldKey, text], index) => {
+            let newKey = String.fromCharCode(97 + index); // assigns new keys: a, b, c, d
+            newOptions[newKey] = text;
+            // Ensure the grade still works by tracking where the correct answer moved
+            if (oldKey === q.correctAnswer) newCorrectKey = newKey;
+        });
+        
+        q.options = newOptions;
+        q.correctAnswer = newCorrectKey;
+    });
+
+    // 2. RENDER TEST
     renderQuestionPalette();
     renderQuestion();
     startTimer();
     updateProgress();
     renderLegend(false);
+    
     prevBtn.addEventListener('click', goToPreviousQuestion);
     nextBtn.addEventListener('click', goToNextQuestion);
     markBtn.addEventListener('click', toggleMarkForReview);
@@ -2232,9 +2282,6 @@ function confirmSubmit() {
     if (confirm('Are you sure you want to submit the test?')) { submitTest(); }
 }
 
-/* ============================================================
-   SUBMIT + SAVE RESULT TO LOCALSTORAGE
-   ============================================================ */
 function submitTest() {
     if (testSubmitted) return;
     testSubmitted = true;
@@ -2253,73 +2300,37 @@ function submitTest() {
     const percentage = ((totalScore / maxScore) * 100).toFixed(2);
     const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
 
-    // Build per-question result (compact — no question text to keep storage small)
-    const questionResults = mockTest.questions.map(q => ({
-        id: q.id,
-        correct: q.userAnswer === q.correctAnswer,
-        answered: !!q.userAnswer,
-        userAnswer: q.userAnswer,
-        correctAnswer: q.correctAnswer
-    }));
-
-    // Save result to localStorage
     const resultData = {
-        chapterId:    CHAPTER_ID,
-        subjectId:    SUBJECT_ID,
-        userName:     localStorage.getItem('cbtUserName') || 'Unknown',
-        date:         new Date().toISOString(),
-        score:        totalScore,
-        maxScore:     maxScore,
-        correct:      correct,
-        incorrect:    incorrect,
-        unanswered:   unanswered,
-        totalQ:       totalQuestions,
-        percentage:   parseFloat(percentage),
-        accuracy:     parseFloat(accuracy),
-        timeTaken:    mockTest.duration - timeLeft,  // seconds taken
-        questions:    questionResults
+        chapterId: CHAPTER_ID,
+        subjectId: SUBJECT_ID,
+        userName: localStorage.getItem('cbtUserName') || 'Unknown',
+        studentId: localStorage.getItem('ts_student_id') || '',
+        date: new Date().toISOString(),
+        score: totalScore,
+        maxScore: maxScore,
+        correct: correct,
+        incorrect: incorrect,
+        unanswered: unanswered,
+        totalQ: totalQuestions,
+        percentage: parseFloat(percentage),
+        accuracy: parseFloat(accuracy),
+        timeTaken: mockTest.duration - timeLeft
     };
 
-    // Storage key: thunderstudy_result_<subjectId>_<chapterId>
     const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
     localStorage.setItem(storageKey, JSON.stringify(resultData));
 
-    // Also maintain a master index of all attempted chapters for this subject
-    const indexKey = `thunderstudy_index_${SUBJECT_ID}`;
-    let index = [];
-    try { index = JSON.parse(localStorage.getItem(indexKey) || '[]'); } catch(e) {}
-    if (!index.includes(CHAPTER_ID)) index.push(CHAPTER_ID);
-    localStorage.setItem(indexKey, JSON.stringify(index));
-   // AUTO-SYNC to Google Sheet
-const GS_URL = "https://script.google.com/macros/s/AKfycbxrI9TAPt1jNgDH4wiBmaPUTt69KQD8AlkB1f_PZMSi3zo8aJjw-_N-1cF8ST3u1vMZ/exec";
-fetch(GS_URL, {
-  method: 'POST',
-  mode: 'no-cors',
-  headers: { 'Content-Type': 'text/plain' },
-  body: JSON.stringify({
-    name: localStorage.getItem('cbtUserName') || 'Unknown',
-    subject: SUBJECT_ID,
-    chapter: CHAPTER_ID,
-    score: totalScore,
-    maxScore: maxScore,
-    percentage: parseFloat(percentage),
-    correct: correct,
-    wrong: incorrect,
-    skipped: unanswered,
-    timeTaken: mockTest.duration - timeLeft,
-    accuracy: parseFloat(accuracy),
-    date: new Date().toISOString()
-  })
-}).then(() => {
-  try {
-    const syncKey = `${SUBJECT_ID}_${CHAPTER_ID}_${resultData.date}`;
-    const synced = JSON.parse(localStorage.getItem('ts_synced') || '{}');
-    synced[syncKey] = 1;
-    localStorage.setItem('ts_synced', JSON.stringify(synced));
-  } catch(e) {}
-}).catch(() => {});
+    const GS_URL = "https://script.google.com/macros/s/AKfycbxrI9TAPt1jNgDH4wiBmaPUTt69KQD8AlkB1f_PZMSi3zo8aJjw-_N-1cF8ST3u1vMZ/exec";
+    fetch(GS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resultData)
+    }).then(() => {
+        localStorage.removeItem(storageKey);
+        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+    }).catch(err => console.error("Sync failed", err));
 
-    // Show modal
     correctAnswersElement.textContent = correct;
     incorrectAnswersElement.textContent = incorrect;
     unansweredElement.textContent = unanswered;
@@ -2349,6 +2360,7 @@ function reviewAnswers() {
 /* Tab switch guard */
 document.addEventListener("visibilitychange", function() {
     if (!testStarted || testSubmitted) return;
+    updateFocusMode();
     if (document.hidden) startCountdown('tab');
     else cancelCountdown();
 });
@@ -2365,34 +2377,98 @@ document.addEventListener('keydown', function(e) {
 </script>
 
 <script>
+// Function to start the Mock
 function startMock() {
-    const savedName = localStorage.getItem('cbtUserName') || 
-                      (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
     
-    if (!savedName || savedName.trim() === '') {
-        // No name found — send to dashboard
-        const goToDash = confirm("⚠️ No name found!\n\nYou need to set your name in the Thunderstudy Dashboard first.\n\nClick OK to open Dashboard, or Cancel to enter name here.");
+    const inputName = document.getElementById('username-input').value.trim();
+
+    // 1. Validate Name
+    if (!savedName && !inputName) {
+        alert("⚠️ Please enter your name to continue!");
+        document.getElementById('username-input').focus();
+        return;
+    }
+    
+    // Save name if typed manually
+    if (!savedName && inputName) {
+        localStorage.setItem("cbtUserName", inputName);
+    }
+
+    // 2. Validate Student ID (The specific check you asked for)
+    if (!savedSID) {
+        const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
         if (goToDash) {
             window.open('https://commercesehoga.github.io/dashboard/', '_blank');
-            return;
         }
-        // Fallback — let them type here
-        const input = document.getElementById('username-input').value.trim();
-        if (!input) {
-            alert("⚠️ Please enter your name to continue!");
-            document.getElementById('username-input').focus();
-            return;
-        }
-        localStorage.setItem("cbtUserName", input);
-    } else {
-        // Auto-fill and save
-        localStorage.setItem("cbtUserName", savedName.trim());
-        document.getElementById('username-input').value = savedName.trim();
+        return;
     }
+
+    // 3. If everything is OK, proceed
     enterFullscreen();
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('instruction-screen').style.display = 'block';
 }
+
+// Update displays when the test actually starts
+document.getElementById('start-test-btn').addEventListener('click', () => {
+    if (!document.getElementById('agree-checkbox').checked) return;
+    
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    const sid = localStorage.getItem("ts_student_id") || "N/A";
+    
+    // Update Desktop Displays
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    if(document.getElementById('display-user-name')) document.getElementById('display-user-name').innerText = name;
+    if(document.getElementById('display-user-sid')) document.getElementById('display-user-sid').innerText = sid;
+    
+    // Update Mobile Displays
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name + " | " + sid;
+});
+
+// Auto-fill and Fetch on Page Load
+window.addEventListener('DOMContentLoaded', () => {
+    // Fetch Name and Student ID from local storage
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+
+    // Set and Lock Name Input
+    if (savedName) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = savedName;
+            // Apply locked styling
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.style.color = '#4f6ef7';
+            inp.style.fontWeight = 'bold';
+            
+            // Force Read-Only (Removes ability to change)
+            inp.setAttribute('readonly', true);
+            
+            // Add a simple verification label (No "Change" link)
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
+                    ✅ Verified Dashboard Profile
+                </div>`
+            );
+        }
+    }
+
+    // Set and Show Student ID
+    if (savedSID) {
+        const sidArea = document.getElementById('sid-display-area');
+        const sidVal = document.getElementById('sid-value');
+        if (sidArea && sidVal) {
+            sidArea.style.display = 'block';
+            sidVal.textContent = savedSID;
+            // Optional: Match the theme color
+            sidArea.style.color = '#4f6ef7';
+        }
+    }
+});
 
 const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
 darkModeToggles.forEach(toggle => {
@@ -2452,12 +2528,20 @@ function isInFullscreen() {
 function onFSChange() {
     if (!testStarted || testSubmitted) return;
     if (document.getElementById('test-screen').style.display === 'none') return;
+    updateFocusMode();
     if (!isInFullscreen()) startCountdown('fullscreen');
     else cancelCountdown();
 }
 
 let countdownTimer = null;
 let countdownSeconds = 0;
+
+function updateFocusMode() {
+    const color = (document.hidden || !isInFullscreen()) ? "#FF474D" : "#90EE90";
+    const text = (document.hidden || !isInFullscreen()) ? "● Disturbed" : "● Focus On";
+    const els = [document.getElementById('focus-laptop'), document.getElementById('focus-mobile')];
+    els.forEach(el => { if(el) { el.style.color = color; el.innerText = text; }});
+}
 
 function startCountdown(reason) {
     if (!testStarted || testSubmitted) return;
@@ -2610,14 +2694,7 @@ window.addEventListener('DOMContentLoaded', () => {
             inp.title = 'Name loaded from Dashboard';
             // Add a small label below
             inp.insertAdjacentHTML('afterend', 
-                `<div style="font-size:11px;color:#4f6ef7;font-weight:600;margin-top:4px;">
-                    ✅ Loaded from Dashboard · 
-                    <span onclick="document.getElementById('username-input').removeAttribute('readonly');
-                                   document.getElementById('username-input').style.background='';
-                                   document.getElementById('username-input').style.borderColor='#a185de';
-                                   this.parentElement.remove();" 
-                          style="cursor:pointer;text-decoration:underline;">Change</span>
-                </div>`
+                
             );
         }
     }
