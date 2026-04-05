@@ -1,6 +1,8 @@
 
 
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2237,36 +2239,43 @@ function submitTest() {
     testSubmitted = true;
     clearInterval(timer);
 
+
     let correct = 0, incorrect = 0, unanswered = 0;
+    const wrongQs = [];   // ← NEW: track wrong question numbers
+ 
     mockTest.questions.forEach(q => {
         if (!q.userAnswer) unanswered++;
         else if (q.userAnswer === q.correctAnswer) correct++;
-        else incorrect++;
+        else {
+            incorrect++;
+            wrongQs.push(q.id);  // ← NEW: q.id is 1-based question number
+        }
     });
-
+ 
     const totalQuestions = mockTest.questions.length;
     const maxScore = totalQuestions * mockTest.markingScheme.correct;
     const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
     const percentage = ((totalScore / maxScore) * 100).toFixed(2);
     const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
-
+ 
     const resultData = {
-    studentId: localStorage.getItem('ts_student_id') || '',
-    name: localStorage.getItem('cbtUserName') || 'Unknown', // Changed from userName
-    subject: SUBJECT_ID,                                   // Changed from subjectId
-    chapter: CHAPTER_ID,                                   // Changed from chapterId
-    date: new Date().toISOString(),
-    score: totalScore,
-    maxScore: maxScore,
-    correct: correct,
-    wrong: incorrect,
-    skipped: unanswered,
-    totalQ: totalQuestions,
-    percentage: parseFloat(percentage),
-    accuracy: parseFloat(accuracy),
-    timeTaken: mockTest.duration - timeLeft
-};
-
+        studentId: localStorage.getItem('ts_student_id') || '',
+        name: localStorage.getItem('cbtUserName') || 'Unknown',
+        subject: SUBJECT_ID,
+        chapter: CHAPTER_ID,
+        date: new Date().toISOString(),
+        score: totalScore,
+        maxScore: maxScore,
+        correct: correct,
+        wrong: incorrect,
+        skipped: unanswered,
+        totalQ: totalQuestions,
+        percentage: parseFloat(percentage),
+        accuracy: parseFloat(accuracy),
+        timeTaken: mockTest.duration - timeLeft,
+        wrongQs: wrongQs    // ← NEW: array like [3, 7, 12, 45]
+    };
+    
     const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
     localStorage.setItem(storageKey, JSON.stringify(resultData));
 
