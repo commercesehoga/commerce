@@ -1246,9 +1246,13 @@ body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
   </ul>
 </div>
 
-<div style="margin: 10px 0;">
-  <input type="text" id="username-input" placeholder="Enter your name"
-    style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+<div style="margin: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <input type="text" id="username-input" placeholder="Enter your name"
+        style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+    
+    <div id="sid-display-area" style="font-size: 13px; font-weight: 700; color: #4f6ef7; background: rgba(79,110,247,0.1); padding: 5px 15px; border-radius: 20px; display: none;">
+        🪪 ID: <span id="sid-value">---</span>
+    </div>
 </div>
 
 <div style="display:flex; flex-direction:column; align-items:center; gap:11px; margin-top:6px;">
@@ -1356,14 +1360,17 @@ Start Test
 <div class="sidebar">
     <div class="sidebar-header">
         <div class="timer">01:00:00</div>
+        <div id="focus-laptop" style="font-size:12px; font-weight:bold; color:green; margin-top:5px;">● Focus On</div>
     </div>
 
     <div class="test-info">
-        <p><strong>Subject:</strong> <span id="subject-label">macro</span></p>
+        <p><strong>Name:</strong> <span id="display-user-name">Thunder</span></p>
+        <p><strong>Student ID:</strong> <span id="display-user-sid" style="color:var(--acc); font-family:monospace;">---</span></p>
+        <p><strong>Subject:</strong> <span id="subject-label">BST</span></p>
         <p><strong>Questions:</strong> 50</p>
         <p><strong>Duration:</strong> 60 minutes</p>
         <p><strong>Marking:</strong> +5 / -1</p>
-        <p><strong>Chapter:2</strong> <span id="current-section">-</span></p>
+        <p><strong>Chapter:</strong> <span id="current-section">-</span></p>
     </div>
 
     <div class="question-palette">
@@ -1382,6 +1389,7 @@ Start Test
 
 <div class="mobile-top-bar">
     <div class="mobile-timer-clone">01:00:00</div>
+    <div id="focus-mobile" style="font-size:10px; font-weight:bold; color:green;">● Focus On</div>
     <div id="mobile-name-display">👤 Thunder</div>
 </div>
 
@@ -2163,28 +2171,36 @@ function submitTest() {
     }));
 
     // Save result to localStorage
-    const resultData = {
-        chapterId:    CHAPTER_ID,
-        subjectId:    SUBJECT_ID,
-        userName:     localStorage.getItem('cbtUserName') || 'Unknown',
-        date:         new Date().toISOString(),
-        score:        totalScore,
-        maxScore:     maxScore,
-        correct:      correct,
-        incorrect:    incorrect,
-        unanswered:   unanswered,
-        totalQ:       totalQuestions,
-        percentage:   parseFloat(percentage),
-        accuracy:     parseFloat(accuracy),
-        timeTaken:    mockTest.duration - timeLeft,  // seconds taken
-        questions:    questionResults
+const resultData = {
+        studentId: localStorage.getItem('ts_student_id') || '',
+        name: localStorage.getItem('cbtUserName') || 'Unknown',
+        subject: SUBJECT_ID,
+        chapter: CHAPTER_ID,
+        date: new Date().toISOString(),
+        score: totalScore,
+        maxScore: maxScore,
+        correct: correct,
+        wrong: incorrect,
+        skipped: unanswered,
+        totalQ: totalQuestions,
+        percentage: parseFloat(percentage),
+        accuracy: parseFloat(accuracy),
+        timeTaken: mockTest.duration - timeLeft
     };
 
-    // Storage key: thunderstudy_result_<subjectId>_<chapterId>
     const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
     localStorage.setItem(storageKey, JSON.stringify(resultData));
 
-    // Also maintain a master index of all attempted chapters for this subject
+    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+    fetch(GS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resultData)
+    }).then(() => {
+        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+    }).catch(err => console.error("Sync failed", err));
+
     const indexKey = `thunderstudy_index_${SUBJECT_ID}`;
     let index = [];
     try { index = JSON.parse(localStorage.getItem(indexKey) || '[]'); } catch(e) {}
@@ -2238,18 +2254,65 @@ document.addEventListener('keydown', function(e) {
 
 <script>
 function startMock() {
-    const input = document.getElementById('username-input').value.trim();
-    if (input === "") {
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+    
+    const inputName = document.getElementById('username-input').value.trim();
+
+    if (!savedName && !inputName) {
         alert("⚠️ Please enter your name to continue!");
         document.getElementById('username-input').focus();
         return;
     }
-    const userName = input;
-    localStorage.setItem("cbtUserName", userName);
+    
+    if (!savedName && inputName) {
+        localStorage.setItem("cbtUserName", inputName);
+    }
+
+    if (!savedSID) {
+        const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+        }
+        return;
+    }
+
     enterFullscreen();
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('instruction-screen').style.display = 'block';
 }
+
+   window.addEventListener('DOMContentLoaded', () => {
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+
+    if (savedName) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = savedName;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.style.color = '#4f6ef7';
+            inp.style.fontWeight = 'bold';
+            inp.setAttribute('readonly', true);
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
+                    ✅ Verified Dashboard Profile
+                </div>`
+            );
+        }
+    }
+
+    if (savedSID) {
+        const sidArea = document.getElementById('sid-display-area');
+        const sidVal = document.getElementById('sid-value');
+        if (sidArea && sidVal) {
+            sidArea.style.display = 'block';
+            sidVal.textContent = savedSID;
+            sidArea.style.color = '#4f6ef7';
+        }
+    }
+});
 
 const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
 darkModeToggles.forEach(toggle => {
@@ -2277,10 +2340,13 @@ startBtn.addEventListener('click', () => {
     if (!checkbox.checked) { alert("Please accept instructions first!"); return; }
     document.getElementById('instruction-screen').style.display = 'none';
     document.getElementById('test-screen').style.display = 'block';
-    const name = localStorage.getItem("cbtUserName") || "Thunder";
+const name = localStorage.getItem("cbtUserName") || "Thunder";
+    const sid = localStorage.getItem("ts_student_id") || "N/A";
     document.getElementById('user-name-display').innerText = "👤 " + name;
+    if(document.getElementById('display-user-name')) document.getElementById('display-user-name').innerText = name;
+    if(document.getElementById('display-user-sid')) document.getElementById('display-user-sid').innerText = sid;
     const mobileNameEl = document.getElementById('mobile-name-display');
-    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name;
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name + " | " + sid;
     testStarted = true;
     enterFullscreen();
     initTest();
