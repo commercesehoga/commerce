@@ -2547,7 +2547,6 @@ const resultData = {
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(resultData)
     }).then(() => {
-        localStorage.removeItem(storageKey);
         localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
     }).catch(err => console.error("Sync failed", err));
 
