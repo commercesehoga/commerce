@@ -1,0 +1,3192 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thunderstudy CBT</title>
+
+<script>
+/* ============================================================
+   ✏️  EDIT ONLY THESE TWO LINES FOR EACH CHAPTER
+   ============================================================ */
+const SUBJECT_ID  = "bst";        // e.g. "bst", "eco", "accounts"
+const CHAPTER_ID  = "bst-img1";       // e.g. "bst1", "bst2", "eco3"
+/* ============================================================ */
+</script>
+
+<style>
+        :root {
+    --primary-color: #a185de;
+    --secondary-color: #9CC9E6;
+    --correct-color: #90EE90;
+    --incorrect-color: #FF474D;
+    --neutral-color: #607d8b;
+    --light-bg: #f5f5f5;
+    --white: #ffffff;
+    --dark-text: #212121;
+    --light-text: #000000;
+    --dark-bg: #121212;
+    --dark-primary-color: #bb86fc;
+    --dark-secondary-color: #03dac6;
+    --dark-correct-color: #388e3c;
+    --dark-incorrect-color: #cf6679;
+    --dark-neutral-color: #aaaaaa;
+    --dark-light-text: #e0e0e0;
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-light-text);
+}
+
+body.dark-mode p,
+body.dark-mode span:not(.icon),
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label,
+body.dark-mode li {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode a:not(.fancy-btn):not(.footer-btn):not(.button2):not(.join-btn) {
+    color: #bb86fc !important;
+    text-decoration: underline;
+}
+
+body.dark-mode .fancy-btn,
+body.dark-mode .footer-btn,
+body.dark-mode .join-btn,
+body.dark-mode .submit-fancy-btn,
+body.dark-mode .more-btn,
+body.dark-mode .back-btn,
+body.dark-mode .report-btn {
+    color: white !important;
+}
+
+body.dark-mode #prev-btn {
+    color: var(--dark-primary-color) !important;
+    border-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #next-btn {
+    color: #000 !important;
+    background-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #mark-btn {
+    color: var(--dark-secondary-color) !important;
+    border-color: var(--dark-secondary-color) !important;
+}
+
+body.dark-mode #mark-btn.marked {
+    background-color: var(--dark-secondary-color) !important;
+    color: #000 !important;
+}
+
+body.dark-mode #start-test-btn {
+    color: white !important;
+}
+
+body.dark-mode .close-btn {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .stat-card h3 {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .question-number {
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .question-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .progress-text span {
+    color: #aaa !important;
+}
+
+body.dark-mode .palette-title span {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .test-info strong {
+    color: #fff !important;
+}
+
+body.dark-mode .test-info span {
+    color: #ccc !important;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1f1f1f;
+    color: var(--dark-light-text);
+    box-shadow: 2px 0 5px rgba(255,255,255,0.1);
+}
+
+body.dark-mode .sidebar-header h2,
+body.dark-mode .test-header h2,
+body.dark-mode .modal-header h2 {
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .timer {
+    background-color: var(--dark-incorrect-color);
+    color: #fff;
+}
+
+body.dark-mode .question-container {
+    background-color: #242424;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+}
+
+.option:hover {
+    border-color: #378ADD;
+    background: #E6F1FB;
+}
+
+.option.selected {
+    border-color: #185FA5;
+    background: #B5D4F4;
+}
+
+.option.correct {
+    border-color: #388e3c !important;
+    background: rgba(76, 175, 80, 0.15) !important;
+}
+
+.option.incorrect {
+    border-color: #e53935 !important;
+    background: rgba(244, 67, 54, 0.12) !important;
+}
+
+.opt-letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    background: #f5f5f5;
+    color: #555;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.option.selected .opt-letter {
+    background: #185FA5;
+    border-color: #185FA5;
+    color: #fff;
+}
+
+.option.correct .opt-letter {
+    background: #388e3c;
+    border-color: #388e3c;
+    color: #fff;
+}
+
+.option.incorrect .opt-letter {
+    background: #e53935;
+    border-color: #e53935;
+    color: #fff;
+}
+
+.opt-text {
+    font-size: 15px;
+    color: #212121;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.option.selected .opt-text {
+    color: #0C447C;
+    font-weight: 500;
+}
+
+.option.correct .opt-text {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.option.incorrect .opt-text {
+    color: #b71c1c;
+    font-weight: 500;
+}
+
+body.dark-mode .option {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .option:hover {
+    border-color: #378ADD !important;
+    background: #1a2a3a !important;
+}
+
+body.dark-mode .option.selected {
+    border-color: #64b5f6 !important;
+    background: #1a3050 !important;
+}
+
+body.dark-mode .opt-letter {
+    background: #333 !important;
+    border-color: #555 !important;
+    color: #ccc !important;
+}
+
+body.dark-mode .option.selected .opt-letter {
+    background: #185FA5 !important;
+    border-color: #185FA5 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .opt-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .option.selected .opt-text {
+    color: #90caf9 !important;
+}
+
+body.dark-mode .option.correct {
+    border-color: #66bb6a !important;
+    background: rgba(56,142,60,0.2) !important;
+}
+
+body.dark-mode .option.incorrect {
+    border-color: #ef9a9a !important;
+    background: rgba(207, 102, 121, 0.2) !important;
+}
+
+.option input[type="radio"] {
+    display: none;
+}
+
+.correct-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #388e3c;
+    font-size: 13px;
+}
+
+.incorrect-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #e53935;
+    font-size: 13px;
+}
+
+.instruction-box {
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #f3e8ff, #e0f2ff);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    line-height: 1.8;
+}
+
+.instruction-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6a11cb;
+    margin-bottom: 15px;
+    border-left: 5px solid #6a11cb;
+    padding-left: 10px;
+}
+
+.instruction-list {
+    padding-left: 20px;
+}
+
+.instruction-list li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.instruction-list li:hover {
+    transform: translateX(5px);
+    background: #f0f4ff;
+}
+
+.instruction-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.instruction-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #6a11cb;
+}
+
+#start-test-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 6px 15px rgba(101, 41, 255, 0.4);
+    transition: 0.3s;
+}
+
+#start-test-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(101, 41, 255, 0.6);
+}
+
+.sidebar {
+    width: 300px;
+    background-color: var(--white);
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    overflow-y: auto;
+    right: 0;
+    left: auto;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header h2 {
+    color: var(--primary-color);
+}
+
+.test-info {
+    margin-bottom: 20px;
+}
+
+.test-info p {
+    margin: 5px 0;
+    color: var(--light-text);
+}
+
+.question-palette {
+    margin-bottom: 20px;
+}
+
+.palette-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.palette-btn {
+    width: 100%;
+    max-width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: #FF474D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: auto;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.palette-btn:hover {
+    background-color: #EFBF04;
+}
+
+.palette-btn.answered {
+    background-color: #90ee90;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.marked {
+    background-color: #90D5FF;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.current {
+    background-color: #ffffff;
+    border: 2px solid var(--primary-color);
+}
+
+.palette-btn.review-correct {
+    background-color: #22c55e !important;
+    color: #fff !important;
+    border-color: #16a34a !important;
+}
+.palette-btn.review-wrong {
+    background-color: #ef4444 !important;
+    color: #fff !important;
+    border-color: #dc2626 !important;
+}
+.palette-btn.review-unanswered {
+    background-color: #3b82f6 !important;
+    color: #fff !important;
+    border-color: #2563eb !important;
+}
+
+.palette-btn.review-correct.current,
+.palette-btn.review-wrong.current,
+.palette-btn.review-unanswered.current {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+body.dark-mode .palette-btn.review-correct  { background-color: #16a34a !important; border-color: #15803d !important; }
+body.dark-mode .palette-btn.review-wrong    { background-color: #dc2626 !important; border-color: #b91c1c !important; }
+body.dark-mode .palette-btn.review-unanswered { background-color: #2563eb !important; border-color: #1d4ed8 !important; }
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+body.dark-mode .palette-btn {
+    background-color: #FF474D !important;
+    color: var(--dark-primary-color);
+    border: 2px solid var(--dark-primary-color);
+}
+
+body.dark-mode .palette-btn.answered {
+    background-color: #388e3c !important;
+    color: white !important;
+    border-color: #388e3c !important;
+}
+
+body.dark-mode .palette-btn.marked {
+    background-color: #03dac6 !important;
+    color: black !important;
+    border-color: #03dac6 !important;
+}
+
+body.dark-mode .palette-btn.current {
+    background-color: white !important;
+    border: 2px solid var(--dark-primary-color) !important;
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: var(--dark-primary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #a75dfc;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #00c4b4;
+}
+
+body.dark-mode .btn-outline {
+    border-color: var(--dark-primary-color);
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .mark-btn {
+    border-color: var(--dark-secondary-color);
+    color: var(--dark-secondary-color);
+}
+
+body.dark-mode .mark-btn.marked {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn {
+    background-color: var(--dark-correct-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn:hover {
+    background-color: #2a6e2c;
+}
+
+body.dark-mode .modal-content {
+    background-color: #242424;
+    color: var(--dark-light-text);
+}
+
+body.dark-mode .stat-card {
+    background-color: #1e1e1e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 0;
+    margin-right: 300px;
+    padding: 20px;
+}
+
+.test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.timer {
+    background-color: #FF0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #c6e977;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+.question-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.question-number {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.options {
+    margin-left: 0;
+}
+
+.navigation-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: #ffffff;
+}
+
+.mark-btn {
+    margin-left: 10px;
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.mark-btn.marked {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.submit-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background-color: var(--correct-color);
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #388e3c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+    color: var(--primary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--light-text);
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.correct-stat { color: var(--correct-color); }
+.incorrect-stat { color: var(--incorrect-color); }
+.score-stat { color: var(--secondary-color); }
+
+.detailed-results {
+    margin-top: 20px;
+}
+
+.detailed-results h3 {
+    margin-bottom: 10px;
+}
+
+.review-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.button2 {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.button2:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 12px rgba(0, 90, 153, 0.5);
+    color: #fff;
+}
+
+#dark-mode-toggle-bottom:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    box-shadow: 0 6px 20px rgba(101, 41, 255, 0.9);
+}
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    color: #333;
+    box-shadow: 0 4px 15px rgba(255, 210, 0, 0.7);
+}
+
+#test-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    z-index: 9998;
+    display: none;
+    overflow: auto;
+}
+
+#user-name-display {
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.instruction-checkbox input:checked + .custom-check {
+    background: rgba(106,17,203,0.1);
+    box-shadow: 0 0 10px rgba(106,17,203,0.4);
+}
+
+.instruction-checkbox input {
+    display: none;
+}
+
+.custom-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a11cb;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.instruction-checkbox input:checked + .custom-check::after {
+    content: "\2714";
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 16px;
+    color: #6a11cb;
+}
+
+.test-info {
+    text-align: left !important;
+    display: block !important;
+}
+
+.test-info p {
+    text-align: left !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 6px;
+    font-size: 16px !important;
+    margin: 6px 0 !important;
+}
+
+.test-info strong {
+    font-weight: 700 !important;
+    color: #000 !important;
+}
+
+.mobile-top-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .mobile-timer-clone {
+        background-color: #FF0000;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 15px;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    #mobile-name-display {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    #user-name-display { display: none !important; }
+    .sidebar .timer { display: none !important; }
+    .sidebar .sidebar-header { display: none !important; }
+
+    body { display: flex; flex-direction: column; }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        right: 0; left: 0;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
+    .question-palette { max-height: 200px; overflow-y: auto; }
+    .main-content { margin: 0 !important; width: 100%; padding: 10px; }
+
+    .navigation-btns {
+        flex-direction: row !important;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #prev-btn {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+        flex-shrink: 0;
+    }
+
+    #next-btn {
+        padding: 14px 28px !important;
+        font-size: 17px !important;
+        border-radius: 8px !important;
+        flex: 1;
+    }
+
+    .navigation-btns > div {
+        display: flex;
+        flex: 1;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #mark-btn {
+        font-size: 11px !important;
+        padding: 6px 8px !important;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .palette-grid { grid-template-columns: repeat(4, 1fr); }
+    .result-stats { grid-template-columns: 1fr; }
+}
+
+.fancy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.4px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+}
+
+.fancy-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+    border-radius: inherit;
+}
+
+.fancy-btn:hover::after { background: rgba(255,255,255,0.12); }
+.fancy-btn:active { transform: scale(0.96) !important; }
+.fancy-btn:hover { transform: translateY(-3px) scale(1.03); }
+
+.join-btn {
+    background: linear-gradient(135deg, #0088cc, #006699);
+    color: white;
+    box-shadow: 0 5px 18px rgba(0,136,204,0.45);
+}
+.join-btn:hover { box-shadow: 0 8px 24px rgba(0,136,204,0.65); color: white; }
+
+.submit-fancy-btn {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white;
+    box-shadow: 0 5px 18px rgba(34,197,94,0.45);
+    flex: 1;
+    max-width: 280px;
+}
+.submit-fancy-btn:hover { box-shadow: 0 8px 24px rgba(34,197,94,0.65); }
+
+.pdf-download-btn {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white !important;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+}
+.pdf-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(249,115,22,0.6);
+    color: white !important;
+}
+.pdf-download-btn:active { transform: scale(0.97); }
+
+#pdf-print-area { display: none; }
+
+@media print {
+    body > * { display: none !important; }
+    #pdf-print-area {
+        display: block !important;
+        font-family: Arial, sans-serif;
+        color: #111;
+        padding: 20px;
+        margin: 0;
+    }
+}
+
+.footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 0.3px;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, filter 0.18s;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-btn:hover {
+    transform: translateY(-3px) scale(1.06);
+    filter: brightness(1.1);
+    color: white;
+}
+
+.footer-btn:active { transform: scale(0.95); }
+
+.more-btn {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+    box-shadow: 0 4px 14px rgba(168,85,247,0.4);
+}
+.more-btn:hover { box-shadow: 0 7px 20px rgba(168,85,247,0.65); }
+
+.back-btn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 14px rgba(34,197,94,0.4);
+}
+.back-btn:hover { box-shadow: 0 7px 20px rgba(34,197,94,0.65); }
+
+.report-btn {
+    background: linear-gradient(135deg, #f97316, #dc2626);
+    box-shadow: 0 4px 14px rgba(239,68,68,0.4);
+}
+.report-btn:hover { box-shadow: 0 7px 20px rgba(239,68,68,0.65); }
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200) !important;
+    box-shadow: 0 4px 15px rgba(255,210,0,0.6) !important;
+}
+body.dark-mode #dark-mode-toggle-bottom .icon { color: #333 !important; }
+body.dark-mode #dark-mode-toggle-bottom span:not(.icon) { color: #333 !important; }
+
+body.dark-mode #start-screen {
+    background-color: #1a1a2e !important;
+}
+body.dark-mode #start-screen h1 { color: #bb86fc !important; }
+body.dark-mode #start-screen > p { color: #e0e0e0 !important; }
+body.dark-mode #start-screen li { color: #e0e0e0 !important; }
+body.dark-mode #start-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode #start-screen a[href*="t.me"] { color: #bb86fc !important; text-decoration: none !important; }
+body.dark-mode #start-screen strong { color: #fff !important; }
+body.dark-mode #start-screen input[type="text"] {
+    background: #2a2a2a !important;
+    color: #fff !important;
+    border-color: #555 !important;
+}
+
+body.dark-mode #instruction-screen { background: #1a1a2e !important; }
+body.dark-mode #instruction-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode .instruction-box { background: linear-gradient(135deg, #2d1f4e, #1a2a4e) !important; }
+body.dark-mode .instruction-title { color: #bb86fc !important; border-left-color: #bb86fc !important; }
+body.dark-mode .instruction-list li { background: #242424 !important; color: #e0e0e0 !important; }
+body.dark-mode .instruction-list li:hover { background: #2e2e4e !important; }
+body.dark-mode .custom-check { border-color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox input:checked + .custom-check::after { color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox { color: #e0e0e0 !important; }
+
+body.dark-mode #test-screen { background: #121212 !important; }
+
+body.dark-mode .mobile-top-bar {
+    background: #1f1f1f !important;
+    border-color: #333 !important;
+}
+body.dark-mode .mobile-timer-clone {
+    background-color: var(--dark-incorrect-color) !important;
+}
+
+body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- START SCREEN -->
+<div id="start-screen" style="
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: white; z-index: 9999; display: flex;
+    flex-direction: column; justify-content: flex-start; align-items: center;
+    text-align: center; padding: 40px 20px 40px;
+    overflow-y: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+<button id="dark-mode-toggle-bottom" aria-label="Toggle dark mode" title="Toggle dark mode"
+  style="position:absolute; top:18px; right:18px; font-size:22px; padding:8px 18px;
+  border-radius:40px; border:none; cursor:pointer;
+  background:linear-gradient(45deg,#6a11cb,#2575fc); color:white;
+  display:flex; align-items:center; gap:7px;
+  box-shadow:0 4px 15px rgba(101,41,255,0.5);
+  transition:background 0.4s ease, box-shadow 0.4s ease, transform 0.2s;">
+  <span class="icon" style="display:inline-block; transition:transform 0.6s ease;">🌙</span>
+  <span style="font-size:13px; font-weight:600; letter-spacing:0.5px;">Dark</span>
+</button>
+
+<h1 style="color: #a185de; font-size: 32px;" id="page-title">BST Image Mock</h1>
+<p style="font-size: 18px; margin: 10px 0;">Provided by <strong>Thunderstudy</strong></p>
+
+<a href="https://t.me/thunderstudy_official" target="_blank"
+  style="display:inline-flex; align-items:center; gap:8px; margin: 8px 0 14px;
+  background:linear-gradient(135deg,#0088cc,#006699); color:white; text-decoration:none;
+  padding:10px 24px; border-radius:30px; font-size:15px; font-weight:700;
+  box-shadow:0 5px 16px rgba(0,136,204,0.45);
+  transition:transform 0.18s, box-shadow 0.18s;"
+  onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 8px 22px rgba(0,136,204,0.65)'"
+  onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 5px 16px rgba(0,136,204,0.45)'"
+  onmousedown="this.style.transform='scale(0.97)'"
+  onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="flex-shrink:0;">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.607c-.148.666-.543.828-1.098.516l-3.04-2.24-1.467 1.413c-.162.162-.298.298-.611.298l.217-3.083 5.613-5.067c.244-.217-.054-.337-.378-.12L7.08 14.807 4.09 13.89c-.657-.205-.67-.657.137-.973l10.88-4.196c.548-.198 1.027.133.855.973z"/>
+  </svg>
+  @thunderstudy_official
+</a>
+
+<div style="max-width: 560px; text-align: left; margin: 10px auto 18px; background:#f8f4ff; border-radius:12px; padding:18px 22px; border-left:4px solid #a185de;">
+  <h2 style="margin-bottom:12px; color:#6a11cb; font-size:18px;">📋 Quick Overview</h2>
+  <ul style="text-align: left; line-height:2; font-size:15px; padding-left:18px;">
+    <li><strong>50 Questions</strong></li>
+    <li><strong>60 Minutes</strong> total time</li>
+    <li><strong>+5 marks</strong> for correct &nbsp;|&nbsp; <strong>−1 mark</strong> for wrong</li>
+    <li>No penalty for <strong>unanswered</strong> questions</li>
+    <li>Test <strong>auto-submits</strong> when time ends</li>
+    <li>Do <strong>not switch tabs</strong> or exit fullscreen during test</li>
+  </ul>
+</div>
+
+<div style="margin: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <input type="text" id="username-input" placeholder="Enter your name"
+        style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+    
+    <div id="sid-display-area" style="font-size: 13px; font-weight: 700; color: #4f6ef7; background: rgba(79,110,247,0.1); padding: 5px 15px; border-radius: 20px; display: none;">
+        🪪 ID: <span id="sid-value">---</span>
+    </div>
+</div>
+
+<div style="display:flex; flex-direction:column; align-items:center; gap:11px; margin-top:6px;">
+
+  <button onclick="startMock()" style="
+      width:260px; background: linear-gradient(135deg,#6a11cb,#2575fc); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(101,41,255,0.45);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(101,41,255,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(101,41,255,0.45)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    🚀 Start Mock
+  </button>
+
+  <button onclick="window.location.href='https://commercesehoga.github.io/dashboard/'" style="
+      width:260px; background: linear-gradient(135deg,#22c55e,#15803d); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(34,197,94,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(34,197,94,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(34,197,94,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📊 Previous Result
+  </button>
+
+  <button onclick="window.open('https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html','_blank')" style="
+      width:260px; background: linear-gradient(135deg,#a855f7,#7e22ce); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(168,85,247,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(168,85,247,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(168,85,247,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📚 More Mock Tests
+  </button>
+
+</div>
+</div>
+
+<!-- INSTRUCTION SCREEN -->
+<div id="instruction-screen" style="
+position: fixed; top:0; left:0; width:100%; height:100%;
+background:white; z-index:9999; display:none; overflow:auto; padding:30px;">
+
+<h2 style="text-align:center; margin-bottom:20px;">Please read the instructions carefully</h2>
+
+<div class="instruction-box">
+<h3 class="instruction-title">General Instructions</h3>
+<ol class="instruction-list">
+<li>Total duration of test is <strong>60 minutes</strong>. Timer shown in sidebar.</li>
+<li>Test <strong>auto-submits</strong> when the timer reaches zero.</li>
+<li>The test runs in <strong>fullscreen mode</strong>. Exiting fullscreen starts a <strong>5-second countdown</strong> to auto-submit.</li>
+<li><strong>Do not switch tabs</strong>. Switching tabs starts a <strong>2-second countdown</strong> to auto-submit.</li>
+<li>Return to fullscreen or the tab before the countdown ends to continue safely.</li>
+<li>Question palette on the right shows answered, marked, and current status.</li>
+<li>Each correct answer: <strong>+5 marks</strong>. Each wrong answer: <strong>−1 mark</strong>. Unanswered: <strong>0 marks</strong>.</li>
+</ol>
+
+<div style="margin-top:20px;">
+    <strong>Question Status Legend:</strong>
+    <div class="legend" style="margin-top:10px;">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90ee90;"></div>
+            <span>Answered</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90D5FF;"></div>
+            <span>Marked</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="border: 1px solid var(--primary-color); background-color: white;"></div>
+            <span>Current</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FF474D; border: 1px solid #ddd;"></div>
+            <span>Unanswered</span>
+        </div>
+    </div>
+</div>
+
+<label class="instruction-checkbox">
+    <input type="checkbox" id="agree-checkbox">
+    <span class="custom-check"></span>
+    I have read and understood all instructions
+</label>
+
+<br><br>
+
+<button id="start-test-btn" disabled style="
+background:#3f51b5; color:white; padding:12px 24px; border:none;
+border-radius:5px; font-size:18px; cursor:not-allowed; opacity:0.6;">
+Start Test
+</button>
+</div>
+</div>
+
+<!-- TEST SCREEN -->
+<div id="test-screen">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+    <div class="timer">01:00:00</div>
+    <div id="focus-laptop" style="font-size:12px; font-weight:bold; color:green; margin-top:5px;">● Focus On</div>
+</div>
+
+    <div class="test-info">
+      <p><strong>Name:</strong> <span id="display-user-name">Thunder</span></p>
+    <p><strong>Student ID:</strong> <span id="display-user-sid" style="color:var(--acc); font-family:monospace;">---</span></p>
+        <p><strong>Subject:</strong> <span id="subject-label">BST</span></p>
+        <p><strong>Questions:</strong> 50</p>
+        <p><strong>Duration:</strong> 60 minutes</p>
+        <p><strong>Marking:</strong> +5 / -1</p>
+        <p><strong>Chapter:</strong> <span id="current-section">-</span></p>
+    </div>
+
+    <div class="question-palette">
+        <div class="palette-title">
+            <span>Questions</span>
+            <span id="answered-count">0/50</span>
+        </div>
+        <div class="palette-grid" id="question-palette-grid"></div>
+
+        <div id="palette-legend" style="margin-top:12px; font-size:12px;"></div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+<div class="mobile-top-bar">
+    <div class="mobile-timer-clone">01:00:00</div>
+    <div id="focus-mobile" style="font-size:10px; font-weight:bold; color:green;">● Focus On</div>
+    <div id="mobile-name-display">👤 Thunder</div>
+</div>
+
+<div class="test-header">
+  <div id="user-name-display" style="
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color:white; padding:6px 14px; border-radius:20px;
+    font-weight:bold; font-size:14px;">
+👤 Thunder
+</div>
+<h2>Question <span id="current-q-number">1</span>/50</h2>
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress" id="test-progress"></div>
+</div>
+<div class="progress-text">
+<span>Progress &nbsp;</span>
+<span id="progress-percent">0%</span>
+</div>
+</div>
+</div>
+
+<div class="question-container">
+<div class="question-number">Question <span id="q-number">1</span></div>
+<div class="question-text" id="question-text"></div>
+<div class="options" id="options-container"></div>
+<div class="navigation-btns">
+<button class="btn btn-outline" id="prev-btn">&#8592; Previous</button>
+<div>
+<button class="mark-btn" id="mark-btn">Mark for Review</button>
+<button class="btn btn-primary" id="next-btn">Next &#8594;</button>
+</div>
+</div>
+</div>
+
+<div class="submit-section" style="
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; max-width: 620px; margin: 24px auto; gap: 14px; flex-wrap: wrap;">
+
+    <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn join-btn">
+        ⚡ Join Thunder
+    </a>
+
+    <button class="fancy-btn submit-fancy-btn" id="submit-test-btn">
+        ✅ Submit Test
+    </button>
+</div>
+
+<footer style="background: linear-gradient(135deg,#1a1a2e,#16213e); color: #e0e0e0; text-align: center; padding: 22px 16px; margin-top: 10px;">
+   <p style="font-size:13px; color:#aaa; margin-bottom:14px;">© 2025 Thunder. All Rights Reserved.</p>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:14px;">
+    <a href="https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html" target="_blank" class="footer-btn more-btn">
+        📚 More Mock
+    </a>
+    <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-btn back-btn">
+        🌐 Back To Website
+    </a>
+    <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-btn report-btn">
+        🚨 Report Error
+    </a>
+</div>
+</footer>
+
+<!-- Results Modal -->
+<div class="modal" id="results-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Test Results</h2>
+<button class="close-btn" id="close-modal">×</button>
+</div>
+<div class="result-stats">
+<div class="stat-card">
+<h3>Correct Answers</h3>
+<p class="correct-stat" id="correct-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Incorrect Answers</h3>
+<p class="incorrect-stat" id="incorrect-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Unanswered</h3>
+<p class="neutral-stat" id="unanswered">50</p>
+</div>
+<div class="stat-card">
+<h3>Total Score</h3>
+<p class="score-stat" id="total-score">0</p>
+</div>
+</div>
+<div class="detailed-results">
+<h3>Detailed Analysis</h3>
+<p>Percentage: <span id="percentage">0</span>%</p>
+<p>Accuracy: <span id="accuracy">0</span>%</p>
+</div>
+<div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+<button class="btn btn-secondary review-btn" id="review-btn" style="flex:1; margin-top:0;">Review Answers</button>
+<button class="btn pdf-download-btn" id="download-pdf-btn" style="flex:1;">📄 Download PDF</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+  // Disable Right-Click, Copy, and Paste
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        e.preventDefault();
+    }
+});
+function detectDevTools() {
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        alert("Security Breach: DevTools detected. Test will auto-submit.");
+        submitTest();
+    }
+}
+// Check every 1 second during the test
+setInterval(() => { if(testStarted && !testSubmitted) detectDevTools(); }, 1000);
+/* ============================================================
+   MOCK TEST DATA — Edit questions here
+   ============================================================ */
+const mockTest = {
+    title: "BST Mock",
+    questions: [
+{
+  id:1, section:"Management",
+  text:`<svg width="100%" viewBox="0 0 680 210" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="40" y="14" width="600" height="58" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="38" text-anchor="middle" dominant-baseline="central">"Management has to see that tasks are completed</text>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="60" text-anchor="middle" dominant-baseline="central">and goals achieved with least resources at minimum cost."</text>
+<line x1="200" y1="90" x2="160" y2="130" stroke="#888780" stroke-width="1.5" marker-end="url(#ar1)"/>
+<line x1="480" y1="90" x2="520" y2="130" stroke="#888780" stroke-width="1.5" marker-end="url(#ar1)"/>
+<rect x="50" y="132" width="210" height="48" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="155" y="156" text-anchor="middle" dominant-baseline="central">Concept 1: Minimum cost/resources</text>
+<rect x="420" y="132" width="210" height="48" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="525" y="156" text-anchor="middle" dominant-baseline="central">Concept 2: Goals achieved</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="198" text-anchor="middle">Identify the two related concepts of management highlighted above.</text>
+</svg>`,
+  options:{a:"Coordination and efficiency",b:"Efficiency and effectiveness",c:"Planning and effectiveness",d:"Management and administration"},
+  correct:"b",
+  explanation:"Efficiency means doing tasks with minimum resources/cost, while Effectiveness means achieving the desired goals. Both concepts together are highlighted here."
+},
+{
+  id:2, section:"Management",
+  text:`<svg width="100%" viewBox="0 0 680 190" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="14" width="600" height="72" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="36" text-anchor="middle">Successful organisations do not achieve</text>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="56" text-anchor="middle">their goals by chance but by following a</text>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="76" text-anchor="middle">deliberate process called ___________.</text>
+<rect x="80" y="106" width="520" height="46" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text font-family="sans-serif" font-size="13" fill="#888780" x="340" y="129" text-anchor="middle" dominant-baseline="central">Fill in the blank — identify the term.</text>
+<text font-family="sans-serif" font-size="12" fill="#9ca3af" x="340" y="173" text-anchor="middle">Hint: It makes goal-achievement intentional, not accidental.</text>
+</svg>`,
+  options:{a:"Effectiveness",b:"Efficiency",c:"Coordination",d:"Management"},
+  correct:"d",
+  explanation:"Management is the deliberate, purposeful process through which organisations achieve their goals systematically."
+},
+{
+  id:3, section:"Management",
+  text:`<svg width="100%" viewBox="0 0 680 230" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="40" y="14" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#3C3489" x="340" y="32" text-anchor="middle">Ashutosh Goenka — Manager at Axe Ltd (Air Purifiers)</text>
+<text font-family="sans-serif" font-size="12" fill="#534AB7" x="340" y="54" text-anchor="middle">Profits declining → Analysed business environment → Survival of firm</text>
+<rect x="100" y="84" width="480" height="44" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="340" y="106" text-anchor="middle" dominant-baseline="central">📉 Profits fell for 6 months — Ashutosh took corrective action</text>
+<line x1="340" y1="128" x2="340" y2="152" stroke="#888780" stroke-width="1.5" marker-end="url(#ar3)"/>
+<rect x="200" y="154" width="280" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#633806" x="340" y="176" text-anchor="middle" dominant-baseline="central">At which level was he working?</text>
+<text font-family="sans-serif" font-size="12" fill="#9ca3af" x="340" y="218" text-anchor="middle">Clue: Survival, profit analysis, environment study — think broadly.</text>
+</svg>`,
+  options:{a:"Top level",b:"Middle level",c:"Supervisory level",d:"Administrative level"},
+  correct:"a",
+  explanation:"Top-level management is responsible for survival of the firm, profit-related decisions, and analysing the overall business environment. Ashutosh clearly fits the top-level role."
+},
+{
+  id:4, section:"Organising",
+  text:`<svg width="100%" viewBox="0 0 680 210" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="240" y="14" width="200" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#085041" x="340" y="36" text-anchor="middle" dominant-baseline="central">Director</text>
+<line x1="290" y1="58" x2="190" y2="100" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#ar4)"/>
+<line x1="390" y1="58" x2="490" y2="100" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#ar4)"/>
+<rect x="80" y="102" width="210" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="185" y="124" text-anchor="middle" dominant-baseline="central">Manager A — reports to Director</text>
+<rect x="390" y="102" width="210" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="495" y="124" text-anchor="middle" dominant-baseline="central">Manager B — reports to Director</text>
+<rect x="30" y="14" width="620" height="185" rx="12" fill="none" stroke="#5DCAA5" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text font-family="sans-serif" font-size="12" fill="#5F5E5A" x="340" y="168" text-anchor="middle">This hierarchy clearly establishes authority and reporting relationships.</text>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="192" text-anchor="middle">Which function of management does this represent?</text>
+</svg>`,
+  options:{a:"Planning",b:"Organising",c:"Staffing",d:"Directing"},
+  correct:"b",
+  explanation:"Organising defines the hierarchy, assigns duties, and establishes reporting relationships between different levels of management."
+},
+{
+  id:5, section:"Scientific Management",
+  text:`<svg width="100%" viewBox="0 0 680 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="14" width="600" height="50" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="40" text-anchor="middle" dominant-baseline="central">Taylor's Technique: Interchangeability of manufactured parts &amp; products</text>
+<rect x="60" y="82" width="160" height="80" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="22" fill="#185FA5" x="140" y="116" text-anchor="middle">⚙️</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="140" y="148" text-anchor="middle">Part A — Factory 1</text>
+<rect x="260" y="82" width="160" height="80" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="22" fill="#185FA5" x="340" y="116" text-anchor="middle">⚙️</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="340" y="148" text-anchor="middle">Part A — Factory 2</text>
+<rect x="460" y="82" width="160" height="80" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="540" y="112" text-anchor="middle">✅ Fits perfectly</text>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="540" y="132" text-anchor="middle">in any assembly</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="186" text-anchor="middle">Which Scientific Management technique ensures interchangeability?</text>
+</svg>`,
+  options:{a:"Method Study",b:"Motion study",c:"Standardization",d:"Differential Piece wage system"},
+  correct:"c",
+  explanation:"Standardisation is Taylor's technique that ensures uniformity in parts/products, making them interchangeable across different factories or assemblies."
+},
+{
+  id:6, section:"Principles of Management",
+  text:`<svg width="100%" viewBox="0 0 680 210" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="200" y="14" width="280" height="46" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="340" y="37" text-anchor="middle" dominant-baseline="central">Central Government</text>
+<line x1="310" y1="60" x2="200" y2="106" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ar6)"/>
+<line x1="370" y1="60" x2="480" y2="106" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ar6)"/>
+<rect x="60" y="108" width="240" height="48" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#633806" x="180" y="132" text-anchor="middle" dominant-baseline="central">Panchayat A — Powers + Funds granted</text>
+<rect x="380" y="108" width="240" height="48" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#633806" x="500" y="132" text-anchor="middle" dominant-baseline="central">Panchayat B — Powers + Funds granted</text>
+<rect x="40" y="174" width="600" height="28" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="188" text-anchor="middle" dominant-baseline="central">Which principle of management does this represent?</text>
+</svg>`,
+  options:{a:"Equity",b:"Centralisation and decentralisation",c:"Authority and responsibility",d:"Esprit De Corps"},
+  correct:"b",
+  explanation:"Granting powers and funds to lower bodies (Panchayats) represents decentralisation, which is part of the principle of Centralisation and Decentralisation."
+},
+{
+  id:7, section:"Principles of Management",
+  text:`<svg width="100%" viewBox="0 0 680 210" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="260" y="14" width="160" height="42" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="340" y="35" text-anchor="middle" dominant-baseline="central">CEO</text>
+<line x1="340" y1="56" x2="340" y2="76" stroke="#0F6E56" stroke-width="1" stroke-dasharray="4 3"/>
+<rect x="260" y="78" width="160" height="42" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="340" y="99" text-anchor="middle" dominant-baseline="central">Manager</text>
+<line x1="340" y1="120" x2="340" y2="140" stroke="#0F6E56" stroke-width="1" stroke-dasharray="4 3"/>
+<rect x="260" y="142" width="160" height="42" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="340" y="163" text-anchor="middle" dominant-baseline="central">Worker</text>
+<path d="M260 163 Q140 163 140 35 Q140 14 260 35" fill="none" stroke="#E24B4A" stroke-width="2.2" stroke-dasharray="5 3" marker-end="url(#ar7)"/>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="82" y="99" text-anchor="middle">Worker contacts</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="82" y="113" text-anchor="middle">CEO directly!</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="430" y="192" text-anchor="middle">Which principle of management is being violated?</text>
+</svg>`,
+  options:{a:"Unity of Command",b:"Discipline",c:"Scalar Chain",d:"Unity of Direction"},
+  correct:"c",
+  explanation:"Scalar Chain principle requires following the official chain of command. When a worker directly contacts the CEO bypassing the Manager, the Scalar Chain is violated."
+},
+{
+  id:8, section:"Principles of Management",
+  text:`<svg width="100%" viewBox="0 0 680 190" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="14" width="280" height="54" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="180" y="32" text-anchor="middle">Responsibility INCREASED ⬆️</text>
+<text font-family="sans-serif" font-size="12" fill="#A32D2D" x="180" y="52" text-anchor="middle">Production target: 500 → 700 units/month</text>
+<rect x="360" y="14" width="280" height="54" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="500" y="32" text-anchor="middle">Authority NOT given ❌</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="500" y="52" text-anchor="middle">No power to draw raw material</text>
+<rect x="190" y="90" width="300" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#633806" x="340" y="112" text-anchor="middle" dominant-baseline="central">Result: Target NOT achieved ❌</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="170" text-anchor="middle">Which principle of management has been violated here?</text>
+</svg>`,
+  options:{a:"Principle of Discipline",b:"Initiative",c:"Responsibility and Authority",d:"Absolute Accountability"},
+  correct:"c",
+  explanation:"The principle of Authority and Responsibility states that authority must match responsibility. Here, responsibility was increased but authority was not given, violating this principle."
+},
+{
+  id:9, section:"Business Environment",
+  text:`<svg width="100%" viewBox="0 0 680 222" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="8" width="600" height="34" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="26" text-anchor="middle" dominant-baseline="central">Match the Environment Type</text>
+<rect x="40" y="52" width="280" height="148" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" font-weight="600" fill="#444441" x="180" y="72" text-anchor="middle">Column A</text>
+<text font-family="sans-serif" font-size="12" fill="#5F5E5A" x="58" y="96" dominant-baseline="central">(A) Stock Market indicates</text>
+<text font-family="sans-serif" font-size="12" fill="#5F5E5A" x="58" y="118" dominant-baseline="central">(B) Customs and traditions</text>
+<text font-family="sans-serif" font-size="12" fill="#5F5E5A" x="58" y="140" dominant-baseline="central">(C) New business techniques</text>
+<text font-family="sans-serif" font-size="12" fill="#5F5E5A" x="58" y="162" dominant-baseline="central">(D) General stability and peace</text>
+<rect x="360" y="52" width="280" height="148" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" font-weight="600" fill="#0C447C" x="500" y="72" text-anchor="middle">Column B</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="378" y="96" dominant-baseline="central">(i) Political environment</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="378" y="118" dominant-baseline="central">(ii) Technological environment</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="378" y="140" dominant-baseline="central">(iii) Social environment</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="378" y="162" dominant-baseline="central">(iv) Economic environment</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="210" text-anchor="middle">Choose the correct matching combination.</text>
+</svg>`,
+  options:{a:"A(iv) B(iii) C(i) D(ii)",b:"A(ii) B(iii) C(iv) D(i)",c:"A(iii) B(iv) C(ii) D(i)",d:"A(iv) B(iii) C(ii) D(i)"},
+  correct:"d",
+  explanation:"Stock market = Economic (iv); Customs/traditions = Social (iii); New techniques = Technological (ii); Stability/peace = Political (i). Correct match: A-iv, B-iii, C-ii, D-i."
+},
+{
+  id:10, section:"Business Environment",
+  text:`<svg width="100%" viewBox="0 0 680 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="30" text-anchor="middle">J&amp;K Film Policy 2021</text>
+<text font-family="sans-serif" font-size="12" fill="#534AB7" x="340" y="52" text-anchor="middle">Subsidies + Low long-term interest rates for patriotic films shot in J&amp;K</text>
+<rect x="60" y="84" width="170" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="145" y="110" text-anchor="middle" dominant-baseline="central">💰 Subsidies</text>
+<rect x="255" y="84" width="170" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="340" y="110" text-anchor="middle" dominant-baseline="central">📉 Low interest rates</text>
+<rect x="450" y="84" width="170" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="535" y="110" text-anchor="middle" dominant-baseline="central">👷 Job opportunities</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="163" text-anchor="middle">Which component of business environment is highlighted?</text>
+<text font-family="sans-serif" font-size="12" fill="#9ca3af" x="340" y="186" text-anchor="middle">Hint: Subsidies and interest rates are key economic indicators.</text>
+</svg>`,
+  options:{a:"Specific and general forces",b:"Technological environment",c:"Economic environment",d:"Totality of external forces"},
+  correct:"c",
+  explanation:"Subsidies and low interest rates are economic factors. The J&K Film Policy highlights the Economic Environment as it involves financial incentives."
+},
+{
+  id:11, section:"Business Environment",
+  text:`<svg width="100%" viewBox="0 0 680 190" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar11" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="30" y="14" width="150" height="120" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="26" x="105" y="64" text-anchor="middle">📱</text>
+<text font-family="sans-serif" font-size="12" fill="#0C447C" x="105" y="88" text-anchor="middle">Mobile Phones</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="105" y="108" text-anchor="middle">(Introduced)</text>
+<line x1="180" y1="74" x2="248" y2="74" stroke="#E24B4A" stroke-width="2" marker-end="url(#ar11)"/>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="215" y="66" text-anchor="middle">Impact</text>
+<rect x="250" y="34" width="180" height="80" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="340" y="64" text-anchor="middle">📷 Cameras ⬇️</text>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="340" y="88" text-anchor="middle">⌚ Watches ⬇️</text>
+<rect x="460" y="34" width="190" height="80" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="555" y="64" text-anchor="middle">Negative impact</text>
+<text font-family="sans-serif" font-size="12" fill="#854F0B" x="555" y="86" text-anchor="middle">on their businesses</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="162" text-anchor="middle">Introduction of mobile phones negatively affected cameras &amp; watches.</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="178" text-anchor="middle">This impact is related to which environment?</text>
+</svg>`,
+  options:{a:"Social Environment",b:"Economic Environment",c:"Technological Environment",d:"Political Environment"},
+  correct:"c",
+  explanation:"The introduction of new technology (mobile phones) reducing demand for older products (cameras, watches) is a classic example of Technological Environment impact."
+},
+{
+  id:12, section:"Planning",
+  text:`<svg width="100%" viewBox="0 0 680 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#085041" x="78" y="30" dominant-baseline="central">Assertion (A):</text>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="78" y="50" dominant-baseline="central">Planning is futuristic.</text>
+<rect x="40" y="78" width="600" height="72" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#791F1F" x="78" y="98" dominant-baseline="central">Reason (R):</text>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="78" y="118" dominant-baseline="central">Planning is concerned with the future which is</text>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="78" y="138" dominant-baseline="central">certain and does not require any forecast.</text>
+<rect x="40" y="162" width="600" height="30" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="177" text-anchor="middle" dominant-baseline="central">Choose the correct option for Assertion (A) and Reason (R).</text>
+</svg>`,
+  options:{a:"Both (A) and (R) are correct",b:"(A) is correct, (R) is incorrect",c:"Both correct, R explains A",d:"Both correct, R does not explain A"},
+  correct:"b",
+  explanation:"Assertion (A) is correct — Planning is indeed futuristic. Reason (R) is incorrect — the future is uncertain, NOT certain, and planning requires forecasting to handle that uncertainty."
+},
+{
+  id:13, section:"Planning",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar13" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="30" y="12" width="160" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="110" y="38" text-anchor="middle" dominant-baseline="central">Plan: ↑ Production</text>
+<line x1="190" y1="38" x2="228" y2="38" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#ar13)"/>
+<rect x="230" y="12" width="180" height="52" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#633806" x="320" y="28" text-anchor="middle">More labour needed</text>
+<text font-family="sans-serif" font-size="12" fill="#633806" x="320" y="48" text-anchor="middle">New machinery needed</text>
+<line x1="410" y1="38" x2="448" y2="38" stroke="#854F0B" stroke-width="1.5" marker-end="url(#ar13)"/>
+<rect x="450" y="12" width="196" height="52" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#0C447C" x="548" y="28" text-anchor="middle">Organise labour</text>
+<text font-family="sans-serif" font-size="12" fill="#0C447C" x="548" y="48" text-anchor="middle">Purchase machinery</text>
+<rect x="170" y="92" width="340" height="46" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="115" text-anchor="middle" dominant-baseline="central">Which step of the planning process is this?</text>
+<text font-family="sans-serif" font-size="12" fill="#9ca3af" x="340" y="165" text-anchor="middle">Hint: Resources are being arranged to put the plan into action.</text>
+</svg>`,
+  options:{a:"Identifying alternative courses of action",b:"Setting objectives",c:"Selecting an alternative",d:"Implementing the plan"},
+  correct:"d",
+  explanation:"Implementing the plan involves putting the chosen plan into action by arranging the required resources (labour, machinery). This step converts plans into actual work."
+},
+{
+  id:14, section:"Planning",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="72" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="34" text-anchor="middle">"Changes or events cannot be eliminated but they</text>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="54" text-anchor="middle">can be anticipated and managerial responses to them</text>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="74" text-anchor="middle">can be developed in advance."</text>
+<rect x="90" y="104" width="200" height="50" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="190" y="129" text-anchor="middle" dominant-baseline="central">🌩️ Future is uncertain</text>
+<rect x="390" y="104" width="200" height="50" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="490" y="129" text-anchor="middle" dominant-baseline="central">✅ Planning anticipates it</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="174" text-anchor="middle">Which importance of planning is described above?</text>
+</svg>`,
+  options:{a:"Planning facilitates decision making",b:"Planning promotes innovative ideas",c:"Planning provides direction",d:"Planning reduces the risks of uncertainty"},
+  correct:"d",
+  explanation:"Planning reduces risk of uncertainty by anticipating future events and developing responses to them in advance, even though those events cannot be eliminated."
+},
+{
+  id:15, section:"Organising",
+  text:`<svg width="100%" viewBox="0 0 680 190" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="34" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="30" text-anchor="middle" dominant-baseline="central">Steps in the Organising Process — Which is NOT a step?</text>
+<rect x="30" y="62" width="148" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="104" y="90" text-anchor="middle" dominant-baseline="central">Division of work</text>
+<rect x="192" y="62" width="148" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="266" y="82" text-anchor="middle">Assignment of</text>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="266" y="100" text-anchor="middle">responsibilities</text>
+<rect x="354" y="62" width="148" height="56" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="1.8" stroke-dasharray="5 3"/>
+<text font-family="sans-serif" font-size="11" fill="#791F1F" x="428" y="82" text-anchor="middle">Specialisation</text>
+<text font-family="sans-serif" font-size="10" fill="#A32D2D" x="428" y="100" text-anchor="middle">❓ Is this a step?</text>
+<rect x="516" y="62" width="148" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="590" y="82" text-anchor="middle">Establishing</text>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="590" y="100" text-anchor="middle">reporting relation</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="158" text-anchor="middle">Which of the above is NOT a part of the organising process?</text>
+</svg>`,
+  options:{a:"Division of work",b:"Assignment of responsibilities",c:"Specialisation",d:"Establishing reporting relationship"},
+  correct:"c",
+  explanation:"Specialisation is a result/benefit of organising, not a step in the organising process. The actual steps are: Division of work → Grouping → Assignment of duties → Establishing relationships."
+},
+{
+  id:16, section:"Organising",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar16" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="240" y="12" width="200" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="340" y="34" text-anchor="middle" dominant-baseline="central">Organisation (Head)</text>
+<line x1="278" y1="56" x2="175" y2="98" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ar16)"/>
+<line x1="340" y1="56" x2="340" y2="98" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ar16)"/>
+<line x1="402" y1="56" x2="505" y2="98" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ar16)"/>
+<rect x="64" y="100" width="196" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#633806" x="162" y="122" text-anchor="middle" dominant-baseline="central">Product Line A</text>
+<rect x="242" y="100" width="196" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#633806" x="340" y="122" text-anchor="middle" dominant-baseline="central">Product Line B</text>
+<rect x="420" y="100" width="196" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#633806" x="518" y="122" text-anchor="middle" dominant-baseline="central">Product Line C</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="170" text-anchor="middle">Grouping activities on the basis of product line is part of which structure?</text>
+</svg>`,
+  options:{a:"Functional structure",b:"Divisional structure",c:"Formal organisation",d:"Informal organisation"},
+  correct:"b",
+  explanation:"Divisional structure groups activities based on products, geographic areas, or customer segments. Grouping by product line is the defining feature of Divisional Structure."
+},
+{
+  id:17, section:"Organising",
+  text:`<svg width="100%" viewBox="0 0 680 220" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar17" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="30" y="12" width="296" height="196" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#085041" x="178" y="32" text-anchor="middle">TALL Structure</text>
+<rect x="128" y="44" width="100" height="28" rx="6" fill="#5DCAA5" stroke="#0F6E56" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="11" fill="#04342C" x="178" y="58" text-anchor="middle" dominant-baseline="central">CEO</text>
+<line x1="178" y1="72" x2="178" y2="86" stroke="#0F6E56" stroke-width="1" marker-end="url(#ar17)"/>
+<rect x="128" y="88" width="100" height="28" rx="6" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="11" fill="#04342C" x="178" y="102" text-anchor="middle" dominant-baseline="central">GM</text>
+<line x1="178" y1="116" x2="178" y2="130" stroke="#0F6E56" stroke-width="1" marker-end="url(#ar17)"/>
+<rect x="128" y="132" width="100" height="28" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="11" fill="#04342C" x="178" y="146" text-anchor="middle" dominant-baseline="central">Manager</text>
+<line x1="178" y1="160" x2="178" y2="174" stroke="#0F6E56" stroke-width="1" marker-end="url(#ar17)"/>
+<rect x="128" y="176" width="100" height="26" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="11" fill="#04342C" x="178" y="189" text-anchor="middle" dominant-baseline="central">Supervisor</text>
+<rect x="354" y="12" width="296" height="196" rx="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#633806" x="502" y="32" text-anchor="middle">FLAT Structure</text>
+<rect x="472" y="44" width="60" height="28" rx="6" fill="#EF9F27" stroke="#854F0B" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="10" fill="#412402" x="502" y="58" text-anchor="middle" dominant-baseline="central">CEO</text>
+<line x1="502" y1="72" x2="390" y2="100" stroke="#854F0B" stroke-width="1" marker-end="url(#ar17)"/>
+<line x1="502" y1="72" x2="430" y2="100" stroke="#854F0B" stroke-width="1" marker-end="url(#ar17)"/>
+<line x1="502" y1="72" x2="502" y2="100" stroke="#854F0B" stroke-width="1" marker-end="url(#ar17)"/>
+<line x1="502" y1="72" x2="574" y2="100" stroke="#854F0B" stroke-width="1" marker-end="url(#ar17)"/>
+<line x1="502" y1="72" x2="614" y2="100" stroke="#854F0B" stroke-width="1" marker-end="url(#ar17)"/>
+<rect x="362" y="102" width="278" height="28" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text font-family="sans-serif" font-size="10" fill="#412402" x="501" y="116" text-anchor="middle" dominant-baseline="central">Many direct reports — Wide span of management</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="218" text-anchor="middle">A TALL structure has a ________ span of management.</text>
+</svg>`,
+  options:{a:"A narrow span of management",b:"No span",c:"Informal organisation",d:"Wide span of management"},
+  correct:"a",
+  explanation:"A tall organisational structure has many levels with few subordinates under each manager — this is called a Narrow Span of Management."
+},
+{
+  id:18, section:"Delegation",
+  text:`<svg width="100%" viewBox="0 0 680 198" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar18" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="254" y="12" width="172" height="44" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="34" text-anchor="middle" dominant-baseline="central">Superior assigns task to Ram</text>
+<line x1="298" y1="56" x2="195" y2="98" stroke="#534AB7" stroke-width="1.5" marker-end="url(#ar18)"/>
+<line x1="382" y1="56" x2="485" y2="98" stroke="#534AB7" stroke-width="1.5" marker-end="url(#ar18)"/>
+<rect x="72" y="100" width="210" height="46" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="177" y="123" text-anchor="middle" dominant-baseline="central">Subordinate A ✅ Completed</text>
+<rect x="398" y="100" width="210" height="46" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#791F1F" x="503" y="115" text-anchor="middle">Subordinate B</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="503" y="134" text-anchor="middle">❌ Met with accident</text>
+<rect x="176" y="162" width="328" height="28" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="340" y="176" text-anchor="middle" dominant-baseline="central">Who is accountable/answerable for the incomplete task?</text>
+</svg>`,
+  options:{a:"Ram is accountable",b:"Ram's superior is accountable",c:"Ram's subordinate is accountable",d:"None of them is accountable"},
+  correct:"a",
+  explanation:"Accountability cannot be delegated. Even though Ram delegated the task to subordinates, he remains fully accountable to his superior for the completion of that task."
+},
+{
+  id:19, section:"Delegation",
+  text:`<svg width="100%" viewBox="0 0 680 196" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar19" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="236" y="12" width="208" height="44" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="34" text-anchor="middle" dominant-baseline="central">Top Level — Authority ✦</text>
+<line x1="340" y1="56" x2="340" y2="78" stroke="#534AB7" stroke-width="1.5" marker-end="url(#ar19)"/>
+<rect x="236" y="80" width="208" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="340" y="102" text-anchor="middle" dominant-baseline="central">Middle Level — Authority ✦</text>
+<line x1="340" y1="124" x2="340" y2="146" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ar19)"/>
+<rect x="236" y="148" width="208" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="340" y="170" text-anchor="middle" dominant-baseline="central">Lower Level — Authority ✦</text>
+<text font-family="sans-serif" font-size="12" fill="#9ca3af" x="560" y="104" text-anchor="middle">Evenly distributed</text>
+<text font-family="sans-serif" font-size="12" fill="#9ca3af" x="560" y="120" text-anchor="middle">at every level</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="206" text-anchor="middle">Evenly distributing authority at every level leads to: ___________</text>
+</svg>`,
+  options:{a:"Delegation",b:"Decentralisation",c:"Informal Organisation",d:"Formal Organisation"},
+  correct:"b",
+  explanation:"Decentralisation refers to the systematic distribution of authority throughout all levels of an organisation. When authority is evenly spread at every level, it is called Decentralisation."
+},
+{
+  id:20, section:"Staffing",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#3C3489" x="340" y="30" text-anchor="middle">Staffing: Human Resource Planning</text>
+<text font-family="sans-serif" font-size="13" fill="#534AB7" x="340" y="52" text-anchor="middle">Analysis that enables assessment of number of humans required</text>
+<rect x="60" y="82" width="250" height="52" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="185" y="108" text-anchor="middle" dominant-baseline="central">📋 Work Tasks + Volume of work</text>
+<rect x="370" y="82" width="250" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="495" y="108" text-anchor="middle" dominant-baseline="central">👥 How many people needed?</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="162" text-anchor="middle">Which analysis enables this human requirement assessment?</text>
+</svg>`,
+  options:{a:"Development",b:"Promotion",c:"Workload analysis",d:"Workforce analysis"},
+  correct:"c",
+  explanation:"Workload Analysis determines the number of human beings required by assessing the total volume of work and matching it to required manpower."
+},
+{
+  id:21, section:"Staffing",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar21" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="30" y="12" width="278" height="72" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="169" y="36" text-anchor="middle">Hi Tech Ltd. — IT Dept.</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="169" y="56" text-anchor="middle">Vacancy in Cyber Security</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="169" y="74" text-anchor="middle">Decision: recruit fresh IT engineers</text>
+<line x1="308" y1="48" x2="366" y2="48" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ar21)"/>
+<rect x="368" y="12" width="278" height="72" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="507" y="36" text-anchor="middle">🎓 IIT University</text>
+<text font-family="sans-serif" font-size="12" fill="#0F6E56" x="507" y="56" text-anchor="middle">Fresh engineers &amp; IT</text>
+<text font-family="sans-serif" font-size="12" fill="#0F6E56" x="507" y="74" text-anchor="middle">graduates recruited directly</text>
+<rect x="168" y="108" width="344" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="340" y="130" text-anchor="middle" dominant-baseline="central">What type of recruitment is this?</text>
+</svg>`,
+  options:{a:"Placement Agencies",b:"Employment Exchange",c:"Direct Recruitment",d:"Campus Placement"},
+  correct:"d",
+  explanation:"Campus Placement refers to recruiting fresh graduates directly from educational institutions (universities/colleges). Here Hi Tech Ltd. recruited from IIT University — a classic Campus Placement."
+},
+{
+  id:22, section:"Staffing",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar22" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="50" y="18" width="200" height="104" rx="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="28" x="150" y="68" text-anchor="middle">🧑‍🔧</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="150" y="94" text-anchor="middle">Master Worker</text>
+<text font-family="sans-serif" font-size="11" fill="#854F0B" x="150" y="112" text-anchor="middle">(Skilled Expert)</text>
+<line x1="250" y1="70" x2="336" y2="70" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#ar22)"/>
+<text font-family="sans-serif" font-size="11" fill="#888780" x="293" y="62" text-anchor="middle">guides</text>
+<rect x="338" y="18" width="200" height="104" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="28" x="438" y="68" text-anchor="middle">🧑‍🎓</text>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="438" y="94" text-anchor="middle">Trainee / Apprentice</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="438" y="112" text-anchor="middle">(learns on the job)</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="156" text-anchor="middle">Trainee works under guidance of Master Worker. Which training method is this?</text>
+</svg>`,
+  options:{a:"Apprenticeship Programme",b:"Vestibule school",c:"Internship",d:"Induction Training"},
+  correct:"a",
+  explanation:"In an Apprenticeship Programme, a trainee works under the supervision and guidance of a skilled master worker. This is common in trades like plumbing, carpentry, etc."
+},
+{
+  id:23, section:"Staffing",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#3C3489" x="340" y="38" text-anchor="middle" dominant-baseline="central">Test to find POTENTIAL of learning a new job in a candidate</text>
+<rect x="40" y="82" width="138" height="60" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="109" y="112" text-anchor="middle" dominant-baseline="central">Intelligence Test</text>
+<rect x="192" y="82" width="138" height="60" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="12" fill="#0C447C" x="261" y="100" text-anchor="middle">Aptitude Test</text>
+<text font-family="sans-serif" font-size="10" fill="#185FA5" x="261" y="118" text-anchor="middle">Ability to learn</text>
+<text font-family="sans-serif" font-size="10" fill="#185FA5" x="261" y="132" text-anchor="middle">new skills ✓</text>
+<rect x="344" y="82" width="138" height="60" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="413" y="112" text-anchor="middle" dominant-baseline="central">Trade Test</text>
+<rect x="496" y="82" width="138" height="60" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="565" y="112" text-anchor="middle" dominant-baseline="central">Personality Test</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="162" text-anchor="middle">Which test measures learning potential for a new job?</text>
+</svg>`,
+  options:{a:"Intelligence Test",b:"Aptitude Test",c:"Trade Test",d:"Personality Test"},
+  correct:"b",
+  explanation:"Aptitude Test measures the potential or capacity of a candidate to learn new skills required for a job. It assesses future learning ability, not current knowledge."
+},
+{
+  id:24, section:"Directing",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar24" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="40" y="18" width="118" height="44" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="99" y="40" text-anchor="middle" dominant-baseline="central">Planning</text>
+<rect x="170" y="18" width="118" height="44" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="229" y="40" text-anchor="middle" dominant-baseline="central">Organising</text>
+<rect x="300" y="18" width="118" height="44" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="359" y="40" text-anchor="middle" dominant-baseline="central">Staffing</text>
+<rect x="430" y="18" width="118" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.8"/>
+<text font-family="sans-serif" font-size="12" fill="#0C447C" x="489" y="40" text-anchor="middle" dominant-baseline="central">Directing ⭐</text>
+<line x1="489" y1="62" x2="489" y2="92" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ar24)"/>
+<rect x="366" y="94" width="244" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#085041" x="488" y="116" text-anchor="middle" dominant-baseline="central">🚀 Initiates Action!</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="260" y="160" text-anchor="middle">Which function of management initiates action?</text>
+</svg>`,
+  options:{a:"Planning",b:"Organising",c:"Staffing",d:"Directing"},
+  correct:"d",
+  explanation:"Directing is the management function that initiates actual work and guides employees to implement plans. It converts plans into actual performance through leadership and motivation."
+},
+{
+  id:25, section:"Leadership",
+  text:`<svg width="100%" viewBox="0 0 680 190" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="30" y="12" width="190" height="122" rx="10" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#791F1F" x="125" y="36" text-anchor="middle">Autocratic</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="125" y="58" text-anchor="middle">Uses power freely</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="125" y="76" text-anchor="middle">Commands team</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="125" y="94" text-anchor="middle">No consultation</text>
+<rect x="240" y="12" width="200" height="122" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#0C447C" x="340" y="36" text-anchor="middle">Democratic</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="340" y="58" text-anchor="middle">Consults team</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="340" y="76" text-anchor="middle">Moderate use of power</text>
+<rect x="460" y="12" width="190" height="122" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.8"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#085041" x="555" y="36" text-anchor="middle">Laissez-faire ⭐</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="555" y="58" text-anchor="middle">Avoids using power</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="555" y="76" text-anchor="middle">unless essential</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="555" y="94" text-anchor="middle">Team is self-driven</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="156" text-anchor="middle">Which leadership style does NOT believe in use of power</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="174" text-anchor="middle">unless it is absolutely essential?</text>
+</svg>`,
+  options:{a:"Autocratic Leadership",b:"Democratic Leadership",c:"Laissez Faire Leadership",d:"None of the above"},
+  correct:"c",
+  explanation:"Laissez-faire (Free-rein) leadership does not believe in exercising power. The leader avoids using authority unless absolutely necessary, and the team is largely self-directed."
+},
+{
+  id:26, section:"Communication",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar26" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="30" y="18" width="256" height="104" rx="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="24" x="158" y="62" text-anchor="middle">🎂</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="158" y="86" text-anchor="middle">Birthday Party</text>
+<text font-family="sans-serif" font-size="11" fill="#854F0B" x="158" y="106" text-anchor="middle">(Social / Unofficial setting)</text>
+<line x1="286" y1="70" x2="366" y2="70" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#ar26)"/>
+<rect x="368" y="18" width="280" height="104" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="508" y="46" text-anchor="middle">Ram tells Mohan about</text>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="508" y="64" text-anchor="middle">new HR recruitment policy</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="508" y="84" text-anchor="middle">(Not through official channels)</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="144" text-anchor="middle">What type of communication is this?</text>
+</svg>`,
+  options:{a:"Formal Communication",b:"Informal Communication",c:"Both (a) and (b)",d:"None of the above"},
+  correct:"b",
+  explanation:"Informal Communication occurs outside official channels — such as casual conversations at a birthday party. This is also called the 'grapevine' in organisational context."
+},
+{
+  id:27, section:"Motivation",
+  text:`<svg width="100%" viewBox="0 0 680 168" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="36" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="30" text-anchor="middle" dominant-baseline="central">Motivators can be —</text>
+<rect x="50" y="66" width="252" height="64" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="176" y="88" text-anchor="middle">➕ Positive Motivators</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="176" y="110" text-anchor="middle">Reward, Promotion, Bonus, Incentive</text>
+<rect x="378" y="66" width="252" height="64" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="504" y="88" text-anchor="middle">➖ Negative Motivators</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="504" y="110" text-anchor="middle">Demotion, Fine, Punishment</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="152" text-anchor="middle">Motivators can be:</text>
+</svg>`,
+  options:{a:"Positive only",b:"Negative only",c:"Positive as well as negative",d:"None of the above"},
+  correct:"c",
+  explanation:"Motivators can be both Positive (rewards, bonus, recognition) and Negative (punishment, demotion, fines). Both types can drive behaviour and performance."
+},
+{
+  id:28, section:"Motivation",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#3C3489" x="340" y="34" text-anchor="middle">Giving a special RANK, POSITION, or AUTHORITY to employees</text>
+<text font-family="sans-serif" font-size="12" fill="#534AB7" x="340" y="54" text-anchor="middle">e.g. Promoted to "Senior Manager" with additional authority</text>
+<rect x="60" y="84" width="230" height="52" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="175" y="110" text-anchor="middle" dominant-baseline="central">💰 Monetary Incentive</text>
+<rect x="390" y="84" width="230" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="505" y="100" text-anchor="middle">Non-monetary Incentive ⭐</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="505" y="120" text-anchor="middle">Status, Recognition</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="162" text-anchor="middle">This falls under which type of incentive?</text>
+</svg>`,
+  options:{a:"Monetary Incentive",b:"Non-monetary Incentive",c:"Profit sharing",d:"Co-partnership"},
+  correct:"b",
+  explanation:"Giving rank, position, or authority is a form of Non-monetary Incentive. It satisfies employees' esteem and social needs without direct monetary payment."
+},
+{
+  id:29, section:"Controlling",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar29" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="32" text-anchor="middle">Rakesh — Senior Manager, Software Consultancy</text>
+<text font-family="sans-serif" font-size="12" fill="#534AB7" x="340" y="52" text-anchor="middle">Regularly prepares performance reports of subordinates as part of appraisal</text>
+<line x1="340" y1="64" x2="340" y2="88" stroke="#534AB7" stroke-width="1.5" marker-end="url(#ar29)"/>
+<rect x="100" y="90" width="480" height="50" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#085041" x="340" y="115" text-anchor="middle" dominant-baseline="central">📋 Performance Report (Appraisal)</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">Which step of the controlling process is highlighted above?</text>
+</svg>`,
+  options:{a:"Measuring of performance",b:"Compare performance against standard",c:"Analysing deviation",d:"Taking corrective action"},
+  correct:"a",
+  explanation:"Preparing performance reports is the first step of the controlling process — Measuring Actual Performance. This is done to compare it against set standards in the next step."
+},
+{
+  id:30, section:"Controlling",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="72" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="34" text-anchor="middle">"Controlling helps management know not only about</text>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="54" text-anchor="middle">performance deficiency but also whether standards</text>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="74" text-anchor="middle">or plans are set correctly or not."</text>
+<rect x="100" y="104" width="480" height="46" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="340" y="127" text-anchor="middle" dominant-baseline="central">Which importance of controlling is described above?</text>
+<text font-family="sans-serif" font-size="12" fill="#9ca3af" x="340" y="170" text-anchor="middle">Hint: It evaluates correctness of plans, not just performance.</text>
+</svg>`,
+  options:{a:"Ensuring order and discipline",b:"Facilitating coordination in action",c:"Judging accuracy of standard",d:"Making efficient use of resources"},
+  correct:"c",
+  explanation:"This importance of controlling is called 'Judging Accuracy of Standards.' Controlling not only measures performance but also helps verify if the standards/plans themselves were realistic and correct."
+},
+{
+  id:31, section:"Controlling",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="32" text-anchor="middle">Mismatch between plan and actual performance is due to</text>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="52" text-anchor="middle">over-stating or under-stating of the PLAN itself.</text>
+<rect x="60" y="84" width="238" height="54" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="179" y="102" text-anchor="middle">Strategic Control</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="179" y="122" text-anchor="middle">Checks if plan itself is correct ⭐</text>
+<rect x="382" y="84" width="238" height="54" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="501" y="102" text-anchor="middle">Operational Control</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="501" y="122" text-anchor="middle">Checks day-to-day activities</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">When plan itself is over/under-stated, which type of control applies?</text>
+</svg>`,
+  options:{a:"Strategic Control",b:"Operational Control",c:"Both (a) and (b)",d:"None of the above"},
+  correct:"a",
+  explanation:"Strategic Control deals with whether the plans or strategies themselves are correct. When the mismatch is due to incorrect plans (over/under-stated), it is a Strategic Control issue."
+},
+{
+  id:32, section:"Financial Management",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="38" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#3C3489" x="340" y="31" text-anchor="middle" dominant-baseline="central">Financial Management — Three Major Decisions</text>
+<rect x="40" y="68" width="174" height="64" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="127" y="90" text-anchor="middle">Investment Decision</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="127" y="110" text-anchor="middle">Where to invest funds?</text>
+<rect x="252" y="68" width="176" height="64" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.8"/>
+<text font-family="sans-serif" font-size="12" fill="#0C447C" x="340" y="90" text-anchor="middle">Financing Decision ⭐</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="340" y="110" text-anchor="middle">Debt : Equity proportion</text>
+<rect x="466" y="68" width="174" height="64" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="553" y="90" text-anchor="middle">Dividend Decision</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="553" y="110" text-anchor="middle">Distribute or retain?</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="158" text-anchor="middle">Which decision determines the proportion between debt and equity?</text>
+</svg>`,
+  options:{a:"Financing decision",b:"Investment decision",c:"Capital structure",d:"Dividend decision"},
+  correct:"a",
+  explanation:"The Financing Decision determines the capital structure — the proportion between debt (borrowed funds) and equity (owner's funds). It decides how to raise capital for the organisation."
+},
+{
+  id:33, section:"Financial Management",
+  text:`<svg width="100%" viewBox="0 0 680 192" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="34" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="30" text-anchor="middle" dominant-baseline="central">Higher Dividend Per Share is associated with:</text>
+<rect x="30" y="62" width="148" height="100" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="104" y="82" text-anchor="middle">High earnings ✅</text>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="104" y="100" text-anchor="middle">High cash flow ✅</text>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="104" y="118" text-anchor="middle">Stable earnings ✅</text>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="104" y="136" text-anchor="middle">Low growth opp ✅</text>
+<text font-family="sans-serif" font-size="10" fill="#0F6E56" x="104" y="154" text-anchor="middle">(Option A)</text>
+<rect x="188" y="62" width="148" height="100" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="262" y="82" text-anchor="middle">High earnings</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="262" y="100" text-anchor="middle">High cash flow</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="262" y="118" text-anchor="middle">Stable earnings</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="262" y="136" text-anchor="middle">HIGH growth opp ✗</text>
+<text font-family="sans-serif" font-size="10" fill="#5F5E5A" x="262" y="154" text-anchor="middle">(Option B)</text>
+<rect x="346" y="62" width="148" height="100" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="420" y="82" text-anchor="middle">High earnings</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="420" y="100" text-anchor="middle">LOW cash flow ✗</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="420" y="118" text-anchor="middle">Stable earnings</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="420" y="136" text-anchor="middle">High growth opp</text>
+<text font-family="sans-serif" font-size="10" fill="#5F5E5A" x="420" y="154" text-anchor="middle">(Option C)</text>
+<rect x="504" y="62" width="148" height="100" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="578" y="82" text-anchor="middle">High earnings</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="578" y="100" text-anchor="middle">High cash flow</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="578" y="118" text-anchor="middle">Unstable earnings ✗</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="578" y="136" text-anchor="middle">High growth opp</text>
+<text font-family="sans-serif" font-size="10" fill="#5F5E5A" x="578" y="154" text-anchor="middle">(Option D)</text>
+<text font-family="sans-serif" font-size="12" fill="#5F5E5A" x="340" y="180" text-anchor="middle">Select the combination correctly associated with higher DPS.</text>
+</svg>`,
+  options:{a:"High earning high cash flows, unstable earnings, higher growth",b:"High earning high cash flow, stable earnings, high growth",c:"High earnings low cash flow, stable earnings, higher growth",d:"High earnings, high cash flow, stable earnings, lower growth"},
+  correct:"d",
+  explanation:"Higher DPS is associated with: high earnings, high cash flow, STABLE earnings, and LOWER growth opportunities (since less profit needs to be retained for growth)."
+},
+{
+  id:34, section:"Financial Management",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar34" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="40" y="12" width="600" height="38" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="31" text-anchor="middle" dominant-baseline="central">Operating Cycle Length vs Working Capital Requirement</text>
+<rect x="50" y="70" width="254" height="52" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="177" y="96" text-anchor="middle" dominant-baseline="central">🔄 Longer Operating Cycle</text>
+<line x1="304" y1="96" x2="366" y2="96" stroke="#5F5E5A" stroke-width="2" marker-end="url(#ar34)"/>
+<rect x="368" y="70" width="262" height="52" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="499" y="90" text-anchor="middle">Working Capital</text>
+<text font-family="sans-serif" font-size="14" fill="#A32D2D" x="499" y="112" text-anchor="middle">📈 More / Less / No effect?</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="150" text-anchor="middle">Longer the operating cycle, _______ is the requirement of working capital.</text>
+</svg>`,
+  options:{a:"More",b:"Less",c:"No effect of operating cycle on working capital",d:"None of the above"},
+  correct:"a",
+  explanation:"A longer operating/production cycle means money is tied up in the process for a longer period, requiring MORE working capital to sustain day-to-day operations."
+},
+{
+  id:35, section:"Financial Management",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#3C3489" x="340" y="32" text-anchor="middle">Customers of different banks use the SAME ATM machine</text>
+<text font-family="sans-serif" font-size="12" fill="#534AB7" x="340" y="52" text-anchor="middle">for withdrawal of money (Shared infrastructure)</text>
+<rect x="60" y="84" width="150" height="66" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="24" x="135" y="116" text-anchor="middle">🏦</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="135" y="140" text-anchor="middle">Bank A</text>
+<rect x="265" y="84" width="150" height="66" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="24" x="340" y="116" text-anchor="middle">🏧</text>
+<text font-family="sans-serif" font-size="11" fill="#085041" x="340" y="140" text-anchor="middle">Shared ATM</text>
+<rect x="470" y="84" width="150" height="66" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="24" x="545" y="116" text-anchor="middle">🏦</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="545" y="140" text-anchor="middle">Bank B</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="172" text-anchor="middle">This is related to which factor affecting fixed capital requirement?</text>
+</svg>`,
+  options:{a:"Diversification",b:"Growth Prospects",c:"Availability of finance",d:"Level of collaboration/Joint Venture and Leasing"},
+  correct:"d",
+  explanation:"Sharing ATM infrastructure between banks is an example of Collaboration/Joint Venture/Leasing. Shared assets reduce individual fixed capital requirements for each bank."
+},
+{
+  id:36, section:"Financial Management",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="#3C3489" x="340" y="32" text-anchor="middle">"Ensures availability of RIGHT AMOUNT of finance</text>
+<text font-family="sans-serif" font-size="13" fill="#534AB7" x="340" y="52" text-anchor="middle">at the RIGHT TIME."</text>
+<rect x="50" y="84" width="560" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="195" y="112" text-anchor="middle">💰 Right Amount</text>
+<text font-family="sans-serif" font-size="16" fill="#0F6E56" x="340" y="118" text-anchor="middle">+</text>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="490" y="112" text-anchor="middle">⏰ Right Time</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">Which financial concept is described above?</text>
+</svg>`,
+  options:{a:"Financial Planning",b:"Capital Structure",c:"Working Capital",d:"Fixed Capital"},
+  correct:"a",
+  explanation:"Financial Planning ensures that the right amount of finance is available at the right time for the business. It involves estimating future financial needs and planning their procurement."
+},
+{
+  id:37, section:"Financial Markets",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="38" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="31" text-anchor="middle" dominant-baseline="central">Commercial Paper — Money Market Instrument</text>
+<rect x="50" y="68" width="580" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="340" y="88" text-anchor="middle">📄 Short-term | Unsecured | Promissory Note</text>
+<text font-family="sans-serif" font-size="13" fill="#185FA5" x="340" y="112" text-anchor="middle">Maturity period: _____ days to _____ year(s)</text>
+<rect x="50" y="140" width="580" height="30" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="4 3"/>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="155" text-anchor="middle" dominant-baseline="central">Choose the correct maturity range for Commercial Paper.</text>
+</svg>`,
+  options:{a:"91 days to one year",b:"15 days to one year",c:"one day to 15 days",d:"one year"},
+  correct:"b",
+  explanation:"Commercial Paper is a short-term unsecured promissory note issued by large corporations. Its maturity period ranges from a minimum of 15 days to a maximum of 1 year."
+},
+{
+  id:38, section:"Financial Markets",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="32" text-anchor="middle">Financial markets help save TIME, EFFORT, and MONEY</text>
+<text font-family="sans-serif" font-size="13" fill="#534AB7" x="340" y="52" text-anchor="middle">that buyers &amp; sellers would otherwise spend on getting information.</text>
+<rect x="60" y="84" width="540" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#085041" x="340" y="104" text-anchor="middle">🧑 Buyer ←→ Financial Market ←→ Seller 🏢</text>
+<text font-family="sans-serif" font-size="12" fill="#0F6E56" x="340" y="126" text-anchor="middle">Both save time, effort &amp; money on information gathering</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">Which function of financial market is described above?</text>
+</svg>`,
+  options:{a:"Facilitate Price discovery",b:"Provide liquidity to financial assets",c:"Reduce the cost of transaction",d:"Mobilisation of savings"},
+  correct:"c",
+  explanation:"Financial markets Reduce the Cost of Transaction by providing a common platform where buyers and sellers can easily find each other, saving time, effort, and money."
+},
+{
+  id:39, section:"Financial Markets",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="50" y="18" width="230" height="104" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#0C447C" x="165" y="46" text-anchor="middle">Primary Market</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="165" y="66" text-anchor="middle">New securities issued</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="165" y="84" text-anchor="middle">Company → Investor</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="165" y="102" text-anchor="middle">(IPO, FPO, Rights issue)</text>
+<line x1="280" y1="70" x2="340" y2="70" stroke="#5F5E5A" stroke-width="1.5"/>
+<line x1="340" y1="70" x2="400" y2="70" stroke="#5F5E5A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<rect x="400" y="18" width="230" height="104" rx="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#633806" x="515" y="46" text-anchor="middle">Secondary Market</text>
+<text font-family="sans-serif" font-size="11" fill="#854F0B" x="515" y="66" text-anchor="middle">Existing securities traded</text>
+<text font-family="sans-serif" font-size="11" fill="#854F0B" x="515" y="84" text-anchor="middle">Investor → Investor</text>
+<text font-family="sans-serif" font-size="11" fill="#854F0B" x="515" y="102" text-anchor="middle">(Stock Exchange)</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="142" text-anchor="middle">What is the relationship between Primary and Secondary Markets?</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">Compete / Complement / Function independently / Control?</text>
+</svg>`,
+  options:{a:"Compete with each other",b:"Compliment each other",c:"Function independently",d:"Control each other"},
+  correct:"b",
+  explanation:"Primary and Secondary Markets complement each other. The primary market creates new securities and the secondary market provides liquidity and exit routes, making both markets interdependent."
+},
+{
+  id:40, section:"Financial Markets",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar40" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="50" y="18" width="210" height="94" rx="10" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#791F1F" x="155" y="42" text-anchor="middle">Physical Share Certificates</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="155" y="62" text-anchor="middle">Paper format</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="155" y="80" text-anchor="middle">Half torn ⚠️ Damaged</text>
+<text font-family="sans-serif" font-size="11" fill="#A32D2D" x="155" y="98" text-anchor="middle">Amaira's shares — unusable!</text>
+<line x1="260" y1="65" x2="366" y2="65" stroke="#5F5E5A" stroke-width="2" marker-end="url(#ar40)"/>
+<text font-family="sans-serif" font-size="11" fill="#888780" x="313" y="57" text-anchor="middle">new concept</text>
+<rect x="368" y="18" width="262" height="94" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="499" y="42" text-anchor="middle">Electronic Form</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="499" y="62" text-anchor="middle">Stored in DEMAT account</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="499" y="80" text-anchor="middle">Safe, easy to transfer ✅</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="134" text-anchor="middle">Amaira's grandmother's share certificates were physically damaged.</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="152" text-anchor="middle">Which new concept in financial markets solves this?</text>
+</svg>`,
+  options:{a:"Dematerialisation",b:"Demutualisation",c:"Both (a) and (b)",d:"None of the above"},
+  correct:"a",
+  explanation:"Dematerialisation (DEMAT) is the process of converting physical share certificates into electronic form. It eliminates risks of theft, damage, or loss of physical certificates."
+},
+{
+  id:41, section:"Marketing",
+  text:`<svg width="100%" viewBox="0 0 680 168" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar41" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect x="40" y="16" width="180" height="82" rx="10" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="130" y="50" text-anchor="middle">Product is</text>
+<text font-family="sans-serif" font-size="13" fill="#444441" x="130" y="70" text-anchor="middle">ready 📦</text>
+<line x1="220" y1="57" x2="292" y2="57" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#ar41)"/>
+<rect x="294" y="16" width="206" height="82" rx="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="397" y="44" text-anchor="middle">Persuade / Push</text>
+<text font-family="sans-serif" font-size="11" fill="#854F0B" x="397" y="62" text-anchor="middle">aggressive promotion</text>
+<text font-family="sans-serif" font-size="11" fill="#854F0B" x="397" y="80" text-anchor="middle">&amp; hard selling effort</text>
+<line x1="500" y1="57" x2="566" y2="57" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#ar41)"/>
+<rect x="568" y="16" width="74" height="82" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="605" y="57" text-anchor="middle">Buyer</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="132" text-anchor="middle">"Persuading buyer to purchase the product" describes which concept?</text>
+</svg>`,
+  options:{a:"Production concept",b:"Product concept",c:"Selling concept",d:"Marketing concept"},
+  correct:"c",
+  explanation:"The Selling Concept focuses on persuading and pushing customers to buy products through aggressive promotion and personal selling. It assumes customers won't buy on their own."
+},
+{
+  id:42, section:"Marketing",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="38" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="31" text-anchor="middle" dominant-baseline="central">Parts of a Brand</text>
+<rect x="50" y="68" width="268" height="72" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#0C447C" x="184" y="90" text-anchor="middle">Brand Name ⭐</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="184" y="110" text-anchor="middle">The SPOKEN / VERBAL part</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="184" y="128" text-anchor="middle">"Nike", "Apple", "Pepsi" 🗣️</text>
+<rect x="362" y="68" width="268" height="72" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#444441" x="496" y="90" text-anchor="middle">Brand Mark</text>
+<text font-family="sans-serif" font-size="12" fill="#5F5E5A" x="496" y="110" text-anchor="middle">Visual symbol / logo</text>
+<text font-family="sans-serif" font-size="12" fill="#5F5E5A" x="496" y="128" text-anchor="middle">Nike ✓ logo, Apple 🍎 👁️</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="162" text-anchor="middle">The SPOKEN part of a brand is known as:</text>
+</svg>`,
+  options:{a:"Brand",b:"Brand name",c:"Brandmark",d:"Trademark"},
+  correct:"b",
+  explanation:"Brand Name is the spoken/verbal part of a brand — the word or words that can be spoken aloud. Brand Mark is the visual symbol. Together they form the complete Brand."
+},
+{
+  id:43, section:"Marketing",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="38" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="31" text-anchor="middle" dominant-baseline="central">Promotional Mix — Which tool improves company IMAGE?</text>
+<rect x="30" y="68" width="138" height="68" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="99" y="98" text-anchor="middle">Advertising</text>
+<text font-family="sans-serif" font-size="10" fill="#5F5E5A" x="99" y="118" text-anchor="middle">Mass media</text>
+<rect x="182" y="68" width="138" height="68" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="251" y="94" text-anchor="middle">Personal</text>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="251" y="112" text-anchor="middle">Selling</text>
+<rect x="334" y="68" width="138" height="68" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="403" y="94" text-anchor="middle">Sales</text>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="403" y="112" text-anchor="middle">Promotion</text>
+<rect x="486" y="68" width="164" height="68" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.8"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="568" y="90" text-anchor="middle">Public</text>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="568" y="108" text-anchor="middle">Relations ⭐</text>
+<text font-family="sans-serif" font-size="10" fill="#0F6E56" x="568" y="126" text-anchor="middle">Improves image</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">Which communication tool helps improve the company's image?</text>
+</svg>`,
+  options:{a:"Advertisement",b:"Personal Selling",c:"Sales Promotion",d:"Public Relation"},
+  correct:"d",
+  explanation:"Public Relations (PR) is a communication tool specifically aimed at building and improving the company's image with the public, media, and stakeholders through non-paid methods."
+},
+{
+  id:44, section:"Marketing",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="32" text-anchor="middle">The product reaches the customer at the:</text>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#534AB7" x="340" y="54" text-anchor="middle">Right TIME ⏱️   Right QUANTITY 📦   Right PLACE 📍</text>
+<rect x="60" y="84" width="168" height="52" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="144" y="110" text-anchor="middle" dominant-baseline="central">Product Mix</text>
+<rect x="246" y="84" width="168" height="52" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="12" fill="#444441" x="330" y="110" text-anchor="middle" dominant-baseline="central">Price Mix</text>
+<rect x="432" y="84" width="188" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.8"/>
+<text font-family="sans-serif" font-size="12" fill="#085041" x="526" y="100" text-anchor="middle">Place Mix ⭐</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="526" y="120" text-anchor="middle">Distribution efficiency</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="162" text-anchor="middle">Which element of marketing mix ensures this?</text>
+</svg>`,
+  options:{a:"Product mix",b:"Price mix",c:"Promotion mix",d:"Place mix"},
+  correct:"d",
+  explanation:"Place Mix (also called Distribution Mix) ensures the product reaches the right customer at the right time, in the right quantity, and at the right location through an efficient distribution network."
+},
+{
+  id:45, section:"Marketing",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="38" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="31" text-anchor="middle" dominant-baseline="central">What can be marketed?</text>
+<rect x="30" y="68" width="138" height="76" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="99" y="90" text-anchor="middle">Physical objects</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="99" y="108" text-anchor="middle">with definite</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="99" y="126" text-anchor="middle">shape only</text>
+<rect x="188" y="68" width="304" height="76" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.8"/>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="340" y="90" text-anchor="middle">Anything that creates VALUE ✅</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="340" y="110" text-anchor="middle">Products, Services, Ideas, People, Places</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="340" y="130" text-anchor="middle">Events, Organisations, Experiences</text>
+<rect x="512" y="68" width="138" height="76" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="581" y="90" text-anchor="middle">Only physical</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="581" y="108" text-anchor="middle">objects with</text>
+<text font-family="sans-serif" font-size="11" fill="#5F5E5A" x="581" y="126" text-anchor="middle">selling price</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="162" text-anchor="middle">Which option correctly defines what can be marketed?</text>
+</svg>`,
+  options:{a:"Any physical object with a definite shape",b:"Any object which creates value to customers",c:"Any physical object that has a selling price",d:"Any physical object that can be tested"},
+  correct:"b",
+  explanation:"Marketing is not limited to physical goods. Anything that creates value for customers — products, services, ideas, people, places, events, and experiences — can be marketed."
+},
+{
+  id:46, section:"Marketing",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="36" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="30" text-anchor="middle" dominant-baseline="central">Marketing Mix for a Television Set — Choose correctly</text>
+<rect x="40" y="66" width="138" height="66" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#0C447C" x="109" y="99" text-anchor="middle" dominant-baseline="central">Product 📺</text>
+<rect x="192" y="66" width="138" height="66" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#633806" x="261" y="99" text-anchor="middle" dominant-baseline="central">Price 💰</text>
+<rect x="344" y="66" width="138" height="66" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#085041" x="413" y="99" text-anchor="middle" dominant-baseline="central">Place 📍</text>
+<rect x="496" y="66" width="138" height="66" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#791F1F" x="565" y="99" text-anchor="middle" dominant-baseline="central">Promotion 📣</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="155" text-anchor="middle">Which is the RIGHT marketing mix for a Television Set?</text>
+</svg>`,
+  options:{a:"Price, Place, Promotion, Process",b:"Product, Price, Promotion, Process",c:"Product, Price, Place, Process",d:"Product, Promotion, Price, Place"},
+  correct:"d",
+  explanation:"The standard Marketing Mix (4 Ps) for any product is: Product, Price, Place, and Promotion. The Television Set being a physical product uses all 4 Ps in this order."
+},
+{
+  id:47, section:"Consumer Protection",
+  text:`<svg width="100%" viewBox="0 0 680 188" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="180" y="12" width="320" height="128" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#0C447C" x="340" y="34" text-anchor="middle">🏷️ Product Label</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="340" y="56" text-anchor="middle">Name of product</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="340" y="74" text-anchor="middle">Ingredients / Contents</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="340" y="92" text-anchor="middle">Manufacturing &amp; Expiry date</text>
+<text font-family="sans-serif" font-size="12" fill="#185FA5" x="340" y="110" text-anchor="middle">MRP, Net Weight, Directions</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">Labelling, as a component of product mix, helps the consumer to exercise:</text>
+</svg>`,
+  options:{a:"Right to safety",b:"Right to consumer education",c:"Right to information",d:"Right to be heard"},
+  correct:"c",
+  explanation:"Labelling provides product information (ingredients, price, date, etc.) to consumers, enabling them to exercise their Right to Information — one of the 6 consumer rights."
+},
+{
+  id:48, section:"Consumer Protection",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="52" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="13" fill="#3C3489" x="340" y="32" text-anchor="middle">"Consumer must be assured whenever possible access to a</text>
+<text font-family="sans-serif" font-size="13" fill="#534AB7" x="340" y="52" text-anchor="middle">variety of goods and services at competitive prices."</text>
+<rect x="60" y="84" width="560" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" fill="#085041" x="340" y="104" text-anchor="middle">🛒 Product A   🛒 Product B   🛒 Product C</text>
+<text font-family="sans-serif" font-size="12" fill="#0F6E56" x="340" y="126" text-anchor="middle">Variety + Competitive pricing guaranteed to every consumer</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">Which consumer right is described above?</text>
+</svg>`,
+  options:{a:"Right to Consumer Protection Act",b:"Right to choose",c:"Right to safety",d:"Right to be heard"},
+  correct:"b",
+  explanation:"The Right to Choose guarantees consumers access to a variety of goods and services at competitive prices, ensuring they are not forced to buy any particular product."
+},
+{
+  id:49, section:"Consumer Protection",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="38" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="31" text-anchor="middle" dominant-baseline="central">Consumer Rights — Identify which right is this</text>
+<rect x="60" y="68" width="560" height="68" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#085041" x="340" y="90" text-anchor="middle">"Informing consumers about their rights"</text>
+<text font-family="sans-serif" font-size="12" fill="#0F6E56" x="340" y="110" text-anchor="middle">e.g. Consumer awareness campaigns, school curricula</text>
+<text font-family="sans-serif" font-size="12" fill="#0F6E56" x="340" y="128" text-anchor="middle">Jago Grahak Jago 📢, legal literacy programmes</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="160" text-anchor="middle">Which consumer right is highlighted above?</text>
+</svg>`,
+  options:{a:"Right to Safety",b:"Right to Information",c:"Right to Consumer Education",d:"Right to be Heard"},
+  correct:"c",
+  explanation:"Right to Consumer Education means spreading awareness about consumer rights and redressal mechanisms. Campaigns like 'Jago Grahak Jago' are examples of promoting consumer education."
+},
+{
+  id:50, section:"Consumer Protection",
+  text:`<svg width="100%" viewBox="0 0 680 178" role="img" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="12" width="600" height="38" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<text font-family="sans-serif" font-size="14" font-weight="600" fill="#3C3489" x="340" y="31" text-anchor="middle" dominant-baseline="central">Quality Certification Marks for Consumers</text>
+<rect x="30" y="68" width="176" height="78" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/>
+<text font-family="sans-serif" font-size="26" x="118" y="108" text-anchor="middle">🥇</text>
+<text font-family="sans-serif" font-size="13" fill="#633806" x="118" y="132" text-anchor="middle">Hallmark</text>
+<text font-family="sans-serif" font-size="11" fill="#854F0B" x="118" y="148" text-anchor="middle">Gold purity</text>
+<rect x="252" y="68" width="176" height="78" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="26" x="340" y="108" text-anchor="middle">🌿</text>
+<text font-family="sans-serif" font-size="13" fill="#085041" x="340" y="132" text-anchor="middle">ECO Mark</text>
+<text font-family="sans-serif" font-size="11" fill="#0F6E56" x="340" y="148" text-anchor="middle">Eco-friendly</text>
+<rect x="474" y="68" width="176" height="78" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.7"/>
+<text font-family="sans-serif" font-size="26" x="562" y="108" text-anchor="middle">✅</text>
+<text font-family="sans-serif" font-size="13" fill="#0C447C" x="562" y="132" text-anchor="middle">ISI Mark</text>
+<text font-family="sans-serif" font-size="11" fill="#185FA5" x="562" y="148" text-anchor="middle">Industrial products</text>
+<text font-family="sans-serif" font-size="13" fill="#5F5E5A" x="340" y="168" text-anchor="middle">While purchasing gold jewellery, which mark should one look for?</text>
+</svg>`,
+  options:{a:"Hall mark",b:"ECO mark",c:"ISI mark",d:"All of the above"},
+  correct:"a",
+  explanation:"Hallmark is the quality certification mark issued by BIS (Bureau of Indian Standards) specifically for gold and silver jewellery, indicating purity of the metal."
+}
+],
+    duration: 60 * 60,
+    markingScheme: { correct: 5, incorrect: -1 }
+};
+
+/* ============================================================
+   CORE TEST ENGINE
+   ============================================================ */
+const timerElement = document.querySelector('.timer');
+const questionTextElement = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const questionNumberElement = document.getElementById('q-number');
+const currentQNumberElement = document.getElementById('current-q-number');
+const progressBar = document.getElementById('test-progress');
+const progressPercent = document.getElementById('progress-percent');
+const questionPaletteGrid = document.getElementById('question-palette-grid');
+const answeredCountElement = document.getElementById('answered-count');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const markBtn = document.getElementById('mark-btn');
+const submitTestBtn = document.getElementById('submit-test-btn');
+const resultsModal = document.getElementById('results-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const correctAnswersElement = document.getElementById('correct-answers');
+const incorrectAnswersElement = document.getElementById('incorrect-answers');
+const unansweredElement = document.getElementById('unanswered');
+const totalScoreElement = document.getElementById('total-score');
+const percentageElement = document.getElementById('percentage');
+const accuracyElement = document.getElementById('accuracy');
+const reviewBtn = document.getElementById('review-btn');
+
+let currentQuestionIndex = 0;
+let timeLeft = mockTest.duration;
+let timer;
+let testSubmitted = false;
+let testStarted = false;
+
+function initTest() {
+    // 1. SHUFFLE OPTIONS ONLY (Questions stay 1 to 50)
+    mockTest.questions.forEach(q => {
+        let optionsArray = Object.entries(q.options); 
+        // Randomize the order of the options array
+        optionsArray.sort(() => Math.random() - 0.5); 
+        
+        let newOptions = {};
+        let newCorrectKey = "";
+        
+        optionsArray.forEach(([oldKey, text], index) => {
+            let newKey = String.fromCharCode(97 + index); // assigns new keys: a, b, c, d
+            newOptions[newKey] = text;
+            // Ensure the grade still works by tracking where the correct answer moved
+            if (oldKey === q.correctAnswer) newCorrectKey = newKey;
+        });
+        
+        q.options = newOptions;
+        q.correctAnswer = newCorrectKey;
+    });
+
+    // 2. RENDER TEST
+    renderQuestionPalette();
+    renderQuestion();
+    startTimer();
+    updateProgress();
+    renderLegend(false);
+    
+    prevBtn.addEventListener('click', goToPreviousQuestion);
+    nextBtn.addEventListener('click', goToNextQuestion);
+    markBtn.addEventListener('click', toggleMarkForReview);
+    submitTestBtn.addEventListener('click', confirmSubmit);
+    closeModalBtn.addEventListener('click', closeResultsModal);
+    reviewBtn.addEventListener('click', reviewAnswers);
+    document.getElementById('download-pdf-btn').addEventListener('click', generatePDF);
+}
+
+function renderLegend(reviewMode) {
+    const leg = document.getElementById('palette-legend');
+    if (!leg) return;
+    if (reviewMode) {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#22c55e;"></div><span>Correct</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#ef4444;"></div><span>Wrong</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#3b82f6;"></div><span>Not Answered</span></div>
+        </div>`;
+    } else {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90ee90;"></div><span>Answered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90D5FF;"></div><span>Marked</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#FF474D;"></div><span>Unanswered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #a185de;"></div><span>Current</span></div>
+        </div>`;
+    }
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) { clearInterval(timer); submitTest(); }
+        if (timeLeft === 300) { alert('Only 5 minutes remaining!'); }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const hours = Math.floor(timeLeft / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
+    const seconds = timeLeft % 60;
+    const timeStr = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    timerElement.textContent = timeStr;
+    const mobileTimer = document.querySelector('.mobile-timer-clone');
+    if (mobileTimer) mobileTimer.textContent = timeStr;
+}
+
+function renderQuestion() {
+    const question = mockTest.questions[currentQuestionIndex];
+    document.getElementById('current-section').textContent = question.section;
+    questionTextElement.innerHTML = `
+        <div style="display:inline-block;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:8px;">
+            📘 ${question.section || "General"}
+        </div>
+        ${question.image ? `<div style="margin:10px 0;"><img src="${question.image}" style="max-width:100%;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>` : ""}
+        <div style="margin-top:8px;">${question.text}</div>
+    `;
+    questionNumberElement.textContent = question.id;
+    currentQNumberElement.textContent = question.id;
+    optionsContainer.innerHTML = '';
+
+    for (const [key, value] of Object.entries(question.options)) {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        if (testSubmitted) {
+            if (key === question.correctAnswer) optionDiv.classList.add('correct');
+            else if (key === question.userAnswer && key !== question.correctAnswer) optionDiv.classList.add('incorrect');
+        } else {
+            if (key === question.userAnswer) optionDiv.classList.add('selected');
+        }
+        if (!testSubmitted) {
+            optionDiv.addEventListener('click', () => {
+                optionsContainer.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                optionDiv.classList.add('selected');
+                selectAnswer(key);
+            });
+        }
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'question-option';
+        input.value = key;
+        input.checked = question.userAnswer === key;
+        input.disabled = testSubmitted;
+        const letterDiv = document.createElement('div');
+        letterDiv.className = 'opt-letter';
+        letterDiv.textContent = key.toUpperCase();
+        const textSpan = document.createElement('span');
+        textSpan.className = 'opt-text';
+        textSpan.textContent = value;
+        if (testSubmitted) {
+            if (key === question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'correct-indicator';
+                ind.textContent = ' ✓ Correct Answer';
+                textSpan.appendChild(ind);
+            } else if (key === question.userAnswer && key !== question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'incorrect-indicator';
+                ind.textContent = ' ✗ Your Answer';
+                textSpan.appendChild(ind);
+            }
+        }
+        optionDiv.appendChild(input);
+        optionDiv.appendChild(letterDiv);
+        optionDiv.appendChild(textSpan);
+        optionsContainer.appendChild(optionDiv);
+    }
+
+    if (testSubmitted) {
+        const explanationDiv = document.createElement('div');
+        explanationDiv.style.cssText = "margin-top:15px;padding:12px;border-radius:8px;background:linear-gradient(135deg,#eef2ff,#e0f2ff);border-left:4px solid #6a11cb;font-size:15px;box-shadow:0 4px 12px rgba(0,0,0,0.1);";
+        explanationDiv.innerHTML = `<strong>Explanation:</strong><br>${question.explanation || "No explanation available."}`;
+        optionsContainer.appendChild(explanationDiv);
+    }
+
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    nextBtn.style.visibility = currentQuestionIndex === mockTest.questions.length - 1 ? 'hidden' : 'visible';
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = currentQuestionIndex === mockTest.questions.length - 1;
+    updateQuestionPalette();
+}
+
+function selectAnswer(answer) {
+    mockTest.questions[currentQuestionIndex].userAnswer = answer;
+    updateQuestionPalette();
+    updateProgress();
+}
+
+function toggleMarkForReview() {
+    const question = mockTest.questions[currentQuestionIndex];
+    question.marked = !question.marked;
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    updateQuestionPalette();
+}
+
+function goToPreviousQuestion() {
+    if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+}
+
+function goToNextQuestion() {
+    if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+}
+
+function renderQuestionPalette() {
+    questionPaletteGrid.innerHTML = '';
+    mockTest.questions.forEach((question, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = question.id;
+        btn.addEventListener('click', () => navigateToQuestion(index));
+        questionPaletteGrid.appendChild(btn);
+    });
+    updateQuestionPalette();
+}
+
+function updateQuestionPalette() {
+    const paletteButtons = questionPaletteGrid.querySelectorAll('.palette-btn');
+    paletteButtons.forEach(btn => { btn.className = 'palette-btn'; });
+    mockTest.questions.forEach((question, index) => {
+        const btn = paletteButtons[index];
+        if (testSubmitted) {
+            if (!question.userAnswer) btn.classList.add('review-unanswered');
+            else if (question.userAnswer === question.correctAnswer) btn.classList.add('review-correct');
+            else btn.classList.add('review-wrong');
+        } else {
+            if (question.userAnswer) btn.classList.add('answered');
+            if (question.marked) btn.classList.add('marked');
+        }
+        if (index === currentQuestionIndex) btn.classList.add('current');
+    });
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    answeredCountElement.textContent = `${answeredCount}/${mockTest.questions.length}`;
+}
+
+function navigateToQuestion(index) {
+    currentQuestionIndex = index;
+    renderQuestion();
+}
+
+function updateProgress() {
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    const progress = (answeredCount / mockTest.questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    progressPercent.textContent = `${Math.round(progress)}%`;
+}
+
+function confirmSubmit() {
+    if (confirm('Are you sure you want to submit the test?')) { submitTest(); }
+}
+
+function submitTest() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    clearInterval(timer);
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+
+    const totalQuestions = mockTest.questions.length;
+    const maxScore = totalQuestions * mockTest.markingScheme.correct;
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const percentage = ((totalScore / maxScore) * 100).toFixed(2);
+    const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
+
+    const resultData = {
+    studentId: localStorage.getItem('ts_student_id') || '',
+    name: localStorage.getItem('cbtUserName') || 'Unknown', // Changed from userName
+    subject: SUBJECT_ID,                                   // Changed from subjectId
+    chapter: CHAPTER_ID,                                   // Changed from chapterId
+    date: new Date().toISOString(),
+    score: totalScore,
+    maxScore: maxScore,
+    correct: correct,
+    wrong: incorrect,
+    skipped: unanswered,
+    totalQ: totalQuestions,
+    percentage: parseFloat(percentage),
+    accuracy: parseFloat(accuracy),
+    timeTaken: mockTest.duration - timeLeft
+};
+
+    const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+    localStorage.setItem(storageKey, JSON.stringify(resultData));
+
+    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+    fetch(GS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resultData)
+    }).then(() => {
+        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+    }).catch(err => console.error("Sync failed", err));
+
+    correctAnswersElement.textContent = correct;
+    incorrectAnswersElement.textContent = incorrect;
+    unansweredElement.textContent = unanswered;
+    totalScoreElement.textContent = totalScore;
+    percentageElement.textContent = percentage;
+    accuracyElement.textContent = accuracy;
+    resultsModal.style.display = 'flex';
+    renderQuestion();
+
+    const submitBtn = document.getElementById('submit-test-btn');
+    submitBtn.textContent = '📄 Download PDF';
+    submitBtn.classList.remove('submit-fancy-btn');
+    submitBtn.classList.add('pdf-download-btn');
+    submitBtn.onclick = generatePDF;
+
+    renderLegend(true);
+}
+
+function closeResultsModal() { resultsModal.style.display = 'none'; }
+
+function reviewAnswers() {
+    resultsModal.style.display = 'none';
+    currentQuestionIndex = 0;
+    renderQuestion();
+}
+
+/* Tab switch guard */
+document.addEventListener("visibilitychange", function() {
+    if (!testStarted || testSubmitted) return;
+    updateFocusMode();
+    if (document.hidden) startCountdown('tab');
+    else cancelCountdown();
+});
+
+/* Arrow key navigation */
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+    }
+});
+</script>
+
+<script>
+// Function to start the Mock
+function startMock() {
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+    
+    const inputName = document.getElementById('username-input').value.trim();
+
+    // 1. Validate Name
+    if (!savedName && !inputName) {
+        alert("⚠️ Please enter your name to continue!");
+        document.getElementById('username-input').focus();
+        return;
+    }
+    
+    // Save name if typed manually
+    if (!savedName && inputName) {
+        localStorage.setItem("cbtUserName", inputName);
+    }
+
+    // 2. Validate Student ID (The specific check you asked for)
+    if (!savedSID) {
+        const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+        }
+        return;
+    }
+
+    // 3. If everything is OK, proceed
+    enterFullscreen();
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('instruction-screen').style.display = 'block';
+}
+
+// Update displays when the test actually starts
+document.getElementById('start-test-btn').addEventListener('click', () => {
+    if (!document.getElementById('agree-checkbox').checked) return;
+    
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    const sid = localStorage.getItem("ts_student_id") || "N/A";
+    
+    // Update Desktop Displays
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    if(document.getElementById('display-user-name')) document.getElementById('display-user-name').innerText = name;
+    if(document.getElementById('display-user-sid')) document.getElementById('display-user-sid').innerText = sid;
+    
+    // Update Mobile Displays
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name + " | " + sid;
+});
+
+// Auto-fill and Fetch on Page Load
+window.addEventListener('DOMContentLoaded', () => {
+    // Fetch Name and Student ID from local storage
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+
+    // Set and Lock Name Input
+    if (savedName) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = savedName;
+            // Apply locked styling
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.style.color = '#4f6ef7';
+            inp.style.fontWeight = 'bold';
+            
+            // Force Read-Only (Removes ability to change)
+            inp.setAttribute('readonly', true);
+            
+            // Add a simple verification label (No "Change" link)
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
+                    ✅ Verified Dashboard Profile
+                </div>`
+            );
+        }
+    }
+
+    // Set and Show Student ID
+    if (savedSID) {
+        const sidArea = document.getElementById('sid-display-area');
+        const sidVal = document.getElementById('sid-value');
+        if (sidArea && sidVal) {
+            sidArea.style.display = 'block';
+            sidVal.textContent = savedSID;
+            // Optional: Match the theme color
+            sidArea.style.color = '#4f6ef7';
+        }
+    }
+});
+
+const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
+darkModeToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggles.forEach(btn => {
+            const iconSpan = btn.querySelector('.icon');
+            if (iconSpan) iconSpan.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    });
+});
+</script>
+
+<script>
+const checkbox = document.getElementById('agree-checkbox');
+const startBtn = document.getElementById('start-test-btn');
+
+checkbox.addEventListener('change', () => {
+    startBtn.disabled = !checkbox.checked;
+    startBtn.style.opacity = checkbox.checked ? "1" : "0.6";
+    startBtn.style.cursor = checkbox.checked ? "pointer" : "not-allowed";
+});
+
+startBtn.addEventListener('click', () => {
+    if (!checkbox.checked) { alert("Please accept instructions first!"); return; }
+    document.getElementById('instruction-screen').style.display = 'none';
+    document.getElementById('test-screen').style.display = 'block';
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name;
+    testStarted = true;
+    enterFullscreen();
+    initTest();
+});
+
+function enterFullscreen() {
+    const el = document.documentElement;
+    try {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+        else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    } catch(e) {}
+}
+
+document.addEventListener('fullscreenchange', onFSChange);
+document.addEventListener('webkitfullscreenchange', onFSChange);
+document.addEventListener('mozfullscreenchange', onFSChange);
+document.addEventListener('MSFullscreenChange', onFSChange);
+
+function isInFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+              document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function onFSChange() {
+    if (!testStarted || testSubmitted) return;
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    updateFocusMode();
+    if (!isInFullscreen()) startCountdown('fullscreen');
+    else cancelCountdown();
+}
+
+let countdownTimer = null;
+let countdownSeconds = 0;
+
+function updateFocusMode() {
+    const color = (document.hidden || !isInFullscreen()) ? "#FF474D" : "#90EE90";
+    const text = (document.hidden || !isInFullscreen()) ? "● Disturbed" : "● Focus On";
+    const els = [document.getElementById('focus-laptop'), document.getElementById('focus-mobile')];
+    els.forEach(el => { if(el) { el.style.color = color; el.innerText = text; }});
+}
+
+function startCountdown(reason) {
+    if (!testStarted || testSubmitted) return;
+    if (countdownTimer) return;
+    countdownSeconds = (reason === 'tab') ? 2 : 5;
+    const msg  = (reason === 'tab') ? '⚠️ You switched tabs!' : '⚠️ You exited fullscreen!';
+    const hint = (reason === 'tab') ? 'Switch back to this tab to cancel.' : 'Click the button below to return to fullscreen.';
+    showOverlay(msg, hint, countdownSeconds, reason === 'fullscreen');
+    countdownTimer = setInterval(() => {
+        countdownSeconds--;
+        updateOverlayCount(countdownSeconds);
+        if (countdownSeconds <= 0) { cancelCountdown(); submitTest(); }
+    }, 1000);
+}
+
+function cancelCountdown() {
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    hideOverlay();
+}
+
+function showOverlay(msg, hint, secs, showBtn) {
+    let ov = document.getElementById('security-overlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'security-overlay';
+        ov.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:'Segoe UI',sans-serif;color:#fff;text-align:center;padding:24px;`;
+        document.body.appendChild(ov);
+    }
+    ov.innerHTML = `
+        <div style="font-size:60px;margin-bottom:14px;">🚨</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px;">${msg}</div>
+        <div style="font-size:15px;color:#fbbf24;margin-bottom:20px;">${hint}</div>
+        <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px;">Auto-submitting in</div>
+        <div id="overlay-count" style="font-size:72px;font-weight:900;color:#f87171;line-height:1;">${secs}</div>
+        <div style="font-size:14px;color:#9ca3af;margin-top:4px;">seconds</div>
+        ${showBtn ? `<button onclick="enterFullscreen()" style="margin-top:24px;padding:13px 34px;border-radius:30px;border:none;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,0.5);">🔲 Return to Fullscreen</button>` : ''}`;
+    ov.style.display = 'flex';
+}
+
+function updateOverlayCount(n) {
+    const el = document.getElementById('overlay-count');
+    if (el) el.textContent = n;
+}
+
+function hideOverlay() {
+    const ov = document.getElementById('security-overlay');
+    if (ov) ov.style.display = 'none';
+}
+</script>
+
+<div id="pdf-print-area"></div>
+
+<script>
+function generatePDF() {
+    const name = localStorage.getItem('cbtUserName') || 'Thunder';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const maxScore = mockTest.questions.length * mockTest.markingScheme.correct;
+    const pct = ((totalScore / maxScore) * 100).toFixed(1);
+    const optionLabel = { a:'A', b:'B', c:'C', d:'D' };
+
+    let questionsHTML = '';
+    mockTest.questions.forEach((q, i) => {
+        const isCorrect = q.userAnswer === q.correctAnswer;
+        const isWrong   = q.userAnswer && !isCorrect;
+        const isSkipped = !q.userAnswer;
+        const statusColor = isCorrect ? '#16a34a' : isWrong ? '#dc2626' : '#9ca3af';
+        const statusLabel = isCorrect ? '✓ Correct' : isWrong ? '✗ Wrong' : '— Skipped';
+        const rowBg = isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fafafa';
+        let optionsHTML = '';
+        for (const [key, val] of Object.entries(q.options)) {
+            const isRight = key === q.correctAnswer;
+            const isUser  = key === q.userAnswer;
+            let bg = 'transparent', fw = 'normal', prefix = '';
+            if (isRight) { bg = '#dcfce7'; fw = 'bold'; prefix = '✓ '; }
+            if (isUser && !isRight) { bg = '#fee2e2'; fw = 'bold'; prefix = '✗ '; }
+            optionsHTML += `<div style="display:flex;gap:8px;padding:4px 8px;margin:2px 0;border-radius:4px;background:${bg};font-weight:${fw};font-size:12px;"><span style="min-width:18px;font-weight:700;">${optionLabel[key]}.</span><span>${prefix}${val}</span></div>`;
+        }
+        let yourAnswer = isSkipped
+            ? '<span style="color:#9ca3af;">Not Attempted</span>'
+            : `<span style="color:${isCorrect?'#16a34a':'#dc2626'};font-weight:bold;">${optionLabel[q.userAnswer]}. ${q.options[q.userAnswer]}</span>`;
+        questionsHTML += `
+        <div style="margin-bottom:18px;padding:14px 16px;border-radius:8px;background:${rowBg};border:1px solid #e5e7eb;page-break-inside:avoid;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div style="font-weight:700;font-size:13px;color:#374151;">Q${i+1}. ${q.text}</div>
+                <div style="font-weight:700;font-size:12px;color:${statusColor};white-space:nowrap;margin-left:12px;">${statusLabel}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:8px;">${optionsHTML}</div>
+            <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;margin-top:4px;">
+                <span style="color:#6b7280;">Your answer: </span>${yourAnswer}&nbsp;&nbsp;
+                <span style="color:#6b7280;">Correct answer: </span>
+                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
+            </div>
+        </div>`;
+    });
+
+    const scoreColor = pct >= 60 ? '#16a34a' : pct >= 35 ? '#d97706' : '#dc2626';
+    const html = `<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;color:#111;">
+        <div style="background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:22px;font-weight:800;">⚡ Thunderstudy CBT</div><div style="font-size:13px;opacity:0.85;margin-top:3px;">Result Report — ${CHAPTER_ID.toUpperCase()}</div></div>
+                <div style="text-align:right;font-size:12px;opacity:0.85;"><div>📅 ${dateStr} &nbsp; 🕐 ${timeStr}</div><div style="margin-top:2px;">👤 ${name}</div></div>
+            </div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:16px 24px;border-radius:0 0 10px 10px;margin-bottom:20px;">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SCORE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${totalScore}<span style="font-size:14px;color:#6b7280;">/${maxScore}</span></div></div>
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">PERCENTAGE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${pct}%</div></div>
+                    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#16a34a;">CORRECT</div><div style="font-size:24px;font-weight:800;color:#16a34a;">${correct}</div></div>
+                    <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#dc2626;">WRONG</div><div style="font-size:24px;font-weight:800;color:#dc2626;">${incorrect}</div></div>
+                    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SKIPPED</div><div style="font-size:24px;font-weight:800;color:#6b7280;">${unanswered}</div></div>
+                </div>
+            </div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #6a11cb;">📋 Question-wise Answer Key</div>
+        ${questionsHTML}
+        <div style="text-align:center;margin-top:24px;padding:14px;background:#f1f5f9;border-radius:8px;font-size:12px;color:#6b7280;">Generated by <b>Thunderstudy CBT</b> &nbsp;|&nbsp; t.me/thunderstudy_official &nbsp;|&nbsp; ${dateStr}</div>
+    </div>`;
+
+    const printWin = window.open('', '_blank', 'width=950,height=700,scrollbars=yes');
+    if (!printWin) { alert('Popup blocked! Please allow popups for this site and try again.'); return; }
+    printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Thunderstudy_Result_${name}_${dateStr.replace(/ /g,'-')}</title>
+    <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:#fff;padding:20px;}@media print{body{padding:0;}.no-print{display:none !important;}}.print-btn{display:block;margin:0 auto 20px;padding:12px 36px;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;font-size:16px;font-weight:700;border:none;border-radius:30px;cursor:pointer;}</style>
+    </head><body><button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>${html}</body></html>`);
+    printWin.document.close();
+    printWin.focus();
+}
+
+   // Auto-fill name from dashboard on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('cbtUserName') || 
+                  (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    if (saved) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = saved;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.setAttribute('readonly', true);
+            inp.title = 'Name loaded from Dashboard';
+            // Add a small label below
+            inp.insertAdjacentHTML('afterend', 
+                
+            );
+        }
+    }
+});
+</script>
+
+</body>
+</html>
