@@ -1,0 +1,2810 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thunderstudy CBT</title>
+
+<script>
+/* ============================================================
+   ✏️  EDIT ONLY THESE TWO LINES FOR EACH CHAPTER
+   ============================================================ */
+const SUBJECT_ID  = "eco";        // e.g. "bst", "eco", "accounts"
+const CHAPTER_ID  = "eco-pyq23";       // e.g. "bst1", "bst2", "eco3"
+/* ============================================================ */
+</script>
+
+<style>
+        :root {
+    --primary-color: #a185de;
+    --secondary-color: #9CC9E6;
+    --correct-color: #90EE90;
+    --incorrect-color: #FF474D;
+    --neutral-color: #607d8b;
+    --light-bg: #f5f5f5;
+    --white: #ffffff;
+    --dark-text: #212121;
+    --light-text: #000000;
+    --dark-bg: #121212;
+    --dark-primary-color: #bb86fc;
+    --dark-secondary-color: #03dac6;
+    --dark-correct-color: #388e3c;
+    --dark-incorrect-color: #cf6679;
+    --dark-neutral-color: #aaaaaa;
+    --dark-light-text: #e0e0e0;
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-light-text);
+}
+
+body.dark-mode p,
+body.dark-mode span:not(.icon),
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label,
+body.dark-mode li {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode a:not(.fancy-btn):not(.footer-btn):not(.button2):not(.join-btn) {
+    color: #bb86fc !important;
+    text-decoration: underline;
+}
+
+body.dark-mode .fancy-btn,
+body.dark-mode .footer-btn,
+body.dark-mode .join-btn,
+body.dark-mode .submit-fancy-btn,
+body.dark-mode .more-btn,
+body.dark-mode .back-btn,
+body.dark-mode .report-btn {
+    color: white !important;
+}
+
+body.dark-mode #prev-btn {
+    color: var(--dark-primary-color) !important;
+    border-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #next-btn {
+    color: #000 !important;
+    background-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #mark-btn {
+    color: var(--dark-secondary-color) !important;
+    border-color: var(--dark-secondary-color) !important;
+}
+
+body.dark-mode #mark-btn.marked {
+    background-color: var(--dark-secondary-color) !important;
+    color: #000 !important;
+}
+
+body.dark-mode #start-test-btn {
+    color: white !important;
+}
+
+body.dark-mode .close-btn {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .stat-card h3 {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .question-number {
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .question-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .progress-text span {
+    color: #aaa !important;
+}
+
+body.dark-mode .palette-title span {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .test-info strong {
+    color: #fff !important;
+}
+
+body.dark-mode .test-info span {
+    color: #ccc !important;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1f1f1f;
+    color: var(--dark-light-text);
+    box-shadow: 2px 0 5px rgba(255,255,255,0.1);
+}
+
+body.dark-mode .sidebar-header h2,
+body.dark-mode .test-header h2,
+body.dark-mode .modal-header h2 {
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .timer {
+    background-color: var(--dark-incorrect-color);
+    color: #fff;
+}
+
+body.dark-mode .question-container {
+    background-color: #242424;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+}
+
+.option:hover {
+    border-color: #378ADD;
+    background: #E6F1FB;
+}
+
+.option.selected {
+    border-color: #185FA5;
+    background: #B5D4F4;
+}
+
+.option.correct {
+    border-color: #388e3c !important;
+    background: rgba(76, 175, 80, 0.15) !important;
+}
+
+.option.incorrect {
+    border-color: #e53935 !important;
+    background: rgba(244, 67, 54, 0.12) !important;
+}
+
+.opt-letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    background: #f5f5f5;
+    color: #555;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.option.selected .opt-letter {
+    background: #185FA5;
+    border-color: #185FA5;
+    color: #fff;
+}
+
+.option.correct .opt-letter {
+    background: #388e3c;
+    border-color: #388e3c;
+    color: #fff;
+}
+
+.option.incorrect .opt-letter {
+    background: #e53935;
+    border-color: #e53935;
+    color: #fff;
+}
+
+.opt-text {
+    font-size: 15px;
+    color: #212121;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.option.selected .opt-text {
+    color: #0C447C;
+    font-weight: 500;
+}
+
+.option.correct .opt-text {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.option.incorrect .opt-text {
+    color: #b71c1c;
+    font-weight: 500;
+}
+
+body.dark-mode .option {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .option:hover {
+    border-color: #378ADD !important;
+    background: #1a2a3a !important;
+}
+
+body.dark-mode .option.selected {
+    border-color: #64b5f6 !important;
+    background: #1a3050 !important;
+}
+
+body.dark-mode .opt-letter {
+    background: #333 !important;
+    border-color: #555 !important;
+    color: #ccc !important;
+}
+
+body.dark-mode .option.selected .opt-letter {
+    background: #185FA5 !important;
+    border-color: #185FA5 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .opt-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .option.selected .opt-text {
+    color: #90caf9 !important;
+}
+
+body.dark-mode .option.correct {
+    border-color: #66bb6a !important;
+    background: rgba(56,142,60,0.2) !important;
+}
+
+body.dark-mode .option.incorrect {
+    border-color: #ef9a9a !important;
+    background: rgba(207, 102, 121, 0.2) !important;
+}
+
+.option input[type="radio"] {
+    display: none;
+}
+
+.correct-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #388e3c;
+    font-size: 13px;
+}
+
+.incorrect-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #e53935;
+    font-size: 13px;
+}
+
+.instruction-box {
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #f3e8ff, #e0f2ff);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    line-height: 1.8;
+}
+
+.instruction-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6a11cb;
+    margin-bottom: 15px;
+    border-left: 5px solid #6a11cb;
+    padding-left: 10px;
+}
+
+.instruction-list {
+    padding-left: 20px;
+}
+
+.instruction-list li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.instruction-list li:hover {
+    transform: translateX(5px);
+    background: #f0f4ff;
+}
+
+.instruction-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.instruction-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #6a11cb;
+}
+
+#start-test-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 6px 15px rgba(101, 41, 255, 0.4);
+    transition: 0.3s;
+}
+
+#start-test-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(101, 41, 255, 0.6);
+}
+
+.sidebar {
+    width: 300px;
+    background-color: var(--white);
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    overflow-y: auto;
+    right: 0;
+    left: auto;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header h2 {
+    color: var(--primary-color);
+}
+
+.test-info {
+    margin-bottom: 20px;
+}
+
+.test-info p {
+    margin: 5px 0;
+    color: var(--light-text);
+}
+
+.question-palette {
+    margin-bottom: 20px;
+}
+
+.palette-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.palette-btn {
+    width: 100%;
+    max-width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: #FF474D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: auto;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.palette-btn:hover {
+    background-color: #EFBF04;
+}
+
+.palette-btn.answered {
+    background-color: #90ee90;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.marked {
+    background-color: #90D5FF;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.current {
+    background-color: #ffffff;
+    border: 2px solid var(--primary-color);
+}
+
+.palette-btn.review-correct {
+    background-color: #22c55e !important;
+    color: #fff !important;
+    border-color: #16a34a !important;
+}
+.palette-btn.review-wrong {
+    background-color: #ef4444 !important;
+    color: #fff !important;
+    border-color: #dc2626 !important;
+}
+.palette-btn.review-unanswered {
+    background-color: #3b82f6 !important;
+    color: #fff !important;
+    border-color: #2563eb !important;
+}
+
+.palette-btn.review-correct.current,
+.palette-btn.review-wrong.current,
+.palette-btn.review-unanswered.current {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+body.dark-mode .palette-btn.review-correct  { background-color: #16a34a !important; border-color: #15803d !important; }
+body.dark-mode .palette-btn.review-wrong    { background-color: #dc2626 !important; border-color: #b91c1c !important; }
+body.dark-mode .palette-btn.review-unanswered { background-color: #2563eb !important; border-color: #1d4ed8 !important; }
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+body.dark-mode .palette-btn {
+    background-color: #FF474D !important;
+    color: var(--dark-primary-color);
+    border: 2px solid var(--dark-primary-color);
+}
+
+body.dark-mode .palette-btn.answered {
+    background-color: #388e3c !important;
+    color: white !important;
+    border-color: #388e3c !important;
+}
+
+body.dark-mode .palette-btn.marked {
+    background-color: #03dac6 !important;
+    color: black !important;
+    border-color: #03dac6 !important;
+}
+
+body.dark-mode .palette-btn.current {
+    background-color: white !important;
+    border: 2px solid var(--dark-primary-color) !important;
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: var(--dark-primary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #a75dfc;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #00c4b4;
+}
+
+body.dark-mode .btn-outline {
+    border-color: var(--dark-primary-color);
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .mark-btn {
+    border-color: var(--dark-secondary-color);
+    color: var(--dark-secondary-color);
+}
+
+body.dark-mode .mark-btn.marked {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn {
+    background-color: var(--dark-correct-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn:hover {
+    background-color: #2a6e2c;
+}
+
+body.dark-mode .modal-content {
+    background-color: #242424;
+    color: var(--dark-light-text);
+}
+
+body.dark-mode .stat-card {
+    background-color: #1e1e1e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 0;
+    margin-right: 300px;
+    padding: 20px;
+}
+
+.test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.timer {
+    background-color: #FF0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #c6e977;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+.question-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.question-number {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.options {
+    margin-left: 0;
+}
+
+.navigation-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: #ffffff;
+}
+
+.mark-btn {
+    margin-left: 10px;
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.mark-btn.marked {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.submit-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background-color: var(--correct-color);
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #388e3c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+    color: var(--primary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--light-text);
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.correct-stat { color: var(--correct-color); }
+.incorrect-stat { color: var(--incorrect-color); }
+.score-stat { color: var(--secondary-color); }
+
+.detailed-results {
+    margin-top: 20px;
+}
+
+.detailed-results h3 {
+    margin-bottom: 10px;
+}
+
+.review-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.button2 {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.button2:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 12px rgba(0, 90, 153, 0.5);
+    color: #fff;
+}
+
+#dark-mode-toggle-bottom:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    box-shadow: 0 6px 20px rgba(101, 41, 255, 0.9);
+}
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    color: #333;
+    box-shadow: 0 4px 15px rgba(255, 210, 0, 0.7);
+}
+
+#test-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    z-index: 9998;
+    display: none;
+    overflow: auto;
+}
+
+#user-name-display {
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.instruction-checkbox input:checked + .custom-check {
+    background: rgba(106,17,203,0.1);
+    box-shadow: 0 0 10px rgba(106,17,203,0.4);
+}
+
+.instruction-checkbox input {
+    display: none;
+}
+
+.custom-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a11cb;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.instruction-checkbox input:checked + .custom-check::after {
+    content: "\2714";
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 16px;
+    color: #6a11cb;
+}
+
+.test-info {
+    text-align: left !important;
+    display: block !important;
+}
+
+.test-info p {
+    text-align: left !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 6px;
+    font-size: 16px !important;
+    margin: 6px 0 !important;
+}
+
+.test-info strong {
+    font-weight: 700 !important;
+    color: #000 !important;
+}
+
+.mobile-top-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .mobile-timer-clone {
+        background-color: #FF0000;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 15px;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    #mobile-name-display {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    #user-name-display { display: none !important; }
+    .sidebar .timer { display: none !important; }
+    .sidebar .sidebar-header { display: none !important; }
+
+    body { display: flex; flex-direction: column; }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        right: 0; left: 0;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
+    .question-palette { max-height: 200px; overflow-y: auto; }
+    .main-content { margin: 0 !important; width: 100%; padding: 10px; }
+
+    .navigation-btns {
+        flex-direction: row !important;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #prev-btn {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+        flex-shrink: 0;
+    }
+
+    #next-btn {
+        padding: 14px 28px !important;
+        font-size: 17px !important;
+        border-radius: 8px !important;
+        flex: 1;
+    }
+
+    .navigation-btns > div {
+        display: flex;
+        flex: 1;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #mark-btn {
+        font-size: 11px !important;
+        padding: 6px 8px !important;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .palette-grid { grid-template-columns: repeat(4, 1fr); }
+    .result-stats { grid-template-columns: 1fr; }
+}
+
+.fancy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.4px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+}
+
+.fancy-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+    border-radius: inherit;
+}
+
+.fancy-btn:hover::after { background: rgba(255,255,255,0.12); }
+.fancy-btn:active { transform: scale(0.96) !important; }
+.fancy-btn:hover { transform: translateY(-3px) scale(1.03); }
+
+.join-btn {
+    background: linear-gradient(135deg, #0088cc, #006699);
+    color: white;
+    box-shadow: 0 5px 18px rgba(0,136,204,0.45);
+}
+.join-btn:hover { box-shadow: 0 8px 24px rgba(0,136,204,0.65); color: white; }
+
+.submit-fancy-btn {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white;
+    box-shadow: 0 5px 18px rgba(34,197,94,0.45);
+    flex: 1;
+    max-width: 280px;
+}
+.submit-fancy-btn:hover { box-shadow: 0 8px 24px rgba(34,197,94,0.65); }
+
+.pdf-download-btn {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white !important;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+}
+.pdf-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(249,115,22,0.6);
+    color: white !important;
+}
+.pdf-download-btn:active { transform: scale(0.97); }
+
+#pdf-print-area { display: none; }
+
+@media print {
+    body > * { display: none !important; }
+    #pdf-print-area {
+        display: block !important;
+        font-family: Arial, sans-serif;
+        color: #111;
+        padding: 20px;
+        margin: 0;
+    }
+}
+
+.footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 0.3px;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, filter 0.18s;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-btn:hover {
+    transform: translateY(-3px) scale(1.06);
+    filter: brightness(1.1);
+    color: white;
+}
+
+.footer-btn:active { transform: scale(0.95); }
+
+.more-btn {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+    box-shadow: 0 4px 14px rgba(168,85,247,0.4);
+}
+.more-btn:hover { box-shadow: 0 7px 20px rgba(168,85,247,0.65); }
+
+.back-btn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 14px rgba(34,197,94,0.4);
+}
+.back-btn:hover { box-shadow: 0 7px 20px rgba(34,197,94,0.65); }
+
+.report-btn {
+    background: linear-gradient(135deg, #f97316, #dc2626);
+    box-shadow: 0 4px 14px rgba(239,68,68,0.4);
+}
+.report-btn:hover { box-shadow: 0 7px 20px rgba(239,68,68,0.65); }
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200) !important;
+    box-shadow: 0 4px 15px rgba(255,210,0,0.6) !important;
+}
+body.dark-mode #dark-mode-toggle-bottom .icon { color: #333 !important; }
+body.dark-mode #dark-mode-toggle-bottom span:not(.icon) { color: #333 !important; }
+
+body.dark-mode #start-screen {
+    background-color: #1a1a2e !important;
+}
+body.dark-mode #start-screen h1 { color: #bb86fc !important; }
+body.dark-mode #start-screen > p { color: #e0e0e0 !important; }
+body.dark-mode #start-screen li { color: #e0e0e0 !important; }
+body.dark-mode #start-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode #start-screen a[href*="t.me"] { color: #bb86fc !important; text-decoration: none !important; }
+body.dark-mode #start-screen strong { color: #fff !important; }
+body.dark-mode #start-screen input[type="text"] {
+    background: #2a2a2a !important;
+    color: #fff !important;
+    border-color: #555 !important;
+}
+
+body.dark-mode #instruction-screen { background: #1a1a2e !important; }
+body.dark-mode #instruction-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode .instruction-box { background: linear-gradient(135deg, #2d1f4e, #1a2a4e) !important; }
+body.dark-mode .instruction-title { color: #bb86fc !important; border-left-color: #bb86fc !important; }
+body.dark-mode .instruction-list li { background: #242424 !important; color: #e0e0e0 !important; }
+body.dark-mode .instruction-list li:hover { background: #2e2e4e !important; }
+body.dark-mode .custom-check { border-color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox input:checked + .custom-check::after { color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox { color: #e0e0e0 !important; }
+
+body.dark-mode #test-screen { background: #121212 !important; }
+
+body.dark-mode .mobile-top-bar {
+    background: #1f1f1f !important;
+    border-color: #333 !important;
+}
+body.dark-mode .mobile-timer-clone {
+    background-color: var(--dark-incorrect-color) !important;
+}
+
+body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- START SCREEN -->
+<div id="start-screen" style="
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: white; z-index: 9999; display: flex;
+    flex-direction: column; justify-content: flex-start; align-items: center;
+    text-align: center; padding: 40px 20px 40px;
+    overflow-y: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+<button id="dark-mode-toggle-bottom" aria-label="Toggle dark mode" title="Toggle dark mode"
+  style="position:absolute; top:18px; right:18px; font-size:22px; padding:8px 18px;
+  border-radius:40px; border:none; cursor:pointer;
+  background:linear-gradient(45deg,#6a11cb,#2575fc); color:white;
+  display:flex; align-items:center; gap:7px;
+  box-shadow:0 4px 15px rgba(101,41,255,0.5);
+  transition:background 0.4s ease, box-shadow 0.4s ease, transform 0.2s;">
+  <span class="icon" style="display:inline-block; transition:transform 0.6s ease;">🌙</span>
+  <span style="font-size:13px; font-weight:600; letter-spacing:0.5px;">Dark</span>
+</button>
+
+<h1 style="color: #a185de; font-size: 32px;" id="page-title">ECO 2023 Mock</h1>
+<p style="font-size: 18px; margin: 10px 0;">Provided by <strong>Thunderstudy</strong></p>
+
+<a href="https://t.me/thunderstudy_official" target="_blank"
+  style="display:inline-flex; align-items:center; gap:8px; margin: 8px 0 14px;
+  background:linear-gradient(135deg,#0088cc,#006699); color:white; text-decoration:none;
+  padding:10px 24px; border-radius:30px; font-size:15px; font-weight:700;
+  box-shadow:0 5px 16px rgba(0,136,204,0.45);
+  transition:transform 0.18s, box-shadow 0.18s;"
+  onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 8px 22px rgba(0,136,204,0.65)'"
+  onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 5px 16px rgba(0,136,204,0.45)'"
+  onmousedown="this.style.transform='scale(0.97)'"
+  onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="flex-shrink:0;">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.607c-.148.666-.543.828-1.098.516l-3.04-2.24-1.467 1.413c-.162.162-.298.298-.611.298l.217-3.083 5.613-5.067c.244-.217-.054-.337-.378-.12L7.08 14.807 4.09 13.89c-.657-.205-.67-.657.137-.973l10.88-4.196c.548-.198 1.027.133.855.973z"/>
+  </svg>
+  @thunderstudy_official
+</a>
+
+<div style="max-width: 560px; text-align: left; margin: 10px auto 18px; background:#f8f4ff; border-radius:12px; padding:18px 22px; border-left:4px solid #a185de;">
+  <h2 style="margin-bottom:12px; color:#6a11cb; font-size:18px;">📋 Quick Overview</h2>
+  <ul style="text-align: left; line-height:2; font-size:15px; padding-left:18px;">
+    <li><strong>50 Questions</strong></li>
+    <li><strong>60 Minutes</strong> total time</li>
+    <li><strong>+5 marks</strong> for correct &nbsp;|&nbsp; <strong>−1 mark</strong> for wrong</li>
+    <li>No penalty for <strong>unanswered</strong> questions</li>
+    <li>Test <strong>auto-submits</strong> when time ends</li>
+    <li>Do <strong>not switch tabs</strong> or exit fullscreen during test</li>
+  </ul>
+</div>
+
+<div style="margin: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <input type="text" id="username-input" placeholder="Enter your name"
+        style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+    
+    <div id="sid-display-area" style="font-size: 13px; font-weight: 700; color: #4f6ef7; background: rgba(79,110,247,0.1); padding: 5px 15px; border-radius: 20px; display: none;">
+        🪪 ID: <span id="sid-value">---</span>
+    </div>
+</div>
+
+<div style="display:flex; flex-direction:column; align-items:center; gap:11px; margin-top:6px;">
+
+  <button onclick="startMock()" style="
+      width:260px; background: linear-gradient(135deg,#6a11cb,#2575fc); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(101,41,255,0.45);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(101,41,255,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(101,41,255,0.45)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    🚀 Start Mock
+  </button>
+
+  <button onclick="window.location.href='https://commercesehoga.github.io/dashboard/'" style="
+      width:260px; background: linear-gradient(135deg,#22c55e,#15803d); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(34,197,94,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(34,197,94,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(34,197,94,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📊 Previous Result
+  </button>
+
+  <button onclick="window.open('https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html','_blank')" style="
+      width:260px; background: linear-gradient(135deg,#a855f7,#7e22ce); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(168,85,247,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(168,85,247,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(168,85,247,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📚 More Mock Tests
+  </button>
+
+</div>
+</div>
+
+<!-- INSTRUCTION SCREEN -->
+<div id="instruction-screen" style="
+position: fixed; top:0; left:0; width:100%; height:100%;
+background:white; z-index:9999; display:none; overflow:auto; padding:30px;">
+
+<h2 style="text-align:center; margin-bottom:20px;">Please read the instructions carefully</h2>
+
+<div class="instruction-box">
+<h3 class="instruction-title">General Instructions</h3>
+<ol class="instruction-list">
+<li>Total duration of test is <strong>60 minutes</strong>. Timer shown in sidebar.</li>
+<li>Test <strong>auto-submits</strong> when the timer reaches zero.</li>
+<li>The test runs in <strong>fullscreen mode</strong>. Exiting fullscreen starts a <strong>5-second countdown</strong> to auto-submit.</li>
+<li><strong>Do not switch tabs</strong>. Switching tabs starts a <strong>2-second countdown</strong> to auto-submit.</li>
+<li>Return to fullscreen or the tab before the countdown ends to continue safely.</li>
+<li>Question palette on the right shows answered, marked, and current status.</li>
+<li>Each correct answer: <strong>+5 marks</strong>. Each wrong answer: <strong>−1 mark</strong>. Unanswered: <strong>0 marks</strong>.</li>
+</ol>
+
+<div style="margin-top:20px;">
+    <strong>Question Status Legend:</strong>
+    <div class="legend" style="margin-top:10px;">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90ee90;"></div>
+            <span>Answered</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90D5FF;"></div>
+            <span>Marked</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="border: 1px solid var(--primary-color); background-color: white;"></div>
+            <span>Current</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FF474D; border: 1px solid #ddd;"></div>
+            <span>Unanswered</span>
+        </div>
+    </div>
+</div>
+
+<label class="instruction-checkbox">
+    <input type="checkbox" id="agree-checkbox">
+    <span class="custom-check"></span>
+    I have read and understood all instructions
+</label>
+
+<br><br>
+
+<button id="start-test-btn" disabled style="
+background:#3f51b5; color:white; padding:12px 24px; border:none;
+border-radius:5px; font-size:18px; cursor:not-allowed; opacity:0.6;">
+Start Test
+</button>
+</div>
+</div>
+
+<!-- TEST SCREEN -->
+<div id="test-screen">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+    <div class="timer">01:00:00</div>
+    <div id="focus-laptop" style="font-size:12px; font-weight:bold; color:green; margin-top:5px;">● Focus On</div>
+</div>
+
+    <div class="test-info">
+      <p><strong>Name:</strong> <span id="display-user-name">Thunder</span></p>
+    <p><strong>Student ID:</strong> <span id="display-user-sid" style="color:var(--acc); font-family:monospace;">---</span></p>
+        <p><strong>Subject:</strong> <span id="subject-label">Eco</span></p>
+        <p><strong>Questions:</strong> 50</p>
+        <p><strong>Duration:</strong> 60 minutes</p>
+        <p><strong>Marking:</strong> +5 / -1</p>
+        <p><strong>Chapter:</strong> <span id="current-section">-</span></p>
+    </div>
+
+    <div class="question-palette">
+        <div class="palette-title">
+            <span>Questions</span>
+            <span id="answered-count">0/50</span>
+        </div>
+        <div class="palette-grid" id="question-palette-grid"></div>
+
+        <div id="palette-legend" style="margin-top:12px; font-size:12px;"></div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+<div class="mobile-top-bar">
+    <div class="mobile-timer-clone">01:00:00</div>
+    <div id="focus-mobile" style="font-size:10px; font-weight:bold; color:green;">● Focus On</div>
+    <div id="mobile-name-display">👤 Thunder</div>
+</div>
+
+<div class="test-header">
+  <div id="user-name-display" style="
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color:white; padding:6px 14px; border-radius:20px;
+    font-weight:bold; font-size:14px;">
+👤 Thunder
+</div>
+<h2>Question <span id="current-q-number">1</span>/50</h2>
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress" id="test-progress"></div>
+</div>
+<div class="progress-text">
+<span>Progress &nbsp;</span>
+<span id="progress-percent">0%</span>
+</div>
+</div>
+</div>
+
+<div class="question-container">
+<div class="question-number">Question <span id="q-number">1</span></div>
+<div class="question-text" id="question-text"></div>
+<div class="options" id="options-container"></div>
+<div class="navigation-btns">
+<button class="btn btn-outline" id="prev-btn">&#8592; Previous</button>
+<div>
+<button class="mark-btn" id="mark-btn">Mark for Review</button>
+<button class="btn btn-primary" id="next-btn">Next &#8594;</button>
+</div>
+</div>
+</div>
+
+<div class="submit-section" style="
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; max-width: 620px; margin: 24px auto; gap: 14px; flex-wrap: wrap;">
+
+    <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn join-btn">
+        ⚡ Join Thunder
+    </a>
+
+    <button class="fancy-btn submit-fancy-btn" id="submit-test-btn">
+        ✅ Submit Test
+    </button>
+</div>
+
+<footer style="background: linear-gradient(135deg,#1a1a2e,#16213e); color: #e0e0e0; text-align: center; padding: 22px 16px; margin-top: 10px;">
+   <p style="font-size:13px; color:#aaa; margin-bottom:14px;">© 2025 Thunder. All Rights Reserved.</p>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:14px;">
+    <a href="https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html" target="_blank" class="footer-btn more-btn">
+        📚 More Mock
+    </a>
+    <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-btn back-btn">
+        🌐 Back To Website
+    </a>
+    <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-btn report-btn">
+        🚨 Report Error
+    </a>
+</div>
+</footer>
+
+<!-- Results Modal -->
+<div class="modal" id="results-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Test Results</h2>
+<button class="close-btn" id="close-modal">×</button>
+</div>
+<div class="result-stats">
+<div class="stat-card">
+<h3>Correct Answers</h3>
+<p class="correct-stat" id="correct-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Incorrect Answers</h3>
+<p class="incorrect-stat" id="incorrect-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Unanswered</h3>
+<p class="neutral-stat" id="unanswered">50</p>
+</div>
+<div class="stat-card">
+<h3>Total Score</h3>
+<p class="score-stat" id="total-score">0</p>
+</div>
+</div>
+<div class="detailed-results">
+<h3>Detailed Analysis</h3>
+<p>Percentage: <span id="percentage">0</span>%</p>
+<p>Accuracy: <span id="accuracy">0</span>%</p>
+</div>
+<div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+<button class="btn btn-secondary review-btn" id="review-btn" style="flex:1; margin-top:0;">Review Answers</button>
+<button class="btn pdf-download-btn" id="download-pdf-btn" style="flex:1;">📄 Download PDF</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+  // Disable Right-Click, Copy, and Paste
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        e.preventDefault();
+    }
+});
+function detectDevTools() {
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        alert("Security Breach: DevTools detected. Test will auto-submit.");
+        submitTest();
+    }
+}
+// Check every 1 second during the test
+setInterval(() => { if(testStarted && !testSubmitted) detectDevTools(); }, 1000);
+/* ============================================================
+   MOCK TEST DATA — Edit questions here
+   ============================================================ */
+const mockTest = {
+    title: "ECo Mock",
+    questions: [
+  {
+    id: 1,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Value Added Method of calculating aggregate annual value of goods and services is also called:",
+    options: { a: "Product Method", b: "Income Method", c: "Expenditure Method", d: "Cost and Revenue Method" },
+    correctAnswer: "a",
+    explanation: "The Value Added Method is also known as the Product Method as it calculates GDP by summing up the value added at each stage of production.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 2,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "The RBI can influence money supply by changing ______ at which it gives loan to the commercial Banks.",
+    options: { a: "Promissory Rate", b: "Lending Rate", c: "Fixed Rate", d: "Bank Rate" },
+    correctAnswer: "d",
+    explanation: "The Bank Rate is the rate at which RBI lends money to commercial banks. By changing the bank rate, RBI influences the money supply in the economy.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 3,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Match List – I with List – II.\nList – I: (A) Human Capital, (B) Physical Capital, (C) Human Capital formation, (D) Human Development\nList – II: (I) Technical Progress, (II) Education and Health, (III) Human well being, (IV) Growth enhancing",
+    options: {
+      a: "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+      b: "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+      c: "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)",
+      d: "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+    },
+    correctAnswer: "d",
+    explanation: "Human Capital → Education and Health; Physical Capital → Technical Progress; Human Capital Formation → Growth enhancing; Human Development → Human well being.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 4,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "At a particular price level, when aggregate demand for final goods equals aggregate supply of final goods, the product market reaches to its:",
+    options: { a: "Ex-ante consumption", b: "Autonomous consumption", c: "Investment multiplier", d: "Equilibrium level" },
+    correctAnswer: "d",
+    explanation: "When Aggregate Demand equals Aggregate Supply, the product market is in equilibrium — neither excess demand nor excess supply exists.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 5,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Select the correct statement related to Alternate marketing channels:\n(A) In the alternate marketing channels, Farmers sell their products directly to consumers.\n(B) In the alternate marketing channels, Farmers sell their products directly to the Central Government.\n(C) In the alternate marketing channels, Farmers sell their products to the Middle men.\n(D) In the alternate marketing channels, Farmer sell their products directly to the whole sale market.",
+    options: { a: "(A) Only", b: "(B) Only", c: "(C) Only", d: "(D) Only" },
+    correctAnswer: "a",
+    explanation: "Alternate marketing channels are those where farmers bypass middlemen and sell directly to consumers, ensuring better price realization.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 6,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Adoption of new technology is called _______.",
+    options: { a: "Liberalisation", b: "Modernization", c: "Globalization", d: "Green Revolution" },
+    correctAnswer: "b",
+    explanation: "Modernization refers to the process of adopting new and advanced technology in production and economic activities.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 7,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Match List – I with List – II.\nList – I: (A) Flexible exchange rate, (B) Devaluation, (C) Fixed exchange rate, (D) Depreciation\nList – II: (I) Market forces, (II) Pegged exchange rate, (III) Floating exchange rate, (IV) Government",
+    options: {
+      a: "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)",
+      b: "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+      c: "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+      d: "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+    },
+    correctAnswer: "c",
+    explanation: "Flexible exchange rate = Floating exchange rate; Devaluation = Government decision; Fixed exchange rate = Pegged exchange rate; Depreciation = Market forces.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 8,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Which of the following will be included in the National Income of India?\n(A) Donations given to a religious institution.\n(B) Payment of Income Tax.\n(C) Scholarship given to students.\n(D) Profits earned by an Indian company from its branch in France.\n(E) Purchase of a television set by a consumer household.",
+    options: {
+      a: "(A) and (B) Only",
+      b: "(B) and (C) Only",
+      c: "(D) and (E) Only",
+      d: "(A), (C) and (E) Only"
+    },
+    correctAnswer: "c",
+    explanation: "Profits earned abroad by Indian companies (factor income from abroad) and final consumption expenditure (TV purchase) are included in National Income. Donations, taxes, and scholarships are transfer payments.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 9,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Current Account components of trade in services include:\n(A) Gifts, Remittances\n(B) Net Non-Factor Income\n(C) Net Investment Income\n(D) Grants",
+    options: {
+      a: "(A), (B) and (C) Only",
+      b: "(B) and (C) Only",
+      c: "(A) and (D) Only",
+      d: "(B), (C) and (D) Only"
+    },
+    correctAnswer: "b",
+    explanation: "Trade in services in the Current Account includes Net Non-Factor Income (like banking, tourism) and Net Investment Income. Gifts, remittances, and grants fall under Transfer Payments.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 10,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Which of the following items can be included in Capital Account in BOP?\n(A) An Indian buys a UK Car company.\n(B) A Swedish citizen buys shares of Reliance company.\n(C) Export of Rajasthan's blue pottery to an Italian restaurant owner.\n(D) Apple I-phones gifted by an Indian company to its employees.",
+    options: {
+      a: "(B) and (C) Only",
+      b: "(C) and (D) Only",
+      c: "(A) and (D) Only",
+      d: "(A) and (B) Only"
+    },
+    correctAnswer: "d",
+    explanation: "Buying a foreign company (FDI) and buying foreign shares (FPI) are both capital account transactions as they involve change in asset ownership across countries.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 11,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "The aggregate demand line shifts parallel upwards. The reason behind this is:",
+    options: {
+      a: "Autonomous Investment increase",
+      b: "Autonomous Investment decreases",
+      c: "Investment is Zero",
+      d: "Investment is Negative"
+    },
+    correctAnswer: "a",
+    explanation: "An increase in Autonomous Investment raises the intercept of the AD curve, causing a parallel upward shift in the AD line.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 12,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Which of the following instrument of trade protection directly raises the price of the commodity in the domestic economy?",
+    options: { a: "Import substitution", b: "Import tariff", c: "Export subsidy", d: "Import liberalization" },
+    correctAnswer: "b",
+    explanation: "Import tariff is a tax on imported goods that directly raises the domestic price of those commodities, making imported goods more expensive.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 13,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Which year is known as 'Year of Great Divide' in the history of Indian demography?",
+    options: { a: "1932", b: "1931", c: "1921", d: "1882" },
+    correctAnswer: "c",
+    explanation: "1921 is called the 'Year of Great Divide' because after this year, India's population growth rate started increasing continuously due to declining death rates.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 14,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Identify the term that means proneness to fall ill from major waterborne diseases.",
+    options: { a: "Mobility", b: "Maternity", c: "Malariality", d: "Morbidity" },
+    correctAnswer: "d",
+    explanation: "Morbidity refers to the rate of disease or the proportion of a population that is affected by a disease, including proneness to waterborne diseases.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 15,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Arrange the sequence of events relating to identifying the number of poor in India.\n(A) Task force on projection of minimum needs and effective demand formed.\n(B) Expert groups formed.\n(C) Planning Commission formed a study group.\n(D) Dadabhai Naoroji formulated the 'Jail cost of living'.",
+    options: {
+      a: "(B), (D), (C), (A)",
+      b: "(A), (B), (C), (D)",
+      c: "(D), (C), (A), (B)",
+      d: "(D), (C), (B), (A)"
+    },
+    correctAnswer: "c",
+    explanation: "Chronological order: Dadabhai Naoroji's Jail cost of living (D) → Planning Commission study group (C) → Task force on minimum needs (A) → Expert groups (B).",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 16,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Which is not the way to attain sustainable development?",
+    options: {
+      a: "Sticking to methods to promote inequality",
+      b: "Spread of Awareness",
+      c: "Use of traditional practices",
+      d: "Use of cleaner fuel"
+    },
+    correctAnswer: "a",
+    explanation: "Promoting inequality contradicts the principle of sustainable development, which aims for equitable growth and resource distribution for present and future generations.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 17,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Which apex body was set up to coordinate the activities of all institutions involved in the rural financing system?",
+    options: { a: "NABARD", b: "RRBs", c: "RBI", d: "SBI" },
+    correctAnswer: "a",
+    explanation: "NABARD (National Bank for Agriculture and Rural Development) was established in 1982 as the apex body to coordinate rural credit and financing institutions.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 18,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Repo-Rate is the rate at which RBI lends money to commercial Banks for _________.",
+    options: { a: "Long period", b: "Short period", c: "Very long period", d: "Market period" },
+    correctAnswer: "b",
+    explanation: "Repo Rate is the rate at which RBI lends money to commercial banks for a short period (usually overnight or up to 14 days) against government securities.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 19,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Match List – I with List – II.\nList – I: (A) Trade includes export and import of goods, (B) Foreign Direct Investment, (C) Net sale of service products like banking and tourism, (D) The Receipts of payment without providing goods and services\nList – II: (I) Capital Account, (II) Invisible Trade, (III) Transfer Payment, (IV) Current Account",
+    options: {
+      a: "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)",
+      b: "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+      c: "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)",
+      d: "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    correctAnswer: "c",
+    explanation: "Trade in goods → Current Account; FDI → Capital Account; Services (banking, tourism) → Invisible Trade; Receipts without goods/services → Transfer Payment.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 20,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Arrange the following in chronological order of their occurrence in India.\n(A) The second stage of demographic transition began.\n(B) Incorporation of Tata Iron and Steel company.\n(C) British India first census.\n(D) Introduction of railways.",
+    options: {
+      a: "(A), (C), (B), (D)",
+      b: "(D), (B), (A), (C)",
+      c: "(C), (B), (D), (A)",
+      d: "(D), (C), (B), (A)"
+    },
+    correctAnswer: "d",
+    explanation: "Railways introduced ~1853 (D) → First British India Census 1872 (C) → Tata Iron & Steel incorporated 1907 (B) → Second stage of demographic transition post-1921 (A).",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 21,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "The Industrial policy closely related to the trade Policy which aimed at replacing imports with domestic production is known as:",
+    options: { a: "Import substitution", b: "Export promotion", c: "Domestic substitution", d: "Export substitution" },
+    correctAnswer: "a",
+    explanation: "Import Substitution Industrialisation (ISI) is a policy aimed at replacing foreign imports with domestic production to promote self-reliance.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 22,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Match List – I with List – II.\nList – I: (A) Income Method, (B) Expenditure Method, (C) Real GDP, (D) Nominal GDP\nList – II: (I) Calculated at current prices, (II) Calculated at constant prices, (III) Aggregate of final expenditures, (IV) Aggregate of factor incomes",
+    options: {
+      a: "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+      b: "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)",
+      c: "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+      d: "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    },
+    correctAnswer: "c",
+    explanation: "Income Method = Aggregate of factor incomes; Expenditure Method = Aggregate of final expenditures; Real GDP = Constant prices; Nominal GDP = Current prices.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 23,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Arrange the following statements relating to open market operations in the correct sequence.\n(A) Thereby resulting in an increase in money supply.\n(B) Central bank pays for it by giving a cheque.\n(C) Central bank buys a government bond in the open market.\n(D) This increases the total amount of reserves in the economy.",
+    options: {
+      a: "(A), (B), (C), (D)",
+      b: "(B), (A), (C), (D)",
+      c: "(D), (C), (B), (A)",
+      d: "(C), (B), (D), (A)"
+    },
+    correctAnswer: "d",
+    explanation: "Sequence: Central bank buys bond (C) → Pays by cheque (B) → Reserves increase (D) → Money supply increases (A).",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 24,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "The book 'General Theory of Employment, Interest and Money' has been written by the distinguished economist:",
+    options: { a: "Adam Smith", b: "J.M. Keynes", c: "A.C. Pigou", d: "David Ricardo" },
+    correctAnswer: "b",
+    explanation: "J.M. Keynes authored 'The General Theory of Employment, Interest and Money' in 1936, which revolutionized macroeconomic theory.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 25,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "What needs to be subtracted from gross fiscal deficit to get gross primary deficit?",
+    options: { a: "Revenue Expenditure", b: "Net Interest Liabilities", c: "Recovery of Loans", d: "Non-tax Revenue" },
+    correctAnswer: "b",
+    explanation: "Gross Primary Deficit = Gross Fiscal Deficit − Net Interest Liabilities. Subtracting interest payments gives the primary deficit, showing the deficit before interest obligations.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 26,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Investment in education, health, migration and information are the sources of:",
+    options: { a: "Physical capital formation", b: "Human capital formation", c: "Economic growth", d: "Productivity" },
+    correctAnswer: "b",
+    explanation: "Investment in education, health, migration, and on-the-job training are the key sources of human capital formation.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 27,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Arrange the sequence of events relating to establishment of equilibrium in the economy.\n(A) This will cause unintended decumulation of inventories.\n(B) This process continues till ex-ante aggregate demand becomes equal to ex-ante aggregate supply.\n(C) The producers will respond by increasing output.\n(D) If ex-ante demand for final goods by firms and households is greater than the output the producers plan to produce in a given year.\n(E) When output increases, both employment and income rise.",
+    options: {
+      a: "(A), (C), (B), (E), (D)",
+      b: "(D), (A), (C), (E), (B)",
+      c: "(A), (E), (C), (B), (D)",
+      d: "(D), (C), (B), (E), (A)"
+    },
+    correctAnswer: "b",
+    explanation: "Excess demand (D) → Unintended inventory fall (A) → Producers increase output (C) → Employment and income rise (E) → Process continues till AD = AS (B).",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 28,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Given AD = C + I + CY, change in autonomous consumption will lead to:\n(A) Change in equilibrium level of income.\n(B) Change in aggregate demand.\n(C) Change in Investment.\n(D) Change in aggregate demand and no change in equilibrium level of income.\n(E) Change in marginal propensity to consume.",
+    options: {
+      a: "(D) Only",
+      b: "(A) and (B) Only",
+      c: "(C) and (D) Only",
+      d: "(B) and (E) Only"
+    },
+    correctAnswer: "b",
+    explanation: "A change in autonomous consumption shifts the AD curve (B), which in turn changes the equilibrium income level (A). It does not affect MPC or investment directly.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 29,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "RBI can influence money supply by changing the Bank rate. An increase in Bank rate can be termed as:",
+    options: {
+      a: "Contractionary monetary policy",
+      b: "Expansionary monetary policy",
+      c: "Contractionary fiscal policy",
+      d: "Expansionary fiscal policy"
+    },
+    correctAnswer: "a",
+    explanation: "When RBI increases the Bank rate, borrowing becomes costlier for commercial banks, reducing credit and money supply — this is a contractionary monetary policy.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 30,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Investment in education turns human resources into _________.",
+    options: { a: "Human Development", b: "Human Capital", c: "Human Capital Formation", d: "Physical Capital" },
+    correctAnswer: "b",
+    explanation: "Investment in education enhances skills, knowledge, and productivity of individuals, transforming human resources into Human Capital.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 31,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Some Scholars question the usefulness of India being a member of the _________ organization as a major volume of international trade occurs among the developed nations. Identify the organization.",
+    options: { a: "World Trade Organisation", b: "United Nations", c: "International Monetary Fund", d: "World Bank" },
+    correctAnswer: "a",
+    explanation: "Some scholars argue that India's membership in WTO benefits developed nations more since bulk of international trade occurs among them, limiting gains for developing countries.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 32,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "If Trade Deficit is ₹ 2000 crores and imports is worth ₹ 4000 crore, then the value of exports will be:",
+    options: { a: "Zero", b: "₹ 4000 crore", c: "₹ 2000 crore", d: "₹ 6000 crore" },
+    correctAnswer: "c",
+    explanation: "Trade Deficit = Imports − Exports → 2000 = 4000 − Exports → Exports = ₹ 2000 crore.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 33,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Which of the following is not included in the strategy of sustainable development?",
+    options: { a: "Wind energy", b: "Solar energy", c: "Bio compost", d: "Land degradation" },
+    correctAnswer: "d",
+    explanation: "Land degradation is a problem caused by unsustainable practices, not a strategy for sustainable development. Wind energy, solar energy, and bio compost are sustainable strategies.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 34,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Revenue Receipts in the government budget include:\n(A) Government Borrowings.\n(B) Tax Revenue.\n(C) Interest receipts on loans by government.\n(D) Dividends earned by government on its investment.",
+    options: {
+      a: "(A), (B), (C) and (D) Only",
+      b: "(B), (C) and (D) Only",
+      c: "(C) and (D) Only",
+      d: "(A) and (D) Only"
+    },
+    correctAnswer: "b",
+    explanation: "Revenue Receipts include Tax Revenue (B), interest receipts (C), and dividends (D). Government borrowings are Capital Receipts as they create a liability.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 35,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "'Swarn Jayanti Shahri Rozgar Yojana' aims at creating ________ opportunities in urban areas.",
+    options: { a: "Livelihood", b: "Housing", c: "Pension", d: "Self employment" },
+    correctAnswer: "d",
+    explanation: "The Swarna Jayanti Shahri Rozgar Yojana (SJSRY) was launched to create self-employment and wage employment opportunities for urban poor.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 36,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "One kind of deficit in the annual Budget will have to be financed through borrowings. It indicates the total borrowing requirements of the government from all sources. It is known as:",
+    options: { a: "Money deficit", b: "Fiscal deficit", c: "Macro deficit", d: "Micro deficit" },
+    correctAnswer: "b",
+    explanation: "Fiscal Deficit = Total Expenditure − Total Revenue Receipts (excluding borrowings). It represents the total borrowing requirement of the government.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 37,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "When Cash Reserve Ratio is 20% then with the deposit of ₹ 1000, Money creation will be ₹ 5000. Money multiplier is:",
+    options: { a: "0.5", b: "0.05", c: "5", d: "1/5" },
+    correctAnswer: "c",
+    explanation: "Money Multiplier = 1/CRR = 1/0.20 = 5. Total money created = ₹ 1000 × 5 = ₹ 5000.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 38,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Receipts of the Government that are non-redeemable and cannot be reclaimed from the Government, are under which type of revenues of Government?",
+    options: { a: "Capital Receipts", b: "Tax Revenue", c: "Revenue Receipts", d: "Non-tax Revenue" },
+    correctAnswer: "c",
+    explanation: "Revenue Receipts are non-redeemable and create no liability for the government. Tax revenue is a subset of revenue receipts. (Note: Official key considers both B and C as correct.)",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 39,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "If the value of nominal GDP is ₹ 5500 and of real GDP is ₹ 2200, what is the value of GDP Deflator?",
+    options: { a: "0.4", b: "2.50", c: "1.75", d: "2.25" },
+    correctAnswer: "b",
+    explanation: "GDP Deflator = (Nominal GDP / Real GDP) × 100 = (5500 / 2200) = 2.50.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 40,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "National Income can also be called:",
+    options: {
+      a: "Net National Product at Market Price",
+      b: "Gross National Product at Factor Cost",
+      c: "Net National Product at Factor Cost",
+      d: "Gross National Product at Market Price"
+    },
+    correctAnswer: "c",
+    explanation: "National Income = NNP at Factor Cost (NNPFC). It is calculated by deducting depreciation from GNP and adjusting for net indirect taxes.",
+    marked: false,
+    userAnswer: null
+  },
+
+  // ─── Case Study: Q41–45 ───────────────────────────────────────────────────────
+  {
+    id: 41,
+    section: "CUET Economics 2023 (Shift 3)",
+    caseStudy: "A consumer is a rational individual who knows what is good and bad for him/her. So, he always tries to achieve the best to get maximum satisfaction. Thus, the consumer chooses the set of bundles as per his preference which is best for him. The consumer always prefers to move to a point on the highest possible indifference curve given on the budget set. The slope of the budget line is the rate at which the consumer is able to substitute one good for the other in the market.",
+    text: "The indifference curve is:",
+    options: { a: "Positive", b: "Upward", c: "Concave", d: "Convex" },
+    correctAnswer: "d",
+    explanation: "An indifference curve is convex to the origin, reflecting the law of diminishing marginal rate of substitution — as more of one good is consumed, the consumer is willing to give up less of the other.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 42,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "All the points on an Indifference curve represent:",
+    options: {
+      a: "The same price",
+      b: "Bundles which are considered indifferent by the consumer",
+      c: "Straight line",
+      d: "Bundles which are considered same by the consumer"
+    },
+    correctAnswer: "b",
+    explanation: "Every point on an indifference curve represents a different combination of two goods, all of which give the consumer the same level of satisfaction (utility).",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 43,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "A rational consumer is the one who has:",
+    options: { a: "Many sets of bundles", b: "Monotonic preference", c: "With high budget", d: "Not ready to substitute one good for the other" },
+    correctAnswer: "b",
+    explanation: "A rational consumer has monotonic preferences — more of a good is always preferred to less. This reflects the assumption of non-satiation in consumer theory.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 44,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "Which is an example of substitute good?",
+    options: { a: "Pen and ink", b: "Car and petrol", c: "Tea and Coffee", d: "Shoes and socks" },
+    correctAnswer: "c",
+    explanation: "Tea and Coffee are substitute goods — they satisfy the same need. When the price of one rises, demand for the other increases.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 45,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "If the budget line is tangent to an indifference curve at a point, absolute value of the MRS and the Budget line are _______ at that point.",
+    options: { a: "More", b: "High", c: "Less", d: "Same" },
+    correctAnswer: "d",
+    explanation: "At consumer equilibrium (tangency point), the MRS (slope of indifference curve) equals the price ratio (slope of budget line). Hence they are equal/same.",
+    marked: false,
+    userAnswer: null
+  },
+
+  // ─── Case Study: Q46–50 ───────────────────────────────────────────────────────
+  {
+    id: 46,
+    section: "CUET Economics 2023 (Shift 3)",
+    caseStudy: "The Chipko Movement aimed at protecting forests in the Himalayas. In Karnataka, a similar movement took a different name, 'Appiko', which means to hug. On 8 September 1983, when the felling of trees was started in Salkani forest in Sirsi district, 160 men, women and children hugged the trees and forced the woodcutters to leave. They kept vigil in the forest over the next six weeks. Only after the forest official assured the volunteers that the trees will be cut scientifically and in accordance with the working plan of the district, did they leave the trees.\n\nWhen commercial felling by contractors damaged a large number of natural forests, the idea of hugging the trees gave the people hope and confidence that they can protect the forests. On this particular incident, with the felling discontinued, the people saved 12,000 trees. Within months, this movement spread to many adjoining districts.\n\nIndiscriminate felling of trees for fuel wood and for industrial use has led to many environmental problems. Twelve years after setting up of a paper mill in Uttar Kanara area, bamboo has been wiped out from that area. Broad-leaved trees which protected the soil from the direct onslaught of rain have been removed, the soil washed away, and bare laterite soil left behind. Now nothing grows but a weed. This movement highlighted the vital connection between forests, soil health, and the livelihoods of local communities. It emphasized that forests are not merely economic resources but are indispensable for ecological balance, water conservation, and biodiversity. The success of the Appiko movement inspired similar grassroots conservation efforts across India and demonstrated that sustainable development requires active participation and awareness among local communities.",
+    text: "The Appiko movement in Karnataka was similar to which other well-known environmental movement?",
+    options: { a: "Non-Cooperation Movement", b: "Chipko Movement", c: "Green Revolution", d: "Save the Tiger Movement" },
+    correctAnswer: "b",
+    explanation: "The Appiko movement of Karnataka was inspired by and similar to the Chipko movement of the Himalayas — both involved people physically hugging trees to prevent their felling.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 47,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "What does the word 'Appiko' mean?",
+    options: { a: "To save", b: "To plant", c: "To hug", d: "To protect" },
+    correctAnswer: "c",
+    explanation: "'Appiko' is a Kannada word meaning 'to hug'. The movement was named so because participants embraced trees to prevent them from being felled.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 48,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "How many trees were saved during the Salkani forest incident in Sirsi district?",
+    options: { a: "1,200", b: "12,000", c: "120", d: "1,20,000" },
+    correctAnswer: "b",
+    explanation: "According to the passage, with the felling discontinued due to the Appiko movement, the people of Sirsi district saved 12,000 trees in the Salkani forest.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 49,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "What was the environmental consequence of setting up a paper mill in Uttar Kanara area?",
+    options: {
+      a: "Economic development and new employment in the region",
+      b: "Bamboo was completely wiped out from the area",
+      c: "Forest cover increased due to plantation drives",
+      d: "New species of trees grew in the region"
+    },
+    correctAnswer: "b",
+    explanation: "As stated in the passage, twelve years after the paper mill was set up in Uttar Kanara, bamboo was entirely wiped out from the area due to indiscriminate felling.",
+    marked: false,
+    userAnswer: null
+  },
+  {
+    id: 50,
+    section: "CUET Economics 2023 (Shift 3)",
+    text: "The Appiko movement primarily highlights the importance of:",
+    options: {
+      a: "Industrial development and commercial use of forests",
+      b: "Government-led top-down conservation policies",
+      c: "People's active participation in environmental conservation",
+      d: "Banning all forms of tree cutting permanently"
+    },
+    correctAnswer: "c",
+    explanation: "The Appiko movement demonstrates that grassroots participation by local communities — ordinary men, women, and children — is essential for sustainable environmental conservation.",
+    marked: false,
+    userAnswer: null
+  }
+],
+    duration: 60 * 60,
+    markingScheme: { correct: 5, incorrect: -1 }
+};
+
+/* ============================================================
+   CORE TEST ENGINE
+   ============================================================ */
+const timerElement = document.querySelector('.timer');
+const questionTextElement = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const questionNumberElement = document.getElementById('q-number');
+const currentQNumberElement = document.getElementById('current-q-number');
+const progressBar = document.getElementById('test-progress');
+const progressPercent = document.getElementById('progress-percent');
+const questionPaletteGrid = document.getElementById('question-palette-grid');
+const answeredCountElement = document.getElementById('answered-count');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const markBtn = document.getElementById('mark-btn');
+const submitTestBtn = document.getElementById('submit-test-btn');
+const resultsModal = document.getElementById('results-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const correctAnswersElement = document.getElementById('correct-answers');
+const incorrectAnswersElement = document.getElementById('incorrect-answers');
+const unansweredElement = document.getElementById('unanswered');
+const totalScoreElement = document.getElementById('total-score');
+const percentageElement = document.getElementById('percentage');
+const accuracyElement = document.getElementById('accuracy');
+const reviewBtn = document.getElementById('review-btn');
+
+let currentQuestionIndex = 0;
+let timeLeft = mockTest.duration;
+let timer;
+let testSubmitted = false;
+let testStarted = false;
+
+function initTest() {
+    // 1. SHUFFLE OPTIONS ONLY (Questions stay 1 to 50)
+    mockTest.questions.forEach(q => {
+        let optionsArray = Object.entries(q.options); 
+        // Randomize the order of the options array
+        optionsArray.sort(() => Math.random() - 0.5); 
+        
+        let newOptions = {};
+        let newCorrectKey = "";
+        
+        optionsArray.forEach(([oldKey, text], index) => {
+            let newKey = String.fromCharCode(97 + index); // assigns new keys: a, b, c, d
+            newOptions[newKey] = text;
+            // Ensure the grade still works by tracking where the correct answer moved
+            if (oldKey === q.correctAnswer) newCorrectKey = newKey;
+        });
+        
+        q.options = newOptions;
+        q.correctAnswer = newCorrectKey;
+    });
+
+    // 2. RENDER TEST
+    renderQuestionPalette();
+    renderQuestion();
+    startTimer();
+    updateProgress();
+    renderLegend(false);
+    
+    prevBtn.addEventListener('click', goToPreviousQuestion);
+    nextBtn.addEventListener('click', goToNextQuestion);
+    markBtn.addEventListener('click', toggleMarkForReview);
+    submitTestBtn.addEventListener('click', confirmSubmit);
+    closeModalBtn.addEventListener('click', closeResultsModal);
+    reviewBtn.addEventListener('click', reviewAnswers);
+    document.getElementById('download-pdf-btn').addEventListener('click', generatePDF);
+}
+
+function renderLegend(reviewMode) {
+    const leg = document.getElementById('palette-legend');
+    if (!leg) return;
+    if (reviewMode) {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#22c55e;"></div><span>Correct</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#ef4444;"></div><span>Wrong</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#3b82f6;"></div><span>Not Answered</span></div>
+        </div>`;
+    } else {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90ee90;"></div><span>Answered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90D5FF;"></div><span>Marked</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#FF474D;"></div><span>Unanswered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #a185de;"></div><span>Current</span></div>
+        </div>`;
+    }
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) { clearInterval(timer); submitTest(); }
+        if (timeLeft === 300) { alert('Only 5 minutes remaining!'); }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const hours = Math.floor(timeLeft / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
+    const seconds = timeLeft % 60;
+    const timeStr = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    timerElement.textContent = timeStr;
+    const mobileTimer = document.querySelector('.mobile-timer-clone');
+    if (mobileTimer) mobileTimer.textContent = timeStr;
+}
+
+function renderQuestion() {
+    const question = mockTest.questions[currentQuestionIndex];
+    document.getElementById('current-section').textContent = question.section;
+    questionTextElement.innerHTML = `
+        <div style="display:inline-block;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:8px;">
+            📘 ${question.section || "General"}
+        </div>
+        ${question.image ? `<div style="margin:10px 0;"><img src="${question.image}" style="max-width:100%;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>` : ""}
+        <div style="margin-top:8px;">${question.text}</div>
+    `;
+    questionNumberElement.textContent = question.id;
+    currentQNumberElement.textContent = question.id;
+    optionsContainer.innerHTML = '';
+
+    for (const [key, value] of Object.entries(question.options)) {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        if (testSubmitted) {
+            if (key === question.correctAnswer) optionDiv.classList.add('correct');
+            else if (key === question.userAnswer && key !== question.correctAnswer) optionDiv.classList.add('incorrect');
+        } else {
+            if (key === question.userAnswer) optionDiv.classList.add('selected');
+        }
+        if (!testSubmitted) {
+            optionDiv.addEventListener('click', () => {
+                optionsContainer.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                optionDiv.classList.add('selected');
+                selectAnswer(key);
+            });
+        }
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'question-option';
+        input.value = key;
+        input.checked = question.userAnswer === key;
+        input.disabled = testSubmitted;
+        const letterDiv = document.createElement('div');
+        letterDiv.className = 'opt-letter';
+        letterDiv.textContent = key.toUpperCase();
+        const textSpan = document.createElement('span');
+        textSpan.className = 'opt-text';
+        textSpan.textContent = value;
+        if (testSubmitted) {
+            if (key === question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'correct-indicator';
+                ind.textContent = ' ✓ Correct Answer';
+                textSpan.appendChild(ind);
+            } else if (key === question.userAnswer && key !== question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'incorrect-indicator';
+                ind.textContent = ' ✗ Your Answer';
+                textSpan.appendChild(ind);
+            }
+        }
+        optionDiv.appendChild(input);
+        optionDiv.appendChild(letterDiv);
+        optionDiv.appendChild(textSpan);
+        optionsContainer.appendChild(optionDiv);
+    }
+
+    if (testSubmitted) {
+        const explanationDiv = document.createElement('div');
+        explanationDiv.style.cssText = "margin-top:15px;padding:12px;border-radius:8px;background:linear-gradient(135deg,#eef2ff,#e0f2ff);border-left:4px solid #6a11cb;font-size:15px;box-shadow:0 4px 12px rgba(0,0,0,0.1);";
+        explanationDiv.innerHTML = `<strong>Explanation:</strong><br>${question.explanation || "No explanation available."}`;
+        optionsContainer.appendChild(explanationDiv);
+    }
+
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    nextBtn.style.visibility = currentQuestionIndex === mockTest.questions.length - 1 ? 'hidden' : 'visible';
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = currentQuestionIndex === mockTest.questions.length - 1;
+    updateQuestionPalette();
+}
+
+function selectAnswer(answer) {
+    mockTest.questions[currentQuestionIndex].userAnswer = answer;
+    updateQuestionPalette();
+    updateProgress();
+}
+
+function toggleMarkForReview() {
+    const question = mockTest.questions[currentQuestionIndex];
+    question.marked = !question.marked;
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    updateQuestionPalette();
+}
+
+function goToPreviousQuestion() {
+    if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+}
+
+function goToNextQuestion() {
+    if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+}
+
+function renderQuestionPalette() {
+    questionPaletteGrid.innerHTML = '';
+    mockTest.questions.forEach((question, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = question.id;
+        btn.addEventListener('click', () => navigateToQuestion(index));
+        questionPaletteGrid.appendChild(btn);
+    });
+    updateQuestionPalette();
+}
+
+function updateQuestionPalette() {
+    const paletteButtons = questionPaletteGrid.querySelectorAll('.palette-btn');
+    paletteButtons.forEach(btn => { btn.className = 'palette-btn'; });
+    mockTest.questions.forEach((question, index) => {
+        const btn = paletteButtons[index];
+        if (testSubmitted) {
+            if (!question.userAnswer) btn.classList.add('review-unanswered');
+            else if (question.userAnswer === question.correctAnswer) btn.classList.add('review-correct');
+            else btn.classList.add('review-wrong');
+        } else {
+            if (question.userAnswer) btn.classList.add('answered');
+            if (question.marked) btn.classList.add('marked');
+        }
+        if (index === currentQuestionIndex) btn.classList.add('current');
+    });
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    answeredCountElement.textContent = `${answeredCount}/${mockTest.questions.length}`;
+}
+
+function navigateToQuestion(index) {
+    currentQuestionIndex = index;
+    renderQuestion();
+}
+
+function updateProgress() {
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    const progress = (answeredCount / mockTest.questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    progressPercent.textContent = `${Math.round(progress)}%`;
+}
+
+function confirmSubmit() {
+    if (confirm('Are you sure you want to submit the test?')) { submitTest(); }
+}
+
+function submitTest() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    clearInterval(timer);
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+
+    const totalQuestions = mockTest.questions.length;
+    const maxScore = totalQuestions * mockTest.markingScheme.correct;
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const percentage = ((totalScore / maxScore) * 100).toFixed(2);
+    const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
+
+    const resultData = {
+    studentId: localStorage.getItem('ts_student_id') || '',
+    name: localStorage.getItem('cbtUserName') || 'Unknown', // Changed from userName
+    subject: SUBJECT_ID,                                   // Changed from subjectId
+    chapter: CHAPTER_ID,                                   // Changed from chapterId
+    date: new Date().toISOString(),
+    score: totalScore,
+    maxScore: maxScore,
+    correct: correct,
+    wrong: incorrect,
+    skipped: unanswered,
+    totalQ: totalQuestions,
+    percentage: parseFloat(percentage),
+    accuracy: parseFloat(accuracy),
+    timeTaken: mockTest.duration - timeLeft
+};
+
+    const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+    localStorage.setItem(storageKey, JSON.stringify(resultData));
+
+    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+    fetch(GS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resultData)
+    }).then(() => {
+        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+    }).catch(err => console.error("Sync failed", err));
+
+    correctAnswersElement.textContent = correct;
+    incorrectAnswersElement.textContent = incorrect;
+    unansweredElement.textContent = unanswered;
+    totalScoreElement.textContent = totalScore;
+    percentageElement.textContent = percentage;
+    accuracyElement.textContent = accuracy;
+    resultsModal.style.display = 'flex';
+    renderQuestion();
+
+    const submitBtn = document.getElementById('submit-test-btn');
+    submitBtn.textContent = '📄 Download PDF';
+    submitBtn.classList.remove('submit-fancy-btn');
+    submitBtn.classList.add('pdf-download-btn');
+    submitBtn.onclick = generatePDF;
+
+    renderLegend(true);
+}
+
+function closeResultsModal() { resultsModal.style.display = 'none'; }
+
+function reviewAnswers() {
+    resultsModal.style.display = 'none';
+    currentQuestionIndex = 0;
+    renderQuestion();
+}
+
+/* Tab switch guard */
+document.addEventListener("visibilitychange", function() {
+    if (!testStarted || testSubmitted) return;
+    updateFocusMode();
+    if (document.hidden) startCountdown('tab');
+    else cancelCountdown();
+});
+
+/* Arrow key navigation */
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+    }
+});
+</script>
+
+<script>
+// Function to start the Mock
+function startMock() {
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+    
+    const inputName = document.getElementById('username-input').value.trim();
+
+    // 1. Validate Name
+    if (!savedName && !inputName) {
+        alert("⚠️ Please enter your name to continue!");
+        document.getElementById('username-input').focus();
+        return;
+    }
+    
+    // Save name if typed manually
+    if (!savedName && inputName) {
+        localStorage.setItem("cbtUserName", inputName);
+    }
+
+    // 2. Validate Student ID (The specific check you asked for)
+    if (!savedSID) {
+        const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+        }
+        return;
+    }
+
+    // 3. If everything is OK, proceed
+    enterFullscreen();
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('instruction-screen').style.display = 'block';
+}
+
+// Update displays when the test actually starts
+document.getElementById('start-test-btn').addEventListener('click', () => {
+    if (!document.getElementById('agree-checkbox').checked) return;
+    
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    const sid = localStorage.getItem("ts_student_id") || "N/A";
+    
+    // Update Desktop Displays
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    if(document.getElementById('display-user-name')) document.getElementById('display-user-name').innerText = name;
+    if(document.getElementById('display-user-sid')) document.getElementById('display-user-sid').innerText = sid;
+    
+    // Update Mobile Displays
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name + " | " + sid;
+});
+
+// Auto-fill and Fetch on Page Load
+window.addEventListener('DOMContentLoaded', () => {
+    // Fetch Name and Student ID from local storage
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+
+    // Set and Lock Name Input
+    if (savedName) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = savedName;
+            // Apply locked styling
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.style.color = '#4f6ef7';
+            inp.style.fontWeight = 'bold';
+            
+            // Force Read-Only (Removes ability to change)
+            inp.setAttribute('readonly', true);
+            
+            // Add a simple verification label (No "Change" link)
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
+                    ✅ Verified Dashboard Profile
+                </div>`
+            );
+        }
+    }
+
+    // Set and Show Student ID
+    if (savedSID) {
+        const sidArea = document.getElementById('sid-display-area');
+        const sidVal = document.getElementById('sid-value');
+        if (sidArea && sidVal) {
+            sidArea.style.display = 'block';
+            sidVal.textContent = savedSID;
+            // Optional: Match the theme color
+            sidArea.style.color = '#4f6ef7';
+        }
+    }
+});
+
+const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
+darkModeToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggles.forEach(btn => {
+            const iconSpan = btn.querySelector('.icon');
+            if (iconSpan) iconSpan.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    });
+});
+</script>
+
+<script>
+const checkbox = document.getElementById('agree-checkbox');
+const startBtn = document.getElementById('start-test-btn');
+
+checkbox.addEventListener('change', () => {
+    startBtn.disabled = !checkbox.checked;
+    startBtn.style.opacity = checkbox.checked ? "1" : "0.6";
+    startBtn.style.cursor = checkbox.checked ? "pointer" : "not-allowed";
+});
+
+startBtn.addEventListener('click', () => {
+    if (!checkbox.checked) { alert("Please accept instructions first!"); return; }
+    document.getElementById('instruction-screen').style.display = 'none';
+    document.getElementById('test-screen').style.display = 'block';
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name;
+    testStarted = true;
+    enterFullscreen();
+    initTest();
+});
+
+function enterFullscreen() {
+    const el = document.documentElement;
+    try {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+        else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    } catch(e) {}
+}
+
+document.addEventListener('fullscreenchange', onFSChange);
+document.addEventListener('webkitfullscreenchange', onFSChange);
+document.addEventListener('mozfullscreenchange', onFSChange);
+document.addEventListener('MSFullscreenChange', onFSChange);
+
+function isInFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+              document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function onFSChange() {
+    if (!testStarted || testSubmitted) return;
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    updateFocusMode();
+    if (!isInFullscreen()) startCountdown('fullscreen');
+    else cancelCountdown();
+}
+
+let countdownTimer = null;
+let countdownSeconds = 0;
+
+function updateFocusMode() {
+    const color = (document.hidden || !isInFullscreen()) ? "#FF474D" : "#90EE90";
+    const text = (document.hidden || !isInFullscreen()) ? "● Disturbed" : "● Focus On";
+    const els = [document.getElementById('focus-laptop'), document.getElementById('focus-mobile')];
+    els.forEach(el => { if(el) { el.style.color = color; el.innerText = text; }});
+}
+
+function startCountdown(reason) {
+    if (!testStarted || testSubmitted) return;
+    if (countdownTimer) return;
+    countdownSeconds = (reason === 'tab') ? 2 : 5;
+    const msg  = (reason === 'tab') ? '⚠️ You switched tabs!' : '⚠️ You exited fullscreen!';
+    const hint = (reason === 'tab') ? 'Switch back to this tab to cancel.' : 'Click the button below to return to fullscreen.';
+    showOverlay(msg, hint, countdownSeconds, reason === 'fullscreen');
+    countdownTimer = setInterval(() => {
+        countdownSeconds--;
+        updateOverlayCount(countdownSeconds);
+        if (countdownSeconds <= 0) { cancelCountdown(); submitTest(); }
+    }, 1000);
+}
+
+function cancelCountdown() {
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    hideOverlay();
+}
+
+function showOverlay(msg, hint, secs, showBtn) {
+    let ov = document.getElementById('security-overlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'security-overlay';
+        ov.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:'Segoe UI',sans-serif;color:#fff;text-align:center;padding:24px;`;
+        document.body.appendChild(ov);
+    }
+    ov.innerHTML = `
+        <div style="font-size:60px;margin-bottom:14px;">🚨</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px;">${msg}</div>
+        <div style="font-size:15px;color:#fbbf24;margin-bottom:20px;">${hint}</div>
+        <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px;">Auto-submitting in</div>
+        <div id="overlay-count" style="font-size:72px;font-weight:900;color:#f87171;line-height:1;">${secs}</div>
+        <div style="font-size:14px;color:#9ca3af;margin-top:4px;">seconds</div>
+        ${showBtn ? `<button onclick="enterFullscreen()" style="margin-top:24px;padding:13px 34px;border-radius:30px;border:none;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,0.5);">🔲 Return to Fullscreen</button>` : ''}`;
+    ov.style.display = 'flex';
+}
+
+function updateOverlayCount(n) {
+    const el = document.getElementById('overlay-count');
+    if (el) el.textContent = n;
+}
+
+function hideOverlay() {
+    const ov = document.getElementById('security-overlay');
+    if (ov) ov.style.display = 'none';
+}
+</script>
+
+<div id="pdf-print-area"></div>
+
+<script>
+function generatePDF() {
+    const name = localStorage.getItem('cbtUserName') || 'Thunder';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const maxScore = mockTest.questions.length * mockTest.markingScheme.correct;
+    const pct = ((totalScore / maxScore) * 100).toFixed(1);
+    const optionLabel = { a:'A', b:'B', c:'C', d:'D' };
+
+    let questionsHTML = '';
+    mockTest.questions.forEach((q, i) => {
+        const isCorrect = q.userAnswer === q.correctAnswer;
+        const isWrong   = q.userAnswer && !isCorrect;
+        const isSkipped = !q.userAnswer;
+        const statusColor = isCorrect ? '#16a34a' : isWrong ? '#dc2626' : '#9ca3af';
+        const statusLabel = isCorrect ? '✓ Correct' : isWrong ? '✗ Wrong' : '— Skipped';
+        const rowBg = isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fafafa';
+        let optionsHTML = '';
+        for (const [key, val] of Object.entries(q.options)) {
+            const isRight = key === q.correctAnswer;
+            const isUser  = key === q.userAnswer;
+            let bg = 'transparent', fw = 'normal', prefix = '';
+            if (isRight) { bg = '#dcfce7'; fw = 'bold'; prefix = '✓ '; }
+            if (isUser && !isRight) { bg = '#fee2e2'; fw = 'bold'; prefix = '✗ '; }
+            optionsHTML += `<div style="display:flex;gap:8px;padding:4px 8px;margin:2px 0;border-radius:4px;background:${bg};font-weight:${fw};font-size:12px;"><span style="min-width:18px;font-weight:700;">${optionLabel[key]}.</span><span>${prefix}${val}</span></div>`;
+        }
+        let yourAnswer = isSkipped
+            ? '<span style="color:#9ca3af;">Not Attempted</span>'
+            : `<span style="color:${isCorrect?'#16a34a':'#dc2626'};font-weight:bold;">${optionLabel[q.userAnswer]}. ${q.options[q.userAnswer]}</span>`;
+        questionsHTML += `
+        <div style="margin-bottom:18px;padding:14px 16px;border-radius:8px;background:${rowBg};border:1px solid #e5e7eb;page-break-inside:avoid;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div style="font-weight:700;font-size:13px;color:#374151;">Q${i+1}. ${q.text}</div>
+                <div style="font-weight:700;font-size:12px;color:${statusColor};white-space:nowrap;margin-left:12px;">${statusLabel}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:8px;">${optionsHTML}</div>
+            <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;margin-top:4px;">
+                <span style="color:#6b7280;">Your answer: </span>${yourAnswer}&nbsp;&nbsp;
+                <span style="color:#6b7280;">Correct answer: </span>
+                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
+            </div>
+        </div>`;
+    });
+
+    const scoreColor = pct >= 60 ? '#16a34a' : pct >= 35 ? '#d97706' : '#dc2626';
+    const html = `<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;color:#111;">
+        <div style="background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:22px;font-weight:800;">⚡ Thunderstudy CBT</div><div style="font-size:13px;opacity:0.85;margin-top:3px;">Result Report — ${CHAPTER_ID.toUpperCase()}</div></div>
+                <div style="text-align:right;font-size:12px;opacity:0.85;"><div>📅 ${dateStr} &nbsp; 🕐 ${timeStr}</div><div style="margin-top:2px;">👤 ${name}</div></div>
+            </div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:16px 24px;border-radius:0 0 10px 10px;margin-bottom:20px;">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SCORE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${totalScore}<span style="font-size:14px;color:#6b7280;">/${maxScore}</span></div></div>
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">PERCENTAGE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${pct}%</div></div>
+                    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#16a34a;">CORRECT</div><div style="font-size:24px;font-weight:800;color:#16a34a;">${correct}</div></div>
+                    <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#dc2626;">WRONG</div><div style="font-size:24px;font-weight:800;color:#dc2626;">${incorrect}</div></div>
+                    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SKIPPED</div><div style="font-size:24px;font-weight:800;color:#6b7280;">${unanswered}</div></div>
+                </div>
+            </div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #6a11cb;">📋 Question-wise Answer Key</div>
+        ${questionsHTML}
+        <div style="text-align:center;margin-top:24px;padding:14px;background:#f1f5f9;border-radius:8px;font-size:12px;color:#6b7280;">Generated by <b>Thunderstudy CBT</b> &nbsp;|&nbsp; t.me/thunderstudy_official &nbsp;|&nbsp; ${dateStr}</div>
+    </div>`;
+
+    const printWin = window.open('', '_blank', 'width=950,height=700,scrollbars=yes');
+    if (!printWin) { alert('Popup blocked! Please allow popups for this site and try again.'); return; }
+    printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Thunderstudy_Result_${name}_${dateStr.replace(/ /g,'-')}</title>
+    <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:#fff;padding:20px;}@media print{body{padding:0;}.no-print{display:none !important;}}.print-btn{display:block;margin:0 auto 20px;padding:12px 36px;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;font-size:16px;font-weight:700;border:none;border-radius:30px;cursor:pointer;}</style>
+    </head><body><button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>${html}</body></html>`);
+    printWin.document.close();
+    printWin.focus();
+}
+
+   // Auto-fill name from dashboard on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('cbtUserName') || 
+                  (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    if (saved) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = saved;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.setAttribute('readonly', true);
+            inp.title = 'Name loaded from Dashboard';
+            // Add a small label below
+            inp.insertAdjacentHTML('afterend', 
+                
+            );
+        }
+    }
+});
+</script>
+
+</body>
+</html>
