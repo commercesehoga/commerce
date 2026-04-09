@@ -1,0 +1,2654 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thunderstudy CBT</title>
+
+<script>
+/* ============================================================
+   ✏️  EDIT ONLY THESE TWO LINES FOR EACH CHAPTER
+   ============================================================ */
+const SUBJECT_ID  = "bst";        // e.g. "bst", "eco", "accounts"
+const CHAPTER_ID  = "bst-andr1";       // e.g. "bst1", "bst2", "eco3"
+/* ============================================================ */
+</script>
+
+<style>
+        :root {
+    --primary-color: #a185de;
+    --secondary-color: #9CC9E6;
+    --correct-color: #90EE90;
+    --incorrect-color: #FF474D;
+    --neutral-color: #607d8b;
+    --light-bg: #f5f5f5;
+    --white: #ffffff;
+    --dark-text: #212121;
+    --light-text: #000000;
+    --dark-bg: #121212;
+    --dark-primary-color: #bb86fc;
+    --dark-secondary-color: #03dac6;
+    --dark-correct-color: #388e3c;
+    --dark-incorrect-color: #cf6679;
+    --dark-neutral-color: #aaaaaa;
+    --dark-light-text: #e0e0e0;
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-light-text);
+}
+
+body.dark-mode p,
+body.dark-mode span:not(.icon),
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label,
+body.dark-mode li {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode a:not(.fancy-btn):not(.footer-btn):not(.button2):not(.join-btn) {
+    color: #bb86fc !important;
+    text-decoration: underline;
+}
+
+body.dark-mode .fancy-btn,
+body.dark-mode .footer-btn,
+body.dark-mode .join-btn,
+body.dark-mode .submit-fancy-btn,
+body.dark-mode .more-btn,
+body.dark-mode .back-btn,
+body.dark-mode .report-btn {
+    color: white !important;
+}
+
+body.dark-mode #prev-btn {
+    color: var(--dark-primary-color) !important;
+    border-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #next-btn {
+    color: #000 !important;
+    background-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #mark-btn {
+    color: var(--dark-secondary-color) !important;
+    border-color: var(--dark-secondary-color) !important;
+}
+
+body.dark-mode #mark-btn.marked {
+    background-color: var(--dark-secondary-color) !important;
+    color: #000 !important;
+}
+
+body.dark-mode #start-test-btn {
+    color: white !important;
+}
+
+body.dark-mode .close-btn {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .stat-card h3 {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .question-number {
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .question-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .progress-text span {
+    color: #aaa !important;
+}
+
+body.dark-mode .palette-title span {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .test-info strong {
+    color: #fff !important;
+}
+
+body.dark-mode .test-info span {
+    color: #ccc !important;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1f1f1f;
+    color: var(--dark-light-text);
+    box-shadow: 2px 0 5px rgba(255,255,255,0.1);
+}
+
+body.dark-mode .sidebar-header h2,
+body.dark-mode .test-header h2,
+body.dark-mode .modal-header h2 {
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .timer {
+    background-color: var(--dark-incorrect-color);
+    color: #fff;
+}
+
+body.dark-mode .question-container {
+    background-color: #242424;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+}
+
+.option:hover {
+    border-color: #378ADD;
+    background: #E6F1FB;
+}
+
+.option.selected {
+    border-color: #185FA5;
+    background: #B5D4F4;
+}
+
+.option.correct {
+    border-color: #388e3c !important;
+    background: rgba(76, 175, 80, 0.15) !important;
+}
+
+.option.incorrect {
+    border-color: #e53935 !important;
+    background: rgba(244, 67, 54, 0.12) !important;
+}
+
+.opt-letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    background: #f5f5f5;
+    color: #555;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.option.selected .opt-letter {
+    background: #185FA5;
+    border-color: #185FA5;
+    color: #fff;
+}
+
+.option.correct .opt-letter {
+    background: #388e3c;
+    border-color: #388e3c;
+    color: #fff;
+}
+
+.option.incorrect .opt-letter {
+    background: #e53935;
+    border-color: #e53935;
+    color: #fff;
+}
+
+.opt-text {
+    font-size: 15px;
+    color: #212121;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.option.selected .opt-text {
+    color: #0C447C;
+    font-weight: 500;
+}
+
+.option.correct .opt-text {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.option.incorrect .opt-text {
+    color: #b71c1c;
+    font-weight: 500;
+}
+
+body.dark-mode .option {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .option:hover {
+    border-color: #378ADD !important;
+    background: #1a2a3a !important;
+}
+
+body.dark-mode .option.selected {
+    border-color: #64b5f6 !important;
+    background: #1a3050 !important;
+}
+
+body.dark-mode .opt-letter {
+    background: #333 !important;
+    border-color: #555 !important;
+    color: #ccc !important;
+}
+
+body.dark-mode .option.selected .opt-letter {
+    background: #185FA5 !important;
+    border-color: #185FA5 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .opt-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .option.selected .opt-text {
+    color: #90caf9 !important;
+}
+
+body.dark-mode .option.correct {
+    border-color: #66bb6a !important;
+    background: rgba(56,142,60,0.2) !important;
+}
+
+body.dark-mode .option.incorrect {
+    border-color: #ef9a9a !important;
+    background: rgba(207, 102, 121, 0.2) !important;
+}
+
+.option input[type="radio"] {
+    display: none;
+}
+
+.correct-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #388e3c;
+    font-size: 13px;
+}
+
+.incorrect-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #e53935;
+    font-size: 13px;
+}
+
+.instruction-box {
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #f3e8ff, #e0f2ff);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    line-height: 1.8;
+}
+
+.instruction-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6a11cb;
+    margin-bottom: 15px;
+    border-left: 5px solid #6a11cb;
+    padding-left: 10px;
+}
+
+.instruction-list {
+    padding-left: 20px;
+}
+
+.instruction-list li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.instruction-list li:hover {
+    transform: translateX(5px);
+    background: #f0f4ff;
+}
+
+.instruction-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.instruction-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #6a11cb;
+}
+
+#start-test-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 6px 15px rgba(101, 41, 255, 0.4);
+    transition: 0.3s;
+}
+
+#start-test-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(101, 41, 255, 0.6);
+}
+
+.sidebar {
+    width: 300px;
+    background-color: var(--white);
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    overflow-y: auto;
+    right: 0;
+    left: auto;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header h2 {
+    color: var(--primary-color);
+}
+
+.test-info {
+    margin-bottom: 20px;
+}
+
+.test-info p {
+    margin: 5px 0;
+    color: var(--light-text);
+}
+
+.question-palette {
+    margin-bottom: 20px;
+}
+
+.palette-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.palette-btn {
+    width: 100%;
+    max-width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: #FF474D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: auto;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.palette-btn:hover {
+    background-color: #EFBF04;
+}
+
+.palette-btn.answered {
+    background-color: #90ee90;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.marked {
+    background-color: #90D5FF;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.current {
+    background-color: #ffffff;
+    border: 2px solid var(--primary-color);
+}
+
+.palette-btn.review-correct {
+    background-color: #22c55e !important;
+    color: #fff !important;
+    border-color: #16a34a !important;
+}
+.palette-btn.review-wrong {
+    background-color: #ef4444 !important;
+    color: #fff !important;
+    border-color: #dc2626 !important;
+}
+.palette-btn.review-unanswered {
+    background-color: #3b82f6 !important;
+    color: #fff !important;
+    border-color: #2563eb !important;
+}
+
+.palette-btn.review-correct.current,
+.palette-btn.review-wrong.current,
+.palette-btn.review-unanswered.current {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+body.dark-mode .palette-btn.review-correct  { background-color: #16a34a !important; border-color: #15803d !important; }
+body.dark-mode .palette-btn.review-wrong    { background-color: #dc2626 !important; border-color: #b91c1c !important; }
+body.dark-mode .palette-btn.review-unanswered { background-color: #2563eb !important; border-color: #1d4ed8 !important; }
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+body.dark-mode .palette-btn {
+    background-color: #FF474D !important;
+    color: var(--dark-primary-color);
+    border: 2px solid var(--dark-primary-color);
+}
+
+body.dark-mode .palette-btn.answered {
+    background-color: #388e3c !important;
+    color: white !important;
+    border-color: #388e3c !important;
+}
+
+body.dark-mode .palette-btn.marked {
+    background-color: #03dac6 !important;
+    color: black !important;
+    border-color: #03dac6 !important;
+}
+
+body.dark-mode .palette-btn.current {
+    background-color: white !important;
+    border: 2px solid var(--dark-primary-color) !important;
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: var(--dark-primary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #a75dfc;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #00c4b4;
+}
+
+body.dark-mode .btn-outline {
+    border-color: var(--dark-primary-color);
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .mark-btn {
+    border-color: var(--dark-secondary-color);
+    color: var(--dark-secondary-color);
+}
+
+body.dark-mode .mark-btn.marked {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn {
+    background-color: var(--dark-correct-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn:hover {
+    background-color: #2a6e2c;
+}
+
+body.dark-mode .modal-content {
+    background-color: #242424;
+    color: var(--dark-light-text);
+}
+
+body.dark-mode .stat-card {
+    background-color: #1e1e1e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 0;
+    margin-right: 300px;
+    padding: 20px;
+}
+
+.test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.timer {
+    background-color: #FF0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #c6e977;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+.question-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.question-number {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.options {
+    margin-left: 0;
+}
+
+.navigation-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: #ffffff;
+}
+
+.mark-btn {
+    margin-left: 10px;
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.mark-btn.marked {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.submit-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background-color: var(--correct-color);
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #388e3c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+    color: var(--primary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--light-text);
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.correct-stat { color: var(--correct-color); }
+.incorrect-stat { color: var(--incorrect-color); }
+.score-stat { color: var(--secondary-color); }
+
+.detailed-results {
+    margin-top: 20px;
+}
+
+.detailed-results h3 {
+    margin-bottom: 10px;
+}
+
+.review-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.button2 {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.button2:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 12px rgba(0, 90, 153, 0.5);
+    color: #fff;
+}
+
+#dark-mode-toggle-bottom:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    box-shadow: 0 6px 20px rgba(101, 41, 255, 0.9);
+}
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    color: #333;
+    box-shadow: 0 4px 15px rgba(255, 210, 0, 0.7);
+}
+
+#test-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    z-index: 9998;
+    display: none;
+    overflow: auto;
+}
+
+#user-name-display {
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.instruction-checkbox input:checked + .custom-check {
+    background: rgba(106,17,203,0.1);
+    box-shadow: 0 0 10px rgba(106,17,203,0.4);
+}
+
+.instruction-checkbox input {
+    display: none;
+}
+
+.custom-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a11cb;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.instruction-checkbox input:checked + .custom-check::after {
+    content: "\2714";
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 16px;
+    color: #6a11cb;
+}
+
+.test-info {
+    text-align: left !important;
+    display: block !important;
+}
+
+.test-info p {
+    text-align: left !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 6px;
+    font-size: 16px !important;
+    margin: 6px 0 !important;
+}
+
+.test-info strong {
+    font-weight: 700 !important;
+    color: #000 !important;
+}
+
+.mobile-top-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .mobile-timer-clone {
+        background-color: #FF0000;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 15px;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    #mobile-name-display {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    #user-name-display { display: none !important; }
+    .sidebar .timer { display: none !important; }
+    .sidebar .sidebar-header { display: none !important; }
+
+    body { display: flex; flex-direction: column; }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        right: 0; left: 0;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
+    .question-palette { max-height: 200px; overflow-y: auto; }
+    .main-content { margin: 0 !important; width: 100%; padding: 10px; }
+
+    .navigation-btns {
+        flex-direction: row !important;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #prev-btn {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+        flex-shrink: 0;
+    }
+
+    #next-btn {
+        padding: 14px 28px !important;
+        font-size: 17px !important;
+        border-radius: 8px !important;
+        flex: 1;
+    }
+
+    .navigation-btns > div {
+        display: flex;
+        flex: 1;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #mark-btn {
+        font-size: 11px !important;
+        padding: 6px 8px !important;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .palette-grid { grid-template-columns: repeat(4, 1fr); }
+    .result-stats { grid-template-columns: 1fr; }
+}
+
+.fancy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.4px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+}
+
+.fancy-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+    border-radius: inherit;
+}
+
+.fancy-btn:hover::after { background: rgba(255,255,255,0.12); }
+.fancy-btn:active { transform: scale(0.96) !important; }
+.fancy-btn:hover { transform: translateY(-3px) scale(1.03); }
+
+.join-btn {
+    background: linear-gradient(135deg, #0088cc, #006699);
+    color: white;
+    box-shadow: 0 5px 18px rgba(0,136,204,0.45);
+}
+.join-btn:hover { box-shadow: 0 8px 24px rgba(0,136,204,0.65); color: white; }
+
+.submit-fancy-btn {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white;
+    box-shadow: 0 5px 18px rgba(34,197,94,0.45);
+    flex: 1;
+    max-width: 280px;
+}
+.submit-fancy-btn:hover { box-shadow: 0 8px 24px rgba(34,197,94,0.65); }
+
+.pdf-download-btn {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white !important;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+}
+.pdf-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(249,115,22,0.6);
+    color: white !important;
+}
+.pdf-download-btn:active { transform: scale(0.97); }
+
+#pdf-print-area { display: none; }
+
+@media print {
+    body > * { display: none !important; }
+    #pdf-print-area {
+        display: block !important;
+        font-family: Arial, sans-serif;
+        color: #111;
+        padding: 20px;
+        margin: 0;
+    }
+}
+
+.footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 0.3px;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, filter 0.18s;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-btn:hover {
+    transform: translateY(-3px) scale(1.06);
+    filter: brightness(1.1);
+    color: white;
+}
+
+.footer-btn:active { transform: scale(0.95); }
+
+.more-btn {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+    box-shadow: 0 4px 14px rgba(168,85,247,0.4);
+}
+.more-btn:hover { box-shadow: 0 7px 20px rgba(168,85,247,0.65); }
+
+.back-btn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 14px rgba(34,197,94,0.4);
+}
+.back-btn:hover { box-shadow: 0 7px 20px rgba(34,197,94,0.65); }
+
+.report-btn {
+    background: linear-gradient(135deg, #f97316, #dc2626);
+    box-shadow: 0 4px 14px rgba(239,68,68,0.4);
+}
+.report-btn:hover { box-shadow: 0 7px 20px rgba(239,68,68,0.65); }
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200) !important;
+    box-shadow: 0 4px 15px rgba(255,210,0,0.6) !important;
+}
+body.dark-mode #dark-mode-toggle-bottom .icon { color: #333 !important; }
+body.dark-mode #dark-mode-toggle-bottom span:not(.icon) { color: #333 !important; }
+
+body.dark-mode #start-screen {
+    background-color: #1a1a2e !important;
+}
+body.dark-mode #start-screen h1 { color: #bb86fc !important; }
+body.dark-mode #start-screen > p { color: #e0e0e0 !important; }
+body.dark-mode #start-screen li { color: #e0e0e0 !important; }
+body.dark-mode #start-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode #start-screen a[href*="t.me"] { color: #bb86fc !important; text-decoration: none !important; }
+body.dark-mode #start-screen strong { color: #fff !important; }
+body.dark-mode #start-screen input[type="text"] {
+    background: #2a2a2a !important;
+    color: #fff !important;
+    border-color: #555 !important;
+}
+
+body.dark-mode #instruction-screen { background: #1a1a2e !important; }
+body.dark-mode #instruction-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode .instruction-box { background: linear-gradient(135deg, #2d1f4e, #1a2a4e) !important; }
+body.dark-mode .instruction-title { color: #bb86fc !important; border-left-color: #bb86fc !important; }
+body.dark-mode .instruction-list li { background: #242424 !important; color: #e0e0e0 !important; }
+body.dark-mode .instruction-list li:hover { background: #2e2e4e !important; }
+body.dark-mode .custom-check { border-color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox input:checked + .custom-check::after { color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox { color: #e0e0e0 !important; }
+
+body.dark-mode #test-screen { background: #121212 !important; }
+
+body.dark-mode .mobile-top-bar {
+    background: #1f1f1f !important;
+    border-color: #333 !important;
+}
+body.dark-mode .mobile-timer-clone {
+    background-color: var(--dark-incorrect-color) !important;
+}
+
+body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- START SCREEN -->
+<div id="start-screen" style="
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: white; z-index: 9999; display: flex;
+    flex-direction: column; justify-content: flex-start; align-items: center;
+    text-align: center; padding: 40px 20px 40px;
+    overflow-y: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+<button id="dark-mode-toggle-bottom" aria-label="Toggle dark mode" title="Toggle dark mode"
+  style="position:absolute; top:18px; right:18px; font-size:22px; padding:8px 18px;
+  border-radius:40px; border:none; cursor:pointer;
+  background:linear-gradient(45deg,#6a11cb,#2575fc); color:white;
+  display:flex; align-items:center; gap:7px;
+  box-shadow:0 4px 15px rgba(101,41,255,0.5);
+  transition:background 0.4s ease, box-shadow 0.4s ease, transform 0.2s;">
+  <span class="icon" style="display:inline-block; transition:transform 0.6s ease;">🌙</span>
+  <span style="font-size:13px; font-weight:600; letter-spacing:0.5px;">Dark</span>
+</button>
+
+<h1 style="color: #a185de; font-size: 32px;" id="page-title">BST A And R Mock 1</h1>
+<p style="font-size: 18px; margin: 10px 0;">Provided by <strong>Thunderstudy</strong></p>
+
+<a href="https://t.me/thunderstudy_official" target="_blank"
+  style="display:inline-flex; align-items:center; gap:8px; margin: 8px 0 14px;
+  background:linear-gradient(135deg,#0088cc,#006699); color:white; text-decoration:none;
+  padding:10px 24px; border-radius:30px; font-size:15px; font-weight:700;
+  box-shadow:0 5px 16px rgba(0,136,204,0.45);
+  transition:transform 0.18s, box-shadow 0.18s;"
+  onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 8px 22px rgba(0,136,204,0.65)'"
+  onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 5px 16px rgba(0,136,204,0.45)'"
+  onmousedown="this.style.transform='scale(0.97)'"
+  onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="flex-shrink:0;">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.607c-.148.666-.543.828-1.098.516l-3.04-2.24-1.467 1.413c-.162.162-.298.298-.611.298l.217-3.083 5.613-5.067c.244-.217-.054-.337-.378-.12L7.08 14.807 4.09 13.89c-.657-.205-.67-.657.137-.973l10.88-4.196c.548-.198 1.027.133.855.973z"/>
+  </svg>
+  @thunderstudy_official
+</a>
+
+<div style="max-width: 560px; text-align: left; margin: 10px auto 18px; background:#f8f4ff; border-radius:12px; padding:18px 22px; border-left:4px solid #a185de;">
+  <h2 style="margin-bottom:12px; color:#6a11cb; font-size:18px;">📋 Quick Overview</h2>
+  <ul style="text-align: left; line-height:2; font-size:15px; padding-left:18px;">
+    <li><strong>50 Questions</strong></li>
+    <li><strong>60 Minutes</strong> total time</li>
+    <li><strong>+5 marks</strong> for correct &nbsp;|&nbsp; <strong>−1 mark</strong> for wrong</li>
+    <li>No penalty for <strong>unanswered</strong> questions</li>
+    <li>Test <strong>auto-submits</strong> when time ends</li>
+    <li>Do <strong>not switch tabs</strong> or exit fullscreen during test</li>
+  </ul>
+</div>
+
+<div style="margin: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <input type="text" id="username-input" placeholder="Enter your name"
+        style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+    
+    <div id="sid-display-area" style="font-size: 13px; font-weight: 700; color: #4f6ef7; background: rgba(79,110,247,0.1); padding: 5px 15px; border-radius: 20px; display: none;">
+        🪪 ID: <span id="sid-value">---</span>
+    </div>
+</div>
+
+<div style="display:flex; flex-direction:column; align-items:center; gap:11px; margin-top:6px;">
+
+  <button onclick="startMock()" style="
+      width:260px; background: linear-gradient(135deg,#6a11cb,#2575fc); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(101,41,255,0.45);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(101,41,255,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(101,41,255,0.45)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    🚀 Start Mock
+  </button>
+
+  <button onclick="window.location.href='https://commercesehoga.github.io/dashboard/'" style="
+      width:260px; background: linear-gradient(135deg,#22c55e,#15803d); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(34,197,94,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(34,197,94,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(34,197,94,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📊 Previous Result
+  </button>
+
+  <button onclick="window.open('https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html','_blank')" style="
+      width:260px; background: linear-gradient(135deg,#a855f7,#7e22ce); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(168,85,247,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(168,85,247,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(168,85,247,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📚 More Mock Tests
+  </button>
+
+</div>
+</div>
+
+<!-- INSTRUCTION SCREEN -->
+<div id="instruction-screen" style="
+position: fixed; top:0; left:0; width:100%; height:100%;
+background:white; z-index:9999; display:none; overflow:auto; padding:30px;">
+
+<h2 style="text-align:center; margin-bottom:20px;">Please read the instructions carefully</h2>
+
+<div class="instruction-box">
+<h3 class="instruction-title">General Instructions</h3>
+<ol class="instruction-list">
+<li>Total duration of test is <strong>60 minutes</strong>. Timer shown in sidebar.</li>
+<li>Test <strong>auto-submits</strong> when the timer reaches zero.</li>
+<li>The test runs in <strong>fullscreen mode</strong>. Exiting fullscreen starts a <strong>5-second countdown</strong> to auto-submit.</li>
+<li><strong>Do not switch tabs</strong>. Switching tabs starts a <strong>2-second countdown</strong> to auto-submit.</li>
+<li>Return to fullscreen or the tab before the countdown ends to continue safely.</li>
+<li>Question palette on the right shows answered, marked, and current status.</li>
+<li>Each correct answer: <strong>+5 marks</strong>. Each wrong answer: <strong>−1 mark</strong>. Unanswered: <strong>0 marks</strong>.</li>
+</ol>
+
+<div style="margin-top:20px;">
+    <strong>Question Status Legend:</strong>
+    <div class="legend" style="margin-top:10px;">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90ee90;"></div>
+            <span>Answered</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90D5FF;"></div>
+            <span>Marked</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="border: 1px solid var(--primary-color); background-color: white;"></div>
+            <span>Current</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FF474D; border: 1px solid #ddd;"></div>
+            <span>Unanswered</span>
+        </div>
+    </div>
+</div>
+
+<label class="instruction-checkbox">
+    <input type="checkbox" id="agree-checkbox">
+    <span class="custom-check"></span>
+    I have read and understood all instructions
+</label>
+
+<br><br>
+
+<button id="start-test-btn" disabled style="
+background:#3f51b5; color:white; padding:12px 24px; border:none;
+border-radius:5px; font-size:18px; cursor:not-allowed; opacity:0.6;">
+Start Test
+</button>
+</div>
+</div>
+
+<!-- TEST SCREEN -->
+<div id="test-screen">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+    <div class="timer">01:00:00</div>
+    <div id="focus-laptop" style="font-size:12px; font-weight:bold; color:green; margin-top:5px;">● Focus On</div>
+</div>
+
+    <div class="test-info">
+      <p><strong>Name:</strong> <span id="display-user-name">Thunder</span></p>
+    <p><strong>Student ID:</strong> <span id="display-user-sid" style="color:var(--acc); font-family:monospace;">---</span></p>
+        <p><strong>Subject:</strong> <span id="subject-label">BST</span></p>
+        <p><strong>Questions:</strong> 50</p>
+        <p><strong>Duration:</strong> 60 minutes</p>
+        <p><strong>Marking:</strong> +5 / -1</p>
+        <p><strong>Chapter:</strong> <span id="current-section">-</span></p>
+    </div>
+
+    <div class="question-palette">
+        <div class="palette-title">
+            <span>Questions</span>
+            <span id="answered-count">0/50</span>
+        </div>
+        <div class="palette-grid" id="question-palette-grid"></div>
+
+        <div id="palette-legend" style="margin-top:12px; font-size:12px;"></div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+<div class="mobile-top-bar">
+    <div class="mobile-timer-clone">01:00:00</div>
+    <div id="focus-mobile" style="font-size:10px; font-weight:bold; color:green;">● Focus On</div>
+    <div id="mobile-name-display">👤 Thunder</div>
+</div>
+
+<div class="test-header">
+  <div id="user-name-display" style="
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color:white; padding:6px 14px; border-radius:20px;
+    font-weight:bold; font-size:14px;">
+👤 Thunder
+</div>
+<h2>Question <span id="current-q-number">1</span>/50</h2>
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress" id="test-progress"></div>
+</div>
+<div class="progress-text">
+<span>Progress &nbsp;</span>
+<span id="progress-percent">0%</span>
+</div>
+</div>
+</div>
+
+<div class="question-container">
+<div class="question-number">Question <span id="q-number">1</span></div>
+<div class="question-text" id="question-text"></div>
+<div class="options" id="options-container"></div>
+<div class="navigation-btns">
+<button class="btn btn-outline" id="prev-btn">&#8592; Previous</button>
+<div>
+<button class="mark-btn" id="mark-btn">Mark for Review</button>
+<button class="btn btn-primary" id="next-btn">Next &#8594;</button>
+</div>
+</div>
+</div>
+
+<div class="submit-section" style="
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; max-width: 620px; margin: 24px auto; gap: 14px; flex-wrap: wrap;">
+
+    <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn join-btn">
+        ⚡ Join Thunder
+    </a>
+
+    <button class="fancy-btn submit-fancy-btn" id="submit-test-btn">
+        ✅ Submit Test
+    </button>
+</div>
+
+<footer style="background: linear-gradient(135deg,#1a1a2e,#16213e); color: #e0e0e0; text-align: center; padding: 22px 16px; margin-top: 10px;">
+   <p style="font-size:13px; color:#aaa; margin-bottom:14px;">© 2025 Thunder. All Rights Reserved.</p>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:14px;">
+    <a href="https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html" target="_blank" class="footer-btn more-btn">
+        📚 More Mock
+    </a>
+    <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-btn back-btn">
+        🌐 Back To Website
+    </a>
+    <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-btn report-btn">
+        🚨 Report Error
+    </a>
+</div>
+</footer>
+
+<!-- Results Modal -->
+<div class="modal" id="results-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Test Results</h2>
+<button class="close-btn" id="close-modal">×</button>
+</div>
+<div class="result-stats">
+<div class="stat-card">
+<h3>Correct Answers</h3>
+<p class="correct-stat" id="correct-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Incorrect Answers</h3>
+<p class="incorrect-stat" id="incorrect-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Unanswered</h3>
+<p class="neutral-stat" id="unanswered">50</p>
+</div>
+<div class="stat-card">
+<h3>Total Score</h3>
+<p class="score-stat" id="total-score">0</p>
+</div>
+</div>
+<div class="detailed-results">
+<h3>Detailed Analysis</h3>
+<p>Percentage: <span id="percentage">0</span>%</p>
+<p>Accuracy: <span id="accuracy">0</span>%</p>
+</div>
+<div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+<button class="btn btn-secondary review-btn" id="review-btn" style="flex:1; margin-top:0;">Review Answers</button>
+<button class="btn pdf-download-btn" id="download-pdf-btn" style="flex:1;">📄 Download PDF</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+  // Disable Right-Click, Copy, and Paste
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        e.preventDefault();
+    }
+});
+function detectDevTools() {
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        alert("Security Breach: DevTools detected. Test will auto-submit.");
+        submitTest();
+    }
+}
+// Check every 1 second during the test
+setInterval(() => { if(testStarted && !testSubmitted) detectDevTools(); }, 1000);
+/* ============================================================
+   MOCK TEST DATA — Edit questions here
+   ============================================================ */
+const mockTest = {
+    title: "BST Mock",
+    questions:[
+  {
+    id: 1,
+    section: "Nature and Significance of Management",
+    text: "Assertion (A): Management is considered a full-fledged profession like medicine or law.<br>Reason (R): Management does not fulfil all the criteria of a profession — there is no compulsory membership of a professional body, and restriction of entry is not strictly enforced.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "NCERT clearly states management is NOT yet a full-fledged profession — it has some features of a profession but not all. Entry is not restricted through a compulsory body. So (A) is FALSE. (R) is TRUE — it correctly explains why management lacks full professional status.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 2,
+    section: "Nature and Significance of Management",
+    text: "Assertion (A): Management is a goal-oriented process.<br>Reason (R): An organisation has a set of goals that are the basic reason for its existence, and management directs the efforts of all individuals towards achieving these common goals.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "Both are true per NCERT. Management is goal-oriented because it directs all efforts towards achieving organisational objectives. (R) directly and correctly explains (A) — the existence of organisational goals and directing people towards them is exactly what makes management goal-oriented.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 3,
+    section: "Nature and Significance of Management",
+    text: "Assertion (A): Management is called a pervasive function because it is required in all types of organisations and at all levels.<br>Reason (R): The nature and scope of management activities differ across levels — top management performs more conceptual functions while lower management performs more technical functions.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "b",
+    explanation: "(A) is TRUE — management is pervasive; it is needed in all organisations at all levels. (R) is also TRUE — management activities do differ across levels. However, (R) explains WHY activities differ, not WHY management is pervasive. Pervasiveness means it is needed everywhere — the reason for that is that all organised activity requires coordination and direction, not that the nature of activities differs.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 4,
+    section: "Nature and Significance of Management",
+    text: "Assertion (A): Management can be called both a science and an art simultaneously.<br>Reason (R): Like science, management has a systematised body of knowledge; like art, it requires personal skill and creativity in applying that knowledge.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "This is a direct NCERT concept. Management has features of both science (systematised knowledge, principles) and art (personalised application, practice, creativity). (R) correctly identifies both dimensions and explains why (A) is true.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 5,
+    section: "Nature and Significance of Management",
+    text: "Assertion (A): Effectiveness and efficiency are both equally important for management and one can be achieved without the other.<br>Reason (R): Effectiveness means doing the right task and achieving goals; efficiency means doing tasks correctly with minimum resources.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT says both are important BUT one without the other is not desirable. An organisation being only efficient (doing things right) but not effective (not achieving goals) is wasteful. Similarly, effective but not efficient leads to high costs. They must go together. (R) is TRUE — this is the correct NCERT distinction between effectiveness and efficiency.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 6,
+    section: "Principles of Management",
+    text: "Assertion (A): Fayol's principles of management are flexible and can be applied according to the need of the situation.<br>Reason (R): Fayol himself stated that principles are not rigid prescriptions but are guides to thinking and action, and managers must use judgment in applying them.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT explicitly states that Fayol's principles are flexible and not absolute — they serve as guidelines, not rigid laws. Managers must apply judgment. (R) correctly explains WHY the principles are flexible — Fayol intended them as guides, not commandments.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 7,
+    section: "Principles of Management",
+    text: "Assertion (A): Under the principle of Division of Work, each person should be assigned as many different tasks as possible to maximise output.<br>Reason (R): Division of work leads to specialisation — when a person repeatedly performs the same task, they become more skilled and efficient.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — Division of Work means dividing work into smaller specialised tasks, each assigned to a specific person. Assigning many different tasks to one person is the OPPOSITE of this principle. (R) is TRUE — specialisation through focused repetition improves skill and efficiency, which is exactly what Division of Work aims to achieve.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 8,
+    section: "Principles of Management",
+    text: "Assertion (A): Unity of Command and Unity of Direction are the same principle stated differently.<br>Reason (R): Unity of Command refers to one employee receiving orders from one superior; Unity of Direction means one head and one plan for a group of activities with the same objective — they operate at different levels.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT clearly distinguishes these. Unity of Command operates at the individual employee level (one boss per employee). Unity of Direction operates at the organisational level (one plan per group of activities). They are different principles addressing different concerns. (R) is TRUE and correctly explains the distinction.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 9,
+    section: "Principles of Management",
+    text: "Assertion (A): Taylor's Scientific Management and Fayol's Administrative Management are contradictory approaches to management.<br>Reason (R): Taylor focused on increasing efficiency at the shop floor level while Fayol's principles were directed at the top management level — both approaches are complementary and together provide a complete view of management.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT explicitly says Taylor and Fayol's contributions are COMPLEMENTARY, not contradictory. (R) is TRUE — Taylor's work was at the operative/shop floor level while Fayol's was at the administrative/top management level, making them complementary.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 10,
+    section: "Principles of Management",
+    text: "Assertion (A): The principle of Esprit de Corps emphasises that management should promote team spirit and unity among employees.<br>Reason (R): 'Union is strength' — a united workforce is more productive than a divided one, and harmony in the organisation reduces unnecessary conflicts.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT uses the phrase 'Union is strength' in explaining Esprit de Corps. Both (A) and (R) are true. (R) correctly explains why team spirit matters — unity leads to strength and harmony, which is the very idea behind this principle.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 11,
+    section: "Principles of Management",
+    text: "Assertion (A): Taylor's Mental Revolution requires only the workers to change their attitude towards management.<br>Reason (R): Mental Revolution requires both workers and management to change their mental attitude from conflict and suspicion to cooperation and mutual trust for the good of all.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT clearly states Mental Revolution requires a change in attitude from BOTH workers AND management. Only demanding change from workers while management remains unchanged would be one-sided and ineffective. (R) is TRUE and correctly captures NCERT's definition.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 12,
+    section: "Principles of Management",
+    text: "Assertion (A): The principle of Equity requires management to be strict and firm with all employees without any kindness.<br>Reason (R): Equity means a combination of kindness and justice — managers should treat employees fairly and with compassion while maintaining necessary discipline.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — Equity does NOT mean strictness without kindness. NCERT defines Equity as 'kindness and justice' — a balance of fair treatment with warmth. Being strict without compassion contradicts this principle. (R) is TRUE and provides the correct NCERT definition.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 13,
+    section: "Planning",
+    text: "Assertion (A): Planning is a primary function of management because all other functions follow from it.<br>Reason (R): Without knowing what is to be done, managers cannot organise resources, staff the organisation, direct employees, or control performance — planning sets the foundation.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT places planning first among all management functions. All other functions — organising, staffing, directing, controlling — are performed within the framework established by planning. (R) correctly explains the logical chain of dependency, making it the right explanation of (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 14,
+    section: "Planning",
+    text: "Assertion (A): Planning always leads to success and eliminates all risks from business decisions.<br>Reason (R): Planning reduces but does not eliminate uncertainty — the future is inherently uncertain and no plan can guarantee perfect outcomes.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT explicitly lists 'planning does not guarantee success' as a limitation. It reduces risk but cannot eliminate it since the future is uncertain. (R) is TRUE — this is exactly what NCERT says about the limitation of planning in a dynamic environment.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 15,
+    section: "Planning",
+    text: "Assertion (A): Planning is a continuous process and does not end after a plan is made.<br>Reason (R): As plans are implemented, new situations arise, environments change, and feedback from controlling requires plans to be revised or new plans to be made — making planning an ongoing activity.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT describes planning as a continuous function. Plans are not made once and forgotten — changing environments and feedback from controlling require constant revision and new plans. (R) correctly explains the mechanism that makes planning continuous.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 16,
+    section: "Planning",
+    text: "Assertion (A): Policies and objectives are the same type of plan in management.<br>Reason (R): Objectives are the end results to be achieved; policies are general guidelines that define the boundary within which decisions are made to achieve those objectives — they are different types of plans with different roles.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — Objectives and Policies are distinct types of plans per NCERT. Objectives define WHAT to achieve; policies define HOW decisions should be made within set boundaries. (R) is TRUE — correctly distinguishes the two per NCERT definitions.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 17,
+    section: "Planning",
+    text: "Assertion (A): Planning leads to rigidity in the organisation and may prevent managers from taking initiative in changing situations.<br>Reason (R): When plans are made in advance and strictly followed, managers may feel restricted from deviating even when new circumstances demand flexibility.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT lists 'planning leads to rigidity' as one of its limitations. Adherence to pre-made plans can stop managers from exercising initiative and adapting to new situations. (R) correctly explains the mechanism — rigid adherence to plans discourages adaptation.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 18,
+    section: "Organising",
+    text: "Assertion (A): Delegation of authority means that the manager who delegates is no longer responsible for the task.<br>Reason (R): Authority can be delegated but responsibility cannot — the delegating manager remains ultimately accountable even after delegating the task to a subordinate.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT clearly states that a manager cannot escape responsibility by delegating. The delegator remains ultimately responsible. (R) is TRUE and is the core NCERT principle: authority is delegable but responsibility is not — the manager remains accountable.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 19,
+    section: "Organising",
+    text: "Assertion (A): Decentralisation is compulsory for all organisations regardless of their size or nature.<br>Reason (R): The need for decentralisation depends on factors like size of organisation, degree of diversification, and the capability of subordinates — it is not universally mandatory.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT does not say decentralisation is compulsory. Small, simple organisations may function well with centralised decision-making. (R) is TRUE — NCERT identifies several factors that determine whether and how much to decentralise.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 20,
+    section: "Organising",
+    text: "Assertion (A): Informal organisation is deliberately created by management to achieve organisational goals.<br>Reason (R): Informal organisation emerges naturally from social interactions among employees and satisfies social needs — it is not planned or structured by management.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — the formal organisation is deliberately created by management. Informal organisation arises spontaneously. (R) is TRUE — NCERT defines informal organisation as one that emerges from natural social interactions, satisfying social and psychological needs of employees.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 21,
+    section: "Organising",
+    text: "Assertion (A): A wider span of management leads to a taller organisational structure with more hierarchical levels.<br>Reason (R): When each manager supervises more subordinates (wider span), fewer management levels are needed — resulting in a flat structure, not a tall one.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — a wider span (more subordinates per manager) = FLAT structure with fewer levels. A NARROW span (fewer subordinates per manager) = TALL structure with more levels. (R) is TRUE — correctly explains the inverse relationship between span of management and number of hierarchical levels.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 22,
+    section: "Staffing",
+    text: "Assertion (A): Staffing is performed only once when an organisation is first established.<br>Reason (R): Staffing is a continuous activity because employees leave, retire, or get promoted, and new positions are created as organisations grow — requiring constant recruitment, selection, and training.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT describes staffing as an ongoing/continuous function. (R) is TRUE — the reasons given (attrition, promotion, growth) explain exactly why staffing must be continuous. This directly matches NCERT's discussion on the nature of staffing.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 23,
+    section: "Staffing",
+    text: "Assertion (A): Internal recruitment is always superior to external recruitment in all situations.<br>Reason (R): Internal recruitment has limitations — it prevents fresh talent from entering, may cause stagnation of ideas, and limits the organisation's ability to bring in new skills not available internally.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT does not say internal recruitment is always superior. Both sources have advantages and limitations. (R) is TRUE — NCERT explicitly lists the limitations of internal recruitment including prevention of fresh ideas and talent stagnation.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 24,
+    section: "Staffing",
+    text: "Assertion (A): Training benefits only the employees and not the organisation.<br>Reason (R): Training improves employee skills, morale, and productivity — which in turn increases output quality, reduces errors, decreases supervision needs, and reduces employee turnover — benefiting the organisation significantly.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT clearly states that training benefits BOTH employees (better skills, career growth) and the organisation (higher productivity, fewer errors, lower turnover). (R) is TRUE — it correctly lists the organisational benefits of training per NCERT.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 25,
+    section: "Staffing",
+    text: "Assertion (A): Selection is the process of identifying and encouraging potential candidates to apply for a job.<br>Reason (R): Recruitment is the process of identifying and encouraging candidates; selection is the process of choosing the most suitable candidate from those recruited through various tests and interviews.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — the description given in (A) is actually the definition of RECRUITMENT, not selection. (R) is TRUE — (R) correctly defines both recruitment and selection per NCERT, and explicitly identifies the error in (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 26,
+    section: "Directing",
+    text: "Assertion (A): Directing is the least important among all functions of management.<br>Reason (R): Without directing, all plans remain on paper — it is directing that initiates action, converts plans into performance, and makes the organisation move towards its goals.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT emphasises directing's central importance. It initiates action and converts plans into performance. (R) is TRUE — NCERT states directing is the function that gets the organisation moving; without it plans are meaningless.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 27,
+    section: "Directing",
+    text: "Assertion (A): Communication is complete when the sender transmits the message.<br>Reason (R): Communication is complete only when the receiver understands the message in the same sense as intended by the sender — feedback confirms that understanding has occurred.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — mere transmission does not complete communication. NCERT says communication is complete when the message is received AND understood in the intended sense. (R) is TRUE — feedback is the mechanism that confirms understanding, making communication truly complete.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 28,
+    section: "Directing",
+    text: "Assertion (A): Financial incentives are the only effective means of motivating employees.<br>Reason (R): Motivation is influenced by both financial incentives (salary, bonus) and non-financial incentives (recognition, job enrichment, status) — higher-order needs require non-financial means.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT discusses both financial AND non-financial incentives. Higher-order needs (esteem, self-actualisation per Maslow) can only be satisfied by non-financial means. (R) is TRUE — correctly identifies both types of incentives and their applicability.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 29,
+    section: "Directing",
+    text: "Assertion (A): Formal communication always follows the scalar chain and is slower than informal communication.<br>Reason (R): Informal communication (grapevine) travels faster than formal channels because it does not follow official hierarchical paths, but it may be incomplete or distorted.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "b",
+    explanation: "Both (A) and (R) are TRUE per NCERT. Formal communication follows official channels (scalar chain) and is slower. Informal communication (grapevine) is faster but may carry distorted information. However, (R) does not explain WHY formal communication is slower — it only describes the grapevine's characteristics. So (R) is not the correct explanation of (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 30,
+    section: "Directing",
+    text: "Assertion (A): A good leader must also be a good manager, and a good manager must always be a good leader.<br>Reason (R): Leadership is a part of management — while all managers should ideally lead, not all leaders are managers; leadership can exist without formal authority.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT does not say all managers are necessarily good leaders or vice versa. Leadership is desirable in managers but not guaranteed. (R) is TRUE — leadership is a subset of management; leaders can exist without formal managerial positions. NCERT distinguishes leadership from management.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 31,
+    section: "Directing",
+    text: "Assertion (A): According to Maslow's theory, lower-order needs must be at least partially satisfied before higher-order needs can motivate an individual.<br>Reason (R): Maslow proposed a hierarchy where needs are arranged in ascending order — once a need is substantially satisfied, it no longer motivates, and the next higher need becomes the motivator.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "Both are TRUE per NCERT's coverage of Maslow's theory. The hierarchical nature of needs — where lower needs motivate first and once satisfied, the next level becomes relevant — is the core of Maslow's theory. (R) correctly explains the mechanism described in (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 32,
+    section: "Controlling",
+    text: "Assertion (A): Controlling is a backward-looking function because it only measures what has already happened.<br>Reason (R): While controlling does measure past performance, it is also forward-looking — the corrective actions taken based on analysis prevent future deviations, making it both retrospective and preventive.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT explicitly says controlling is BOTH backward-looking (measuring past) AND forward-looking (preventing future deviations). Saying it is ONLY backward-looking is incorrect. (R) is TRUE — correctly presents NCERT's dual view of the controlling function.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 33,
+    section: "Controlling",
+    text: "Assertion (A): Planning and controlling are interdependent and inseparable functions of management.<br>Reason (R): Planning sets the standards against which controlling measures performance; the deviations identified through controlling feed back into revising plans — creating a continuous cycle.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT calls planning and controlling 'inseparable twins.' Both are TRUE. (R) correctly explains the interdependence — planning provides the benchmarks for controlling, and controlling's findings lead to revised plans. The circular relationship described in (R) is the correct explanation of (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 34,
+    section: "Controlling",
+    text: "Assertion (A): Every deviation from a standard must be immediately investigated and acted upon by management.<br>Reason (R): Management by Exception means that only significant deviations — those beyond acceptable limits at critical points — should receive managerial attention, while minor deviations can be ignored.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — investigating every single deviation would be impractical and waste managerial time. NCERT's concept of Management by Exception says only SIGNIFICANT deviations at CRITICAL POINTS need attention. (R) is TRUE — correctly defines MBE per NCERT.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 35,
+    section: "Controlling",
+    text: "Assertion (A): Controlling can be effective even without a good planning system.<br>Reason (R): Controlling requires pre-set standards to measure actual performance against — without planned standards, there is no basis for comparison and control becomes meaningless.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT says 'controlling without planning is blind.' Effective control is impossible without standards set through planning. (R) is TRUE — the standards required for control come from planning; without them the first step of the control process cannot be completed.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 36,
+    section: "Business Environment",
+    text: "Assertion (A): Business environment refers to all the internal factors that affect business operations.<br>Reason (R): Business environment consists of all the EXTERNAL forces — economic, social, legal, technological, political — that influence business decisions and are generally beyond a firm's direct control.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — business environment refers to EXTERNAL forces, not internal ones. Internal factors are within management's control and are not part of the 'environment.' (R) is TRUE — NCERT defines business environment as all external forces that are generally beyond the firm's direct control.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 37,
+    section: "Business Environment",
+    text: "Assertion (A): Business environment is dynamic in nature.<br>Reason (R): The environment keeps changing constantly — new technologies emerge, consumer preferences shift, laws change, and economic conditions fluctuate — requiring businesses to continuously adapt.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT identifies 'dynamic nature' as a key feature of business environment. Both (A) and (R) are TRUE. (R) correctly explains WHY the environment is dynamic — the continuous changes in technology, preferences, laws, and economy are exactly what NCERT means by dynamic business environment.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 38,
+    section: "Business Environment",
+    text: "Assertion (A): The features of business environment include interrelatedness — different elements of the environment affect each other.<br>Reason (R): A change in technology may affect the economic environment (productivity), which may change the social environment (employment patterns) — showing that environmental forces do not operate in isolation.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT lists interrelatedness as a feature of business environment. Both are TRUE. (R) gives a precise example of how technological change ripples into economic and social dimensions — correctly explaining what interrelatedness means in practice.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 39,
+    section: "Business Environment",
+    text: "Assertion (A): Liberalisation, Privatisation, and Globalisation (LPG) introduced in 1991 had no impact on the business environment in India.<br>Reason (R): The 1991 reforms fundamentally changed India's business environment — increasing competition, changing consumer expectations, accelerating technology adoption, and integrating India with the global economy.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — the 1991 reforms had a massive impact on Indian business. NCERT devotes significant content to describing these impacts. (R) is TRUE — correctly identifies the wide-ranging changes brought by LPG reforms per NCERT.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 40,
+    section: "Financial Markets",
+    text: "Assertion (A): The primary market and secondary market both help companies raise fresh capital.<br>Reason (R): Only the primary market enables companies to raise fresh capital by issuing new securities directly to investors — in the secondary market, securities are traded between investors and no fresh capital flows to the company.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — only the PRIMARY market raises fresh capital for companies. The secondary market facilitates trading of existing securities between investors; no new money reaches the company. (R) is TRUE — correctly distinguishes the two markets on this critical point per NCERT.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 41,
+    section: "Financial Markets",
+    text: "Assertion (A): SEBI was established to protect the interests of investors in the securities market.<br>Reason (R): SEBI performs three key roles — regulatory (regulating market participants), developmental (promoting market growth), and protective (protecting investors from malpractices like insider trading and price rigging).",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "b",
+    explanation: "(A) is TRUE — investor protection is one of SEBI's primary mandates. (R) is also TRUE — SEBI has regulatory, developmental, and protective functions. However, (R) does not specifically explain WHY SEBI was established (historical context); it explains what SEBI does. The establishment purpose in (A) is partially addressed by the protective role in (R), but (R) goes beyond explaining (A) by listing all three functions.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 42,
+    section: "Financial Markets",
+    text: "Assertion (A): Stock exchanges provide liquidity to investors by enabling them to convert their securities into cash quickly.<br>Reason (R): In the secondary market (stock exchange), investors can easily buy and sell existing securities at prevailing market prices — providing an exit route without waiting for the company to repay.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT identifies 'providing liquidity' as a key function of stock exchanges. Both (A) and (R) are TRUE. (R) correctly explains the mechanism — the ability to sell in the secondary market at market prices provides liquidity, which directly explains why (A) is true.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 43,
+    section: "Marketing",
+    text: "Assertion (A): Marketing and selling refer to the same activity in a business.<br>Reason (R): Selling is only one part of marketing — marketing is broader and includes identifying customer needs, product development, pricing, promotion, distribution, and after-sales service.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT explicitly distinguishes marketing from selling. Marketing is the broader concept; selling is just one component. (R) is TRUE — correctly explains that selling is a subset of marketing, and marketing encompasses many more activities.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 44,
+    section: "Marketing",
+    text: "Assertion (A): Branding always helps a company charge higher prices for its products.<br>Reason (R): A strong brand creates trust, perceived quality, and customer loyalty — enabling the company to command a premium price over unbranded competitors.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "b",
+    explanation: "Both are generally TRUE per NCERT's discussion on branding advantages. A brand does help command premium prices through trust and loyalty (R is true). However, (A) says branding 'ALWAYS' helps charge higher prices — this is an overgeneralisation. NCERT identifies this as an ADVANTAGE of branding, but it depends on brand strength. The word 'always' makes (A) slightly overstated, though the general direction is correct. In standard NCERT-based MCQs, both are accepted as true, making (B) the best answer.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 45,
+    section: "Marketing",
+    text: "Assertion (A): Packaging is merely a protective covering for the product and has no marketing significance.<br>Reason (R): Packaging performs multiple functions — protecting the product, facilitating storage and transportation, promoting the brand, and helping in product differentiation — making it an important marketing tool.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT describes packaging as a significant marketing activity, not merely protective. It promotes the brand and differentiates the product. (R) is TRUE — correctly lists NCERT's multiple functions of packaging, establishing its marketing importance.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 46,
+    section: "Consumer Protection",
+    text: "Assertion (A): A person who receives goods as a gift is not considered a 'consumer' under the Consumer Protection Act, 2019.<br>Reason (R): Under CPA 2019, a 'consumer' is one who buys goods for consideration (payment) — a person receiving goods as a gift has not paid and hence cannot be a consumer.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — a person receiving goods as a gift IS considered a consumer under CPA. The definition includes those who use goods with the permission of the buyer, even if they didn't pay personally. (R) is partially true but incomplete — it correctly states that consideration is needed by the PURCHASER, but users/recipients with permission of the buyer ARE consumers.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 47,
+    section: "Consumer Protection",
+    text: "Assertion (A): The Consumer Protection Act, 2019 covers only goods — not services.<br>Reason (R): CPA 2019 covers both goods AND services — including banking, insurance, education, and medical services — providing protection to consumers of all types of goods and services.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — CPA 2019 covers BOTH goods and services. (R) is TRUE — correctly states that services including banking, insurance, and medical services are covered. The reason directly corrects the false assertion.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 48,
+    section: "Consumer Protection",
+    text: "Assertion (A): Consumer awareness is the responsibility of the government alone.<br>Reason (R): NCERT emphasises that consumer awareness is a shared responsibility — individuals must be aware of their rights, businesses should follow ethical practices, and the government must enforce regulations and run awareness programmes.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — consumer awareness is not solely the government's responsibility. NCERT emphasises that consumers must be 'aware' themselves (hence 'Consumer Awareness') and businesses must act ethically. (R) is TRUE — correctly identifies the multi-stakeholder responsibility per NCERT.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 49,
+    section: "Consumer Protection",
+    text: "Assertion (A): The right to seek redressal means the consumer has the right to a fair settlement of genuine grievances against unfair trade practices or exploitation.<br>Reason (R): Consumers have the right to receive compensation or seek legal remedy against defective goods, deficient services, or unfair trade practices through the consumer dispute redressal commissions.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "Both are TRUE per NCERT. The Right to Seek Redressal includes the right to fair settlement and compensation. (R) correctly explains the mechanism — redressal commissions (District, State, National) provide the legal remedy. (R) is the direct explanation of how (A) is operationalised.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 50,
+    section: "Consumer Protection",
+    text: "Assertion (A): Filing a complaint in consumer court is expensive and time-consuming, so consumers should avoid it.<br>Reason (R): Consumer forums are designed to provide simple, quick, and inexpensive redressal — the process is less formal than civil courts, filing fees are minimal, and consumers can represent themselves without a lawyer.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is false but (R) is true", d: "(A) is true but (R) is false" },
+    correctAnswer: "c",
+    explanation: "(A) is FALSE — NCERT describes consumer forums as simple, quick, and inexpensive alternatives to civil courts. Consumers should USE these forums, not avoid them. (R) is TRUE — correctly describes the accessible nature of consumer dispute redressal per NCERT.",
+    marked: false, userAnswer: null
+  }
+],
+    duration: 60 * 60,
+    markingScheme: { correct: 5, incorrect: -1 }
+};
+
+/* ============================================================
+   CORE TEST ENGINE
+   ============================================================ */
+const timerElement = document.querySelector('.timer');
+const questionTextElement = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const questionNumberElement = document.getElementById('q-number');
+const currentQNumberElement = document.getElementById('current-q-number');
+const progressBar = document.getElementById('test-progress');
+const progressPercent = document.getElementById('progress-percent');
+const questionPaletteGrid = document.getElementById('question-palette-grid');
+const answeredCountElement = document.getElementById('answered-count');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const markBtn = document.getElementById('mark-btn');
+const submitTestBtn = document.getElementById('submit-test-btn');
+const resultsModal = document.getElementById('results-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const correctAnswersElement = document.getElementById('correct-answers');
+const incorrectAnswersElement = document.getElementById('incorrect-answers');
+const unansweredElement = document.getElementById('unanswered');
+const totalScoreElement = document.getElementById('total-score');
+const percentageElement = document.getElementById('percentage');
+const accuracyElement = document.getElementById('accuracy');
+const reviewBtn = document.getElementById('review-btn');
+
+let currentQuestionIndex = 0;
+let timeLeft = mockTest.duration;
+let timer;
+let testSubmitted = false;
+let testStarted = false;
+
+function initTest() {
+    // 1. SHUFFLE OPTIONS ONLY (Questions stay 1 to 50)
+    mockTest.questions.forEach(q => {
+        let optionsArray = Object.entries(q.options); 
+        // Randomize the order of the options array
+        optionsArray.sort(() => Math.random() - 0.5); 
+        
+        let newOptions = {};
+        let newCorrectKey = "";
+        
+        optionsArray.forEach(([oldKey, text], index) => {
+            let newKey = String.fromCharCode(97 + index); // assigns new keys: a, b, c, d
+            newOptions[newKey] = text;
+            // Ensure the grade still works by tracking where the correct answer moved
+            if (oldKey === q.correctAnswer) newCorrectKey = newKey;
+        });
+        
+        q.options = newOptions;
+        q.correctAnswer = newCorrectKey;
+    });
+
+    // 2. RENDER TEST
+    renderQuestionPalette();
+    renderQuestion();
+    startTimer();
+    updateProgress();
+    renderLegend(false);
+    
+    prevBtn.addEventListener('click', goToPreviousQuestion);
+    nextBtn.addEventListener('click', goToNextQuestion);
+    markBtn.addEventListener('click', toggleMarkForReview);
+    submitTestBtn.addEventListener('click', confirmSubmit);
+    closeModalBtn.addEventListener('click', closeResultsModal);
+    reviewBtn.addEventListener('click', reviewAnswers);
+    document.getElementById('download-pdf-btn').addEventListener('click', generatePDF);
+}
+
+function renderLegend(reviewMode) {
+    const leg = document.getElementById('palette-legend');
+    if (!leg) return;
+    if (reviewMode) {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#22c55e;"></div><span>Correct</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#ef4444;"></div><span>Wrong</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#3b82f6;"></div><span>Not Answered</span></div>
+        </div>`;
+    } else {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90ee90;"></div><span>Answered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90D5FF;"></div><span>Marked</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#FF474D;"></div><span>Unanswered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #a185de;"></div><span>Current</span></div>
+        </div>`;
+    }
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) { clearInterval(timer); submitTest(); }
+        if (timeLeft === 300) { alert('Only 5 minutes remaining!'); }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const hours = Math.floor(timeLeft / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
+    const seconds = timeLeft % 60;
+    const timeStr = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    timerElement.textContent = timeStr;
+    const mobileTimer = document.querySelector('.mobile-timer-clone');
+    if (mobileTimer) mobileTimer.textContent = timeStr;
+}
+
+function renderQuestion() {
+    const question = mockTest.questions[currentQuestionIndex];
+    document.getElementById('current-section').textContent = question.section;
+    questionTextElement.innerHTML = `
+        <div style="display:inline-block;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:8px;">
+            📘 ${question.section || "General"}
+        </div>
+        ${question.image ? `<div style="margin:10px 0;"><img src="${question.image}" style="max-width:100%;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>` : ""}
+        <div style="margin-top:8px;">${question.text}</div>
+    `;
+    questionNumberElement.textContent = question.id;
+    currentQNumberElement.textContent = question.id;
+    optionsContainer.innerHTML = '';
+
+    for (const [key, value] of Object.entries(question.options)) {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        if (testSubmitted) {
+            if (key === question.correctAnswer) optionDiv.classList.add('correct');
+            else if (key === question.userAnswer && key !== question.correctAnswer) optionDiv.classList.add('incorrect');
+        } else {
+            if (key === question.userAnswer) optionDiv.classList.add('selected');
+        }
+        if (!testSubmitted) {
+            optionDiv.addEventListener('click', () => {
+                optionsContainer.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                optionDiv.classList.add('selected');
+                selectAnswer(key);
+            });
+        }
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'question-option';
+        input.value = key;
+        input.checked = question.userAnswer === key;
+        input.disabled = testSubmitted;
+        const letterDiv = document.createElement('div');
+        letterDiv.className = 'opt-letter';
+        letterDiv.textContent = key.toUpperCase();
+        const textSpan = document.createElement('span');
+        textSpan.className = 'opt-text';
+        textSpan.textContent = value;
+        if (testSubmitted) {
+            if (key === question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'correct-indicator';
+                ind.textContent = ' ✓ Correct Answer';
+                textSpan.appendChild(ind);
+            } else if (key === question.userAnswer && key !== question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'incorrect-indicator';
+                ind.textContent = ' ✗ Your Answer';
+                textSpan.appendChild(ind);
+            }
+        }
+        optionDiv.appendChild(input);
+        optionDiv.appendChild(letterDiv);
+        optionDiv.appendChild(textSpan);
+        optionsContainer.appendChild(optionDiv);
+    }
+
+    if (testSubmitted) {
+        const explanationDiv = document.createElement('div');
+        explanationDiv.style.cssText = "margin-top:15px;padding:12px;border-radius:8px;background:linear-gradient(135deg,#eef2ff,#e0f2ff);border-left:4px solid #6a11cb;font-size:15px;box-shadow:0 4px 12px rgba(0,0,0,0.1);";
+        explanationDiv.innerHTML = `<strong>Explanation:</strong><br>${question.explanation || "No explanation available."}`;
+        optionsContainer.appendChild(explanationDiv);
+    }
+
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    nextBtn.style.visibility = currentQuestionIndex === mockTest.questions.length - 1 ? 'hidden' : 'visible';
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = currentQuestionIndex === mockTest.questions.length - 1;
+    updateQuestionPalette();
+}
+
+function selectAnswer(answer) {
+    mockTest.questions[currentQuestionIndex].userAnswer = answer;
+    updateQuestionPalette();
+    updateProgress();
+}
+
+function toggleMarkForReview() {
+    const question = mockTest.questions[currentQuestionIndex];
+    question.marked = !question.marked;
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    updateQuestionPalette();
+}
+
+function goToPreviousQuestion() {
+    if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+}
+
+function goToNextQuestion() {
+    if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+}
+
+function renderQuestionPalette() {
+    questionPaletteGrid.innerHTML = '';
+    mockTest.questions.forEach((question, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = question.id;
+        btn.addEventListener('click', () => navigateToQuestion(index));
+        questionPaletteGrid.appendChild(btn);
+    });
+    updateQuestionPalette();
+}
+
+function updateQuestionPalette() {
+    const paletteButtons = questionPaletteGrid.querySelectorAll('.palette-btn');
+    paletteButtons.forEach(btn => { btn.className = 'palette-btn'; });
+    mockTest.questions.forEach((question, index) => {
+        const btn = paletteButtons[index];
+        if (testSubmitted) {
+            if (!question.userAnswer) btn.classList.add('review-unanswered');
+            else if (question.userAnswer === question.correctAnswer) btn.classList.add('review-correct');
+            else btn.classList.add('review-wrong');
+        } else {
+            if (question.userAnswer) btn.classList.add('answered');
+            if (question.marked) btn.classList.add('marked');
+        }
+        if (index === currentQuestionIndex) btn.classList.add('current');
+    });
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    answeredCountElement.textContent = `${answeredCount}/${mockTest.questions.length}`;
+}
+
+function navigateToQuestion(index) {
+    currentQuestionIndex = index;
+    renderQuestion();
+}
+
+function updateProgress() {
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    const progress = (answeredCount / mockTest.questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    progressPercent.textContent = `${Math.round(progress)}%`;
+}
+
+function confirmSubmit() {
+    if (confirm('Are you sure you want to submit the test?')) { submitTest(); }
+}
+
+function submitTest() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    clearInterval(timer);
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+
+    const totalQuestions = mockTest.questions.length;
+    const maxScore = totalQuestions * mockTest.markingScheme.correct;
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const percentage = ((totalScore / maxScore) * 100).toFixed(2);
+    const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
+
+    const resultData = {
+    studentId: localStorage.getItem('ts_student_id') || '',
+    name: localStorage.getItem('cbtUserName') || 'Unknown', // Changed from userName
+    subject: SUBJECT_ID,                                   // Changed from subjectId
+    chapter: CHAPTER_ID,                                   // Changed from chapterId
+    date: new Date().toISOString(),
+    score: totalScore,
+    maxScore: maxScore,
+    correct: correct,
+    wrong: incorrect,
+    skipped: unanswered,
+    totalQ: totalQuestions,
+    percentage: parseFloat(percentage),
+    accuracy: parseFloat(accuracy),
+    timeTaken: mockTest.duration - timeLeft
+};
+
+    const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+    localStorage.setItem(storageKey, JSON.stringify(resultData));
+
+    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+    fetch(GS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resultData)
+    }).then(() => {
+        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+    }).catch(err => console.error("Sync failed", err));
+
+    correctAnswersElement.textContent = correct;
+    incorrectAnswersElement.textContent = incorrect;
+    unansweredElement.textContent = unanswered;
+    totalScoreElement.textContent = totalScore;
+    percentageElement.textContent = percentage;
+    accuracyElement.textContent = accuracy;
+    resultsModal.style.display = 'flex';
+    renderQuestion();
+
+    const submitBtn = document.getElementById('submit-test-btn');
+    submitBtn.textContent = '📄 Download PDF';
+    submitBtn.classList.remove('submit-fancy-btn');
+    submitBtn.classList.add('pdf-download-btn');
+    submitBtn.onclick = generatePDF;
+
+    renderLegend(true);
+}
+
+function closeResultsModal() { resultsModal.style.display = 'none'; }
+
+function reviewAnswers() {
+    resultsModal.style.display = 'none';
+    currentQuestionIndex = 0;
+    renderQuestion();
+}
+
+/* Tab switch guard */
+document.addEventListener("visibilitychange", function() {
+    if (!testStarted || testSubmitted) return;
+    updateFocusMode();
+    if (document.hidden) startCountdown('tab');
+    else cancelCountdown();
+});
+
+/* Arrow key navigation */
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+    }
+});
+</script>
+
+<script>
+// Function to start the Mock
+function startMock() {
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+    
+    const inputName = document.getElementById('username-input').value.trim();
+
+    // 1. Validate Name
+    if (!savedName && !inputName) {
+        alert("⚠️ Please enter your name to continue!");
+        document.getElementById('username-input').focus();
+        return;
+    }
+    
+    // Save name if typed manually
+    if (!savedName && inputName) {
+        localStorage.setItem("cbtUserName", inputName);
+    }
+
+    // 2. Validate Student ID (The specific check you asked for)
+    if (!savedSID) {
+        const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+        }
+        return;
+    }
+
+    // 3. If everything is OK, proceed
+    enterFullscreen();
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('instruction-screen').style.display = 'block';
+}
+
+// Update displays when the test actually starts
+document.getElementById('start-test-btn').addEventListener('click', () => {
+    if (!document.getElementById('agree-checkbox').checked) return;
+    
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    const sid = localStorage.getItem("ts_student_id") || "N/A";
+    
+    // Update Desktop Displays
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    if(document.getElementById('display-user-name')) document.getElementById('display-user-name').innerText = name;
+    if(document.getElementById('display-user-sid')) document.getElementById('display-user-sid').innerText = sid;
+    
+    // Update Mobile Displays
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name + " | " + sid;
+});
+
+// Auto-fill and Fetch on Page Load
+window.addEventListener('DOMContentLoaded', () => {
+    // Fetch Name and Student ID from local storage
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+
+    // Set and Lock Name Input
+    if (savedName) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = savedName;
+            // Apply locked styling
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.style.color = '#4f6ef7';
+            inp.style.fontWeight = 'bold';
+            
+            // Force Read-Only (Removes ability to change)
+            inp.setAttribute('readonly', true);
+            
+            // Add a simple verification label (No "Change" link)
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
+                    ✅ Verified Dashboard Profile
+                </div>`
+            );
+        }
+    }
+
+    // Set and Show Student ID
+    if (savedSID) {
+        const sidArea = document.getElementById('sid-display-area');
+        const sidVal = document.getElementById('sid-value');
+        if (sidArea && sidVal) {
+            sidArea.style.display = 'block';
+            sidVal.textContent = savedSID;
+            // Optional: Match the theme color
+            sidArea.style.color = '#4f6ef7';
+        }
+    }
+});
+
+const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
+darkModeToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggles.forEach(btn => {
+            const iconSpan = btn.querySelector('.icon');
+            if (iconSpan) iconSpan.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    });
+});
+</script>
+
+<script>
+const checkbox = document.getElementById('agree-checkbox');
+const startBtn = document.getElementById('start-test-btn');
+
+checkbox.addEventListener('change', () => {
+    startBtn.disabled = !checkbox.checked;
+    startBtn.style.opacity = checkbox.checked ? "1" : "0.6";
+    startBtn.style.cursor = checkbox.checked ? "pointer" : "not-allowed";
+});
+
+startBtn.addEventListener('click', () => {
+    if (!checkbox.checked) { alert("Please accept instructions first!"); return; }
+    document.getElementById('instruction-screen').style.display = 'none';
+    document.getElementById('test-screen').style.display = 'block';
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name;
+    testStarted = true;
+    enterFullscreen();
+    initTest();
+});
+
+function enterFullscreen() {
+    const el = document.documentElement;
+    try {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+        else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    } catch(e) {}
+}
+
+document.addEventListener('fullscreenchange', onFSChange);
+document.addEventListener('webkitfullscreenchange', onFSChange);
+document.addEventListener('mozfullscreenchange', onFSChange);
+document.addEventListener('MSFullscreenChange', onFSChange);
+
+function isInFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+              document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function onFSChange() {
+    if (!testStarted || testSubmitted) return;
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    updateFocusMode();
+    if (!isInFullscreen()) startCountdown('fullscreen');
+    else cancelCountdown();
+}
+
+let countdownTimer = null;
+let countdownSeconds = 0;
+
+function updateFocusMode() {
+    const color = (document.hidden || !isInFullscreen()) ? "#FF474D" : "#90EE90";
+    const text = (document.hidden || !isInFullscreen()) ? "● Disturbed" : "● Focus On";
+    const els = [document.getElementById('focus-laptop'), document.getElementById('focus-mobile')];
+    els.forEach(el => { if(el) { el.style.color = color; el.innerText = text; }});
+}
+
+function startCountdown(reason) {
+    if (!testStarted || testSubmitted) return;
+    if (countdownTimer) return;
+    countdownSeconds = (reason === 'tab') ? 2 : 5;
+    const msg  = (reason === 'tab') ? '⚠️ You switched tabs!' : '⚠️ You exited fullscreen!';
+    const hint = (reason === 'tab') ? 'Switch back to this tab to cancel.' : 'Click the button below to return to fullscreen.';
+    showOverlay(msg, hint, countdownSeconds, reason === 'fullscreen');
+    countdownTimer = setInterval(() => {
+        countdownSeconds--;
+        updateOverlayCount(countdownSeconds);
+        if (countdownSeconds <= 0) { cancelCountdown(); submitTest(); }
+    }, 1000);
+}
+
+function cancelCountdown() {
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    hideOverlay();
+}
+
+function showOverlay(msg, hint, secs, showBtn) {
+    let ov = document.getElementById('security-overlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'security-overlay';
+        ov.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:'Segoe UI',sans-serif;color:#fff;text-align:center;padding:24px;`;
+        document.body.appendChild(ov);
+    }
+    ov.innerHTML = `
+        <div style="font-size:60px;margin-bottom:14px;">🚨</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px;">${msg}</div>
+        <div style="font-size:15px;color:#fbbf24;margin-bottom:20px;">${hint}</div>
+        <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px;">Auto-submitting in</div>
+        <div id="overlay-count" style="font-size:72px;font-weight:900;color:#f87171;line-height:1;">${secs}</div>
+        <div style="font-size:14px;color:#9ca3af;margin-top:4px;">seconds</div>
+        ${showBtn ? `<button onclick="enterFullscreen()" style="margin-top:24px;padding:13px 34px;border-radius:30px;border:none;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,0.5);">🔲 Return to Fullscreen</button>` : ''}`;
+    ov.style.display = 'flex';
+}
+
+function updateOverlayCount(n) {
+    const el = document.getElementById('overlay-count');
+    if (el) el.textContent = n;
+}
+
+function hideOverlay() {
+    const ov = document.getElementById('security-overlay');
+    if (ov) ov.style.display = 'none';
+}
+</script>
+
+<div id="pdf-print-area"></div>
+
+<script>
+function generatePDF() {
+    const name = localStorage.getItem('cbtUserName') || 'Thunder';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const maxScore = mockTest.questions.length * mockTest.markingScheme.correct;
+    const pct = ((totalScore / maxScore) * 100).toFixed(1);
+    const optionLabel = { a:'A', b:'B', c:'C', d:'D' };
+
+    let questionsHTML = '';
+    mockTest.questions.forEach((q, i) => {
+        const isCorrect = q.userAnswer === q.correctAnswer;
+        const isWrong   = q.userAnswer && !isCorrect;
+        const isSkipped = !q.userAnswer;
+        const statusColor = isCorrect ? '#16a34a' : isWrong ? '#dc2626' : '#9ca3af';
+        const statusLabel = isCorrect ? '✓ Correct' : isWrong ? '✗ Wrong' : '— Skipped';
+        const rowBg = isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fafafa';
+        let optionsHTML = '';
+        for (const [key, val] of Object.entries(q.options)) {
+            const isRight = key === q.correctAnswer;
+            const isUser  = key === q.userAnswer;
+            let bg = 'transparent', fw = 'normal', prefix = '';
+            if (isRight) { bg = '#dcfce7'; fw = 'bold'; prefix = '✓ '; }
+            if (isUser && !isRight) { bg = '#fee2e2'; fw = 'bold'; prefix = '✗ '; }
+            optionsHTML += `<div style="display:flex;gap:8px;padding:4px 8px;margin:2px 0;border-radius:4px;background:${bg};font-weight:${fw};font-size:12px;"><span style="min-width:18px;font-weight:700;">${optionLabel[key]}.</span><span>${prefix}${val}</span></div>`;
+        }
+        let yourAnswer = isSkipped
+            ? '<span style="color:#9ca3af;">Not Attempted</span>'
+            : `<span style="color:${isCorrect?'#16a34a':'#dc2626'};font-weight:bold;">${optionLabel[q.userAnswer]}. ${q.options[q.userAnswer]}</span>`;
+        questionsHTML += `
+        <div style="margin-bottom:18px;padding:14px 16px;border-radius:8px;background:${rowBg};border:1px solid #e5e7eb;page-break-inside:avoid;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div style="font-weight:700;font-size:13px;color:#374151;">Q${i+1}. ${q.text}</div>
+                <div style="font-weight:700;font-size:12px;color:${statusColor};white-space:nowrap;margin-left:12px;">${statusLabel}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:8px;">${optionsHTML}</div>
+            <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;margin-top:4px;">
+                <span style="color:#6b7280;">Your answer: </span>${yourAnswer}&nbsp;&nbsp;
+                <span style="color:#6b7280;">Correct answer: </span>
+                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
+            </div>
+        </div>`;
+    });
+
+    const scoreColor = pct >= 60 ? '#16a34a' : pct >= 35 ? '#d97706' : '#dc2626';
+    const html = `<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;color:#111;">
+        <div style="background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:22px;font-weight:800;">⚡ Thunderstudy CBT</div><div style="font-size:13px;opacity:0.85;margin-top:3px;">Result Report — ${CHAPTER_ID.toUpperCase()}</div></div>
+                <div style="text-align:right;font-size:12px;opacity:0.85;"><div>📅 ${dateStr} &nbsp; 🕐 ${timeStr}</div><div style="margin-top:2px;">👤 ${name}</div></div>
+            </div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:16px 24px;border-radius:0 0 10px 10px;margin-bottom:20px;">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SCORE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${totalScore}<span style="font-size:14px;color:#6b7280;">/${maxScore}</span></div></div>
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">PERCENTAGE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${pct}%</div></div>
+                    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#16a34a;">CORRECT</div><div style="font-size:24px;font-weight:800;color:#16a34a;">${correct}</div></div>
+                    <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#dc2626;">WRONG</div><div style="font-size:24px;font-weight:800;color:#dc2626;">${incorrect}</div></div>
+                    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SKIPPED</div><div style="font-size:24px;font-weight:800;color:#6b7280;">${unanswered}</div></div>
+                </div>
+            </div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #6a11cb;">📋 Question-wise Answer Key</div>
+        ${questionsHTML}
+        <div style="text-align:center;margin-top:24px;padding:14px;background:#f1f5f9;border-radius:8px;font-size:12px;color:#6b7280;">Generated by <b>Thunderstudy CBT</b> &nbsp;|&nbsp; t.me/thunderstudy_official &nbsp;|&nbsp; ${dateStr}</div>
+    </div>`;
+
+    const printWin = window.open('', '_blank', 'width=950,height=700,scrollbars=yes');
+    if (!printWin) { alert('Popup blocked! Please allow popups for this site and try again.'); return; }
+    printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Thunderstudy_Result_${name}_${dateStr.replace(/ /g,'-')}</title>
+    <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:#fff;padding:20px;}@media print{body{padding:0;}.no-print{display:none !important;}}.print-btn{display:block;margin:0 auto 20px;padding:12px 36px;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;font-size:16px;font-weight:700;border:none;border-radius:30px;cursor:pointer;}</style>
+    </head><body><button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>${html}</body></html>`);
+    printWin.document.close();
+    printWin.focus();
+}
+
+   // Auto-fill name from dashboard on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('cbtUserName') || 
+                  (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    if (saved) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = saved;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.setAttribute('readonly', true);
+            inp.title = 'Name loaded from Dashboard';
+            // Add a small label below
+            inp.insertAdjacentHTML('afterend', 
+                
+            );
+        }
+    }
+});
+</script>
+
+</body>
+</html>
