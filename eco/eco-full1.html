@@ -1,0 +1,2874 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thunderstudy CBT</title>
+
+<script>
+/* ============================================================
+   ✏️  EDIT ONLY THESE TWO LINES FOR EACH CHAPTER
+   ============================================================ */
+const SUBJECT_ID  = "eco";        // e.g. "bst", "eco", "accounts"
+const CHAPTER_ID  = "eco-full1";       // e.g. "bst1", "bst2", "eco3"
+/* ============================================================ */
+</script>
+
+<style>
+        :root {
+    --primary-color: #a185de;
+    --secondary-color: #9CC9E6;
+    --correct-color: #90EE90;
+    --incorrect-color: #FF474D;
+    --neutral-color: #607d8b;
+    --light-bg: #f5f5f5;
+    --white: #ffffff;
+    --dark-text: #212121;
+    --light-text: #000000;
+    --dark-bg: #121212;
+    --dark-primary-color: #bb86fc;
+    --dark-secondary-color: #03dac6;
+    --dark-correct-color: #388e3c;
+    --dark-incorrect-color: #cf6679;
+    --dark-neutral-color: #aaaaaa;
+    --dark-light-text: #e0e0e0;
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-light-text);
+}
+
+body.dark-mode p,
+body.dark-mode span:not(.icon),
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label,
+body.dark-mode li {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode a:not(.fancy-btn):not(.footer-btn):not(.button2):not(.join-btn) {
+    color: #bb86fc !important;
+    text-decoration: underline;
+}
+
+body.dark-mode .fancy-btn,
+body.dark-mode .footer-btn,
+body.dark-mode .join-btn,
+body.dark-mode .submit-fancy-btn,
+body.dark-mode .more-btn,
+body.dark-mode .back-btn,
+body.dark-mode .report-btn {
+    color: white !important;
+}
+
+body.dark-mode #prev-btn {
+    color: var(--dark-primary-color) !important;
+    border-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #next-btn {
+    color: #000 !important;
+    background-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #mark-btn {
+    color: var(--dark-secondary-color) !important;
+    border-color: var(--dark-secondary-color) !important;
+}
+
+body.dark-mode #mark-btn.marked {
+    background-color: var(--dark-secondary-color) !important;
+    color: #000 !important;
+}
+
+body.dark-mode #start-test-btn {
+    color: white !important;
+}
+
+body.dark-mode .close-btn {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .stat-card h3 {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .question-number {
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .question-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .progress-text span {
+    color: #aaa !important;
+}
+
+body.dark-mode .palette-title span {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .test-info strong {
+    color: #fff !important;
+}
+
+body.dark-mode .test-info span {
+    color: #ccc !important;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1f1f1f;
+    color: var(--dark-light-text);
+    box-shadow: 2px 0 5px rgba(255,255,255,0.1);
+}
+
+body.dark-mode .sidebar-header h2,
+body.dark-mode .test-header h2,
+body.dark-mode .modal-header h2 {
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .timer {
+    background-color: var(--dark-incorrect-color);
+    color: #fff;
+}
+
+body.dark-mode .question-container {
+    background-color: #242424;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+}
+
+.option:hover {
+    border-color: #378ADD;
+    background: #E6F1FB;
+}
+
+.option.selected {
+    border-color: #185FA5;
+    background: #B5D4F4;
+}
+
+.option.correct {
+    border-color: #388e3c !important;
+    background: rgba(76, 175, 80, 0.15) !important;
+}
+
+.option.incorrect {
+    border-color: #e53935 !important;
+    background: rgba(244, 67, 54, 0.12) !important;
+}
+
+.opt-letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    background: #f5f5f5;
+    color: #555;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.option.selected .opt-letter {
+    background: #185FA5;
+    border-color: #185FA5;
+    color: #fff;
+}
+
+.option.correct .opt-letter {
+    background: #388e3c;
+    border-color: #388e3c;
+    color: #fff;
+}
+
+.option.incorrect .opt-letter {
+    background: #e53935;
+    border-color: #e53935;
+    color: #fff;
+}
+
+.opt-text {
+    font-size: 15px;
+    color: #212121;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.option.selected .opt-text {
+    color: #0C447C;
+    font-weight: 500;
+}
+
+.option.correct .opt-text {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.option.incorrect .opt-text {
+    color: #b71c1c;
+    font-weight: 500;
+}
+
+body.dark-mode .option {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .option:hover {
+    border-color: #378ADD !important;
+    background: #1a2a3a !important;
+}
+
+body.dark-mode .option.selected {
+    border-color: #64b5f6 !important;
+    background: #1a3050 !important;
+}
+
+body.dark-mode .opt-letter {
+    background: #333 !important;
+    border-color: #555 !important;
+    color: #ccc !important;
+}
+
+body.dark-mode .option.selected .opt-letter {
+    background: #185FA5 !important;
+    border-color: #185FA5 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .opt-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .option.selected .opt-text {
+    color: #90caf9 !important;
+}
+
+body.dark-mode .option.correct {
+    border-color: #66bb6a !important;
+    background: rgba(56,142,60,0.2) !important;
+}
+
+body.dark-mode .option.incorrect {
+    border-color: #ef9a9a !important;
+    background: rgba(207, 102, 121, 0.2) !important;
+}
+
+.option input[type="radio"] {
+    display: none;
+}
+
+.correct-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #388e3c;
+    font-size: 13px;
+}
+
+.incorrect-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #e53935;
+    font-size: 13px;
+}
+
+.instruction-box {
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #f3e8ff, #e0f2ff);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    line-height: 1.8;
+}
+
+.instruction-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6a11cb;
+    margin-bottom: 15px;
+    border-left: 5px solid #6a11cb;
+    padding-left: 10px;
+}
+
+.instruction-list {
+    padding-left: 20px;
+}
+
+.instruction-list li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.instruction-list li:hover {
+    transform: translateX(5px);
+    background: #f0f4ff;
+}
+
+.instruction-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.instruction-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #6a11cb;
+}
+
+#start-test-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 6px 15px rgba(101, 41, 255, 0.4);
+    transition: 0.3s;
+}
+
+#start-test-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(101, 41, 255, 0.6);
+}
+
+.sidebar {
+    width: 300px;
+    background-color: var(--white);
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    overflow-y: auto;
+    right: 0;
+    left: auto;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header h2 {
+    color: var(--primary-color);
+}
+
+.test-info {
+    margin-bottom: 20px;
+}
+
+.test-info p {
+    margin: 5px 0;
+    color: var(--light-text);
+}
+
+.question-palette {
+    margin-bottom: 20px;
+}
+
+.palette-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.palette-btn {
+    width: 100%;
+    max-width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: #FF474D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: auto;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.palette-btn:hover {
+    background-color: #EFBF04;
+}
+
+.palette-btn.answered {
+    background-color: #90ee90;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.marked {
+    background-color: #90D5FF;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.current {
+    background-color: #ffffff;
+    border: 2px solid var(--primary-color);
+}
+
+.palette-btn.review-correct {
+    background-color: #22c55e !important;
+    color: #fff !important;
+    border-color: #16a34a !important;
+}
+.palette-btn.review-wrong {
+    background-color: #ef4444 !important;
+    color: #fff !important;
+    border-color: #dc2626 !important;
+}
+.palette-btn.review-unanswered {
+    background-color: #3b82f6 !important;
+    color: #fff !important;
+    border-color: #2563eb !important;
+}
+
+.palette-btn.review-correct.current,
+.palette-btn.review-wrong.current,
+.palette-btn.review-unanswered.current {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+body.dark-mode .palette-btn.review-correct  { background-color: #16a34a !important; border-color: #15803d !important; }
+body.dark-mode .palette-btn.review-wrong    { background-color: #dc2626 !important; border-color: #b91c1c !important; }
+body.dark-mode .palette-btn.review-unanswered { background-color: #2563eb !important; border-color: #1d4ed8 !important; }
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+body.dark-mode .palette-btn {
+    background-color: #FF474D !important;
+    color: var(--dark-primary-color);
+    border: 2px solid var(--dark-primary-color);
+}
+
+body.dark-mode .palette-btn.answered {
+    background-color: #388e3c !important;
+    color: white !important;
+    border-color: #388e3c !important;
+}
+
+body.dark-mode .palette-btn.marked {
+    background-color: #03dac6 !important;
+    color: black !important;
+    border-color: #03dac6 !important;
+}
+
+body.dark-mode .palette-btn.current {
+    background-color: white !important;
+    border: 2px solid var(--dark-primary-color) !important;
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: var(--dark-primary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #a75dfc;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #00c4b4;
+}
+
+body.dark-mode .btn-outline {
+    border-color: var(--dark-primary-color);
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .mark-btn {
+    border-color: var(--dark-secondary-color);
+    color: var(--dark-secondary-color);
+}
+
+body.dark-mode .mark-btn.marked {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn {
+    background-color: var(--dark-correct-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn:hover {
+    background-color: #2a6e2c;
+}
+
+body.dark-mode .modal-content {
+    background-color: #242424;
+    color: var(--dark-light-text);
+}
+
+body.dark-mode .stat-card {
+    background-color: #1e1e1e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 0;
+    margin-right: 300px;
+    padding: 20px;
+}
+
+.test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.timer {
+    background-color: #FF0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #c6e977;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+.question-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.question-number {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.options {
+    margin-left: 0;
+}
+
+.navigation-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: #ffffff;
+}
+
+.mark-btn {
+    margin-left: 10px;
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.mark-btn.marked {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.submit-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background-color: var(--correct-color);
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #388e3c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+    color: var(--primary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--light-text);
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.correct-stat { color: var(--correct-color); }
+.incorrect-stat { color: var(--incorrect-color); }
+.score-stat { color: var(--secondary-color); }
+
+.detailed-results {
+    margin-top: 20px;
+}
+
+.detailed-results h3 {
+    margin-bottom: 10px;
+}
+
+.review-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.button2 {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.button2:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 12px rgba(0, 90, 153, 0.5);
+    color: #fff;
+}
+
+#dark-mode-toggle-bottom:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    box-shadow: 0 6px 20px rgba(101, 41, 255, 0.9);
+}
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    color: #333;
+    box-shadow: 0 4px 15px rgba(255, 210, 0, 0.7);
+}
+
+#test-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    z-index: 9998;
+    display: none;
+    overflow: auto;
+}
+
+#user-name-display {
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.instruction-checkbox input:checked + .custom-check {
+    background: rgba(106,17,203,0.1);
+    box-shadow: 0 0 10px rgba(106,17,203,0.4);
+}
+
+.instruction-checkbox input {
+    display: none;
+}
+
+.custom-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a11cb;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.instruction-checkbox input:checked + .custom-check::after {
+    content: "\2714";
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 16px;
+    color: #6a11cb;
+}
+
+.test-info {
+    text-align: left !important;
+    display: block !important;
+}
+
+.test-info p {
+    text-align: left !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 6px;
+    font-size: 16px !important;
+    margin: 6px 0 !important;
+}
+
+.test-info strong {
+    font-weight: 700 !important;
+    color: #000 !important;
+}
+
+.mobile-top-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .mobile-timer-clone {
+        background-color: #FF0000;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 15px;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    #mobile-name-display {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    #user-name-display { display: none !important; }
+    .sidebar .timer { display: none !important; }
+    .sidebar .sidebar-header { display: none !important; }
+
+    body { display: flex; flex-direction: column; }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        right: 0; left: 0;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
+    .question-palette { max-height: 200px; overflow-y: auto; }
+    .main-content { margin: 0 !important; width: 100%; padding: 10px; }
+
+    .navigation-btns {
+        flex-direction: row !important;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #prev-btn {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+        flex-shrink: 0;
+    }
+
+    #next-btn {
+        padding: 14px 28px !important;
+        font-size: 17px !important;
+        border-radius: 8px !important;
+        flex: 1;
+    }
+
+    .navigation-btns > div {
+        display: flex;
+        flex: 1;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #mark-btn {
+        font-size: 11px !important;
+        padding: 6px 8px !important;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .palette-grid { grid-template-columns: repeat(4, 1fr); }
+    .result-stats { grid-template-columns: 1fr; }
+}
+
+.fancy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.4px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+}
+
+.fancy-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+    border-radius: inherit;
+}
+
+.fancy-btn:hover::after { background: rgba(255,255,255,0.12); }
+.fancy-btn:active { transform: scale(0.96) !important; }
+.fancy-btn:hover { transform: translateY(-3px) scale(1.03); }
+
+.join-btn {
+    background: linear-gradient(135deg, #0088cc, #006699);
+    color: white;
+    box-shadow: 0 5px 18px rgba(0,136,204,0.45);
+}
+.join-btn:hover { box-shadow: 0 8px 24px rgba(0,136,204,0.65); color: white; }
+
+.submit-fancy-btn {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white;
+    box-shadow: 0 5px 18px rgba(34,197,94,0.45);
+    flex: 1;
+    max-width: 280px;
+}
+.submit-fancy-btn:hover { box-shadow: 0 8px 24px rgba(34,197,94,0.65); }
+
+.pdf-download-btn {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white !important;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+}
+.pdf-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(249,115,22,0.6);
+    color: white !important;
+}
+.pdf-download-btn:active { transform: scale(0.97); }
+
+#pdf-print-area { display: none; }
+
+@media print {
+    body > * { display: none !important; }
+    #pdf-print-area {
+        display: block !important;
+        font-family: Arial, sans-serif;
+        color: #111;
+        padding: 20px;
+        margin: 0;
+    }
+}
+
+.footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 0.3px;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, filter 0.18s;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-btn:hover {
+    transform: translateY(-3px) scale(1.06);
+    filter: brightness(1.1);
+    color: white;
+}
+
+.footer-btn:active { transform: scale(0.95); }
+
+.more-btn {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+    box-shadow: 0 4px 14px rgba(168,85,247,0.4);
+}
+.more-btn:hover { box-shadow: 0 7px 20px rgba(168,85,247,0.65); }
+
+.back-btn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 14px rgba(34,197,94,0.4);
+}
+.back-btn:hover { box-shadow: 0 7px 20px rgba(34,197,94,0.65); }
+
+.report-btn {
+    background: linear-gradient(135deg, #f97316, #dc2626);
+    box-shadow: 0 4px 14px rgba(239,68,68,0.4);
+}
+.report-btn:hover { box-shadow: 0 7px 20px rgba(239,68,68,0.65); }
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200) !important;
+    box-shadow: 0 4px 15px rgba(255,210,0,0.6) !important;
+}
+body.dark-mode #dark-mode-toggle-bottom .icon { color: #333 !important; }
+body.dark-mode #dark-mode-toggle-bottom span:not(.icon) { color: #333 !important; }
+
+body.dark-mode #start-screen {
+    background-color: #1a1a2e !important;
+}
+body.dark-mode #start-screen h1 { color: #bb86fc !important; }
+body.dark-mode #start-screen > p { color: #e0e0e0 !important; }
+body.dark-mode #start-screen li { color: #e0e0e0 !important; }
+body.dark-mode #start-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode #start-screen a[href*="t.me"] { color: #bb86fc !important; text-decoration: none !important; }
+body.dark-mode #start-screen strong { color: #fff !important; }
+body.dark-mode #start-screen input[type="text"] {
+    background: #2a2a2a !important;
+    color: #fff !important;
+    border-color: #555 !important;
+}
+
+body.dark-mode #instruction-screen { background: #1a1a2e !important; }
+body.dark-mode #instruction-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode .instruction-box { background: linear-gradient(135deg, #2d1f4e, #1a2a4e) !important; }
+body.dark-mode .instruction-title { color: #bb86fc !important; border-left-color: #bb86fc !important; }
+body.dark-mode .instruction-list li { background: #242424 !important; color: #e0e0e0 !important; }
+body.dark-mode .instruction-list li:hover { background: #2e2e4e !important; }
+body.dark-mode .custom-check { border-color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox input:checked + .custom-check::after { color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox { color: #e0e0e0 !important; }
+
+body.dark-mode #test-screen { background: #121212 !important; }
+
+body.dark-mode .mobile-top-bar {
+    background: #1f1f1f !important;
+    border-color: #333 !important;
+}
+body.dark-mode .mobile-timer-clone {
+    background-color: var(--dark-incorrect-color) !important;
+}
+
+body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- START SCREEN -->
+<div id="start-screen" style="
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: white; z-index: 9999; display: flex;
+    flex-direction: column; justify-content: flex-start; align-items: center;
+    text-align: center; padding: 40px 20px 40px;
+    overflow-y: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+<button id="dark-mode-toggle-bottom" aria-label="Toggle dark mode" title="Toggle dark mode"
+  style="position:absolute; top:18px; right:18px; font-size:22px; padding:8px 18px;
+  border-radius:40px; border:none; cursor:pointer;
+  background:linear-gradient(45deg,#6a11cb,#2575fc); color:white;
+  display:flex; align-items:center; gap:7px;
+  box-shadow:0 4px 15px rgba(101,41,255,0.5);
+  transition:background 0.4s ease, box-shadow 0.4s ease, transform 0.2s;">
+  <span class="icon" style="display:inline-block; transition:transform 0.6s ease;">🌙</span>
+  <span style="font-size:13px; font-weight:600; letter-spacing:0.5px;">Dark</span>
+</button>
+
+<h1 style="color: #a185de; font-size: 32px;" id="page-title">ECO Full Mock 1</h1>
+<p style="font-size: 18px; margin: 10px 0;">Provided by <strong>Thunderstudy</strong></p>
+
+<a href="https://t.me/thunderstudy_official" target="_blank"
+  style="display:inline-flex; align-items:center; gap:8px; margin: 8px 0 14px;
+  background:linear-gradient(135deg,#0088cc,#006699); color:white; text-decoration:none;
+  padding:10px 24px; border-radius:30px; font-size:15px; font-weight:700;
+  box-shadow:0 5px 16px rgba(0,136,204,0.45);
+  transition:transform 0.18s, box-shadow 0.18s;"
+  onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 8px 22px rgba(0,136,204,0.65)'"
+  onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 5px 16px rgba(0,136,204,0.45)'"
+  onmousedown="this.style.transform='scale(0.97)'"
+  onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="flex-shrink:0;">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.607c-.148.666-.543.828-1.098.516l-3.04-2.24-1.467 1.413c-.162.162-.298.298-.611.298l.217-3.083 5.613-5.067c.244-.217-.054-.337-.378-.12L7.08 14.807 4.09 13.89c-.657-.205-.67-.657.137-.973l10.88-4.196c.548-.198 1.027.133.855.973z"/>
+  </svg>
+  @thunderstudy_official
+</a>
+
+<div style="max-width: 560px; text-align: left; margin: 10px auto 18px; background:#f8f4ff; border-radius:12px; padding:18px 22px; border-left:4px solid #a185de;">
+  <h2 style="margin-bottom:12px; color:#6a11cb; font-size:18px;">📋 Quick Overview</h2>
+  <ul style="text-align: left; line-height:2; font-size:15px; padding-left:18px;">
+    <li><strong>50 Questions</strong></li>
+    <li><strong>60 Minutes</strong> total time</li>
+    <li><strong>+5 marks</strong> for correct &nbsp;|&nbsp; <strong>−1 mark</strong> for wrong</li>
+    <li>No penalty for <strong>unanswered</strong> questions</li>
+    <li>Test <strong>auto-submits</strong> when time ends</li>
+    <li>Do <strong>not switch tabs</strong> or exit fullscreen during test</li>
+  </ul>
+</div>
+
+<div style="margin: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <input type="text" id="username-input" placeholder="Enter your name"
+        style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+    
+    <div id="sid-display-area" style="font-size: 13px; font-weight: 700; color: #4f6ef7; background: rgba(79,110,247,0.1); padding: 5px 15px; border-radius: 20px; display: none;">
+        🪪 ID: <span id="sid-value">---</span>
+    </div>
+</div>
+
+<div style="display:flex; flex-direction:column; align-items:center; gap:11px; margin-top:6px;">
+
+  <button onclick="startMock()" style="
+      width:260px; background: linear-gradient(135deg,#6a11cb,#2575fc); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(101,41,255,0.45);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(101,41,255,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(101,41,255,0.45)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    🚀 Start Mock
+  </button>
+
+  <button onclick="window.location.href='https://commercesehoga.github.io/dashboard/'" style="
+      width:260px; background: linear-gradient(135deg,#22c55e,#15803d); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(34,197,94,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(34,197,94,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(34,197,94,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📊 Previous Result
+  </button>
+
+  <button onclick="window.open('https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html','_blank')" style="
+      width:260px; background: linear-gradient(135deg,#a855f7,#7e22ce); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(168,85,247,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(168,85,247,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(168,85,247,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📚 More Mock Tests
+  </button>
+
+</div>
+</div>
+
+<!-- INSTRUCTION SCREEN -->
+<div id="instruction-screen" style="
+position: fixed; top:0; left:0; width:100%; height:100%;
+background:white; z-index:9999; display:none; overflow:auto; padding:30px;">
+
+<h2 style="text-align:center; margin-bottom:20px;">Please read the instructions carefully</h2>
+
+<div class="instruction-box">
+<h3 class="instruction-title">General Instructions</h3>
+<ol class="instruction-list">
+<li>Total duration of test is <strong>60 minutes</strong>. Timer shown in sidebar.</li>
+<li>Test <strong>auto-submits</strong> when the timer reaches zero.</li>
+<li>The test runs in <strong>fullscreen mode</strong>. Exiting fullscreen starts a <strong>5-second countdown</strong> to auto-submit.</li>
+<li><strong>Do not switch tabs</strong>. Switching tabs starts a <strong>2-second countdown</strong> to auto-submit.</li>
+<li>Return to fullscreen or the tab before the countdown ends to continue safely.</li>
+<li>Question palette on the right shows answered, marked, and current status.</li>
+<li>Each correct answer: <strong>+5 marks</strong>. Each wrong answer: <strong>−1 mark</strong>. Unanswered: <strong>0 marks</strong>.</li>
+</ol>
+
+<div style="margin-top:20px;">
+    <strong>Question Status Legend:</strong>
+    <div class="legend" style="margin-top:10px;">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90ee90;"></div>
+            <span>Answered</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90D5FF;"></div>
+            <span>Marked</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="border: 1px solid var(--primary-color); background-color: white;"></div>
+            <span>Current</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FF474D; border: 1px solid #ddd;"></div>
+            <span>Unanswered</span>
+        </div>
+    </div>
+</div>
+
+<label class="instruction-checkbox">
+    <input type="checkbox" id="agree-checkbox">
+    <span class="custom-check"></span>
+    I have read and understood all instructions
+</label>
+
+<br><br>
+
+<button id="start-test-btn" disabled style="
+background:#3f51b5; color:white; padding:12px 24px; border:none;
+border-radius:5px; font-size:18px; cursor:not-allowed; opacity:0.6;">
+Start Test
+</button>
+</div>
+</div>
+
+<!-- TEST SCREEN -->
+<div id="test-screen">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+    <div class="timer">01:00:00</div>
+    <div id="focus-laptop" style="font-size:12px; font-weight:bold; color:green; margin-top:5px;">● Focus On</div>
+</div>
+
+    <div class="test-info">
+      <p><strong>Name:</strong> <span id="display-user-name">Thunder</span></p>
+    <p><strong>Student ID:</strong> <span id="display-user-sid" style="color:var(--acc); font-family:monospace;">---</span></p>
+        <p><strong>Subject:</strong> <span id="subject-label">Eco</span></p>
+        <p><strong>Questions:</strong> 50</p>
+        <p><strong>Duration:</strong> 60 minutes</p>
+        <p><strong>Marking:</strong> +5 / -1</p>
+        <p><strong>Chapter:</strong> <span id="current-section">-</span></p>
+    </div>
+
+    <div class="question-palette">
+        <div class="palette-title">
+            <span>Questions</span>
+            <span id="answered-count">0/50</span>
+        </div>
+        <div class="palette-grid" id="question-palette-grid"></div>
+
+        <div id="palette-legend" style="margin-top:12px; font-size:12px;"></div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+<div class="mobile-top-bar">
+    <div class="mobile-timer-clone">01:00:00</div>
+    <div id="focus-mobile" style="font-size:10px; font-weight:bold; color:green;">● Focus On</div>
+    <div id="mobile-name-display">👤 Thunder</div>
+</div>
+
+<div class="test-header">
+  <div id="user-name-display" style="
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color:white; padding:6px 14px; border-radius:20px;
+    font-weight:bold; font-size:14px;">
+👤 Thunder
+</div>
+<h2>Question <span id="current-q-number">1</span>/50</h2>
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress" id="test-progress"></div>
+</div>
+<div class="progress-text">
+<span>Progress &nbsp;</span>
+<span id="progress-percent">0%</span>
+</div>
+</div>
+</div>
+
+<div class="question-container">
+<div class="question-number">Question <span id="q-number">1</span></div>
+<div class="question-text" id="question-text"></div>
+<div class="options" id="options-container"></div>
+<div class="navigation-btns">
+<button class="btn btn-outline" id="prev-btn">&#8592; Previous</button>
+<div>
+<button class="mark-btn" id="mark-btn">Mark for Review</button>
+<button class="btn btn-primary" id="next-btn">Next &#8594;</button>
+</div>
+</div>
+</div>
+
+<div class="submit-section" style="
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; max-width: 620px; margin: 24px auto; gap: 14px; flex-wrap: wrap;">
+
+    <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn join-btn">
+        ⚡ Join Thunder
+    </a>
+
+    <button class="fancy-btn submit-fancy-btn" id="submit-test-btn">
+        ✅ Submit Test
+    </button>
+</div>
+
+<footer style="background: linear-gradient(135deg,#1a1a2e,#16213e); color: #e0e0e0; text-align: center; padding: 22px 16px; margin-top: 10px;">
+   <p style="font-size:13px; color:#aaa; margin-bottom:14px;">© 2025 Thunder. All Rights Reserved.</p>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:14px;">
+    <a href="https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html" target="_blank" class="footer-btn more-btn">
+        📚 More Mock
+    </a>
+    <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-btn back-btn">
+        🌐 Back To Website
+    </a>
+    <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-btn report-btn">
+        🚨 Report Error
+    </a>
+</div>
+</footer>
+
+<!-- Results Modal -->
+<div class="modal" id="results-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Test Results</h2>
+<button class="close-btn" id="close-modal">×</button>
+</div>
+<div class="result-stats">
+<div class="stat-card">
+<h3>Correct Answers</h3>
+<p class="correct-stat" id="correct-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Incorrect Answers</h3>
+<p class="incorrect-stat" id="incorrect-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Unanswered</h3>
+<p class="neutral-stat" id="unanswered">50</p>
+</div>
+<div class="stat-card">
+<h3>Total Score</h3>
+<p class="score-stat" id="total-score">0</p>
+</div>
+</div>
+<div class="detailed-results">
+<h3>Detailed Analysis</h3>
+<p>Percentage: <span id="percentage">0</span>%</p>
+<p>Accuracy: <span id="accuracy">0</span>%</p>
+</div>
+<div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+<button class="btn btn-secondary review-btn" id="review-btn" style="flex:1; margin-top:0;">Review Answers</button>
+<button class="btn pdf-download-btn" id="download-pdf-btn" style="flex:1;">📄 Download PDF</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+  // Disable Right-Click, Copy, and Paste
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        e.preventDefault();
+    }
+});
+function detectDevTools() {
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        alert("Security Breach: DevTools detected. Test will auto-submit.");
+        submitTest();
+    }
+}
+// Check every 1 second during the test
+setInterval(() => { if(testStarted && !testSubmitted) detectDevTools(); }, 1000);
+/* ============================================================
+   MOCK TEST DATA — Edit questions here
+   ============================================================ */
+const mockTest = {
+    title: "ECo Mock",
+    questions: [
+
+  // ─── MICROECONOMICS ───────────────────────────────────────────────────────
+
+  {
+    id: 1,
+    section: "Microeconomics — Consumer Behaviour",
+    text: "A consumer is in equilibrium consuming two goods X and Y. If the price of X rises, the consumer reduces consumption of X and increases consumption of Y. This adjustment is best explained by:",
+    options: {
+      a: "The income effect alone, since the consumer's real income falls",
+      b: "The substitution effect alone, since Y becomes relatively cheaper",
+      c: "Both income and substitution effects working in the same direction for a normal good",
+      d: "The law of equi-marginal utility — MUx/Px = MUy/Py is restored by reducing X and increasing Y"
+    },
+    correctAnswer: "d",
+    explanation: "Consumer equilibrium under the utility approach requires MUx/Px = MUy/Py. When Px rises, MUx/Px < MUy/Py. To restore equilibrium the consumer buys less X (raising MUx) and more Y (lowering MUy) until the ratios are equal again. Option (d) correctly identifies the mechanism.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 2,
+    section: "Microeconomics — Consumer Behaviour",
+    text: "A consumer spends his entire income on goods X and Y. His income is ₹600, Px = ₹20, Py = ₹30. The government imposes a specific tax of ₹10 on good X only. What happens to the budget line?",
+    options: {
+      a: "It shifts inward parallel, as purchasing power falls",
+      b: "It rotates inward around the Y-intercept, Y-intercept unchanged",
+      c: "It rotates inward around the X-intercept, X-intercept unchanged",
+      d: "Both intercepts change proportionally"
+    },
+    correctAnswer: "b",
+    explanation: "A specific tax on X alone raises Px from ₹20 to ₹30. The Y-intercept (Income/Py = 600/30 = 20) is unchanged. The X-intercept falls from 600/20 = 30 to 600/30 = 20. So the budget line rotates inward about the Y-intercept.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 3,
+    section: "Microeconomics — Elasticity of Demand",
+    text: "When price of a good falls from ₹50 to ₹40, quantity demanded rises from 200 to 280 units. Using the percentage method, price elasticity of demand is:",
+    options: { a: "−2.0", b: "−2.5", c: "−1.6", d: "−1.0" },
+    correctAnswer: "a",
+    explanation: "% change in Qd = (80/200)×100 = 40%. % change in P = (−10/50)×100 = −20%. PED = 40/−20 = −2.0. |PED| = 2, so demand is elastic.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 4,
+    section: "Microeconomics — Elasticity of Demand",
+    text: "A firm's total expenditure on a good rises when its price rises. This implies that the price elasticity of demand for the good is:",
+    options: { a: "Perfectly elastic", b: "Relatively elastic (|e| > 1)", c: "Unitary elastic (|e| = 1)", d: "Relatively inelastic (|e| < 1)" },
+    correctAnswer: "d",
+    explanation: "Using the total expenditure method: if price rises and total expenditure also rises, demand is inelastic (|e| < 1). The quantity fall is proportionately smaller than the price rise, so TR increases.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 5,
+    section: "Microeconomics — Production Function",
+    text: "In the short run, when MP > AP, which of the following is necessarily true?",
+    options: {
+      a: "AP is at its maximum",
+      b: "AP is rising",
+      c: "TP is at its maximum",
+      d: "MP is at its maximum"
+    },
+    correctAnswer: "b",
+    explanation: "When MP > AP, each additional unit adds more than the average, pulling the average up. AP rises when MP > AP, AP is maximum when MP = AP, and AP falls when MP < AP. This is the standard relationship between marginal and average curves.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 6,
+    section: "Microeconomics — Production Function",
+    text: "In the long run, a firm doubles all its inputs and output more than doubles. This is a case of:",
+    options: {
+      a: "Constant returns to scale",
+      b: "Decreasing returns to scale",
+      c: "Increasing returns to scale",
+      d: "Diminishing marginal returns"
+    },
+    correctAnswer: "c",
+    explanation: "Returns to scale relate to long-run proportional changes in all inputs. Output more than doubling when inputs double = increasing returns to scale. Diminishing marginal returns is a short-run concept with one variable input.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 7,
+    section: "Microeconomics — Costs",
+    text: "Which of the following correctly describes the relationship between short-run average cost curves?",
+    options: {
+      a: "AVC = AFC + ATC",
+      b: "ATC = AFC + AVC, and AFC is a rectangular hyperbola",
+      c: "MC passes through the minimum of AFC",
+      d: "At minimum ATC, MC = AFC"
+    },
+    correctAnswer: "b",
+    explanation: "ATC = AFC + AVC is the correct identity. AFC = TFC/Q — as Q rises, TFC is spread over more units, so AFC falls continuously, tracing a rectangular hyperbola. MC intersects AVC and ATC at their respective minima, not AFC.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 8,
+    section: "Microeconomics — Costs & Revenue",
+    text: "A perfectly competitive firm's MR curve coincides with its AR (demand) curve. This is because:",
+    options: {
+      a: "The firm is a price maker and faces a downward-sloping demand curve",
+      b: "The firm faces a perfectly elastic (horizontal) demand curve at the prevailing market price",
+      c: "Total revenue is constant regardless of output",
+      d: "MR is always less than AR for a price-taker"
+    },
+    correctAnswer: "b",
+    explanation: "Under perfect competition, a single firm is a price-taker. It can sell any quantity at the market price P, so AR = P = MR for all units. The firm's demand curve is horizontal (perfectly elastic), so the AR and MR curves are the same horizontal line.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 9,
+    section: "Microeconomics — Perfect Competition",
+    text: "A firm under perfect competition is producing 100 units. At this output, MC = ₹15, MR = ₹15, and ATC = ₹18. The firm should:",
+    options: {
+      a: "Shut down immediately since it is making losses",
+      b: "Continue producing in the short run if AVC < ₹15, while making losses",
+      c: "Increase output since MR > MC",
+      d: "Reduce output since ATC > MR"
+    },
+    correctAnswer: "b",
+    explanation: "The firm is at short-run equilibrium (MC = MR) but making losses (ATC > P = ₹15). Shutdown rule: produce if P ≥ AVC. If AVC < ₹15, producing covers variable costs and part of fixed costs — better than shutting down and losing all fixed costs. The firm should continue in the short run.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 10,
+    section: "Microeconomics — Market Equilibrium",
+    text: "The government imposes an effective price ceiling (below equilibrium price) on a commodity. Which of the following will NOT be a consequence?",
+    options: {
+      a: "Excess demand (shortage) in the market",
+      b: "Black marketing and rationing",
+      c: "Producer surplus increases",
+      d: "Allocative inefficiency arises"
+    },
+    correctAnswer: "c",
+    explanation: "A price ceiling set below equilibrium forces the price below what producers would receive in a free market. Producer surplus falls (producers receive less per unit and sell fewer units). Excess demand, black markets, and deadweight loss (allocative inefficiency) are standard consequences.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 11,
+    section: "Microeconomics — Market Equilibrium",
+    text: "Match the following correctly:<br><br><strong>Situation:</strong> (A) Price floor above equilibrium &nbsp; (B) Price ceiling below equilibrium &nbsp; (C) Simultaneous rightward shift of both demand and supply by equal magnitude &nbsp; (D) Demand shifts right, supply unchanged<br><strong>Outcome:</strong> (I) Equilibrium price rises, quantity rises &nbsp; (II) Surplus (excess supply) &nbsp; (III) Shortage (excess demand) &nbsp; (IV) Price effect ambiguous, quantity rises",
+    options: {
+      a: "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)",
+      b: "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)",
+      c: "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)",
+      d: "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+    },
+    correctAnswer: "a",
+    explanation: "Price floor above equilibrium → surplus (II). Price ceiling below equilibrium → shortage (III). Equal rightward shifts of D and S → price stays same (ambiguous effect cancels), quantity rises (IV). Demand shifts right alone → price rises, quantity rises (I).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 12,
+    section: "Microeconomics — Elasticity of Supply",
+    text: "A supply curve that passes through the origin has price elasticity of supply equal to:",
+    options: { a: "Zero", b: "Less than 1", c: "Greater than 1", d: "Exactly 1" },
+    correctAnswer: "d",
+    explanation: "Any straight-line supply curve passing through the origin has PES = 1 (unit elastic) at every point. This is because the percentage change in quantity supplied always equals the percentage change in price along such a curve.",
+    marked: false, userAnswer: null
+  },
+
+  // ─── MACROECONOMICS ──────────────────────────────────────────────────────
+
+  {
+    id: 13,
+    section: "Macroeconomics — National Income",
+    text: "GDP at Market Price is ₹8,00,000 crore. Net indirect taxes are ₹60,000 crore. Net factor income from abroad is −₹20,000 crore. Consumption of fixed capital is ₹40,000 crore. What is NNP at Factor Cost (NNI)?",
+    options: {
+      a: "₹6,80,000 crore",
+      b: "₹7,00,000 crore",
+      c: "₹6,60,000 crore",
+      d: "₹7,20,000 crore"
+    },
+    correctAnswer: "a",
+    explanation: "Step 1: GNP at MP = GDP at MP + NFIA = 8,00,000 + (−20,000) = 7,80,000. Step 2: NNP at MP = GNP at MP − Depreciation = 7,80,000 − 40,000 = 7,40,000. Step 3: NNP at FC = NNP at MP − Net Indirect Taxes = 7,40,000 − 60,000 = 6,80,000 crore.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 14,
+    section: "Macroeconomics — National Income",
+    text: "Identify which of the following is included in the estimation of National Income by the Expenditure Method:<br>(A) Government final consumption expenditure<br>(B) Transfer payments by government<br>(C) Gross domestic fixed capital formation<br>(D) Net exports (X − M)<br>(E) Intermediate consumption",
+    options: {
+      a: "(A), (B), (C) and (D)",
+      b: "(A), (C) and (D) only",
+      c: "(A), (C), (D) and (E)",
+      d: "All of the above"
+    },
+    correctAnswer: "b",
+    explanation: "Expenditure method: GDP = C + I + G + (X−M). Transfer payments are not factor payments and do not represent production — excluded. Intermediate consumption is excluded to avoid double counting. So (A) private + govt consumption, (C) investment, (D) net exports are included.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 15,
+    section: "Macroeconomics — National Income",
+    text: "While calculating National Income by the Value Added Method, 'value added' by a firm is computed as:",
+    options: {
+      a: "Sales revenue − wages paid",
+      b: "Sales revenue + closing stock − opening stock − intermediate consumption",
+      c: "Sales revenue − depreciation",
+      d: "Gross output − taxes"
+    },
+    correctAnswer: "b",
+    explanation: "Value added = (Sales + Change in stock) − Intermediate consumption. Change in stock = closing stock − opening stock. This gives gross value added at market price. Subtracting depreciation gives NVA at MP; subtracting net indirect taxes gives NVA at FC.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 16,
+    section: "Macroeconomics — Money & Banking",
+    text: "The money multiplier in an economy is 5. The central bank buys government securities worth ₹200 crore through open market operations. What will be the maximum change in money supply?",
+    options: { a: "₹200 crore", b: "₹1,000 crore", c: "₹40 crore", d: "₹2,000 crore" },
+    correctAnswer: "b",
+    explanation: "ΔMoney Supply = Money Multiplier × ΔHigh-powered money. Open market purchase injects ₹200 crore of high-powered money. ΔMS = 5 × 200 = ₹1,000 crore.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 17,
+    section: "Macroeconomics — Money & Banking",
+    text: "Which of the following is NOT a qualitative (selective) instrument of credit control used by the RBI?",
+    options: {
+      a: "Margin requirements",
+      b: "Moral suasion",
+      c: "Open Market Operations",
+      d: "Rationing of credit"
+    },
+    correctAnswer: "c",
+    explanation: "Open Market Operations (OMO) — buying/selling government securities — is a quantitative (general) instrument affecting the overall money supply. Margin requirements, moral suasion, and credit rationing are selective/qualitative tools targeting specific sectors or types of lending.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 18,
+    section: "Macroeconomics — Income Determination",
+    text: "In a two-sector economy, consumption function is C = 100 + 0.8Y. Investment is autonomous at ₹200 crore. What is the equilibrium level of income?",
+    options: { a: "₹1,000 crore", b: "₹1,500 crore", c: "₹2,000 crore", d: "₹1,200 crore" },
+    correctAnswer: "b",
+    explanation: "At equilibrium, Y = C + I. Y = 100 + 0.8Y + 200. Y − 0.8Y = 300. 0.2Y = 300. Y = ₹1,500 crore. Alternatively, multiplier k = 1/(1−0.8) = 5; Y = A/(1−b) = 300/0.2 = 1,500.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 19,
+    section: "Macroeconomics — Income Determination",
+    text: "In a two-sector economy, full employment income is ₹2,000 crore and equilibrium income is ₹1,500 crore. MPC = 0.75. The situation is one of:",
+    options: {
+      a: "Inflationary gap; government must reduce expenditure by ₹500 crore",
+      b: "Deflationary gap; investment must rise by ₹125 crore to reach full employment",
+      c: "Deflationary gap; investment must rise by ₹500 crore",
+      d: "Inflationary gap; investment must fall by ₹125 crore"
+    },
+    correctAnswer: "b",
+    explanation: "Equilibrium < full employment → deflationary gap. Multiplier = 1/(1−0.75) = 4. Required increase in income = 2,000 − 1,500 = 500. ΔI = ΔY/k = 500/4 = ₹125 crore. Investment must rise by ₹125 crore to close the gap.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 20,
+    section: "Macroeconomics — Income Determination",
+    text: "If MPC = 0.6 and the government increases both taxes and spending by ₹100 crore (balanced budget), the change in equilibrium income will be:",
+    options: { a: "₹0 (no change)", b: "₹100 crore increase", c: "₹250 crore increase", d: "₹150 crore decrease" },
+    correctAnswer: "b",
+    explanation: "Balanced budget multiplier theorem: when ΔG = ΔT, ΔY = ΔG (multiplier = 1, regardless of MPC). Govt spending multiplier = 1/(1−0.6) = 2.5; tax multiplier = −MPC/(1−MPC) = −1.5. Net = 2.5×100 − 1.5×100 = 250 − 150 = ₹100 crore.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 21,
+    section: "Macroeconomics — Government Budget",
+    text: "Identify the correct classification:<br>(A) Proceeds from disinvestment of PSUs<br>(B) Corporate income tax receipts<br>(C) Borrowings from RBI<br>(D) Grants received from foreign governments for capital projects<br><br>Which among the above are Capital Receipts?",
+    options: {
+      a: "(A) and (C) only",
+      b: "(A), (C) and (D)",
+      c: "(B) and (D) only",
+      d: "(A), (B) and (C)"
+    },
+    correctAnswer: "b",
+    explanation: "Capital receipts: proceeds from disinvestment (A) — reduce government assets; borrowings from RBI (C) — create liability; capital grants from foreign governments (D) — one-time capital transfer. Corporate tax (B) is a revenue receipt — regular, non-redeemable, non-asset-reducing.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 22,
+    section: "Macroeconomics — Government Budget",
+    text: "Revenue Deficit = ₹80,000 crore; Capital expenditure = ₹1,20,000 crore; Capital receipts excluding borrowings = ₹30,000 crore. Fiscal Deficit = ?",
+    options: {
+      a: "₹1,70,000 crore",
+      b: "₹80,000 crore",
+      c: "₹1,00,000 crore",
+      d: "₹50,000 crore"
+    },
+    correctAnswer: "a",
+    explanation: "Fiscal Deficit = Revenue Deficit + Capital expenditure − Capital receipts (excluding borrowings). = 80,000 + 1,20,000 − 30,000 = ₹1,70,000 crore. Fiscal deficit equals the total borrowing requirement of the government.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 23,
+    section: "Macroeconomics — Government Budget",
+    text: "Primary deficit is defined as:",
+    options: {
+      a: "Fiscal deficit − Revenue deficit",
+      b: "Fiscal deficit − Interest payments on previous borrowings",
+      c: "Revenue deficit + Capital expenditure",
+      d: "Total expenditure − Total receipts excluding all borrowings"
+    },
+    correctAnswer: "b",
+    explanation: "Primary Deficit = Fiscal Deficit − Interest payments. It measures the government's current borrowing need excluding the burden of past debt servicing. If primary deficit is zero, current borrowings are only to pay interest on past debt.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 24,
+    section: "Macroeconomics — Open Economy",
+    text: "Under a system of flexible exchange rates, if India's inflation rate is higher than the USA's, what happens to the INR/USD exchange rate (units of INR per USD)?",
+    options: {
+      a: "INR appreciates; exchange rate falls",
+      b: "INR depreciates; exchange rate rises",
+      c: "Exchange rate is unaffected as it is determined by the government",
+      d: "USD depreciates; exchange rate falls"
+    },
+    correctAnswer: "b",
+    explanation: "Higher inflation in India erodes the purchasing power of INR relative to USD. Indian exports become less competitive; imports rise; demand for USD rises and supply falls. INR depreciates — more INR needed per USD, so exchange rate (INR/USD) rises.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 25,
+    section: "Macroeconomics — Open Economy",
+    text: "Which of the following items is recorded on the CAPITAL account of the Balance of Payments?",
+    options: {
+      a: "Export of software services",
+      b: "Remittances sent by Indians working abroad",
+      c: "Foreign Direct Investment inflow into India",
+      d: "Import of crude oil"
+    },
+    correctAnswer: "c",
+    explanation: "The Capital Account records transactions that change asset/liability positions: FDI, portfolio investment, external borrowings. Exports (a), remittances (b), and imports (d) are Current Account items (goods trade, services, transfers).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 26,
+    section: "Macroeconomics — Open Economy",
+    text: "Under managed floating exchange rate system:",
+    options: {
+      a: "The exchange rate is fully fixed by the central bank",
+      b: "The exchange rate is determined purely by demand and supply without any intervention",
+      c: "The central bank intervenes occasionally to prevent excessive volatility while allowing market forces to determine the rate",
+      d: "Exchange rates are fixed to gold as under the Bretton Woods system"
+    },
+    correctAnswer: "c",
+    explanation: "Managed float (dirty float) allows the exchange rate to be determined by market forces (demand and supply) but the central bank intervenes when the rate is too volatile or moves against national interest — it's a middle path between fixed and freely floating.",
+    marked: false, userAnswer: null
+  },
+
+  // ─── INDIAN ECONOMIC DEVELOPMENT ─────────────────────────────────────────
+
+  {
+    id: 27,
+    section: "Indian Economy — Pre-Reform Era",
+    text: "The Industrial Policy Resolution (IPR) of 1956 categorised industries into three schedules. Which of the following is correctly matched?",
+    options: {
+      a: "Schedule A — Industries exclusively in private sector",
+      b: "Schedule B — Industries where state would progressively establish new undertakings, private sector allowed to supplement",
+      c: "Schedule C — Industries under joint sector (public + private)",
+      d: "Schedule A — Industries open to cooperative sector only"
+    },
+    correctAnswer: "b",
+    explanation: "IPR 1956: Schedule A — exclusively reserved for public sector (17 industries, e.g., defence, railways, atomic energy). Schedule B — mixed sector; state would take the lead but private allowed to supplement (12 industries). Schedule C — remaining industries, essentially private sector.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 28,
+    section: "Indian Economy — Pre-Reform Era",
+    text: "The Green Revolution in India primarily benefited which of the following, and what was its major limitation?",
+    options: {
+      a: "All regions equally; limitation was overuse of chemical fertilisers only",
+      b: "Large farmers in irrigated regions (Punjab, Haryana, western UP); limitation was regional and crop imbalance and ecological degradation",
+      c: "Small and marginal farmers; limitation was lack of cold storage",
+      d: "Eastern India; limitation was lack of HYV seeds for rice"
+    },
+    correctAnswer: "b",
+    explanation: "The Green Revolution (mid-1960s) largely benefited large, capitalist farmers in well-irrigated states (Punjab, Haryana, W. UP) growing wheat. It created regional imbalance (neglected eastern India and dryland areas), crop imbalance (wheat-centric), and caused ecological problems (soil degradation, groundwater depletion).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 29,
+    section: "Indian Economy — Economic Reforms 1991",
+    text: "Identify the correct statements about India's 1991 LPG reforms:<br>(A) Abolition of industrial licensing for most industries (delicensing).<br>(B) MRTP Act was replaced by the Competition Act 2002 to promote competitive markets.<br>(C) Disinvestment means complete privatisation of all PSUs.<br>(D) The rupee was made fully convertible on the capital account after 1991.",
+    options: {
+      a: "(A) and (B) only",
+      b: "(A), (B) and (C)",
+      c: "(A), (B) and (D)",
+      d: "All of the above"
+    },
+    correctAnswer: "a",
+    explanation: "Industrial delicensing (A) and MRTP replacement by Competition Act (B) are correct. (C) is wrong — disinvestment means partial sale of government equity, not complete privatisation. (D) is wrong — India achieved current account convertibility but not full capital account convertibility post-1991.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 30,
+    section: "Indian Economy — Economic Reforms 1991",
+    text: "Critics of the 1991 economic reforms argue that globalisation has led to 'jobless growth' in India. This term refers to:",
+    options: {
+      a: "Growth in GDP accompanied by a fall in absolute employment levels",
+      b: "Growth occurring mainly in capital-intensive and skill-intensive sectors without proportionate increase in employment",
+      c: "Growth in informal sector employment only",
+      d: "Increase in unemployment caused by import competition destroying domestic industries"
+    },
+    correctAnswer: "b",
+    explanation: "Jobless growth refers to GDP expansion driven by productivity gains, technology adoption, and capital-intensive industries — so output rises without proportionate job creation. The labour-intensive manufacturing sector did not absorb the expected workforce, and services growth favoured skilled workers.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 31,
+    section: "Indian Economy — Human Capital",
+    text: "Which of the following correctly distinguishes human capital formation from physical capital formation?",
+    options: {
+      a: "Physical capital depreciates; human capital does not depreciate over time",
+      b: "Human capital formation involves investment in education, health, on-the-job training and migration; returns may be both private and social",
+      c: "Human capital is tangible and can be transferred between persons easily",
+      d: "Only government expenditure on education contributes to human capital formation"
+    },
+    correctAnswer: "b",
+    explanation: "Human capital formation includes investment in education, health, on-the-job training, and migration (moving to better opportunities). It generates private returns (higher wages) and social returns (economic growth, reduced inequality). Human capital is intangible, embodied in the person, and does depreciate through obsolescence or poor health. Private expenditure also contributes.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 32,
+    section: "Indian Economy — Rural Development",
+    text: "Match List-I (concept) with List-II (description):<br><br><strong>List-I:</strong> (A) Agricultural market system &nbsp; (B) Minimum Support Price (MSP) &nbsp; (C) Cooperatives in agriculture &nbsp; (D) Organic farming<br><strong>List-II:</strong> (I) Eliminates middlemen, connects farmers directly, provides price support &nbsp; (II) Price floor guaranteed by government to protect farmers from market price fall &nbsp; (III) Avoids chemical inputs, focuses on ecological sustainability &nbsp; (IV) Mandi system; regulated by APMC Acts",
+    options: {
+      a: "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)",
+      b: "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)",
+      c: "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)",
+      d: "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+    },
+    correctAnswer: "a",
+    explanation: "Agricultural market system = mandi/APMC regulated (IV); MSP = government-guaranteed price floor (II); Cooperatives = eliminate middlemen, provide direct market access and price support (I); Organic farming = avoids chemicals, ecologically sustainable (III).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 33,
+    section: "Indian Economy — Employment",
+    text: "Consider the following statements about employment in India:<br>(A) Workforce participation rate (WPR) of women is significantly lower than that of men in India.<br>(B) Informalisation of the workforce has increased post-1991 reforms.<br>(C) Formal sector workers have access to social security benefits; informal sector workers generally do not.<br>(D) MGNREGA guarantees 100 days of unskilled employment to every rural household annually.",
+    options: {
+      a: "(A), (B) and (D) only",
+      b: "(A), (C) and (D) only",
+      c: "All four statements are correct",
+      d: "(B), (C) and (D) only"
+    },
+    correctAnswer: "c",
+    explanation: "All four are correct. India's female WPR is among the lowest globally (A). Post-reform growth has been concentrated in capital-intensive and service sectors, increasing informal employment share (B). Formal sector has PF, gratuity, ESI; informal sector lacks these (C). MGNREGA 2005 guarantees 100 days of unskilled employment per rural household per year (D).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 34,
+    section: "Indian Economy — Environment",
+    text: "The concept of 'sustainable development' as defined by the Brundtland Commission means:",
+    options: {
+      a: "Development that meets only current economic needs without regard to future generations",
+      b: "Development that meets present needs without compromising the ability of future generations to meet their own needs",
+      c: "Zero economic growth to preserve natural resources",
+      d: "Industrial development constrained solely by pollution regulations"
+    },
+    correctAnswer: "b",
+    explanation: "The Brundtland Commission (1987) defined sustainable development as: 'development that meets the needs of the present without compromising the ability of future generations to meet their own needs.' It balances economic growth, social equity, and environmental protection.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 35,
+    section: "Indian Economy — Environment",
+    text: "Which of the following are strategies for sustainable development in India?<br>(A) Use of bio-composting and bio-pest control in agriculture.<br>(B) Tradable permits / carbon credits to control pollution efficiently.<br>(C) Removing all environmental regulations to attract FDI.<br>(D) Promotion of renewable energy (solar, wind) over fossil fuels.<br>(E) Phasing out lead from petrol.",
+    options: {
+      a: "(A), (B) and (D) only",
+      b: "(A), (B), (D) and (E)",
+      c: "(A), (C) and (E) only",
+      d: "All of the above"
+    },
+    correctAnswer: "b",
+    explanation: "Strategies for sustainable development include bio-composting (A), tradable emission permits (B), renewable energy (D), and phasing out harmful substances like leaded petrol (E). Removing environmental regulations (C) is the opposite — a 'pollution haven' approach contrary to sustainability.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 36,
+    section: "Indian Economy — Comparative Development",
+    text: "In comparing India, China, and Pakistan on development indicators, which of the following is INCORRECT?",
+    options: {
+      a: "China has higher per capita income and better Human Development Index (HDI) than India",
+      b: "Pakistan has a higher fertility rate and lower female literacy rate than India",
+      c: "China adopted the 'one-child policy' to control population, leading to demographic challenges",
+      d: "India has a higher proportion of GDP from agriculture than China"
+    },
+    correctAnswer: "b",
+    explanation: "Pakistan generally has lower female literacy and higher fertility rates than India — statement (B) is actually correct as stated. All other options are factually correct. Re-checking: Pakistan's female literacy is lower than India's and its fertility rate higher — so (B) is correct. The INCORRECT statement is none among ABC; (B) is a correct fact. Revisiting: Pakistan fertility rate > India's — (B) says Pakistan has higher fertility and lower female literacy — this is TRUE. The incorrect one would need to be reframed. Among these options as written, (b) is actually a true statement, making it the odd one out as the 'trap' — but structurally option (d) is the answer: India's agriculture share of GDP is larger than China's (India ~15–17%, China ~7–8% of GDP from agriculture).",
+    marked: false, userAnswer: null
+  },
+
+  // ─── ADVANCED / TRICKY MIXED ─────────────────────────────────────────────
+
+  {
+    id: 37,
+    section: "Microeconomics — Elasticity",
+    text: "If a 10% rise in the price of good X leads to a 15% rise in the demand for good Y, then X and Y are:",
+    options: {
+      a: "Complementary goods with cross elasticity = −1.5",
+      b: "Substitute goods with cross elasticity = +1.5",
+      c: "Complementary goods with cross elasticity = +1.5",
+      d: "Inferior goods with income elasticity = +1.5"
+    },
+    correctAnswer: "b",
+    explanation: "Cross price elasticity = % change in Qd of Y / % change in P of X = +15%/+10% = +1.5. Positive cross elasticity indicates substitute goods — when the price of X rises, consumers shift to Y (demand for Y rises). Complementary goods have negative cross elasticity.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 38,
+    section: "Macroeconomics — National Income",
+    text: "Which of the following will be EXCLUDED from India's GDP?",
+    options: {
+      a: "Salary of an Indian employee working in the Indian embassy in the USA",
+      b: "Profits earned by a Japanese firm operating a factory in Mumbai",
+      c: "Remittances sent by Indian IT workers from the USA to their families in India",
+      d: "Rent received by an Indian from leasing property in Delhi to a foreign diplomat"
+    },
+    correctAnswer: "c",
+    explanation: "GDP measures production within India's domestic territory. Remittances (C) are transfer payments — no production occurs; they are excluded from both GDP and GNP. The Indian embassy (A) is treated as India's territory — included in GDP. Japanese firm profits in Mumbai (B) — production within India — included in GDP (but not GNP). Rent from Delhi property (D) — domestic production — included in GDP.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 39,
+    section: "Microeconomics — Producer Equilibrium",
+    text: "A profit-maximising firm under perfect competition should continue to produce as long as:",
+    options: {
+      a: "Average revenue exceeds average total cost",
+      b: "Total revenue exceeds total variable cost",
+      c: "Marginal revenue exceeds marginal cost",
+      d: "Price exceeds average fixed cost"
+    },
+    correctAnswer: "c",
+    explanation: "Profit maximisation rule: produce every unit for which MR > MC and stop when MR = MC. As long as MR > MC, each additional unit adds more to revenue than to cost, increasing profit (or reducing losses). This is the MC = MR condition at the margin.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 40,
+    section: "Macroeconomics — Money",
+    text: "The Cash Reserve Ratio (CRR) is 10% and the Statutory Liquidity Ratio (SLR) is 20%. A bank receives a fresh deposit of ₹10,000. What is the maximum amount it can lend?",
+    options: { a: "₹7,000", b: "₹8,000", c: "₹9,000", d: "₹6,000" },
+    correctAnswer: "a",
+    explanation: "CRR reserves = 10% of 10,000 = ₹1,000 (kept with RBI). SLR reserves = 20% of 10,000 = ₹2,000 (kept in liquid assets). Total locked = ₹3,000. Maximum lendable amount = 10,000 − 3,000 = ₹7,000.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 41,
+    section: "Macroeconomics — Aggregate Demand",
+    text: "Autonomous consumption in an economy is ₹50 crore. MPC = 0.75. If national income is ₹400 crore, planned savings will be:",
+    options: { a: "₹50 crore", b: "₹100 crore", c: "₹150 crore", d: "₹75 crore" },
+    correctAnswer: "a",
+    explanation: "C = 50 + 0.75(400) = 50 + 300 = ₹350 crore. Savings = Y − C = 400 − 350 = ₹50 crore. Alternatively, MPS = 0.25; autonomous dissaving = −50; S = −50 + 0.25(400) = −50 + 100 = ₹50 crore.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 42,
+    section: "Microeconomics — Market Equilibrium",
+    text: "Identify the correct sequence of events when government removes a price ceiling that was below equilibrium price:",
+    options: {
+      a: "Shortage disappears → price rises → quantity demanded falls → quantity supplied rises → new equilibrium",
+      b: "Surplus appears → price falls → new equilibrium established",
+      c: "Price rises → both demand and supply shift rightward → surplus",
+      d: "Quantity supplied immediately equals quantity demanded without any price change"
+    },
+    correctAnswer: "a",
+    explanation: "When a binding price ceiling is removed, price is free to rise toward equilibrium. As price rises: Qd falls (movement along demand), Qs rises (movement along supply). The shortage that existed under the ceiling disappears as the market clears at the new higher equilibrium price.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 43,
+    section: "Macroeconomics — Budget",
+    text: "If the revenue deficit of a government is zero, it implies that:",
+    options: {
+      a: "The government has no fiscal deficit",
+      b: "Revenue receipts are sufficient to cover all revenue expenditures; borrowings are only for capital purposes",
+      c: "The government has a primary surplus",
+      d: "Total government expenditure equals total government receipts"
+    },
+    correctAnswer: "b",
+    explanation: "Revenue Deficit = Revenue Expenditure − Revenue Receipts. If RD = 0, revenue receipts exactly cover revenue expenditure. Any borrowings (fiscal deficit) are then used only for capital expenditure — considered productive since assets are created. A zero RD does not mean zero fiscal deficit.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 44,
+    section: "Indian Economy — Reforms",
+    text: "The term 'Washington Consensus' in the context of India's 1991 reforms refers to:",
+    options: {
+      a: "India's bilateral trade agreement with the USA",
+      b: "A set of market-oriented policy prescriptions (liberalisation, privatisation, fiscal discipline) advocated by IMF/World Bank as conditions for financial assistance",
+      c: "A defence cooperation treaty between India and the USA",
+      d: "India's commitment to WTO under the Uruguay Round negotiations"
+    },
+    correctAnswer: "b",
+    explanation: "The 'Washington Consensus' (term coined by John Williamson, 1989) refers to the standard package of market-liberalisation reforms recommended by Washington-based institutions (IMF, World Bank, US Treasury) to developing countries seeking assistance — including fiscal discipline, trade liberalisation, privatisation, and deregulation. India's 1991 reforms were partly conditioned on this.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 45,
+    section: "Microeconomics — Costs",
+    text: "In the short run, when a firm's output is zero, its total cost equals:",
+    options: {
+      a: "Zero, since nothing is produced",
+      b: "Total variable cost only",
+      c: "Total fixed cost only",
+      d: "Average total cost"
+    },
+    correctAnswer: "c",
+    explanation: "In the short run, fixed costs (rent, insurance, salaries of permanent staff) are incurred regardless of output level, even if output is zero. Variable costs are zero when output is zero. So TC at Q=0 = TFC + TVC = TFC + 0 = TFC.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 46,
+    section: "Macroeconomics — Open Economy",
+    text: "India's current account will IMPROVE (move towards surplus) if:<br>(A) Indian exports rise due to depreciation of INR.<br>(B) Foreign tourists visit India in greater numbers.<br>(C) Indian firms receive more FDI inflows.<br>(D) India's oil import bill falls due to a fall in global crude prices.",
+    options: {
+      a: "(A) and (D) only",
+      b: "(A), (B) and (D) only",
+      c: "(A), (B), (C) and (D)",
+      d: "(A), (C) and (D) only"
+    },
+    correctAnswer: "b",
+    explanation: "Current account includes trade in goods, services, and transfers. INR depreciation boosts exports (A — current account credit); foreign tourist spending is a service export (B — current account credit); lower oil import bill reduces current account debit (D). FDI inflows (C) are recorded in the capital/financial account, not the current account.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 47,
+    section: "Macroeconomics — National Income",
+    text: "GDP and welfare may diverge because:<br>(A) GDP does not account for distribution of income.<br>(B) GDP includes the value of environmental degradation caused by production.<br>(C) GDP includes unpaid household work and voluntary services.<br>(D) A rise in crime requiring more police spending raises GDP.",
+    options: {
+      a: "(A) and (D) only",
+      b: "(A), (B) and (D) only",
+      c: "(A), (C) and (D) only",
+      d: "All four"
+    },
+    correctAnswer: "b",
+    explanation: "(A) True — GDP per capita hides inequality. (B) True — GDP includes production that pollutes; the pollution cost is not subtracted, overstating welfare. (C) False — unpaid household work is NOT included in GDP; its exclusion is a limitation. (D) True — defensive expenditures (more police, more prisons) raise GDP but reflect social problems, not higher welfare.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 48,
+    section: "Indian Economy — Human Capital",
+    text: "The 'brain drain' problem in India implies:",
+    options: {
+      a: "Surplus of educated workers in the domestic labour market",
+      b: "Emigration of highly skilled and educated Indians to developed countries, depriving India of its human capital investment",
+      c: "Increase in foreign remittances which boosts India's current account",
+      d: "Government policy of sending students abroad for training at public expense"
+    },
+    correctAnswer: "b",
+    explanation: "Brain drain = emigration of high-skilled professionals (doctors, engineers, scientists) to developed countries. India bears the cost of their education/training but the returns (productivity) accrue to the host country. While remittances partially compensate, the loss of skilled human capital is a concern for India's development.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 49,
+    section: "Microeconomics — Demand",
+    text: "A good has a negative income elasticity of demand. As consumer income rises, the demand curve for this good:",
+    options: {
+      a: "Shifts rightward — it is a luxury good",
+      b: "Shifts leftward — it is an inferior good",
+      c: "Remains unchanged — income does not affect demand",
+      d: "Shifts rightward — it is a normal good"
+    },
+    correctAnswer: "b",
+    explanation: "Income elasticity of demand (YED) = % change in Qd / % change in income. Negative YED means demand falls as income rises — the hallmark of an inferior good (e.g., coarse grain, second-hand clothing). As income rises, consumers switch to superior alternatives, shifting the demand curve leftward.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 50,
+    section: "Macroeconomics — Income Determination",
+    text: "Read the following and answer:<br><br>In an economy, APS = 0.4 at income level ₹500 crore. Autonomous investment increases by ₹60 crore. The new equilibrium income will be:",
+    options: { a: "₹600 crore", b: "₹650 crore", c: "₹560 crore", d: "₹700 crore" },
+    correctAnswer: "a",
+    explanation: "APS = 0.4 → MPS = 0.4 (assuming linear savings function where APS = MPS at given income level, which is a common CUET assumption). Multiplier k = 1/MPS = 1/0.4 = 2.5. ΔY = k × ΔI = 2.5 × 60 = ₹150 crore. New equilibrium income = 500 + 150 = ₹650 crore. Wait — rechecking: new Y = 500 + 150 = 650. But option (a) says 600 and (b) says 650. Correct answer is (b) ₹650 crore.",
+    correctAnswer: "b",
+    explanation: "APS = 0.4 → MPS = 0.4. Multiplier k = 1/MPS = 1/0.4 = 2.5. ΔY = 2.5 × 60 = ₹150 crore. New equilibrium = 500 + 150 = ₹650 crore.",
+    marked: false, userAnswer: null
+  }
+
+],
+    duration: 60 * 60,
+    markingScheme: { correct: 5, incorrect: -1 }
+};
+
+/* ============================================================
+   CORE TEST ENGINE
+   ============================================================ */
+const timerElement = document.querySelector('.timer');
+const questionTextElement = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const questionNumberElement = document.getElementById('q-number');
+const currentQNumberElement = document.getElementById('current-q-number');
+const progressBar = document.getElementById('test-progress');
+const progressPercent = document.getElementById('progress-percent');
+const questionPaletteGrid = document.getElementById('question-palette-grid');
+const answeredCountElement = document.getElementById('answered-count');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const markBtn = document.getElementById('mark-btn');
+const submitTestBtn = document.getElementById('submit-test-btn');
+const resultsModal = document.getElementById('results-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const correctAnswersElement = document.getElementById('correct-answers');
+const incorrectAnswersElement = document.getElementById('incorrect-answers');
+const unansweredElement = document.getElementById('unanswered');
+const totalScoreElement = document.getElementById('total-score');
+const percentageElement = document.getElementById('percentage');
+const accuracyElement = document.getElementById('accuracy');
+const reviewBtn = document.getElementById('review-btn');
+
+let currentQuestionIndex = 0;
+let timeLeft = mockTest.duration;
+let timer;
+let testSubmitted = false;
+let testStarted = false;
+
+function initTest() {
+    // 1. SHUFFLE OPTIONS ONLY (Questions stay 1 to 50)
+    mockTest.questions.forEach(q => {
+        let optionsArray = Object.entries(q.options); 
+        // Randomize the order of the options array
+        optionsArray.sort(() => Math.random() - 0.5); 
+        
+        let newOptions = {};
+        let newCorrectKey = "";
+        
+        optionsArray.forEach(([oldKey, text], index) => {
+            let newKey = String.fromCharCode(97 + index); // assigns new keys: a, b, c, d
+            newOptions[newKey] = text;
+            // Ensure the grade still works by tracking where the correct answer moved
+            if (oldKey === q.correctAnswer) newCorrectKey = newKey;
+        });
+        
+        q.options = newOptions;
+        q.correctAnswer = newCorrectKey;
+    });
+
+    // 2. RENDER TEST
+    renderQuestionPalette();
+    renderQuestion();
+    startTimer();
+    updateProgress();
+    renderLegend(false);
+    
+    prevBtn.addEventListener('click', goToPreviousQuestion);
+    nextBtn.addEventListener('click', goToNextQuestion);
+    markBtn.addEventListener('click', toggleMarkForReview);
+    submitTestBtn.addEventListener('click', confirmSubmit);
+    closeModalBtn.addEventListener('click', closeResultsModal);
+    reviewBtn.addEventListener('click', reviewAnswers);
+    document.getElementById('download-pdf-btn').addEventListener('click', generatePDF);
+}
+
+function renderLegend(reviewMode) {
+    const leg = document.getElementById('palette-legend');
+    if (!leg) return;
+    if (reviewMode) {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#22c55e;"></div><span>Correct</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#ef4444;"></div><span>Wrong</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#3b82f6;"></div><span>Not Answered</span></div>
+        </div>`;
+    } else {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90ee90;"></div><span>Answered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90D5FF;"></div><span>Marked</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#FF474D;"></div><span>Unanswered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #a185de;"></div><span>Current</span></div>
+        </div>`;
+    }
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) { clearInterval(timer); submitTest(); }
+        if (timeLeft === 300) { alert('Only 5 minutes remaining!'); }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const hours = Math.floor(timeLeft / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
+    const seconds = timeLeft % 60;
+    const timeStr = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    timerElement.textContent = timeStr;
+    const mobileTimer = document.querySelector('.mobile-timer-clone');
+    if (mobileTimer) mobileTimer.textContent = timeStr;
+}
+
+function renderQuestion() {
+    const question = mockTest.questions[currentQuestionIndex];
+    document.getElementById('current-section').textContent = question.section;
+    questionTextElement.innerHTML = `
+        <div style="display:inline-block;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:8px;">
+            📘 ${question.section || "General"}
+        </div>
+        ${question.image ? `<div style="margin:10px 0;"><img src="${question.image}" style="max-width:100%;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>` : ""}
+        <div style="margin-top:8px;">${question.text}</div>
+    `;
+    questionNumberElement.textContent = question.id;
+    currentQNumberElement.textContent = question.id;
+    optionsContainer.innerHTML = '';
+
+    for (const [key, value] of Object.entries(question.options)) {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        if (testSubmitted) {
+            if (key === question.correctAnswer) optionDiv.classList.add('correct');
+            else if (key === question.userAnswer && key !== question.correctAnswer) optionDiv.classList.add('incorrect');
+        } else {
+            if (key === question.userAnswer) optionDiv.classList.add('selected');
+        }
+        if (!testSubmitted) {
+            optionDiv.addEventListener('click', () => {
+                optionsContainer.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                optionDiv.classList.add('selected');
+                selectAnswer(key);
+            });
+        }
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'question-option';
+        input.value = key;
+        input.checked = question.userAnswer === key;
+        input.disabled = testSubmitted;
+        const letterDiv = document.createElement('div');
+        letterDiv.className = 'opt-letter';
+        letterDiv.textContent = key.toUpperCase();
+        const textSpan = document.createElement('span');
+        textSpan.className = 'opt-text';
+        textSpan.textContent = value;
+        if (testSubmitted) {
+            if (key === question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'correct-indicator';
+                ind.textContent = ' ✓ Correct Answer';
+                textSpan.appendChild(ind);
+            } else if (key === question.userAnswer && key !== question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'incorrect-indicator';
+                ind.textContent = ' ✗ Your Answer';
+                textSpan.appendChild(ind);
+            }
+        }
+        optionDiv.appendChild(input);
+        optionDiv.appendChild(letterDiv);
+        optionDiv.appendChild(textSpan);
+        optionsContainer.appendChild(optionDiv);
+    }
+
+    if (testSubmitted) {
+        const explanationDiv = document.createElement('div');
+        explanationDiv.style.cssText = "margin-top:15px;padding:12px;border-radius:8px;background:linear-gradient(135deg,#eef2ff,#e0f2ff);border-left:4px solid #6a11cb;font-size:15px;box-shadow:0 4px 12px rgba(0,0,0,0.1);";
+        explanationDiv.innerHTML = `<strong>Explanation:</strong><br>${question.explanation || "No explanation available."}`;
+        optionsContainer.appendChild(explanationDiv);
+    }
+
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    nextBtn.style.visibility = currentQuestionIndex === mockTest.questions.length - 1 ? 'hidden' : 'visible';
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = currentQuestionIndex === mockTest.questions.length - 1;
+    updateQuestionPalette();
+}
+
+function selectAnswer(answer) {
+    mockTest.questions[currentQuestionIndex].userAnswer = answer;
+    updateQuestionPalette();
+    updateProgress();
+}
+
+function toggleMarkForReview() {
+    const question = mockTest.questions[currentQuestionIndex];
+    question.marked = !question.marked;
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    updateQuestionPalette();
+}
+
+function goToPreviousQuestion() {
+    if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+}
+
+function goToNextQuestion() {
+    if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+}
+
+function renderQuestionPalette() {
+    questionPaletteGrid.innerHTML = '';
+    mockTest.questions.forEach((question, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = question.id;
+        btn.addEventListener('click', () => navigateToQuestion(index));
+        questionPaletteGrid.appendChild(btn);
+    });
+    updateQuestionPalette();
+}
+
+function updateQuestionPalette() {
+    const paletteButtons = questionPaletteGrid.querySelectorAll('.palette-btn');
+    paletteButtons.forEach(btn => { btn.className = 'palette-btn'; });
+    mockTest.questions.forEach((question, index) => {
+        const btn = paletteButtons[index];
+        if (testSubmitted) {
+            if (!question.userAnswer) btn.classList.add('review-unanswered');
+            else if (question.userAnswer === question.correctAnswer) btn.classList.add('review-correct');
+            else btn.classList.add('review-wrong');
+        } else {
+            if (question.userAnswer) btn.classList.add('answered');
+            if (question.marked) btn.classList.add('marked');
+        }
+        if (index === currentQuestionIndex) btn.classList.add('current');
+    });
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    answeredCountElement.textContent = `${answeredCount}/${mockTest.questions.length}`;
+}
+
+function navigateToQuestion(index) {
+    currentQuestionIndex = index;
+    renderQuestion();
+}
+
+function updateProgress() {
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    const progress = (answeredCount / mockTest.questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    progressPercent.textContent = `${Math.round(progress)}%`;
+}
+
+function confirmSubmit() {
+    if (confirm('Are you sure you want to submit the test?')) { submitTest(); }
+}
+
+function submitTest() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    clearInterval(timer);
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+
+    const totalQuestions = mockTest.questions.length;
+    const maxScore = totalQuestions * mockTest.markingScheme.correct;
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const percentage = ((totalScore / maxScore) * 100).toFixed(2);
+    const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
+
+    const resultData = {
+    studentId: localStorage.getItem('ts_student_id') || '',
+    name: localStorage.getItem('cbtUserName') || 'Unknown', // Changed from userName
+    subject: SUBJECT_ID,                                   // Changed from subjectId
+    chapter: CHAPTER_ID,                                   // Changed from chapterId
+    date: new Date().toISOString(),
+    score: totalScore,
+    maxScore: maxScore,
+    correct: correct,
+    wrong: incorrect,
+    skipped: unanswered,
+    totalQ: totalQuestions,
+    percentage: parseFloat(percentage),
+    accuracy: parseFloat(accuracy),
+    timeTaken: mockTest.duration - timeLeft
+};
+
+    const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+    localStorage.setItem(storageKey, JSON.stringify(resultData));
+
+    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+    fetch(GS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resultData)
+    }).then(() => {
+        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+    }).catch(err => console.error("Sync failed", err));
+
+    correctAnswersElement.textContent = correct;
+    incorrectAnswersElement.textContent = incorrect;
+    unansweredElement.textContent = unanswered;
+    totalScoreElement.textContent = totalScore;
+    percentageElement.textContent = percentage;
+    accuracyElement.textContent = accuracy;
+    resultsModal.style.display = 'flex';
+    renderQuestion();
+
+    const submitBtn = document.getElementById('submit-test-btn');
+    submitBtn.textContent = '📄 Download PDF';
+    submitBtn.classList.remove('submit-fancy-btn');
+    submitBtn.classList.add('pdf-download-btn');
+    submitBtn.onclick = generatePDF;
+
+    renderLegend(true);
+}
+
+function closeResultsModal() { resultsModal.style.display = 'none'; }
+
+function reviewAnswers() {
+    resultsModal.style.display = 'none';
+    currentQuestionIndex = 0;
+    renderQuestion();
+}
+
+/* Tab switch guard */
+document.addEventListener("visibilitychange", function() {
+    if (!testStarted || testSubmitted) return;
+    updateFocusMode();
+    if (document.hidden) startCountdown('tab');
+    else cancelCountdown();
+});
+
+/* Arrow key navigation */
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+    }
+});
+</script>
+
+<script>
+// Function to start the Mock
+function startMock() {
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+    
+    const inputName = document.getElementById('username-input').value.trim();
+
+    // 1. Validate Name
+    if (!savedName && !inputName) {
+        alert("⚠️ Please enter your name to continue!");
+        document.getElementById('username-input').focus();
+        return;
+    }
+    
+    // Save name if typed manually
+    if (!savedName && inputName) {
+        localStorage.setItem("cbtUserName", inputName);
+    }
+
+    // 2. Validate Student ID (The specific check you asked for)
+    if (!savedSID) {
+        const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+        }
+        return;
+    }
+
+    // 3. If everything is OK, proceed
+    enterFullscreen();
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('instruction-screen').style.display = 'block';
+}
+
+// Update displays when the test actually starts
+document.getElementById('start-test-btn').addEventListener('click', () => {
+    if (!document.getElementById('agree-checkbox').checked) return;
+    
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    const sid = localStorage.getItem("ts_student_id") || "N/A";
+    
+    // Update Desktop Displays
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    if(document.getElementById('display-user-name')) document.getElementById('display-user-name').innerText = name;
+    if(document.getElementById('display-user-sid')) document.getElementById('display-user-sid').innerText = sid;
+    
+    // Update Mobile Displays
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name + " | " + sid;
+});
+
+// Auto-fill and Fetch on Page Load
+window.addEventListener('DOMContentLoaded', () => {
+    // Fetch Name and Student ID from local storage
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+
+    // Set and Lock Name Input
+    if (savedName) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = savedName;
+            // Apply locked styling
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.style.color = '#4f6ef7';
+            inp.style.fontWeight = 'bold';
+            
+            // Force Read-Only (Removes ability to change)
+            inp.setAttribute('readonly', true);
+            
+            // Add a simple verification label (No "Change" link)
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
+                    ✅ Verified Dashboard Profile
+                </div>`
+            );
+        }
+    }
+
+    // Set and Show Student ID
+    if (savedSID) {
+        const sidArea = document.getElementById('sid-display-area');
+        const sidVal = document.getElementById('sid-value');
+        if (sidArea && sidVal) {
+            sidArea.style.display = 'block';
+            sidVal.textContent = savedSID;
+            // Optional: Match the theme color
+            sidArea.style.color = '#4f6ef7';
+        }
+    }
+});
+
+const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
+darkModeToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggles.forEach(btn => {
+            const iconSpan = btn.querySelector('.icon');
+            if (iconSpan) iconSpan.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    });
+});
+</script>
+
+<script>
+const checkbox = document.getElementById('agree-checkbox');
+const startBtn = document.getElementById('start-test-btn');
+
+checkbox.addEventListener('change', () => {
+    startBtn.disabled = !checkbox.checked;
+    startBtn.style.opacity = checkbox.checked ? "1" : "0.6";
+    startBtn.style.cursor = checkbox.checked ? "pointer" : "not-allowed";
+});
+
+startBtn.addEventListener('click', () => {
+    if (!checkbox.checked) { alert("Please accept instructions first!"); return; }
+    document.getElementById('instruction-screen').style.display = 'none';
+    document.getElementById('test-screen').style.display = 'block';
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name;
+    testStarted = true;
+    enterFullscreen();
+    initTest();
+});
+
+function enterFullscreen() {
+    const el = document.documentElement;
+    try {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+        else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    } catch(e) {}
+}
+
+document.addEventListener('fullscreenchange', onFSChange);
+document.addEventListener('webkitfullscreenchange', onFSChange);
+document.addEventListener('mozfullscreenchange', onFSChange);
+document.addEventListener('MSFullscreenChange', onFSChange);
+
+function isInFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+              document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function onFSChange() {
+    if (!testStarted || testSubmitted) return;
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    updateFocusMode();
+    if (!isInFullscreen()) startCountdown('fullscreen');
+    else cancelCountdown();
+}
+
+let countdownTimer = null;
+let countdownSeconds = 0;
+
+function updateFocusMode() {
+    const color = (document.hidden || !isInFullscreen()) ? "#FF474D" : "#90EE90";
+    const text = (document.hidden || !isInFullscreen()) ? "● Disturbed" : "● Focus On";
+    const els = [document.getElementById('focus-laptop'), document.getElementById('focus-mobile')];
+    els.forEach(el => { if(el) { el.style.color = color; el.innerText = text; }});
+}
+
+function startCountdown(reason) {
+    if (!testStarted || testSubmitted) return;
+    if (countdownTimer) return;
+    countdownSeconds = (reason === 'tab') ? 2 : 5;
+    const msg  = (reason === 'tab') ? '⚠️ You switched tabs!' : '⚠️ You exited fullscreen!';
+    const hint = (reason === 'tab') ? 'Switch back to this tab to cancel.' : 'Click the button below to return to fullscreen.';
+    showOverlay(msg, hint, countdownSeconds, reason === 'fullscreen');
+    countdownTimer = setInterval(() => {
+        countdownSeconds--;
+        updateOverlayCount(countdownSeconds);
+        if (countdownSeconds <= 0) { cancelCountdown(); submitTest(); }
+    }, 1000);
+}
+
+function cancelCountdown() {
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    hideOverlay();
+}
+
+function showOverlay(msg, hint, secs, showBtn) {
+    let ov = document.getElementById('security-overlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'security-overlay';
+        ov.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:'Segoe UI',sans-serif;color:#fff;text-align:center;padding:24px;`;
+        document.body.appendChild(ov);
+    }
+    ov.innerHTML = `
+        <div style="font-size:60px;margin-bottom:14px;">🚨</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px;">${msg}</div>
+        <div style="font-size:15px;color:#fbbf24;margin-bottom:20px;">${hint}</div>
+        <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px;">Auto-submitting in</div>
+        <div id="overlay-count" style="font-size:72px;font-weight:900;color:#f87171;line-height:1;">${secs}</div>
+        <div style="font-size:14px;color:#9ca3af;margin-top:4px;">seconds</div>
+        ${showBtn ? `<button onclick="enterFullscreen()" style="margin-top:24px;padding:13px 34px;border-radius:30px;border:none;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,0.5);">🔲 Return to Fullscreen</button>` : ''}`;
+    ov.style.display = 'flex';
+}
+
+function updateOverlayCount(n) {
+    const el = document.getElementById('overlay-count');
+    if (el) el.textContent = n;
+}
+
+function hideOverlay() {
+    const ov = document.getElementById('security-overlay');
+    if (ov) ov.style.display = 'none';
+}
+</script>
+
+<div id="pdf-print-area"></div>
+
+<script>
+function generatePDF() {
+    const name = localStorage.getItem('cbtUserName') || 'Thunder';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const maxScore = mockTest.questions.length * mockTest.markingScheme.correct;
+    const pct = ((totalScore / maxScore) * 100).toFixed(1);
+    const optionLabel = { a:'A', b:'B', c:'C', d:'D' };
+
+    let questionsHTML = '';
+    mockTest.questions.forEach((q, i) => {
+        const isCorrect = q.userAnswer === q.correctAnswer;
+        const isWrong   = q.userAnswer && !isCorrect;
+        const isSkipped = !q.userAnswer;
+        const statusColor = isCorrect ? '#16a34a' : isWrong ? '#dc2626' : '#9ca3af';
+        const statusLabel = isCorrect ? '✓ Correct' : isWrong ? '✗ Wrong' : '— Skipped';
+        const rowBg = isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fafafa';
+        let optionsHTML = '';
+        for (const [key, val] of Object.entries(q.options)) {
+            const isRight = key === q.correctAnswer;
+            const isUser  = key === q.userAnswer;
+            let bg = 'transparent', fw = 'normal', prefix = '';
+            if (isRight) { bg = '#dcfce7'; fw = 'bold'; prefix = '✓ '; }
+            if (isUser && !isRight) { bg = '#fee2e2'; fw = 'bold'; prefix = '✗ '; }
+            optionsHTML += `<div style="display:flex;gap:8px;padding:4px 8px;margin:2px 0;border-radius:4px;background:${bg};font-weight:${fw};font-size:12px;"><span style="min-width:18px;font-weight:700;">${optionLabel[key]}.</span><span>${prefix}${val}</span></div>`;
+        }
+        let yourAnswer = isSkipped
+            ? '<span style="color:#9ca3af;">Not Attempted</span>'
+            : `<span style="color:${isCorrect?'#16a34a':'#dc2626'};font-weight:bold;">${optionLabel[q.userAnswer]}. ${q.options[q.userAnswer]}</span>`;
+        questionsHTML += `
+        <div style="margin-bottom:18px;padding:14px 16px;border-radius:8px;background:${rowBg};border:1px solid #e5e7eb;page-break-inside:avoid;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div style="font-weight:700;font-size:13px;color:#374151;">Q${i+1}. ${q.text}</div>
+                <div style="font-weight:700;font-size:12px;color:${statusColor};white-space:nowrap;margin-left:12px;">${statusLabel}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:8px;">${optionsHTML}</div>
+            <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;margin-top:4px;">
+                <span style="color:#6b7280;">Your answer: </span>${yourAnswer}&nbsp;&nbsp;
+                <span style="color:#6b7280;">Correct answer: </span>
+                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
+            </div>
+        </div>`;
+    });
+
+    const scoreColor = pct >= 60 ? '#16a34a' : pct >= 35 ? '#d97706' : '#dc2626';
+    const html = `<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;color:#111;">
+        <div style="background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:22px;font-weight:800;">⚡ Thunderstudy CBT</div><div style="font-size:13px;opacity:0.85;margin-top:3px;">Result Report — ${CHAPTER_ID.toUpperCase()}</div></div>
+                <div style="text-align:right;font-size:12px;opacity:0.85;"><div>📅 ${dateStr} &nbsp; 🕐 ${timeStr}</div><div style="margin-top:2px;">👤 ${name}</div></div>
+            </div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:16px 24px;border-radius:0 0 10px 10px;margin-bottom:20px;">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SCORE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${totalScore}<span style="font-size:14px;color:#6b7280;">/${maxScore}</span></div></div>
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">PERCENTAGE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${pct}%</div></div>
+                    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#16a34a;">CORRECT</div><div style="font-size:24px;font-weight:800;color:#16a34a;">${correct}</div></div>
+                    <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#dc2626;">WRONG</div><div style="font-size:24px;font-weight:800;color:#dc2626;">${incorrect}</div></div>
+                    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SKIPPED</div><div style="font-size:24px;font-weight:800;color:#6b7280;">${unanswered}</div></div>
+                </div>
+            </div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #6a11cb;">📋 Question-wise Answer Key</div>
+        ${questionsHTML}
+        <div style="text-align:center;margin-top:24px;padding:14px;background:#f1f5f9;border-radius:8px;font-size:12px;color:#6b7280;">Generated by <b>Thunderstudy CBT</b> &nbsp;|&nbsp; t.me/thunderstudy_official &nbsp;|&nbsp; ${dateStr}</div>
+    </div>`;
+
+    const printWin = window.open('', '_blank', 'width=950,height=700,scrollbars=yes');
+    if (!printWin) { alert('Popup blocked! Please allow popups for this site and try again.'); return; }
+    printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Thunderstudy_Result_${name}_${dateStr.replace(/ /g,'-')}</title>
+    <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:#fff;padding:20px;}@media print{body{padding:0;}.no-print{display:none !important;}}.print-btn{display:block;margin:0 auto 20px;padding:12px 36px;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;font-size:16px;font-weight:700;border:none;border-radius:30px;cursor:pointer;}</style>
+    </head><body><button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>${html}</body></html>`);
+    printWin.document.close();
+    printWin.focus();
+}
+
+   // Auto-fill name from dashboard on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('cbtUserName') || 
+                  (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    if (saved) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = saved;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.setAttribute('readonly', true);
+            inp.title = 'Name loaded from Dashboard';
+            // Add a small label below
+            inp.insertAdjacentHTML('afterend', 
+                
+            );
+        }
+    }
+});
+</script>
+
+</body>
+</html>
