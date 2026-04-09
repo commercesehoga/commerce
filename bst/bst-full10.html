@@ -1,0 +1,2655 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thunderstudy CBT</title>
+
+<script>
+/* ============================================================
+   ✏️  EDIT ONLY THESE TWO LINES FOR EACH CHAPTER
+   ============================================================ */
+const SUBJECT_ID  = "bst";        // e.g. "bst", "eco", "accounts"
+const CHAPTER_ID  = "bst-full10";       // e.g. "bst1", "bst2", "eco3"
+/* ============================================================ */
+</script>
+
+<style>
+        :root {
+    --primary-color: #a185de;
+    --secondary-color: #9CC9E6;
+    --correct-color: #90EE90;
+    --incorrect-color: #FF474D;
+    --neutral-color: #607d8b;
+    --light-bg: #f5f5f5;
+    --white: #ffffff;
+    --dark-text: #212121;
+    --light-text: #000000;
+    --dark-bg: #121212;
+    --dark-primary-color: #bb86fc;
+    --dark-secondary-color: #03dac6;
+    --dark-correct-color: #388e3c;
+    --dark-incorrect-color: #cf6679;
+    --dark-neutral-color: #aaaaaa;
+    --dark-light-text: #e0e0e0;
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-light-text);
+}
+
+body.dark-mode p,
+body.dark-mode span:not(.icon),
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label,
+body.dark-mode li {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode a:not(.fancy-btn):not(.footer-btn):not(.button2):not(.join-btn) {
+    color: #bb86fc !important;
+    text-decoration: underline;
+}
+
+body.dark-mode .fancy-btn,
+body.dark-mode .footer-btn,
+body.dark-mode .join-btn,
+body.dark-mode .submit-fancy-btn,
+body.dark-mode .more-btn,
+body.dark-mode .back-btn,
+body.dark-mode .report-btn {
+    color: white !important;
+}
+
+body.dark-mode #prev-btn {
+    color: var(--dark-primary-color) !important;
+    border-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #next-btn {
+    color: #000 !important;
+    background-color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode #mark-btn {
+    color: var(--dark-secondary-color) !important;
+    border-color: var(--dark-secondary-color) !important;
+}
+
+body.dark-mode #mark-btn.marked {
+    background-color: var(--dark-secondary-color) !important;
+    color: #000 !important;
+}
+
+body.dark-mode #start-test-btn {
+    color: white !important;
+}
+
+body.dark-mode .close-btn {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .stat-card h3 {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .question-number {
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .question-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .progress-text span {
+    color: #aaa !important;
+}
+
+body.dark-mode .palette-title span {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .test-info strong {
+    color: #fff !important;
+}
+
+body.dark-mode .test-info span {
+    color: #ccc !important;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1f1f1f;
+    color: var(--dark-light-text);
+    box-shadow: 2px 0 5px rgba(255,255,255,0.1);
+}
+
+body.dark-mode .sidebar-header h2,
+body.dark-mode .test-header h2,
+body.dark-mode .modal-header h2 {
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .timer {
+    background-color: var(--dark-incorrect-color);
+    color: #fff;
+}
+
+body.dark-mode .question-container {
+    background-color: #242424;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+}
+
+.option:hover {
+    border-color: #378ADD;
+    background: #E6F1FB;
+}
+
+.option.selected {
+    border-color: #185FA5;
+    background: #B5D4F4;
+}
+
+.option.correct {
+    border-color: #388e3c !important;
+    background: rgba(76, 175, 80, 0.15) !important;
+}
+
+.option.incorrect {
+    border-color: #e53935 !important;
+    background: rgba(244, 67, 54, 0.12) !important;
+}
+
+.opt-letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    background: #f5f5f5;
+    color: #555;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.option.selected .opt-letter {
+    background: #185FA5;
+    border-color: #185FA5;
+    color: #fff;
+}
+
+.option.correct .opt-letter {
+    background: #388e3c;
+    border-color: #388e3c;
+    color: #fff;
+}
+
+.option.incorrect .opt-letter {
+    background: #e53935;
+    border-color: #e53935;
+    color: #fff;
+}
+
+.opt-text {
+    font-size: 15px;
+    color: #212121;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.option.selected .opt-text {
+    color: #0C447C;
+    font-weight: 500;
+}
+
+.option.correct .opt-text {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.option.incorrect .opt-text {
+    color: #b71c1c;
+    font-weight: 500;
+}
+
+body.dark-mode .option {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .option:hover {
+    border-color: #378ADD !important;
+    background: #1a2a3a !important;
+}
+
+body.dark-mode .option.selected {
+    border-color: #64b5f6 !important;
+    background: #1a3050 !important;
+}
+
+body.dark-mode .opt-letter {
+    background: #333 !important;
+    border-color: #555 !important;
+    color: #ccc !important;
+}
+
+body.dark-mode .option.selected .opt-letter {
+    background: #185FA5 !important;
+    border-color: #185FA5 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .opt-text {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .option.selected .opt-text {
+    color: #90caf9 !important;
+}
+
+body.dark-mode .option.correct {
+    border-color: #66bb6a !important;
+    background: rgba(56,142,60,0.2) !important;
+}
+
+body.dark-mode .option.incorrect {
+    border-color: #ef9a9a !important;
+    background: rgba(207, 102, 121, 0.2) !important;
+}
+
+.option input[type="radio"] {
+    display: none;
+}
+
+.correct-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #388e3c;
+    font-size: 13px;
+}
+
+.incorrect-indicator {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #e53935;
+    font-size: 13px;
+}
+
+.instruction-box {
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #f3e8ff, #e0f2ff);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    line-height: 1.8;
+}
+
+.instruction-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6a11cb;
+    margin-bottom: 15px;
+    border-left: 5px solid #6a11cb;
+    padding-left: 10px;
+}
+
+.instruction-list {
+    padding-left: 20px;
+}
+
+.instruction-list li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.instruction-list li:hover {
+    transform: translateX(5px);
+    background: #f0f4ff;
+}
+
+.instruction-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.instruction-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: #6a11cb;
+}
+
+#start-test-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 6px 15px rgba(101, 41, 255, 0.4);
+    transition: 0.3s;
+}
+
+#start-test-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(101, 41, 255, 0.6);
+}
+
+.sidebar {
+    width: 300px;
+    background-color: var(--white);
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    overflow-y: auto;
+    right: 0;
+    left: auto;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header h2 {
+    color: var(--primary-color);
+}
+
+.test-info {
+    margin-bottom: 20px;
+}
+
+.test-info p {
+    margin: 5px 0;
+    color: var(--light-text);
+}
+
+.question-palette {
+    margin-bottom: 20px;
+}
+
+.palette-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.palette-btn {
+    width: 100%;
+    max-width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: #FF474D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: auto;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.palette-btn:hover {
+    background-color: #EFBF04;
+}
+
+.palette-btn.answered {
+    background-color: #90ee90;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.marked {
+    background-color: #90D5FF;
+    color: #000000;
+    border-color: #000000;
+}
+
+.palette-btn.current {
+    background-color: #ffffff;
+    border: 2px solid var(--primary-color);
+}
+
+.palette-btn.review-correct {
+    background-color: #22c55e !important;
+    color: #fff !important;
+    border-color: #16a34a !important;
+}
+.palette-btn.review-wrong {
+    background-color: #ef4444 !important;
+    color: #fff !important;
+    border-color: #dc2626 !important;
+}
+.palette-btn.review-unanswered {
+    background-color: #3b82f6 !important;
+    color: #fff !important;
+    border-color: #2563eb !important;
+}
+
+.palette-btn.review-correct.current,
+.palette-btn.review-wrong.current,
+.palette-btn.review-unanswered.current {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+body.dark-mode .palette-btn.review-correct  { background-color: #16a34a !important; border-color: #15803d !important; }
+body.dark-mode .palette-btn.review-wrong    { background-color: #dc2626 !important; border-color: #b91c1c !important; }
+body.dark-mode .palette-btn.review-unanswered { background-color: #2563eb !important; border-color: #1d4ed8 !important; }
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+body.dark-mode .palette-btn {
+    background-color: #FF474D !important;
+    color: var(--dark-primary-color);
+    border: 2px solid var(--dark-primary-color);
+}
+
+body.dark-mode .palette-btn.answered {
+    background-color: #388e3c !important;
+    color: white !important;
+    border-color: #388e3c !important;
+}
+
+body.dark-mode .palette-btn.marked {
+    background-color: #03dac6 !important;
+    color: black !important;
+    border-color: #03dac6 !important;
+}
+
+body.dark-mode .palette-btn.current {
+    background-color: white !important;
+    border: 2px solid var(--dark-primary-color) !important;
+    color: var(--dark-primary-color) !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: var(--dark-primary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #a75dfc;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #00c4b4;
+}
+
+body.dark-mode .btn-outline {
+    border-color: var(--dark-primary-color);
+    color: var(--dark-primary-color);
+}
+
+body.dark-mode .mark-btn {
+    border-color: var(--dark-secondary-color);
+    color: var(--dark-secondary-color);
+}
+
+body.dark-mode .mark-btn.marked {
+    background-color: var(--dark-secondary-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn {
+    background-color: var(--dark-correct-color);
+    color: #000;
+}
+
+body.dark-mode .submit-btn:hover {
+    background-color: #2a6e2c;
+}
+
+body.dark-mode .modal-content {
+    background-color: #242424;
+    color: var(--dark-light-text);
+}
+
+body.dark-mode .stat-card {
+    background-color: #1e1e1e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 0;
+    margin-right: 300px;
+    padding: 20px;
+}
+
+.test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.timer {
+    background-color: #FF0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #c6e977;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+.question-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.question-number {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.options {
+    margin-left: 0;
+}
+
+.navigation-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #73e4e6;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: #ffffff;
+}
+
+.mark-btn {
+    margin-left: 10px;
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.mark-btn.marked {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.submit-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background-color: var(--correct-color);
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #388e3c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+    color: var(--primary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--light-text);
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.correct-stat { color: var(--correct-color); }
+.incorrect-stat { color: var(--incorrect-color); }
+.score-stat { color: var(--secondary-color); }
+
+.detailed-results {
+    margin-top: 20px;
+}
+
+.detailed-results h3 {
+    margin-bottom: 10px;
+}
+
+.review-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.button2 {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.button2:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 12px rgba(0, 90, 153, 0.5);
+    color: #fff;
+}
+
+#dark-mode-toggle-bottom:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    box-shadow: 0 6px 20px rgba(101, 41, 255, 0.9);
+}
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    color: #333;
+    box-shadow: 0 4px 15px rgba(255, 210, 0, 0.7);
+}
+
+#test-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    z-index: 9998;
+    display: none;
+    overflow: auto;
+}
+
+#user-name-display {
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    text-align: center;
+}
+
+.instruction-checkbox input:checked + .custom-check {
+    background: rgba(106,17,203,0.1);
+    box-shadow: 0 0 10px rgba(106,17,203,0.4);
+}
+
+.instruction-checkbox input {
+    display: none;
+}
+
+.custom-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a11cb;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.instruction-checkbox input:checked + .custom-check::after {
+    content: "\2714";
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 16px;
+    color: #6a11cb;
+}
+
+.test-info {
+    text-align: left !important;
+    display: block !important;
+}
+
+.test-info p {
+    text-align: left !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 6px;
+    font-size: 16px !important;
+    margin: 6px 0 !important;
+}
+
+.test-info strong {
+    font-weight: 700 !important;
+    color: #000 !important;
+}
+
+.mobile-top-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .mobile-timer-clone {
+        background-color: #FF0000;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 15px;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    #mobile-name-display {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    #user-name-display { display: none !important; }
+    .sidebar .timer { display: none !important; }
+    .sidebar .sidebar-header { display: none !important; }
+
+    body { display: flex; flex-direction: column; }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        right: 0; left: 0;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
+    .question-palette { max-height: 200px; overflow-y: auto; }
+    .main-content { margin: 0 !important; width: 100%; padding: 10px; }
+
+    .navigation-btns {
+        flex-direction: row !important;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #prev-btn {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+        flex-shrink: 0;
+    }
+
+    #next-btn {
+        padding: 14px 28px !important;
+        font-size: 17px !important;
+        border-radius: 8px !important;
+        flex: 1;
+    }
+
+    .navigation-btns > div {
+        display: flex;
+        flex: 1;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #mark-btn {
+        font-size: 11px !important;
+        padding: 6px 8px !important;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .palette-grid { grid-template-columns: repeat(4, 1fr); }
+    .result-stats { grid-template-columns: 1fr; }
+}
+
+.fancy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.4px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+}
+
+.fancy-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+    border-radius: inherit;
+}
+
+.fancy-btn:hover::after { background: rgba(255,255,255,0.12); }
+.fancy-btn:active { transform: scale(0.96) !important; }
+.fancy-btn:hover { transform: translateY(-3px) scale(1.03); }
+
+.join-btn {
+    background: linear-gradient(135deg, #0088cc, #006699);
+    color: white;
+    box-shadow: 0 5px 18px rgba(0,136,204,0.45);
+}
+.join-btn:hover { box-shadow: 0 8px 24px rgba(0,136,204,0.65); color: white; }
+
+.submit-fancy-btn {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white;
+    box-shadow: 0 5px 18px rgba(34,197,94,0.45);
+    flex: 1;
+    max-width: 280px;
+}
+.submit-fancy-btn:hover { box-shadow: 0 8px 24px rgba(34,197,94,0.65); }
+
+.pdf-download-btn {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white !important;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+}
+.pdf-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(249,115,22,0.6);
+    color: white !important;
+}
+.pdf-download-btn:active { transform: scale(0.97); }
+
+#pdf-print-area { display: none; }
+
+@media print {
+    body > * { display: none !important; }
+    #pdf-print-area {
+        display: block !important;
+        font-family: Arial, sans-serif;
+        color: #111;
+        padding: 20px;
+        margin: 0;
+    }
+}
+
+.footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 0.3px;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, filter 0.18s;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-btn:hover {
+    transform: translateY(-3px) scale(1.06);
+    filter: brightness(1.1);
+    color: white;
+}
+
+.footer-btn:active { transform: scale(0.95); }
+
+.more-btn {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+    box-shadow: 0 4px 14px rgba(168,85,247,0.4);
+}
+.more-btn:hover { box-shadow: 0 7px 20px rgba(168,85,247,0.65); }
+
+.back-btn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 14px rgba(34,197,94,0.4);
+}
+.back-btn:hover { box-shadow: 0 7px 20px rgba(34,197,94,0.65); }
+
+.report-btn {
+    background: linear-gradient(135deg, #f97316, #dc2626);
+    box-shadow: 0 4px 14px rgba(239,68,68,0.4);
+}
+.report-btn:hover { box-shadow: 0 7px 20px rgba(239,68,68,0.65); }
+
+body.dark-mode #dark-mode-toggle-bottom {
+    background: linear-gradient(45deg, #f7971e, #ffd200) !important;
+    box-shadow: 0 4px 15px rgba(255,210,0,0.6) !important;
+}
+body.dark-mode #dark-mode-toggle-bottom .icon { color: #333 !important; }
+body.dark-mode #dark-mode-toggle-bottom span:not(.icon) { color: #333 !important; }
+
+body.dark-mode #start-screen {
+    background-color: #1a1a2e !important;
+}
+body.dark-mode #start-screen h1 { color: #bb86fc !important; }
+body.dark-mode #start-screen > p { color: #e0e0e0 !important; }
+body.dark-mode #start-screen li { color: #e0e0e0 !important; }
+body.dark-mode #start-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode #start-screen a[href*="t.me"] { color: #bb86fc !important; text-decoration: none !important; }
+body.dark-mode #start-screen strong { color: #fff !important; }
+body.dark-mode #start-screen input[type="text"] {
+    background: #2a2a2a !important;
+    color: #fff !important;
+    border-color: #555 !important;
+}
+
+body.dark-mode #instruction-screen { background: #1a1a2e !important; }
+body.dark-mode #instruction-screen h2 { color: #e0e0e0 !important; }
+body.dark-mode .instruction-box { background: linear-gradient(135deg, #2d1f4e, #1a2a4e) !important; }
+body.dark-mode .instruction-title { color: #bb86fc !important; border-left-color: #bb86fc !important; }
+body.dark-mode .instruction-list li { background: #242424 !important; color: #e0e0e0 !important; }
+body.dark-mode .instruction-list li:hover { background: #2e2e4e !important; }
+body.dark-mode .custom-check { border-color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox input:checked + .custom-check::after { color: #bb86fc !important; }
+body.dark-mode .instruction-checkbox { color: #e0e0e0 !important; }
+
+body.dark-mode #test-screen { background: #121212 !important; }
+
+body.dark-mode .mobile-top-bar {
+    background: #1f1f1f !important;
+    border-color: #333 !important;
+}
+body.dark-mode .mobile-timer-clone {
+    background-color: var(--dark-incorrect-color) !important;
+}
+
+body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- START SCREEN -->
+<div id="start-screen" style="
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: white; z-index: 9999; display: flex;
+    flex-direction: column; justify-content: flex-start; align-items: center;
+    text-align: center; padding: 40px 20px 40px;
+    overflow-y: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+<button id="dark-mode-toggle-bottom" aria-label="Toggle dark mode" title="Toggle dark mode"
+  style="position:absolute; top:18px; right:18px; font-size:22px; padding:8px 18px;
+  border-radius:40px; border:none; cursor:pointer;
+  background:linear-gradient(45deg,#6a11cb,#2575fc); color:white;
+  display:flex; align-items:center; gap:7px;
+  box-shadow:0 4px 15px rgba(101,41,255,0.5);
+  transition:background 0.4s ease, box-shadow 0.4s ease, transform 0.2s;">
+  <span class="icon" style="display:inline-block; transition:transform 0.6s ease;">🌙</span>
+  <span style="font-size:13px; font-weight:600; letter-spacing:0.5px;">Dark</span>
+</button>
+
+<h1 style="color: #a185de; font-size: 32px;" id="page-title">BST full mock</h1>
+<p style="font-size: 18px; margin: 10px 0;">Provided by <strong>Thunderstudy</strong></p>
+
+<a href="https://t.me/thunderstudy_official" target="_blank"
+  style="display:inline-flex; align-items:center; gap:8px; margin: 8px 0 14px;
+  background:linear-gradient(135deg,#0088cc,#006699); color:white; text-decoration:none;
+  padding:10px 24px; border-radius:30px; font-size:15px; font-weight:700;
+  box-shadow:0 5px 16px rgba(0,136,204,0.45);
+  transition:transform 0.18s, box-shadow 0.18s;"
+  onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 8px 22px rgba(0,136,204,0.65)'"
+  onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 5px 16px rgba(0,136,204,0.45)'"
+  onmousedown="this.style.transform='scale(0.97)'"
+  onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="flex-shrink:0;">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.607c-.148.666-.543.828-1.098.516l-3.04-2.24-1.467 1.413c-.162.162-.298.298-.611.298l.217-3.083 5.613-5.067c.244-.217-.054-.337-.378-.12L7.08 14.807 4.09 13.89c-.657-.205-.67-.657.137-.973l10.88-4.196c.548-.198 1.027.133.855.973z"/>
+  </svg>
+  @thunderstudy_official
+</a>
+
+<div style="max-width: 560px; text-align: left; margin: 10px auto 18px; background:#f8f4ff; border-radius:12px; padding:18px 22px; border-left:4px solid #a185de;">
+  <h2 style="margin-bottom:12px; color:#6a11cb; font-size:18px;">📋 Quick Overview</h2>
+  <ul style="text-align: left; line-height:2; font-size:15px; padding-left:18px;">
+    <li><strong>50 Questions</strong></li>
+    <li><strong>60 Minutes</strong> total time</li>
+    <li><strong>+5 marks</strong> for correct &nbsp;|&nbsp; <strong>−1 mark</strong> for wrong</li>
+    <li>No penalty for <strong>unanswered</strong> questions</li>
+    <li>Test <strong>auto-submits</strong> when time ends</li>
+    <li>Do <strong>not switch tabs</strong> or exit fullscreen during test</li>
+  </ul>
+</div>
+
+<div style="margin: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <input type="text" id="username-input" placeholder="Enter your name"
+        style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+    
+    <div id="sid-display-area" style="font-size: 13px; font-weight: 700; color: #4f6ef7; background: rgba(79,110,247,0.1); padding: 5px 15px; border-radius: 20px; display: none;">
+        🪪 ID: <span id="sid-value">---</span>
+    </div>
+</div>
+
+<div style="display:flex; flex-direction:column; align-items:center; gap:11px; margin-top:6px;">
+
+  <button onclick="startMock()" style="
+      width:260px; background: linear-gradient(135deg,#6a11cb,#2575fc); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(101,41,255,0.45);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(101,41,255,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(101,41,255,0.45)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    🚀 Start Mock
+  </button>
+
+  <button onclick="window.location.href='https://commercesehoga.github.io/dashboard/'" style="
+      width:260px; background: linear-gradient(135deg,#22c55e,#15803d); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(34,197,94,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(34,197,94,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(34,197,94,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📊 Previous Result
+  </button>
+
+  <button onclick="window.open('https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html','_blank')" style="
+      width:260px; background: linear-gradient(135deg,#a855f7,#7e22ce); color: white; padding: 13px 36px;
+      font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(168,85,247,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;"
+    onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(168,85,247,0.6)'"
+    onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(168,85,247,0.4)'"
+    onmousedown="this.style.transform='scale(0.97)'"
+    onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
+    📚 More Mock Tests
+  </button>
+
+</div>
+</div>
+
+<!-- INSTRUCTION SCREEN -->
+<div id="instruction-screen" style="
+position: fixed; top:0; left:0; width:100%; height:100%;
+background:white; z-index:9999; display:none; overflow:auto; padding:30px;">
+
+<h2 style="text-align:center; margin-bottom:20px;">Please read the instructions carefully</h2>
+
+<div class="instruction-box">
+<h3 class="instruction-title">General Instructions</h3>
+<ol class="instruction-list">
+<li>Total duration of test is <strong>60 minutes</strong>. Timer shown in sidebar.</li>
+<li>Test <strong>auto-submits</strong> when the timer reaches zero.</li>
+<li>The test runs in <strong>fullscreen mode</strong>. Exiting fullscreen starts a <strong>5-second countdown</strong> to auto-submit.</li>
+<li><strong>Do not switch tabs</strong>. Switching tabs starts a <strong>2-second countdown</strong> to auto-submit.</li>
+<li>Return to fullscreen or the tab before the countdown ends to continue safely.</li>
+<li>Question palette on the right shows answered, marked, and current status.</li>
+<li>Each correct answer: <strong>+5 marks</strong>. Each wrong answer: <strong>−1 mark</strong>. Unanswered: <strong>0 marks</strong>.</li>
+</ol>
+
+<div style="margin-top:20px;">
+    <strong>Question Status Legend:</strong>
+    <div class="legend" style="margin-top:10px;">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90ee90;"></div>
+            <span>Answered</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #90D5FF;"></div>
+            <span>Marked</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="border: 1px solid var(--primary-color); background-color: white;"></div>
+            <span>Current</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FF474D; border: 1px solid #ddd;"></div>
+            <span>Unanswered</span>
+        </div>
+    </div>
+</div>
+
+<label class="instruction-checkbox">
+    <input type="checkbox" id="agree-checkbox">
+    <span class="custom-check"></span>
+    I have read and understood all instructions
+</label>
+
+<br><br>
+
+<button id="start-test-btn" disabled style="
+background:#3f51b5; color:white; padding:12px 24px; border:none;
+border-radius:5px; font-size:18px; cursor:not-allowed; opacity:0.6;">
+Start Test
+</button>
+</div>
+</div>
+
+<!-- TEST SCREEN -->
+<div id="test-screen">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+    <div class="timer">01:00:00</div>
+    <div id="focus-laptop" style="font-size:12px; font-weight:bold; color:green; margin-top:5px;">● Focus On</div>
+</div>
+
+    <div class="test-info">
+      <p><strong>Name:</strong> <span id="display-user-name">Thunder</span></p>
+    <p><strong>Student ID:</strong> <span id="display-user-sid" style="color:var(--acc); font-family:monospace;">---</span></p>
+        <p><strong>Subject:</strong> <span id="subject-label">BST</span></p>
+        <p><strong>Questions:</strong> 50</p>
+        <p><strong>Duration:</strong> 60 minutes</p>
+        <p><strong>Marking:</strong> +5 / -1</p>
+        <p><strong>Chapter:</strong> <span id="current-section">-</span></p>
+    </div>
+
+    <div class="question-palette">
+        <div class="palette-title">
+            <span>Questions</span>
+            <span id="answered-count">0/50</span>
+        </div>
+        <div class="palette-grid" id="question-palette-grid"></div>
+
+        <div id="palette-legend" style="margin-top:12px; font-size:12px;"></div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+<div class="mobile-top-bar">
+    <div class="mobile-timer-clone">01:00:00</div>
+    <div id="focus-mobile" style="font-size:10px; font-weight:bold; color:green;">● Focus On</div>
+    <div id="mobile-name-display">👤 Thunder</div>
+</div>
+
+<div class="test-header">
+  <div id="user-name-display" style="
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color:white; padding:6px 14px; border-radius:20px;
+    font-weight:bold; font-size:14px;">
+👤 Thunder
+</div>
+<h2>Question <span id="current-q-number">1</span>/50</h2>
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress" id="test-progress"></div>
+</div>
+<div class="progress-text">
+<span>Progress &nbsp;</span>
+<span id="progress-percent">0%</span>
+</div>
+</div>
+</div>
+
+<div class="question-container">
+<div class="question-number">Question <span id="q-number">1</span></div>
+<div class="question-text" id="question-text"></div>
+<div class="options" id="options-container"></div>
+<div class="navigation-btns">
+<button class="btn btn-outline" id="prev-btn">&#8592; Previous</button>
+<div>
+<button class="mark-btn" id="mark-btn">Mark for Review</button>
+<button class="btn btn-primary" id="next-btn">Next &#8594;</button>
+</div>
+</div>
+</div>
+
+<div class="submit-section" style="
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; max-width: 620px; margin: 24px auto; gap: 14px; flex-wrap: wrap;">
+
+    <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn join-btn">
+        ⚡ Join Thunder
+    </a>
+
+    <button class="fancy-btn submit-fancy-btn" id="submit-test-btn">
+        ✅ Submit Test
+    </button>
+</div>
+
+<footer style="background: linear-gradient(135deg,#1a1a2e,#16213e); color: #e0e0e0; text-align: center; padding: 22px 16px; margin-top: 10px;">
+   <p style="font-size:13px; color:#aaa; margin-bottom:14px;">© 2025 Thunder. All Rights Reserved.</p>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:14px;">
+    <a href="https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html" target="_blank" class="footer-btn more-btn">
+        📚 More Mock
+    </a>
+    <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-btn back-btn">
+        🌐 Back To Website
+    </a>
+    <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-btn report-btn">
+        🚨 Report Error
+    </a>
+</div>
+</footer>
+
+<!-- Results Modal -->
+<div class="modal" id="results-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Test Results</h2>
+<button class="close-btn" id="close-modal">×</button>
+</div>
+<div class="result-stats">
+<div class="stat-card">
+<h3>Correct Answers</h3>
+<p class="correct-stat" id="correct-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Incorrect Answers</h3>
+<p class="incorrect-stat" id="incorrect-answers">0</p>
+</div>
+<div class="stat-card">
+<h3>Unanswered</h3>
+<p class="neutral-stat" id="unanswered">50</p>
+</div>
+<div class="stat-card">
+<h3>Total Score</h3>
+<p class="score-stat" id="total-score">0</p>
+</div>
+</div>
+<div class="detailed-results">
+<h3>Detailed Analysis</h3>
+<p>Percentage: <span id="percentage">0</span>%</p>
+<p>Accuracy: <span id="accuracy">0</span>%</p>
+</div>
+<div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+<button class="btn btn-secondary review-btn" id="review-btn" style="flex:1; margin-top:0;">Review Answers</button>
+<button class="btn pdf-download-btn" id="download-pdf-btn" style="flex:1;">📄 Download PDF</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+  // Disable Right-Click, Copy, and Paste
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        e.preventDefault();
+    }
+});
+function detectDevTools() {
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        alert("Security Breach: DevTools detected. Test will auto-submit.");
+        submitTest();
+    }
+}
+// Check every 1 second during the test
+setInterval(() => { if(testStarted && !testSubmitted) detectDevTools(); }, 1000);
+/* ============================================================
+   MOCK TEST DATA — Edit questions here
+   ============================================================ */
+const mockTest = {
+    title: "BST Mock",
+    questions: [
+  {
+    id: 1,
+    section: "Management",
+    text: "Assertion (A): 'Management is a goal-oriented process' — it has no relevance unless there are some objectives to be accomplished.<br>Reason (R): The objectives of different individuals in an organisation may differ but as members of the organisation they all work towards achieving the common organisational goal.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "b",
+    explanation: "Both statements are directly from NCERT and are TRUE. However, (R) — that individuals have different objectives but work towards a common organisational goal — explains the characteristic 'management integrates individual efforts', NOT 'management is goal-oriented'. Hence (R) does not explain (A). Answer is (B).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 2,
+    section: "Management",
+    text: "Which of the following is the CORRECT order of levels of management from top to bottom, and the NCERT description that matches each?<br>(A) Top → Board of Directors, CEO → Long-term policy decisions<br>(B) Middle → Departmental/Branch managers → Implement plans, assign duties<br>(C) Lower/Supervisory → Foremen, Superintendents → Ensure actual work is done<br>(D) Middle → Responsible for welfare and survival of organisation",
+    options: { a: "(A), (B) and (C) only", b: "(A) and (D) only", c: "(B) and (C) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A), (B), (C) are all correctly matched per NCERT. (D) is WRONG — 'responsible for welfare and survival of the organisation' is a function of TOP management, not middle management. Middle management implements plans assigned by top management.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 3,
+    section: "Principles of Management",
+    text: "NCERT states that Taylor's 'Differential Piece Wage System' was designed to:<br>(A) Reward efficient workers with a higher rate per piece<br>(B) Penalise inefficient workers by paying them a lower rate per piece<br>(C) Eliminate the distinction between efficient and inefficient workers<br>(D) Create two separate wage rates — one for those who meet or exceed standard output and one for those who don't",
+    options: { a: "(A) and (B) only", b: "(A), (B) and (D) only", c: "(C) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "b",
+    explanation: "Per NCERT: Differential Piece Wage System has TWO rates — a higher rate for workers who meet/exceed standard output and a lower rate for those who fall below. So (A), (B), and (D) are correct. (C) is the OPPOSITE — the system deliberately distinguishes between efficient and inefficient workers to incentivise efficiency.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 4,
+    section: "Principles of Management",
+    text: "Fayol's principle of 'Stability of Personnel' states that employees should not be moved frequently from one job to another. Which of the following situations is most directly addressed by this principle?",
+    options: { a: "A company that rotates managers every 6 months to develop well-rounded leaders", b: "A company where employees leave before they can master their assigned role due to frequent transfers", c: "A company where the same manager has held the same post for 20 years and resists change", d: "A company where new recruits are assigned to multiple departments simultaneously" },
+    correctAnswer: "b",
+    explanation: "NCERT's Stability of Personnel directly warns against unnecessary movement of employees. The principle says that time is required to master a job, and instability wastes time and resources. Option (B) captures exactly what Fayol said — employees leaving or being moved before they can be productive. (A) is a deliberate rotation policy. (C) is excessive stability, which Fayol did not advocate either.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 5,
+    section: "Planning",
+    text: "NCERT defines planning as 'deciding in advance what to do, how to do it, when to do it and who is to do it.' Which of the following statements is/are INCORRECT about planning?<br>(A) Planning is a mental exercise involving creative thinking<br>(B) Planning guarantees success if properly done<br>(C) Planning is a one-time activity and not continuous<br>(D) Planning leads to rigidity and may not work under dynamic conditions",
+    options: { a: "(A) and (D) only", b: "(B) and (C) only", c: "(A), (B) and (C) only", d: "(B), (C) and (D) only" },
+    correctAnswer: "b",
+    explanation: "(A) is CORRECT — NCERT says planning is a mental exercise. (D) is CORRECT — NCERT explicitly lists 'planning leads to rigidity' and 'does not work in dynamic environment' as limitations. (B) is INCORRECT — planning reduces risk but does NOT guarantee success; future is uncertain. (C) is INCORRECT — planning is a continuous/ongoing process per NCERT.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 6,
+    section: "Planning",
+    text: "Match List-I (Type of Plan) with List-II (NCERT Definition):<br><strong>List-I:</strong> (A) Strategy (B) Rule (C) Programme (D) Budget<br><strong>List-II:</strong> (I) A detailed statement about the finances needed for the series of activities (II) Specific statements that inform what is to be done or not to be done (III) Comprehensive plan including goals, policies, and action sequences (IV) A sequence of activities to carry out policies, with timeline and resources",
+    options: { a: "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)", b: "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)", c: "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)", d: "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)" },
+    correctAnswer: "a",
+    explanation: "Per NCERT: Strategy = comprehensive plan including goals, policies, sequences (III). Rule = specific statements about what to/not to do (II). Programme = sequence of activities with timeline and resources (IV). Budget = statement about finances/resources needed (I). This is a direct NCERT definition match.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 7,
+    section: "Organising",
+    text: "NCERT states: 'Organising is a process of defining and grouping activities of the enterprise and establishing authority relationships among them.' Arrange the following steps of organising in the correct sequence per NCERT:<br>(A) Establishing authority-responsibility relationships<br>(B) Identification and division of work<br>(C) Assignment of duties<br>(D) Departmentation",
+    options: { a: "(B), (D), (C), (A)", b: "(B), (C), (D), (A)", c: "(D), (B), (C), (A)", d: "(B), (D), (A), (C)" },
+    correctAnswer: "a",
+    explanation: "Per NCERT, the sequence of organising is: Identification and division of work (B) → Departmentation — grouping similar activities (D) → Assignment of duties to individuals (C) → Establishing authority-responsibility relationships (A). This is the exact NCERT sequence.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 8,
+    section: "Organising",
+    text: "Assertion (A): Decentralisation is an extension of delegation.<br>Reason (R): While delegation involves transfer of authority from a superior to a subordinate at an individual level, decentralisation involves systematic dispersal of authority in the organisation as a whole.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "This is a direct NCERT statement. NCERT explicitly says 'Decentralisation is an extension of delegation' AND explains it by distinguishing individual-level delegation from organisation-wide decentralisation. (R) correctly and completely explains (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 9,
+    section: "Staffing",
+    text: "NCERT describes the process of staffing. Which of the following is the CORRECT sequence of steps?<br>(A) Manpower planning → Recruitment → Selection → Placement and Orientation → Training and Development → Performance Appraisal → Promotion and Career Planning → Compensation<br>(B) Recruitment → Manpower planning → Selection → Training → Placement → Appraisal<br>(C) Manpower planning → Selection → Recruitment → Training → Placement → Compensation<br>(D) Recruitment → Selection → Manpower planning → Orientation → Training → Appraisal",
+    options: { a: "(A) only", b: "(B) only", c: "(A) and (C) only", d: "(B) and (D) only" },
+    correctAnswer: "a",
+    explanation: "NCERT gives the exact staffing process as: Estimating manpower requirements → Recruitment → Selection → Placement and Orientation → Training and Development → Performance Appraisal → Promotion and Career Planning → Compensation. Only (A) matches this correctly.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 10,
+    section: "Staffing",
+    text: "Which of the following is/are correctly identified as a LIMITATION of Internal Sources of Recruitment per NCERT?<br>(A) It prevents fresh talent from entering the organisation<br>(B) People get selected and promoted repeatedly limiting new perspectives<br>(C) It is always more expensive than external recruitment<br>(D) The spirit of competition may be hampered among existing employees",
+    options: { a: "(A) and (B) only", b: "(A), (B) and (D) only", c: "(B), (C) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "b",
+    explanation: "Per NCERT's limitations of internal recruitment: (A) No fresh talent/blood enters — CORRECT. (B) People promoted repeatedly, limiting new ideas — CORRECT. (D) Competitive spirit may be hampered — CORRECT per NCERT. (C) is INCORRECT — internal recruitment is generally CHEAPER than external recruitment, not more expensive.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 11,
+    section: "Directing",
+    text: "NCERT defines leadership as 'the process of influencing the behaviour of people by making them strive voluntarily towards achievement of organisational goals.' Which of the following is NOT identified as an element/feature of leadership per NCERT?<br>(A) There must be followers<br>(B) Leader influences subordinates through coercion and punishment<br>(C) Leadership implies a community of interest between leader and followers<br>(D) Leadership involves a relationship between leader and followers",
+    options: { a: "(B) only", b: "(A) and (C) only", c: "(B) and (D) only", d: "(C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "Per NCERT, leadership is about VOLUNTARY effort — people willingly work towards goals. (B) contradicts this — coercion and punishment are NOT leadership per NCERT; they undermine voluntary effort. (A), (C), and (D) are all correctly identified features of leadership in NCERT.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 12,
+    section: "Directing",
+    text: "NCERT lists the following as elements of communication: sender, message, encoding, media/channel, decoding, receiver, and feedback. Identify the INCORRECTLY described element:<br>(A) Encoding — converting the message into symbols, words or gestures<br>(B) Decoding — converting encoded symbols of the sender to the receiver's understanding<br>(C) Feedback — the process the sender uses to select the channel<br>(D) Noise — any interference that disrupts communication at any stage",
+    options: { a: "(A) only", b: "(C) only", c: "(C) and (D) only", d: "(A) and (C) only" },
+    correctAnswer: "b",
+    explanation: "(A) Encoding = converting message to symbols — CORRECT per NCERT. (B) Decoding = receiver converting symbols back to meaning — CORRECT. (C) is WRONG — Feedback is the response/reaction of the receiver that is communicated back to the sender, NOT the process of selecting a channel. Selecting a channel is a separate step. (D) Noise = interference — CORRECT per NCERT.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 13,
+    section: "Controlling",
+    text: "NCERT explains the relationship between planning and controlling with the phrase: 'Planning and controlling are inseparable twins of management.' Which of the following statements about this relationship is/are TRUE per NCERT?<br>(A) Planning without controlling is meaningless; controlling without planning is blind<br>(B) Planning is forward-looking; controlling is backward-looking — hence they are contradictory<br>(C) Controlling provides the basis for revising plans and setting new targets<br>(D) Both planning and controlling are performed only by top management",
+    options: { a: "(A) and (C) only", b: "(A), (B) and (C) only", c: "(B) and (D) only", d: "(A), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) CORRECT — direct NCERT quote. (C) CORRECT — NCERT says controlling leads to revision of plans; the cycle is continuous. (B) INCORRECT — NCERT says planning is forward-looking and controlling is backward-looking, but they are COMPLEMENTARY, not contradictory. Controlling also looks forward (preventive control). (D) INCORRECT — controlling is performed at all levels, not just top management.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 14,
+    section: "Controlling",
+    text: "Assertion (A): Controlling is both a backward-looking and a forward-looking function.<br>Reason (R): It measures past performance AND uses that analysis to take preventive action to avoid future deviations, making it both retrospective and prospective in nature.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT explicitly notes this dual nature of controlling. It looks BACKWARD by measuring past performance and FORWARD by taking corrective/preventive action. The reason precisely explains the assertion with both dimensions. Answer is (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 15,
+    section: "Business Environment",
+    text: "NCERT lists five dimensions of business environment: Economic, Social, Technological, Political, and Legal. Identify the CORRECT dimension for each example below:<br>(A) Decline in joint family system increasing demand for consumer goods — Social<br>(B) The Competition Act, 2002 — Legal<br>(C) Reduction in customs duty — Political<br>(D) Availability of credit at lower interest rate — Economic",
+    options: { a: "(A), (B) and (D) only", b: "(A) and (D) only", c: "(A), (B), (C) and (D) only", d: "(B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) Changing family structures = Social dimension — CORRECT. (B) Competition Act = Legal dimension — CORRECT. (C) Reduction in customs duty is a FISCAL/ECONOMIC policy decision, not purely political — it falls under Economic dimension. (D) Credit availability/interest rates = Economic dimension — CORRECT. So (A), (B) and (D) are correctly matched; (C) is mismatched.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 16,
+    section: "Business Environment",
+    text: "NCERT describes the impact of Government Policy Changes since 1991 on Indian businesses. Which of the following is a direct impact mentioned in NCERT?<br>(A) Increasing competition from MNCs has forced Indian firms to improve quality and efficiency<br>(B) More demanding customers — liberalisation gave access to better quality goods<br>(C) Rapidly changing technological environment<br>(D) All Indian firms became immediately profitable after 1991 reforms",
+    options: { a: "(A), (B) and (C) only", b: "(A) and (B) only", c: "(A), (C) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "NCERT explicitly lists the following impacts of 1991 reforms: increased competition, more demanding customers, rapidly changing technology, necessity for change, market orientation. (D) is FALSE and not in NCERT — many Indian firms actually struggled initially due to increased MNC competition.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 17,
+    section: "Financial Markets",
+    text: "NCERT defines Capital Market as 'the market for medium and long-term funds.' Which of the following is the CORRECT classification?<br>(A) Primary market — new securities issued for the first time<br>(B) Secondary market — old/existing securities are bought and sold<br>(C) Secondary market — fresh capital is raised by companies<br>(D) Primary market — both new and existing securities are traded",
+    options: { a: "(A) and (B) only", b: "(A), (B) and (C) only", c: "(C) and (D) only", d: "(A) and (D) only" },
+    correctAnswer: "a",
+    explanation: "Per NCERT: Primary market = new securities issued for the first time to raise fresh capital (A is CORRECT). Secondary market = existing securities traded between investors, no fresh capital raised (B is CORRECT). (C) is WRONG — secondary market does NOT raise fresh capital for companies. (D) is WRONG — primary market deals in new issues only.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 18,
+    section: "Financial Markets",
+    text: "Assertion (A): Stock Exchange acts as a barometer of the economy.<br>Reason (R): The performance of the economy is reflected in the index of stock prices — a rise indicates economic prosperity and a fall indicates decline.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "This is a direct NCERT statement about functions of the Stock Exchange. NCERT uses the exact phrase 'barometer of the economy' and explains it through stock price indices reflecting economic health. (R) correctly and directly explains (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 19,
+    section: "Marketing",
+    text: "NCERT defines 'Market' in the marketing context. Which of the following most closely matches NCERT's concept of modern marketing?<br>(A) Marketing is concerned only with sale of goods after they are produced<br>(B) Marketing starts before production — from identifying consumer needs — and continues after the sale<br>(C) Marketing and selling are the same activity<br>(D) Marketing starts with production and ends with delivery of goods",
+    options: { a: "(B) only", b: "(A) and (D) only", c: "(A) and (C) only", d: "(B) and (D) only" },
+    correctAnswer: "a",
+    explanation: "NCERT explicitly differentiates modern marketing from the selling concept. NCERT says marketing 'starts with identifying consumer needs, then producing and delivering need-satisfying products, and continues after-sale service.' (A), (C), and (D) all describe the old selling orientation that NCERT contrasts against modern marketing. Only (B) is correct.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 20,
+    section: "Marketing",
+    text: "NCERT distinguishes between 'Labelling' and 'Packaging'. Which of the following is CORRECTLY attributed per NCERT?<br>(A) Labelling provides information about the product — ingredients, price, date, directions for use<br>(B) Packaging is primarily designed to provide product information<br>(C) Labelling helps in identification and grading of the product<br>(D) Packaging functions include: protection, promotion, and facilitating use of the product",
+    options: { a: "(A), (C) and (D) only", b: "(A) and (D) only", c: "(B), (C) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) Labelling providing information = CORRECT per NCERT. (C) Labelling helps identification and grading = CORRECT per NCERT. (D) Packaging functions include protection, promotion, facilitating use = CORRECT per NCERT. (B) is WRONG — providing product information is primarily a labelling function, not packaging. NCERT explicitly distinguishes these.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 21,
+    section: "Consumer Protection",
+    text: "NCERT explains the Consumer Protection Act, 2019. Identify which combination is CORRECTLY stated:<br>(A) A consumer can file a complaint electronically<br>(B) The limitation period to file a complaint is two years from the date of cause of action<br>(C) The District Commission has jurisdiction up to ₹50 lakh<br>(D) Mediation is a mode of alternative dispute resolution under CPA 2019",
+    options: { a: "(A), (B) and (D) only", b: "(A) and (B) only", c: "(B), (C) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) Electronic complaint filing — YES, CPA 2019 allows this. (B) Limitation of 2 years — CORRECT per CPA 2019. (D) Mediation as ADR — CORRECT; CPA 2019 introduced mediation cells. (C) is WRONG — under CPA 2019, District Commission handles complaints up to ₹1 CRORE, not ₹50 lakh (that was the old limit under CPA 1986).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 22,
+    section: "Consumer Protection",
+    text: "Assertion (A): Under the Consumer Protection Act, 2019, a consumer complaint can be filed in the District Commission where the complainant resides or works for gain — not just where the opposite party resides.<br>Reason (R): CPA 2019 amended territorial jurisdiction rules to make it more convenient for consumers to file complaints.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "CPA 2019 is a consumer-friendly amendment. One key change was allowing complaints to be filed where the consumer resides or works — a significant improvement over CPA 1986 which required filing where the opposite party resided. (R) correctly explains WHY this change was made — consumer convenience.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 23,
+    section: "Business Finance",
+    text: "NCERT explains the concept of 'Trading on Equity' (Financial Leverage). Which of the following statements is TRUE per NCERT?<br>(A) Trading on equity means taking advantage of equity shareholders' funds to earn more for them using borrowed funds<br>(B) Trading on equity is favourable only when the rate of return on investment exceeds the rate of interest on debt<br>(C) Higher financial leverage always increases EPS regardless of the level of EBIT<br>(D) Financial leverage is zero when a firm has no debt in its capital structure",
+    options: { a: "(A), (B) and (D) only", b: "(A) and (B) only", c: "(B) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) CORRECT — NCERT's definition of trading on equity. (B) CORRECT — NCERT explicitly states leverage is favourable only when ROI > interest rate on debt. (D) CORRECT — with no debt, there is no financial leverage (leverage = 1 or zero effect). (C) is FALSE — if EBIT falls below interest obligation, higher leverage REDUCES EPS. NCERT warns that financial leverage is a double-edged sword.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 24,
+    section: "Business Finance",
+    text: "NCERT distinguishes between fixed capital and working capital. Which of the following factors will DECREASE the requirement for Fixed Capital?<br>(A) Using leasing instead of purchasing assets<br>(B) Adopting labour-intensive technology<br>(C) Choosing a manufacturing business over a trading business<br>(D) Expansion into new product lines",
+    options: { a: "(A) and (B) only", b: "(A) only", c: "(B) and (D) only", d: "(A), (B) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) Leasing instead of buying = REDUCES fixed capital need — CORRECT per NCERT. (B) Labour-intensive technology = less machinery = REDUCES fixed capital — CORRECT per NCERT. (C) Manufacturing requires MORE fixed capital than trading — WRONG direction. (D) Expansion into new lines INCREASES fixed capital requirement. So only (A) and (B) reduce fixed capital.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 25,
+    section: "Entrepreneurship",
+    text: "NCERT defines an entrepreneur as one who 'organises, manages, and assumes the risk of a business enterprise.' Which of the following correctly distinguishes 'entrepreneur' from 'intrapreneur' per NCERT/standard usage?<br>(A) An entrepreneur creates an independent venture; an intrapreneur innovates within an existing organisation<br>(B) An intrapreneur bears the full financial risk personally just like an entrepreneur<br>(C) Both entrepreneur and intrapreneur create value and drive innovation<br>(D) An intrapreneur uses the parent company's resources without bearing personal financial risk",
+    options: { a: "(A), (C) and (D) only", b: "(A) and (B) only", c: "(B) and (C) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) CORRECT — entrepreneurs build independent ventures; intrapreneurs innovate within existing firms. (C) CORRECT — both create value and innovate. (D) CORRECT — intrapreneurs use company resources and do NOT bear personal financial risk (the organisation does). (B) is WRONG — intrapreneurs do NOT bear full financial risk personally; the sponsoring organisation does. This is the key difference.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 26,
+    section: "Case Study — Ratan Steels",
+    text: "<strong>Read the following case and answer Q26–30:</strong><br><br>Ratan Steels Ltd. manufactures structural steel for the construction sector. The company recently faced declining profits. A management consultant recommended three changes: (i) separate the planning function from execution at the factory floor level using specialist supervisors per Taylor's principles; (ii) conduct a systematic study of the most efficient way to perform each operation to eliminate unnecessary motions; (iii) establish a science for each element of an employee's work replacing the old rule-of-thumb methods. The HR team also noted that a new recruit, Vikram, was given a more complex role than his current training level warranted, causing errors and low confidence.<br><br><strong>Q26.</strong> The recommendation to 'separate planning from execution using specialist supervisors' refers to which of Taylor's techniques?",
+    options: { a: "Differential piece wage system", b: "Functional foremanship", c: "Time and motion study", d: "Standardisation of work" },
+    correctAnswer: "b",
+    explanation: "Taylor's Functional Foremanship separates planning from execution by appointing specialist supervisors — each handling a specific function (instruction card clerk, speed boss, etc.) rather than one general foreman doing everything. This is the direct NCERT definition.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 27,
+    section: "Case Study — Ratan Steels",
+    text: "<strong>Case: Ratan Steels (continued — refer Q26 for full passage)</strong><br><br><strong>Q27.</strong> 'Systematic study of the most efficient way to perform each operation to eliminate unnecessary motions' — identify the Taylor technique.",
+    options: { a: "Time study", b: "Method study", c: "Fatigue study", d: "Standardisation" },
+    correctAnswer: "b",
+    explanation: "Method Study per NCERT: 'The objective of method study is to find out one best way of doing the job by eliminating unnecessary movements.' It involves finding the most efficient method. Time study measures time for each element. The clue 'eliminate unnecessary motions' = Method Study.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 28,
+    section: "Case Study — Ratan Steels",
+    text: "<strong>Case: Ratan Steels (continued — refer Q26 for full passage)</strong><br><br><strong>Q28.</strong> 'Establish a science for each element of an employee's work replacing rule-of-thumb methods' refers to which of Taylor's principles of Scientific Management?",
+    options: { a: "Harmony, not Discord", b: "Science, not Rule of Thumb", c: "Cooperation, not Individualism", d: "Mental Revolution" },
+    correctAnswer: "b",
+    explanation: "Taylor's principle 'Science, Not Rule of Thumb' directly says: replace rule-of-thumb methods with scientifically determined best methods for each element of work. NCERT uses almost this exact phrasing. The case description mirrors the principle verbatim.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 29,
+    section: "Case Study — Ratan Steels",
+    text: "<strong>Case: Ratan Steels (continued — refer Q26 for full passage)</strong><br><br><strong>Q29.</strong> Vikram was given a role more complex than his training level. This violates which staffing principle and relates to which concept in NCERT's staffing chapter?",
+    options: { a: "Improper placement — the right person was not matched to the right job", b: "Incorrect recruitment — wrong candidate was selected", c: "Poor manpower planning — Vikram should not have been hired", d: "Violation of the principle of scalar chain" },
+    correctAnswer: "a",
+    explanation: "NCERT distinguishes Placement from Selection. Placement means putting the selected candidate in the right job matching their skill level. Giving Vikram a role beyond his competence is a PLACEMENT error — the right candidate was not placed in the right job. This is distinct from hiring the wrong person (recruitment/selection error).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 30,
+    section: "Case Study — Ratan Steels",
+    text: "<strong>Case: Ratan Steels (continued — refer Q26 for full passage)</strong><br><br><strong>Q30.</strong> Assertion (A): Taylor's Scientific Management and Fayol's Principles of Management are complementary rather than contradictory.<br>Reason (R): Taylor focused on shop-floor efficiency from a worker's perspective while Fayol focused on top-level management and administrative principles — they address different levels and together form a complete management framework.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT explicitly states that the contributions of Taylor and Fayol are complementary. NCERT also explains that Taylor's work was at the shop floor/worker level while Fayol's was at the top management/administrative level — hence together they provide a complete picture. (R) correctly and directly explains (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 31,
+    section: "Case Study — Prerna Fashions",
+    text: "<strong>Read the following case and answer Q31–35:</strong><br><br>Prerna Fashions Pvt. Ltd. designs and sells ethnic wear. The founder, Ms. Prerna, noticed that her company's communication system was broken — managers often received instructions from multiple senior officials simultaneously, causing confusion. Department heads were creating their own plans without coordinating with other departments. The company's ten departments each operated as silos with separate objectives, some of which conflicted with the company's overall goal. Additionally, Prerna discovered that her HR manager was being paid significantly less than the production manager, though both had similar responsibilities and seniority.<br><br><strong>Q31.</strong> Managers receiving instructions from multiple senior officials violates which Fayol principle?",
+    options: { a: "Unity of Direction", b: "Unity of Command", c: "Scalar Chain", d: "Discipline" },
+    correctAnswer: "b",
+    explanation: "Unity of Command = each subordinate receives orders from ONE superior only. Multiple seniors giving instructions to the same manager violates this directly. Unity of Direction is about one plan/one head for similar activities across the organisation — different concept.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 32,
+    section: "Case Study — Prerna Fashions",
+    text: "<strong>Case: Prerna Fashions (continued — refer Q31 for full passage)</strong><br><br><strong>Q32.</strong> 'Department heads creating their own plans without coordinating — separate objectives conflicting with the company's overall goal.' Which Fayol principle is being violated?",
+    options: { a: "Unity of Command", b: "Scalar Chain", c: "Unity of Direction", d: "Subordination of Individual Interest to General Interest" },
+    correctAnswer: "c",
+    explanation: "Unity of Direction = one head and one plan for activities with the same objective. When departments have separate, conflicting plans instead of one unified direction — Unity of Direction is violated. Subordination of Individual Interest relates to personal vs organisational interest at the individual employee level, not departmental planning.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 33,
+    section: "Case Study — Prerna Fashions",
+    text: "<strong>Case: Prerna Fashions (continued — refer Q31 for full passage)</strong><br><br><strong>Q33.</strong> The HR manager being paid significantly less than the production manager despite similar responsibilities violates which Fayol principle?",
+    options: { a: "Equity", b: "Remuneration of Employees", c: "Order", d: "Esprit de Corps" },
+    correctAnswer: "b",
+    explanation: "Fayol's 'Remuneration of Personnel' principle states that the remuneration paid to employees should be fair and equitable — satisfying both the employer and employees. Unequal pay for equal work/responsibility violates this principle. While 'Equity' is about kindness and justice in attitude (not specifically about pay), 'Remuneration of Personnel' directly addresses wage fairness.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 34,
+    section: "Case Study — Prerna Fashions",
+    text: "<strong>Case: Prerna Fashions (continued — refer Q31 for full passage)</strong><br><br><strong>Q34.</strong> Assertion (A): The ten departments of Prerna Fashions operating as silos with conflicting objectives is both an organising failure and a directing failure.<br>Reason (R): Organising should have established clear authority-responsibility relationships and directing should have coordinated the efforts of all departments towards common goals.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "NCERT defines organising as establishing authority-responsibility relationships to coordinate activities, and directing as guiding and coordinating efforts of subordinates. Silo departments with conflicting goals fail both these functions. (R) accurately explains WHY it is both an organising and directing failure — making it the correct explanation of (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 35,
+    section: "Case Study — Prerna Fashions",
+    text: "<strong>Case: Prerna Fashions (continued — refer Q31 for full passage)</strong><br><br><strong>Q35.</strong> Ms. Prerna wants to restructure so that all ethnic wear design activities are grouped under one department, all marketing activities under another, and production under a third. What type of organisational structure is she creating?",
+    options: { a: "Divisional structure — divided by product lines", b: "Functional structure — grouped by functions/activities", c: "Matrix structure — combination of both", d: "Informal structure — based on relationships" },
+    correctAnswer: "b",
+    explanation: "Grouping activities by function — all design together, all marketing together, all production together — is the Functional Organisational Structure per NCERT. Divisional structure would group by product (e.g., one division for ethnic wear, one for western wear). Ms. Prerna is grouping by function.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 36,
+    section: "Case Study — Deepika's Financial Dilemma",
+    text: "<strong>Read the following case and answer Q36–40:</strong><br><br>Deepika Ltd. is a mid-sized manufacturing company. The CFO, Mr. Mehta, is evaluating the capital structure. Currently the debt-equity ratio is 1:1. EBIT is ₹10,00,000. The interest on debt is ₹2,00,000. The company is in the 30% tax bracket. Mr. Mehta is debating whether to raise additional funds through a new debenture issue or a rights issue. The company's stock market reputation is strong — its share price has appreciated by 40% in the last two years. The company also needs to decide between paying a dividend or retaining profits as a source of internal finance.<br><br><strong>Q36.</strong> Which factor makes a rights issue (equity) more attractive than a new debenture issue at this time?",
+    options: { a: "The company's debt-equity ratio is already high, adding more debt increases financial risk", b: "Strong stock market reputation and 40% share price appreciation make equity issuance favourable", c: "Interest on debentures is not tax deductible", d: "Both (A) and (B)" },
+    correctAnswer: "b",
+    explanation: "NCERT identifies 'stock market conditions' as a factor affecting capital structure. A bullish market (40% share price appreciation) makes equity issuance cheaper and easier — investors are willing to buy at higher prices. While (A) is also a valid consideration, the case specifically highlights the stock market factor, and the question asks what makes equity 'more attractive at this time' — pointing to the market condition.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 37,
+    section: "Case Study — Deepika's Financial Dilemma",
+    text: "<strong>Case: Deepika's Financial Dilemma (continued — refer Q36 for full passage)</strong><br><br><strong>Q37.</strong> EBIT = ₹10,00,000; Interest on debt = ₹2,00,000; Tax rate = 30%. Is the current financial leverage favourable?",
+    options: { a: "Yes — because EBIT exceeds interest obligations, trading on equity is beneficial", b: "No — because the tax rate reduces the benefit of debt", c: "Cannot be determined without knowing the rate of return on total assets vs interest rate", d: "No — because debt-equity ratio of 1:1 is always unfavourable" },
+    correctAnswer: "a",
+    explanation: "Favourable leverage per NCERT = ROI > rate of interest on debt. Here EBIT of ₹10,00,000 on total capital (both debt and equity) significantly exceeds the ₹2,00,000 interest cost. This means the company is earning more on borrowed funds than the cost of borrowing — textbook definition of favourable financial leverage / trading on equity.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 38,
+    section: "Case Study — Deepika's Financial Dilemma",
+    text: "<strong>Case: Deepika's Financial Dilemma (continued — refer Q36 for full passage)</strong><br><br><strong>Q38.</strong> Mr. Mehta is deciding between paying dividends or retaining profits. Per NCERT, retained earnings as a source of finance has which of the following characteristics?<br>(A) It is an internal source — no dependence on external parties<br>(B) It does not involve any explicit cost to the company<br>(C) It does not affect the ownership control of the company<br>(D) Shareholders always prefer retained earnings over dividend payments",
+    options: { a: "(A), (B) and (C) only", b: "(A) and (B) only", c: "(B), (C) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) CORRECT — retained earnings are internal finance. (B) CORRECT — no explicit interest/dividend cost (though there is an implicit/opportunity cost). (C) CORRECT — no dilution of ownership since no new shares are issued. (D) is FALSE — shareholders generally PREFER dividends over retained earnings because they want immediate returns; this is an agency problem. NCERT does not say shareholders always prefer retention.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 39,
+    section: "Case Study — Deepika's Financial Dilemma",
+    text: "<strong>Case: Deepika's Financial Dilemma (continued — refer Q36 for full passage)</strong><br><br><strong>Q39.</strong> Assertion (A): The amount of dividend paid affects the company's need for external finance — the higher the dividend payout, the greater the need to raise funds externally.<br>Reason (R): If profits are retained instead of being distributed as dividends, the company can use these retained earnings to finance its investment needs, reducing dependence on external sources.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "This directly reflects NCERT's discussion on the relationship between dividend policy and financing decisions. (A) is correct — higher dividend payout means less retained earnings means more external financing needed. (R) correctly explains the mechanism — retention substitutes for external finance. Both are true and (R) directly explains (A).",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 40,
+    section: "Case Study — Deepika's Financial Dilemma",
+    text: "<strong>Case: Deepika's Financial Dilemma (continued — refer Q36 for full passage)</strong><br><br><strong>Q40.</strong> Mr. Mehta recommends a debenture issue rather than a bank loan. From NCERT's perspective, which of the following correctly distinguishes debentures from bank loans?<br>(A) Debentures can be traded on stock exchanges; bank loans cannot<br>(B) Debentures are a public issue; bank loans are a private arrangement with a financial institution<br>(C) Interest on debentures is NOT tax-deductible but interest on bank loans IS<br>(D) Debentures are suitable for long-term needs; bank loans are more suitable for working capital",
+    options: { a: "(A), (B) and (D) only", b: "(A) and (B) only", c: "(B), (C) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(A) CORRECT — debentures are listed/tradeable; bank loans are not. (B) CORRECT — debentures involve public issue; bank loans are private bilateral contracts. (D) CORRECT — debentures suit long-term capital needs; bank loans (especially CC/OD) suit working capital. (C) is WRONG — interest on BOTH debentures AND bank loans is tax-deductible as a business expense. NCERT does not differentiate between them on this point.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 41,
+    section: "Case Study — UrbanKart E-Commerce",
+    text: "<strong>Read the following case and answer Q41–45:</strong><br><br>UrbanKart is a Delhi-based e-commerce platform. A customer, Mr. Sharma, ordered a laptop worth ₹85,000 that arrived damaged. The seller refused to replace it claiming the damage was in transit. UrbanKart also refused liability. Mr. Sharma found that the product was misrepresented on the platform — the listing showed 16GB RAM but the actual product had 8GB. UrbanKart runs a subscription service where customers are automatically enrolled in a premium plan post-trial without explicit consent. A consumer activist group has decided to take up the case collectively. SEBI also investigated UrbanKart's parent company for using platform data to make stock trades before announcing earnings publicly.<br><br><strong>Q41.</strong> Mr. Sharma's product had 8GB RAM but was listed as 16GB. Under the Consumer Protection Act, 2019, this constitutes:",
+    options: { a: "Deficiency in service", b: "Unfair trade practice — false representation of goods", c: "Restrictive trade practice", d: "Product liability only" },
+    correctAnswer: "b",
+    explanation: "NCERT/CPA 2019: Unfair Trade Practice includes 'false representation of goods or services' — misrepresenting RAM specification directly falls under this. Deficiency in service relates to service quality failure. False product description is an unfair trade practice under Section 2(47) of CPA 2019.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 42,
+    section: "Case Study — UrbanKart E-Commerce",
+    text: "<strong>Case: UrbanKart (continued — refer Q41 for full passage)</strong><br><br><strong>Q42.</strong> The consumer activist group taking up Mr. Sharma's case collectively can file a complaint on his behalf. Under CPA 2019, which provision allows this?",
+    options: { a: "Only Mr. Sharma can file as he is the direct consumer", b: "A registered consumer association can file a complaint on behalf of consumers", c: "Only the Central Government can intervene in such cases", d: "The complaint must be filed jointly by all members of the activist group" },
+    correctAnswer: "b",
+    explanation: "CPA 2019 (and NCERT) explicitly lists 'any recognised consumer association' as one of the entities that can file a complaint — even on behalf of consumers who may be unaware or unable to file themselves. This is the Right to be Heard in action.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 43,
+    section: "Case Study — UrbanKart E-Commerce",
+    text: "<strong>Case: UrbanKart (continued — refer Q41 for full passage)</strong><br><br><strong>Q43.</strong> Automatically enrolling customers in a premium plan without explicit consent after a trial period is an example of:",
+    options: { a: "Unfair trade practice — unconscionable contract / deceptive practice", b: "A legitimate business model that consumers implicitly agree to", c: "Restrictive trade practice that limits consumer choice", d: "Both (A) and (C)" },
+    correctAnswer: "d",
+    explanation: "Auto-enrollment without consent is both an Unfair Trade Practice (deceptive/unconscionable — consumers were not clearly informed) AND a Restrictive Trade Practice (it restricts the consumer's freedom to choose whether to subscribe or not). CPA 2019 addresses both. NCERT defines restrictive trade practice as one that imposes unjustified conditions.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 44,
+    section: "Case Study — UrbanKart E-Commerce",
+    text: "<strong>Case: UrbanKart (continued — refer Q41 for full passage)</strong><br><br><strong>Q44.</strong> UrbanKart's parent company using platform data to make stock trades before announcing earnings publicly — this is investigated by SEBI. Identify the violation AND the SEBI function being exercised.",
+    options: { a: "Insider trading violation — SEBI's protective function of prohibiting fraudulent practices", b: "Market manipulation — SEBI's developmental function", c: "Front-running — SEBI's regulatory function of registering intermediaries", d: "Short selling — SEBI's quasi-judicial function" },
+    correctAnswer: "a",
+    explanation: "Using non-public company data (earnings before announcement) to make stock trades = Insider Trading. SEBI's mandate includes prohibiting insider trading as part of its PROTECTIVE function — protecting investors from malpractices. NCERT lists 'prohibiting insider trading' as a protective/regulatory function of SEBI.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 45,
+    section: "Case Study — UrbanKart E-Commerce",
+    text: "<strong>Case: UrbanKart (continued — refer Q41 for full passage)</strong><br><br><strong>Q45.</strong> Mr. Sharma's complaint involves goods worth ₹85,000. He wants to claim replacement and compensation of ₹15,000 for mental harassment — total claim = ₹1,00,000. Where should he file the complaint under CPA 2019?",
+    options: { a: "State Commission — as total claim is exactly ₹1 crore", b: "District Commission — as the total value of goods/services plus compensation is ₹1,00,000, which is within District Commission jurisdiction (up to ₹1 crore)", c: "National Commission — as it involves an e-commerce platform", d: "High Court — as the case involves a national company" },
+    correctAnswer: "b",
+    explanation: "Under CPA 2019: District Commission has jurisdiction where the value of goods/services plus compensation claimed does not exceed ₹1 crore. Mr. Sharma's total claim is ₹1,00,000 (₹85,000 + ₹15,000) — well within District Commission's jurisdiction. The nature of the seller (e-commerce/national) does not determine which forum — the monetary value does.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 46,
+    section: "Case Study — SkyView Infrastructure",
+    text: "<strong>Read the following case and answer Q46–50:</strong><br><br>SkyView Infrastructure Ltd. is building a highway project. The project manager set a standard of 2 km of road construction per week. Actual performance in Week 1 was 1.6 km, Week 2 was 1.5 km, Week 3 was 2.1 km, Week 4 was 1.4 km. The deviations were: Week 1 = -20%, Week 2 = -25%, Week 3 = +5%, Week 4 = -30%. The project manager had set a tolerance limit of ±15% — deviations beyond this limit require immediate investigation. Additionally, delays were partly caused by unseasonal rains (external) and partly by equipment idle time due to poor scheduling (internal). The CEO insisted on a controlling technique that gives real-time cost vs progress comparison throughout the project.",
+    text: "<strong>Read the following case and answer Q46–50:</strong><br><br>SkyView Infrastructure Ltd. is building a highway project. Standard = 2 km/week. Actual: Week 1 = 1.6 km (-20%), Week 2 = 1.5 km (-25%), Week 3 = 2.1 km (+5%), Week 4 = 1.4 km (-30%). Tolerance limit = ±15%. Deviations beyond ±15% need investigation. Delays partly from unseasonal rains (external) and partly from equipment idle time due to poor scheduling (internal). CEO wants real-time cost vs progress comparison throughout.<br><br><strong>Q46.</strong> Applying Management by Exception with ±15% tolerance, which weeks require investigation?",
+    options: { a: "Week 1, Week 2 and Week 4 only", b: "Week 2 and Week 4 only", c: "All four weeks", d: "Week 1, Week 2, Week 3 and Week 4" },
+    correctAnswer: "a",
+    explanation: "Tolerance limit = ±15%. Week 1 = -20% → beyond limit → investigate. Week 2 = -25% → beyond limit → investigate. Week 3 = +5% → within limit → NO investigation needed. Week 4 = -30% → beyond limit → investigate. So Weeks 1, 2 and 4 require investigation under MBE.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 47,
+    section: "Case Study — SkyView Infrastructure",
+    text: "<strong>Case: SkyView Infrastructure (continued — refer Q46 for full passage)</strong><br><br><strong>Q47.</strong> Assertion (A): Setting a tolerance limit of ±15% before beginning the project is an example of feedforward/preventive control.<br>Reason (R): The tolerance limit was established in advance to guide when to intervene — this proactively defines acceptable deviations before they occur, rather than reacting to every deviation after the fact.",
+    options: { a: "Both (A) and (R) are true and (R) is the correct explanation of (A)", b: "Both (A) and (R) are true but (R) is not the correct explanation of (A)", c: "(A) is true but (R) is false", d: "(A) is false but (R) is true" },
+    correctAnswer: "a",
+    explanation: "Setting performance standards and tolerance limits IN ADVANCE is indeed a form of feedforward/preventive control — it establishes the framework to detect problems before they become severe. (R) correctly explains this by noting the proactive nature of pre-defining acceptable deviation ranges. Both are true and causally linked.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 48,
+    section: "Case Study — SkyView Infrastructure",
+    text: "<strong>Case: SkyView Infrastructure (continued — refer Q46 for full passage)</strong><br><br><strong>Q48.</strong> Equipment idle time due to poor scheduling is an internal, controllable deviation. The unseasonal rains causing delay are external. Per NCERT's controlling principles, which corrective action is most appropriate for each?",
+    options: { a: "Investigate and fix scheduling (internal); revise downward the standard for rainy weeks (external)", b: "Ignore both as they are temporary deviations", c: "Take corrective action for scheduling failure; for rains, revise the plan/standard if the environment has permanently changed", d: "Report both to the Board and wait for instructions" },
+    correctAnswer: "c",
+    explanation: "NCERT's controlling chapter states: for CONTROLLABLE deviations (internal) → take corrective action to fix the root cause. For UNCONTROLLABLE deviations (external, environmental) → if the environment has changed permanently or significantly, REVISE the standard/plan rather than forcing unachievable targets. This reflects the NCERT cycle of planning-controlling being continuous and mutually reinforcing.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 49,
+    section: "Case Study — SkyView Infrastructure",
+    text: "<strong>Case: SkyView Infrastructure (continued — refer Q46 for full passage)</strong><br><br><strong>Q49.</strong> The CEO wants a technique giving 'real-time cost vs progress comparison throughout the project.' Which controlling technique is most suitable?",
+    options: { a: "Break-even analysis", b: "PERT (Programme Evaluation and Review Technique)", c: "Budgetary control", d: "Management Audit" },
+    correctAnswer: "c",
+    explanation: "Budgetary Control involves preparing budgets (cost, time, output) and continuously comparing actual performance against budgeted figures throughout the project. It provides real-time cost vs progress comparison. PERT focuses on time scheduling of activities (not cost vs progress). Break-even analysis is about cost-volume-profit, not project monitoring.",
+    marked: false, userAnswer: null
+  },
+  {
+    id: 50,
+    section: "Case Study — SkyView Infrastructure",
+    text: "<strong>Case: SkyView Infrastructure (continued — refer Q46 for full passage)</strong><br><br><strong>Q50.</strong> Which of the following NCERT-stated features of an effective control system does SkyView's approach demonstrate?<br>(A) Controls should be economical — the cost of control should not exceed benefits<br>(B) Controls should be flexible — able to accommodate changes in plans<br>(C) Controls should be forward-looking — focused only on future events<br>(D) Controls should focus on critical points — not every deviation, but significant ones",
+    options: { a: "(B) and (D) only", b: "(A), (B) and (D) only", c: "(C) and (D) only", d: "(A), (B), (C) and (D) only" },
+    correctAnswer: "a",
+    explanation: "(B) Flexibility — the project adapts standards when external environment (rains) causes permanent change → demonstrated. (D) Critical point focus — ±15% tolerance and MBE → demonstrated. (A) is not specifically demonstrated in the case. (C) is INCORRECT as a principle — NCERT says effective control is both backward AND forward looking, not 'forward-looking only'. Controls measure past AND prevent future deviations.",
+    marked: false, userAnswer: null
+  }
+],
+    duration: 60 * 60,
+    markingScheme: { correct: 5, incorrect: -1 }
+};
+
+/* ============================================================
+   CORE TEST ENGINE
+   ============================================================ */
+const timerElement = document.querySelector('.timer');
+const questionTextElement = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const questionNumberElement = document.getElementById('q-number');
+const currentQNumberElement = document.getElementById('current-q-number');
+const progressBar = document.getElementById('test-progress');
+const progressPercent = document.getElementById('progress-percent');
+const questionPaletteGrid = document.getElementById('question-palette-grid');
+const answeredCountElement = document.getElementById('answered-count');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const markBtn = document.getElementById('mark-btn');
+const submitTestBtn = document.getElementById('submit-test-btn');
+const resultsModal = document.getElementById('results-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const correctAnswersElement = document.getElementById('correct-answers');
+const incorrectAnswersElement = document.getElementById('incorrect-answers');
+const unansweredElement = document.getElementById('unanswered');
+const totalScoreElement = document.getElementById('total-score');
+const percentageElement = document.getElementById('percentage');
+const accuracyElement = document.getElementById('accuracy');
+const reviewBtn = document.getElementById('review-btn');
+
+let currentQuestionIndex = 0;
+let timeLeft = mockTest.duration;
+let timer;
+let testSubmitted = false;
+let testStarted = false;
+
+function initTest() {
+    // 1. SHUFFLE OPTIONS ONLY (Questions stay 1 to 50)
+    mockTest.questions.forEach(q => {
+        let optionsArray = Object.entries(q.options); 
+        // Randomize the order of the options array
+        optionsArray.sort(() => Math.random() - 0.5); 
+        
+        let newOptions = {};
+        let newCorrectKey = "";
+        
+        optionsArray.forEach(([oldKey, text], index) => {
+            let newKey = String.fromCharCode(97 + index); // assigns new keys: a, b, c, d
+            newOptions[newKey] = text;
+            // Ensure the grade still works by tracking where the correct answer moved
+            if (oldKey === q.correctAnswer) newCorrectKey = newKey;
+        });
+        
+        q.options = newOptions;
+        q.correctAnswer = newCorrectKey;
+    });
+
+    // 2. RENDER TEST
+    renderQuestionPalette();
+    renderQuestion();
+    startTimer();
+    updateProgress();
+    renderLegend(false);
+    
+    prevBtn.addEventListener('click', goToPreviousQuestion);
+    nextBtn.addEventListener('click', goToNextQuestion);
+    markBtn.addEventListener('click', toggleMarkForReview);
+    submitTestBtn.addEventListener('click', confirmSubmit);
+    closeModalBtn.addEventListener('click', closeResultsModal);
+    reviewBtn.addEventListener('click', reviewAnswers);
+    document.getElementById('download-pdf-btn').addEventListener('click', generatePDF);
+}
+
+function renderLegend(reviewMode) {
+    const leg = document.getElementById('palette-legend');
+    if (!leg) return;
+    if (reviewMode) {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#22c55e;"></div><span>Correct</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#ef4444;"></div><span>Wrong</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#3b82f6;"></div><span>Not Answered</span></div>
+        </div>`;
+    } else {
+        leg.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90ee90;"></div><span>Answered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90D5FF;"></div><span>Marked</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#FF474D;"></div><span>Unanswered</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #a185de;"></div><span>Current</span></div>
+        </div>`;
+    }
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) { clearInterval(timer); submitTest(); }
+        if (timeLeft === 300) { alert('Only 5 minutes remaining!'); }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const hours = Math.floor(timeLeft / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
+    const seconds = timeLeft % 60;
+    const timeStr = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    timerElement.textContent = timeStr;
+    const mobileTimer = document.querySelector('.mobile-timer-clone');
+    if (mobileTimer) mobileTimer.textContent = timeStr;
+}
+
+function renderQuestion() {
+    const question = mockTest.questions[currentQuestionIndex];
+    document.getElementById('current-section').textContent = question.section;
+    questionTextElement.innerHTML = `
+        <div style="display:inline-block;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:8px;">
+            📘 ${question.section || "General"}
+        </div>
+        ${question.image ? `<div style="margin:10px 0;"><img src="${question.image}" style="max-width:100%;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>` : ""}
+        <div style="margin-top:8px;">${question.text}</div>
+    `;
+    questionNumberElement.textContent = question.id;
+    currentQNumberElement.textContent = question.id;
+    optionsContainer.innerHTML = '';
+
+    for (const [key, value] of Object.entries(question.options)) {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        if (testSubmitted) {
+            if (key === question.correctAnswer) optionDiv.classList.add('correct');
+            else if (key === question.userAnswer && key !== question.correctAnswer) optionDiv.classList.add('incorrect');
+        } else {
+            if (key === question.userAnswer) optionDiv.classList.add('selected');
+        }
+        if (!testSubmitted) {
+            optionDiv.addEventListener('click', () => {
+                optionsContainer.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                optionDiv.classList.add('selected');
+                selectAnswer(key);
+            });
+        }
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'question-option';
+        input.value = key;
+        input.checked = question.userAnswer === key;
+        input.disabled = testSubmitted;
+        const letterDiv = document.createElement('div');
+        letterDiv.className = 'opt-letter';
+        letterDiv.textContent = key.toUpperCase();
+        const textSpan = document.createElement('span');
+        textSpan.className = 'opt-text';
+        textSpan.textContent = value;
+        if (testSubmitted) {
+            if (key === question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'correct-indicator';
+                ind.textContent = ' ✓ Correct Answer';
+                textSpan.appendChild(ind);
+            } else if (key === question.userAnswer && key !== question.correctAnswer) {
+                const ind = document.createElement('span');
+                ind.className = 'incorrect-indicator';
+                ind.textContent = ' ✗ Your Answer';
+                textSpan.appendChild(ind);
+            }
+        }
+        optionDiv.appendChild(input);
+        optionDiv.appendChild(letterDiv);
+        optionDiv.appendChild(textSpan);
+        optionsContainer.appendChild(optionDiv);
+    }
+
+    if (testSubmitted) {
+        const explanationDiv = document.createElement('div');
+        explanationDiv.style.cssText = "margin-top:15px;padding:12px;border-radius:8px;background:linear-gradient(135deg,#eef2ff,#e0f2ff);border-left:4px solid #6a11cb;font-size:15px;box-shadow:0 4px 12px rgba(0,0,0,0.1);";
+        explanationDiv.innerHTML = `<strong>Explanation:</strong><br>${question.explanation || "No explanation available."}`;
+        optionsContainer.appendChild(explanationDiv);
+    }
+
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    nextBtn.style.visibility = currentQuestionIndex === mockTest.questions.length - 1 ? 'hidden' : 'visible';
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = currentQuestionIndex === mockTest.questions.length - 1;
+    updateQuestionPalette();
+}
+
+function selectAnswer(answer) {
+    mockTest.questions[currentQuestionIndex].userAnswer = answer;
+    updateQuestionPalette();
+    updateProgress();
+}
+
+function toggleMarkForReview() {
+    const question = mockTest.questions[currentQuestionIndex];
+    question.marked = !question.marked;
+    markBtn.classList.toggle('marked', question.marked);
+    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
+    updateQuestionPalette();
+}
+
+function goToPreviousQuestion() {
+    if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+}
+
+function goToNextQuestion() {
+    if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+}
+
+function renderQuestionPalette() {
+    questionPaletteGrid.innerHTML = '';
+    mockTest.questions.forEach((question, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = question.id;
+        btn.addEventListener('click', () => navigateToQuestion(index));
+        questionPaletteGrid.appendChild(btn);
+    });
+    updateQuestionPalette();
+}
+
+function updateQuestionPalette() {
+    const paletteButtons = questionPaletteGrid.querySelectorAll('.palette-btn');
+    paletteButtons.forEach(btn => { btn.className = 'palette-btn'; });
+    mockTest.questions.forEach((question, index) => {
+        const btn = paletteButtons[index];
+        if (testSubmitted) {
+            if (!question.userAnswer) btn.classList.add('review-unanswered');
+            else if (question.userAnswer === question.correctAnswer) btn.classList.add('review-correct');
+            else btn.classList.add('review-wrong');
+        } else {
+            if (question.userAnswer) btn.classList.add('answered');
+            if (question.marked) btn.classList.add('marked');
+        }
+        if (index === currentQuestionIndex) btn.classList.add('current');
+    });
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    answeredCountElement.textContent = `${answeredCount}/${mockTest.questions.length}`;
+}
+
+function navigateToQuestion(index) {
+    currentQuestionIndex = index;
+    renderQuestion();
+}
+
+function updateProgress() {
+    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
+    const progress = (answeredCount / mockTest.questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    progressPercent.textContent = `${Math.round(progress)}%`;
+}
+
+function confirmSubmit() {
+    if (confirm('Are you sure you want to submit the test?')) { submitTest(); }
+}
+
+function submitTest() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    clearInterval(timer);
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+
+    const totalQuestions = mockTest.questions.length;
+    const maxScore = totalQuestions * mockTest.markingScheme.correct;
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const percentage = ((totalScore / maxScore) * 100).toFixed(2);
+    const accuracy = correct + incorrect > 0 ? (correct / (correct + incorrect) * 100).toFixed(2) : '0';
+
+    const resultData = {
+    studentId: localStorage.getItem('ts_student_id') || '',
+    name: localStorage.getItem('cbtUserName') || 'Unknown', // Changed from userName
+    subject: SUBJECT_ID,                                   // Changed from subjectId
+    chapter: CHAPTER_ID,                                   // Changed from chapterId
+    date: new Date().toISOString(),
+    score: totalScore,
+    maxScore: maxScore,
+    correct: correct,
+    wrong: incorrect,
+    skipped: unanswered,
+    totalQ: totalQuestions,
+    percentage: parseFloat(percentage),
+    accuracy: parseFloat(accuracy),
+    timeTaken: mockTest.duration - timeLeft
+};
+
+    const storageKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+    localStorage.setItem(storageKey, JSON.stringify(resultData));
+
+    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+    fetch(GS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resultData)
+    }).then(() => {
+        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+    }).catch(err => console.error("Sync failed", err));
+
+    correctAnswersElement.textContent = correct;
+    incorrectAnswersElement.textContent = incorrect;
+    unansweredElement.textContent = unanswered;
+    totalScoreElement.textContent = totalScore;
+    percentageElement.textContent = percentage;
+    accuracyElement.textContent = accuracy;
+    resultsModal.style.display = 'flex';
+    renderQuestion();
+
+    const submitBtn = document.getElementById('submit-test-btn');
+    submitBtn.textContent = '📄 Download PDF';
+    submitBtn.classList.remove('submit-fancy-btn');
+    submitBtn.classList.add('pdf-download-btn');
+    submitBtn.onclick = generatePDF;
+
+    renderLegend(true);
+}
+
+function closeResultsModal() { resultsModal.style.display = 'none'; }
+
+function reviewAnswers() {
+    resultsModal.style.display = 'none';
+    currentQuestionIndex = 0;
+    renderQuestion();
+}
+
+/* Tab switch guard */
+document.addEventListener("visibilitychange", function() {
+    if (!testStarted || testSubmitted) return;
+    updateFocusMode();
+    if (document.hidden) startCountdown('tab');
+    else cancelCountdown();
+});
+
+/* Arrow key navigation */
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+    }
+});
+</script>
+
+<script>
+// Function to start the Mock
+function startMock() {
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+    
+    const inputName = document.getElementById('username-input').value.trim();
+
+    // 1. Validate Name
+    if (!savedName && !inputName) {
+        alert("⚠️ Please enter your name to continue!");
+        document.getElementById('username-input').focus();
+        return;
+    }
+    
+    // Save name if typed manually
+    if (!savedName && inputName) {
+        localStorage.setItem("cbtUserName", inputName);
+    }
+
+    // 2. Validate Student ID (The specific check you asked for)
+    if (!savedSID) {
+        const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+        }
+        return;
+    }
+
+    // 3. If everything is OK, proceed
+    enterFullscreen();
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('instruction-screen').style.display = 'block';
+}
+
+// Update displays when the test actually starts
+document.getElementById('start-test-btn').addEventListener('click', () => {
+    if (!document.getElementById('agree-checkbox').checked) return;
+    
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    const sid = localStorage.getItem("ts_student_id") || "N/A";
+    
+    // Update Desktop Displays
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    if(document.getElementById('display-user-name')) document.getElementById('display-user-name').innerText = name;
+    if(document.getElementById('display-user-sid')) document.getElementById('display-user-sid').innerText = sid;
+    
+    // Update Mobile Displays
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name + " | " + sid;
+});
+
+// Auto-fill and Fetch on Page Load
+window.addEventListener('DOMContentLoaded', () => {
+    // Fetch Name and Student ID from local storage
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+
+    // Set and Lock Name Input
+    if (savedName) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = savedName;
+            // Apply locked styling
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.style.color = '#4f6ef7';
+            inp.style.fontWeight = 'bold';
+            
+            // Force Read-Only (Removes ability to change)
+            inp.setAttribute('readonly', true);
+            
+            // Add a simple verification label (No "Change" link)
+            inp.insertAdjacentHTML('afterend', 
+                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
+                    ✅ Verified Dashboard Profile
+                </div>`
+            );
+        }
+    }
+
+    // Set and Show Student ID
+    if (savedSID) {
+        const sidArea = document.getElementById('sid-display-area');
+        const sidVal = document.getElementById('sid-value');
+        if (sidArea && sidVal) {
+            sidArea.style.display = 'block';
+            sidVal.textContent = savedSID;
+            // Optional: Match the theme color
+            sidArea.style.color = '#4f6ef7';
+        }
+    }
+});
+
+const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
+darkModeToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggles.forEach(btn => {
+            const iconSpan = btn.querySelector('.icon');
+            if (iconSpan) iconSpan.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    });
+});
+</script>
+
+<script>
+const checkbox = document.getElementById('agree-checkbox');
+const startBtn = document.getElementById('start-test-btn');
+
+checkbox.addEventListener('change', () => {
+    startBtn.disabled = !checkbox.checked;
+    startBtn.style.opacity = checkbox.checked ? "1" : "0.6";
+    startBtn.style.cursor = checkbox.checked ? "pointer" : "not-allowed";
+});
+
+startBtn.addEventListener('click', () => {
+    if (!checkbox.checked) { alert("Please accept instructions first!"); return; }
+    document.getElementById('instruction-screen').style.display = 'none';
+    document.getElementById('test-screen').style.display = 'block';
+    const name = localStorage.getItem("cbtUserName") || "Thunder";
+    document.getElementById('user-name-display').innerText = "👤 " + name;
+    const mobileNameEl = document.getElementById('mobile-name-display');
+    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name;
+    testStarted = true;
+    enterFullscreen();
+    initTest();
+});
+
+function enterFullscreen() {
+    const el = document.documentElement;
+    try {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+        else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    } catch(e) {}
+}
+
+document.addEventListener('fullscreenchange', onFSChange);
+document.addEventListener('webkitfullscreenchange', onFSChange);
+document.addEventListener('mozfullscreenchange', onFSChange);
+document.addEventListener('MSFullscreenChange', onFSChange);
+
+function isInFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+              document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function onFSChange() {
+    if (!testStarted || testSubmitted) return;
+    if (document.getElementById('test-screen').style.display === 'none') return;
+    updateFocusMode();
+    if (!isInFullscreen()) startCountdown('fullscreen');
+    else cancelCountdown();
+}
+
+let countdownTimer = null;
+let countdownSeconds = 0;
+
+function updateFocusMode() {
+    const color = (document.hidden || !isInFullscreen()) ? "#FF474D" : "#90EE90";
+    const text = (document.hidden || !isInFullscreen()) ? "● Disturbed" : "● Focus On";
+    const els = [document.getElementById('focus-laptop'), document.getElementById('focus-mobile')];
+    els.forEach(el => { if(el) { el.style.color = color; el.innerText = text; }});
+}
+
+function startCountdown(reason) {
+    if (!testStarted || testSubmitted) return;
+    if (countdownTimer) return;
+    countdownSeconds = (reason === 'tab') ? 2 : 5;
+    const msg  = (reason === 'tab') ? '⚠️ You switched tabs!' : '⚠️ You exited fullscreen!';
+    const hint = (reason === 'tab') ? 'Switch back to this tab to cancel.' : 'Click the button below to return to fullscreen.';
+    showOverlay(msg, hint, countdownSeconds, reason === 'fullscreen');
+    countdownTimer = setInterval(() => {
+        countdownSeconds--;
+        updateOverlayCount(countdownSeconds);
+        if (countdownSeconds <= 0) { cancelCountdown(); submitTest(); }
+    }, 1000);
+}
+
+function cancelCountdown() {
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    hideOverlay();
+}
+
+function showOverlay(msg, hint, secs, showBtn) {
+    let ov = document.getElementById('security-overlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'security-overlay';
+        ov.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:'Segoe UI',sans-serif;color:#fff;text-align:center;padding:24px;`;
+        document.body.appendChild(ov);
+    }
+    ov.innerHTML = `
+        <div style="font-size:60px;margin-bottom:14px;">🚨</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px;">${msg}</div>
+        <div style="font-size:15px;color:#fbbf24;margin-bottom:20px;">${hint}</div>
+        <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px;">Auto-submitting in</div>
+        <div id="overlay-count" style="font-size:72px;font-weight:900;color:#f87171;line-height:1;">${secs}</div>
+        <div style="font-size:14px;color:#9ca3af;margin-top:4px;">seconds</div>
+        ${showBtn ? `<button onclick="enterFullscreen()" style="margin-top:24px;padding:13px 34px;border-radius:30px;border:none;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,0.5);">🔲 Return to Fullscreen</button>` : ''}`;
+    ov.style.display = 'flex';
+}
+
+function updateOverlayCount(n) {
+    const el = document.getElementById('overlay-count');
+    if (el) el.textContent = n;
+}
+
+function hideOverlay() {
+    const ov = document.getElementById('security-overlay');
+    if (ov) ov.style.display = 'none';
+}
+</script>
+
+<div id="pdf-print-area"></div>
+
+<script>
+function generatePDF() {
+    const name = localStorage.getItem('cbtUserName') || 'Thunder';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+
+    let correct = 0, incorrect = 0, unanswered = 0;
+    mockTest.questions.forEach(q => {
+        if (!q.userAnswer) unanswered++;
+        else if (q.userAnswer === q.correctAnswer) correct++;
+        else incorrect++;
+    });
+    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const maxScore = mockTest.questions.length * mockTest.markingScheme.correct;
+    const pct = ((totalScore / maxScore) * 100).toFixed(1);
+    const optionLabel = { a:'A', b:'B', c:'C', d:'D' };
+
+    let questionsHTML = '';
+    mockTest.questions.forEach((q, i) => {
+        const isCorrect = q.userAnswer === q.correctAnswer;
+        const isWrong   = q.userAnswer && !isCorrect;
+        const isSkipped = !q.userAnswer;
+        const statusColor = isCorrect ? '#16a34a' : isWrong ? '#dc2626' : '#9ca3af';
+        const statusLabel = isCorrect ? '✓ Correct' : isWrong ? '✗ Wrong' : '— Skipped';
+        const rowBg = isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fafafa';
+        let optionsHTML = '';
+        for (const [key, val] of Object.entries(q.options)) {
+            const isRight = key === q.correctAnswer;
+            const isUser  = key === q.userAnswer;
+            let bg = 'transparent', fw = 'normal', prefix = '';
+            if (isRight) { bg = '#dcfce7'; fw = 'bold'; prefix = '✓ '; }
+            if (isUser && !isRight) { bg = '#fee2e2'; fw = 'bold'; prefix = '✗ '; }
+            optionsHTML += `<div style="display:flex;gap:8px;padding:4px 8px;margin:2px 0;border-radius:4px;background:${bg};font-weight:${fw};font-size:12px;"><span style="min-width:18px;font-weight:700;">${optionLabel[key]}.</span><span>${prefix}${val}</span></div>`;
+        }
+        let yourAnswer = isSkipped
+            ? '<span style="color:#9ca3af;">Not Attempted</span>'
+            : `<span style="color:${isCorrect?'#16a34a':'#dc2626'};font-weight:bold;">${optionLabel[q.userAnswer]}. ${q.options[q.userAnswer]}</span>`;
+        questionsHTML += `
+        <div style="margin-bottom:18px;padding:14px 16px;border-radius:8px;background:${rowBg};border:1px solid #e5e7eb;page-break-inside:avoid;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div style="font-weight:700;font-size:13px;color:#374151;">Q${i+1}. ${q.text}</div>
+                <div style="font-weight:700;font-size:12px;color:${statusColor};white-space:nowrap;margin-left:12px;">${statusLabel}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:8px;">${optionsHTML}</div>
+            <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;margin-top:4px;">
+                <span style="color:#6b7280;">Your answer: </span>${yourAnswer}&nbsp;&nbsp;
+                <span style="color:#6b7280;">Correct answer: </span>
+                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
+            </div>
+        </div>`;
+    });
+
+    const scoreColor = pct >= 60 ? '#16a34a' : pct >= 35 ? '#d97706' : '#dc2626';
+    const html = `<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;color:#111;">
+        <div style="background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:22px;font-weight:800;">⚡ Thunderstudy CBT</div><div style="font-size:13px;opacity:0.85;margin-top:3px;">Result Report — ${CHAPTER_ID.toUpperCase()}</div></div>
+                <div style="text-align:right;font-size:12px;opacity:0.85;"><div>📅 ${dateStr} &nbsp; 🕐 ${timeStr}</div><div style="margin-top:2px;">👤 ${name}</div></div>
+            </div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:16px 24px;border-radius:0 0 10px 10px;margin-bottom:20px;">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SCORE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${totalScore}<span style="font-size:14px;color:#6b7280;">/${maxScore}</span></div></div>
+                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">PERCENTAGE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${pct}%</div></div>
+                    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#16a34a;">CORRECT</div><div style="font-size:24px;font-weight:800;color:#16a34a;">${correct}</div></div>
+                    <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#dc2626;">WRONG</div><div style="font-size:24px;font-weight:800;color:#dc2626;">${incorrect}</div></div>
+                    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SKIPPED</div><div style="font-size:24px;font-weight:800;color:#6b7280;">${unanswered}</div></div>
+                </div>
+            </div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #6a11cb;">📋 Question-wise Answer Key</div>
+        ${questionsHTML}
+        <div style="text-align:center;margin-top:24px;padding:14px;background:#f1f5f9;border-radius:8px;font-size:12px;color:#6b7280;">Generated by <b>Thunderstudy CBT</b> &nbsp;|&nbsp; t.me/thunderstudy_official &nbsp;|&nbsp; ${dateStr}</div>
+    </div>`;
+
+    const printWin = window.open('', '_blank', 'width=950,height=700,scrollbars=yes');
+    if (!printWin) { alert('Popup blocked! Please allow popups for this site and try again.'); return; }
+    printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Thunderstudy_Result_${name}_${dateStr.replace(/ /g,'-')}</title>
+    <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:#fff;padding:20px;}@media print{body{padding:0;}.no-print{display:none !important;}}.print-btn{display:block;margin:0 auto 20px;padding:12px 36px;background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;font-size:16px;font-weight:700;border:none;border-radius:30px;cursor:pointer;}</style>
+    </head><body><button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>${html}</body></html>`);
+    printWin.document.close();
+    printWin.focus();
+}
+
+   // Auto-fill name from dashboard on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('cbtUserName') || 
+                  (() => { try { return JSON.parse(localStorage.getItem('ts_profile')||'{}').name || ''; } catch(e){ return ''; } })();
+    if (saved) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = saved;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.setAttribute('readonly', true);
+            inp.title = 'Name loaded from Dashboard';
+            // Add a small label below
+            inp.insertAdjacentHTML('afterend', 
+                
+            );
+        }
+    }
+});
+</script>
+
+</body>
+</html>
