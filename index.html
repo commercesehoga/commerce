@@ -1878,7 +1878,7 @@ function updateSidebarProfile(){
   const sid=getSID(), name=getName();
   const gender=localStorage.getItem('ts_gender')||'';
   const gIcon=gender==='girl'?'♀️':gender==='boy'?'♂️':'🚹';
-  const gLabel=gender==='girl'?'Girl · Rose Theme':gender==='boy'?'Boy · Commerce Theme':'';
+  const gLabel=gender==='girl'?'Girl · Rose Theme':gender==='boy'?'Boy · sky Theme':'';
   document.getElementById('sb-av').textContent=gIcon;
   document.getElementById('sb-nm').textContent=name;
   document.getElementById('sb-id').textContent=sid||'No ID';
@@ -2605,14 +2605,14 @@ function showGenderPopup() {
         <div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:16px;">Are you a girl or a boy?</div>
         <div style="display:flex;gap:12px;justify-content:center;">
           <button class="gender-btn gender-btn-girl" onclick="setGender('girl')">
-            <span style="font-size:32px;">🌸</span>
+            <span style="font-size:32px;">♀️</span>
             Girl
             <span style="font-size:10px;font-weight:600;color:rgba(190,24,93,0.7);">Rose theme</span>
           </button>
           <button class="gender-btn gender-btn-boy" onclick="setGender('boy')">
-            <span style="font-size:32px;">📊</span>
+            <span style="font-size:32px;">♂️</span>
             Boy
-            <span style="font-size:10px;font-weight:600;color:rgba(29,78,216,0.7);">Commerce theme</span>
+            <span style="font-size:10px;font-weight:600;color:rgba(29,78,216,0.7);">sky theme</span>
           </button>
         </div>
       </div>`;
@@ -2625,7 +2625,7 @@ function setGender(gender) {
   localStorage.setItem('ts_gender', gender);
   document.getElementById('gender-overlay')?.remove();
   applyGenderTheme(gender);
-  toast(gender === 'girl' ? '🌸 Welcome! Rose theme activated!' : '📊 Welcome! Commerce theme activated!');
+  toast(gender === 'girl' ? '🌸 Welcome! Rose theme activated!' : '📊 Welcome! sky theme activated!');
 }
 
 function applyGenderTheme(gender) {
