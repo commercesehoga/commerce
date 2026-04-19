@@ -720,8 +720,9 @@ body::before {
   padding: 48px 28px 56px;
   background: linear-gradient(180deg,
     rgba(224,242,254,0.0) 0%,
-    rgba(15,31,61,0.97) 30%,
-    rgba(15,31,61,1) 70%,
+    rgba(219,234,254,0.97) 20%,
+    rgba(253,242,248,1) 50%,
+    rgba(219,234,254,0.97) 80%,
     rgba(224,242,254,0.0) 100%
   );
   overflow: hidden;
@@ -734,8 +735,8 @@ body::before {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(59,130,246,0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59,130,246,0.07) 1px, transparent 1px);
+    linear-gradient(rgba(59,130,246,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236,72,153,0.08) 1px, transparent 1px);
   background-size: 40px 40px;
   animation: gridMove 12s linear infinite;
   pointer-events: none;
@@ -767,7 +768,7 @@ body::before {
   font-weight: 800;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(6,182,212,0.8);
+  color: #be185d;
   margin-bottom: 10px;
   animation: heroFadeUp .5s ease both;
 }
@@ -777,7 +778,7 @@ body::before {
   font-family: var(--fnh);
   font-size: clamp(22px, 4vw, 38px);
   font-weight: 800;
-  color: #fff;
+  color: #1e3a5f;
   letter-spacing: -.5px;
   line-height: 1.15;
   margin-bottom: 8px;
@@ -792,7 +793,7 @@ body::before {
 .sp-tagline {
   text-align: center;
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: #4a6fa5;
   margin-bottom: 36px;
   letter-spacing: .3px;
 }
@@ -815,8 +816,8 @@ body::before {
   gap: 10px;
   padding: 20px 18px 18px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(59,130,246,0.2);
+  background: rgba(255,255,255,0.75);
   backdrop-filter: blur(12px);
   cursor: pointer;
   text-decoration: none;
@@ -826,6 +827,7 @@ body::before {
   transition: all .3s cubic-bezier(.34,1.56,.64,1);
   overflow: hidden;
   animation: spCardIn .5s cubic-bezier(.34,1.56,.64,1) both;
+  box-shadow: 0 4px 16px rgba(59,130,246,0.08);
 }
 .sp-card:nth-child(1) { animation-delay: .1s; }
 .sp-card:nth-child(2) { animation-delay: .18s; }
@@ -883,13 +885,13 @@ body::before {
 .sp-platform {
   font-size: 11px;
   font-weight: 800;
-  color: #fff;
+  color: #1e3a5f;
   letter-spacing: .3px;
   text-align: center;
 }
 .sp-handle {
   font-size: 10px;
-  color: rgba(255,255,255,0.45);
+  color: #4a6fa5;
   font-family: var(--mono);
   text-align: center;
   line-height: 1.4;
@@ -932,14 +934,15 @@ body::before {
   font-family: var(--mono);
   font-size: 22px;
   font-weight: 700;
-  color: #fff;
+  color: #1d4ed8;
   display: block;
 }
 .sp-stat-lbl {
   font-size: 10px;
-  color: rgba(255,255,255,0.4);
+  color: #be185d;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-weight: 700;
 }
 
 /* Marquee ticker */
@@ -962,11 +965,11 @@ body::before {
 }
 .sp-ticker-wrap::before {
   left: 0;
-  background: linear-gradient(90deg, rgba(15,31,61,1), transparent);
+  background: linear-gradient(90deg, rgba(253,242,248,1), transparent);
 }
 .sp-ticker-wrap::after {
   right: 0;
-  background: linear-gradient(-90deg, rgba(15,31,61,1), transparent);
+  background: linear-gradient(-90deg, rgba(253,242,248,1), transparent);
 }
 .sp-ticker {
   display: flex;
@@ -987,13 +990,13 @@ body::before {
   padding: 0 22px;
   font-size: 11px;
   font-weight: 700;
-  color: rgba(255,255,255,0.55);
+  color: #4a6fa5;
   letter-spacing: .3px;
 }
 .sp-tick-dot {
   width: 4px; height: 4px;
   border-radius: 50%;
-  background: rgba(6,182,212,0.7);
+  background: linear-gradient(135deg,#3b82f6,#ec4899);
   flex-shrink: 0;
 }
 
@@ -2238,43 +2241,44 @@ function markProgress(sId,cId){
 function renderSpecial(){
   const el = document.getElementById('page-special');
   const sid = getSID();
-  const isPaid = ['acc','eco','bst','amat'].some(s => isPaidFor(s));
+  // Per-subject paid status
+  const paidStatus = {
+    acc:  isPaidFor('acc'),
+    eco:  isPaidFor('eco'),
+    bst:  isPaidFor('bst'),
+    amat: isPaidFor('amat'),
+  };
+  const anyPaid = Object.values(paidStatus).some(Boolean);
+  const allPaid = Object.values(paidStatus).every(Boolean);
 
   let H = `<div class="topbar">
     <div>
       <div class="pg-title">⭐ Special Mocks</div>
-      <div class="pg-sub">Premium exclusive mocks · 20 per subject · 80 total</div>
+      <div class="pg-sub">Premium exclusive mocks · 20 per subject · ₹30 per subject</div>
     </div>
-    ${isPaid
-      ? `<div class="tr"><span class="paid-badge">✓ PAID · ${escH(sid)}</span></div>`
-      : `<div class="tr"><span class="chip chip-r">🔒 FREE ACCESS</span></div>`
-    }
+    <div class="tr"><span class="chip chip-b">🪪 ${escH(sid)||'No ID'}</span></div>
   </div>`;
 
-  // Access status banner
-  if(isPaid){
-    H += `<div style="background:rgba(16,185,129,.08);border:1.5px solid rgba(16,185,129,.25);border-radius:var(--r);padding:13px 18px;margin-bottom:20px;display:flex;align-items:center;gap:11px;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  // ── Pricing banner (always shown) ──
+  H += `<div style="background:linear-gradient(135deg,rgba(29,78,216,0.08),rgba(6,182,212,0.06));border:1.5px solid rgba(59,130,246,0.25);border-radius:var(--r2);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="font-size:28px;">💎</div>
       <div>
-        <div style="font-size:12px;font-weight:700;color:#059669;">Paid Access Active</div>
-        <div style="font-size:11px;color:var(--t3);">All 80 special mocks unlocked for <span style="font-family:var(--mono);font-weight:700;">${escH(sid)}</span></div>
-      </div>
-    </div>`;
-  } else {
-    H += `<div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(219,39,119,.06));border:1.5px solid rgba(245,158,11,.3);border-radius:var(--r);padding:13px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-size:22px;display:inline-block;animation:lockFloat 2.5s ease-in-out infinite;">🔐</span>
-        <div>
-          <div style="font-size:12px;font-weight:700;color:#b45309;">Premium Access Required</div>
-          <div style="font-size:11px;color:var(--t3);">Your ID <span style="font-family:var(--mono);font-weight:700;">${escH(sid)||'not set'}</span> is not in the paid list.</div>
+        <div style="font-size:13px;font-weight:800;color:var(--t);margin-bottom:3px;">Special Mocks — ₹30 per Subject</div>
+        <div style="font-size:11px;color:var(--t3);line-height:1.6;">Buy only the subjects you need · Each subject unlocks 20 exclusive mocks</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+          ${['acc','eco','bst','amat'].map(s=>{
+            const subj=SUBJECTS[s];
+            const paid=paidStatus[s];
+            return`<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;background:${paid?'rgba(16,185,129,0.12)':'rgba(245,158,11,0.1)'};border:1px solid ${paid?'rgba(16,185,129,0.3)':'rgba(245,158,11,0.3)'};color:${paid?'#059669':'#b45309'};">
+              ${subj.icon} ${subj.name} ${paid?'✓ Paid':'₹30'}
+            </span>`;
+          }).join('')}
         </div>
       </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <a href="https://t.me/mindmaster_robot" target="_blank" rel="noopener noreferrer" class="btn btn-p" style="font-size:11px;padding:8px 16px;">💬 Get Access</a>
-        <a href="https://commercesehoga.github.io/dashboard" target="_blank" rel="noopener noreferrer" class="btn btn-g" style="font-size:11px;padding:8px 16px;">🌐 Dashboard</a>
-      </div>
-    </div>`;
-  }
+    </div>
+    <a href="https://t.me/mindmaster_robot" target="_blank" class="btn btn-p" style="font-size:11px;padding:10px 18px;flex-shrink:0;">💬 Buy Access</a>
+  </div>`;
 
   // Subject tabs — always visible
   H += `<div class="subj-tabs" id="sp-tabs">
@@ -2368,7 +2372,7 @@ function spShowSubj(sId, tabEl){
       } else {
         // FREE — locked card, click shows toast
         return `<div class="mock-card sp-locked-card"
-          onclick="spLockedClick()"
+          onclick="spLockedClick('${sId}')"
           style="cursor:pointer;position:relative;overflow:hidden;">
           <div class="mc-num" style="opacity:.06;">${i+1}</div>
           <!-- Lock overlay -->
@@ -2391,8 +2395,9 @@ function spShowSubj(sId, tabEl){
   document.getElementById('sp-content').innerHTML = H;
 }
 
-function spLockedClick(){
-  toast('🔒 This mock requires paid access · Contact @mindmaster_robot on Telegram', 3500);
+function spLockedClick(sId){
+  const subj=SUBJECTS[sId];
+  toast(`🔒 ${subj.name} special mocks = ₹30 · Contact @mindmaster_robot on Telegram`, 3500);
 }
 
 /* ══════════════════════════════════════════
