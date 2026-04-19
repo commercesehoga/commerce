@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +44,7 @@
   /* Fonts */
   --fn:'Outfit',sans-serif;--fnh:'Syne',sans-serif;--mono:'DM Mono',monospace;
   /* Layout */
-  --sw:252px;
+  --sw: 228px; /* was 252px */
   /* Status colors */
   --green:#10b981;--red:#ef4444;--yellow:#f59e0b;--orange:#f97316;
 }
@@ -128,6 +129,17 @@ body::before {
 }
 .sb-brand { font-family: var(--fnh); font-size: 15px; font-weight: 800; color: var(--t); letter-spacing: -.3px; }
 .sb-brand span { color: var(--b3); }
+/* Compact sidebar tweaks */
+.sb-brand { font-size: 13px; letter-spacing: -.2px; }
+.sb-sec { font-size: 8px; padding: 10px 10px 4px; letter-spacing: 1.5px; }
+.nav-item { font-size: 12px; padding: 9px 11px; gap: 8px; }
+.nav-icon { font-size: 14px; }
+.nav-badge { font-size: 8px; padding: 2px 6px; }
+.sb-nm { font-size: 12px; }
+.sb-id { font-size: 9px; }
+.sb-av { width: 32px; height: 32px; font-size: 13px; }
+.sb-logo { width: 38px; height: 38px; font-size: 18px; border-radius: 11px; }
+.sb-prof { padding: 9px 11px; gap: 8px; }
 .sb-nav { flex: 1; overflow-y: auto; padding: 8px 10px; scrollbar-width: none; }
 .sb-nav::-webkit-scrollbar { display: none; }
 .sb-sec { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--t4); padding: 12px 10px 5px; }
@@ -327,20 +339,56 @@ body::before {
 @media (max-width: 768px) {
   .sidebar { display: none; }
   body { flex-direction: column; }
-  .main { height: 100dvh; padding-bottom: 80px; }
-  .page:not(#page-home) { padding: 16px 14px 90px; }
+  .main { height: 100dvh; padding-bottom: 84px; }
+  .page:not(#page-home) { padding: 16px 14px 96px; }
+
   .mob-nav {
-    display: flex; position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%);
-    width: calc(100% - 16px); max-width: 430px; height: 62px;
-    background: rgba(255,255,255,0.9); backdrop-filter: blur(28px);
-    border: 1px solid var(--bdr2); border-radius: 28px; z-index: 100;
-    box-shadow: var(--sh2); align-items: center; justify-content: space-around; padding: 0 6px;
+    display: flex;
+    position: fixed;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 16px);
+    max-width: 480px;
+    height: 60px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(28px);
+    border: 1px solid var(--bdr2);
+    border-radius: 28px;
+    z-index: 100;
+    box-shadow: var(--sh2);
+    align-items: center;
+    /* KEY: horizontal scroll instead of cramming */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    padding: 0 8px;
+    gap: 2px;
   }
-  .mob-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; height: 62px; -webkit-tap-highlight-color: transparent; }
-  .mob-ic { font-size: 19px; line-height: 1; }
-  .mob-lbl { font-size: 8px; font-weight: 700; color: var(--t4); }
+  .mob-nav::-webkit-scrollbar { display: none; }
+
+  .mob-item {
+    flex: 0 0 auto; /* don't shrink — let them overflow and scroll */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    height: 60px;
+    padding: 0 10px;
+    border-radius: 20px;
+    transition: background .18s;
+    -webkit-tap-highlight-color: transparent;
+    min-width: 52px;
+  }
+  .mob-item.active {
+    background: rgba(37,99,235,0.10);
+  }
+  .mob-ic { font-size: 18px; line-height: 1; }
+  .mob-lbl { font-size: 8px; font-weight: 700; color: var(--t4); white-space: nowrap; }
   .mob-item.active .mob-lbl { color: var(--b3); }
-  .mob-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--b3); margin: 2px auto 0; display: none; }
+  .mob-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--b3); margin: 1px auto 0; display: none; }
   .mob-item.active .mob-dot { display: block; }
   .mock-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); }
   .book-grid { grid-template-columns: 1fr 1fr; }
@@ -380,6 +428,13 @@ body::before {
   border: 1.5px solid rgba(245,158,11,.35);
   border-radius: 20px; padding: 4px 12px;
   font-size: 11px; font-weight: 800; color: #b45309;
+}
+
+@keyframes lockFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  25% { transform: translateY(-10px) rotate(3deg); }
+  50% { transform: translateY(-18px) rotate(-2deg); }
+  75% { transform: translateY(-8px) rotate(4deg); }
 }
 
 /* ────────────────────────────────────────────
@@ -646,6 +701,306 @@ body::before {
 }
 .sic-subj-chip:hover { border-color: var(--b3); background: rgba(255,255,255,0.85); transform: translateY(-1px); }
 .sic-score { font-family: var(--mono); font-size: 13px; font-weight: 700; }
+.sp-locked-card {
+  border-color: rgba(245,158,11,.3) !important;
+  background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(254,243,199,.5)) !important;
+}
+.sp-locked-card:hover {
+  border-color: rgba(219,39,119,.35) !important;
+  transform: translateY(-3px);
+  box-shadow: var(--sh2);
+}
+
+/* ── SOCIAL PROMO STRIP ── */
+.social-promo {
+  position: relative;
+  width: 100%;
+  padding: 48px 28px 56px;
+  background: linear-gradient(180deg,
+    rgba(224,242,254,0.0) 0%,
+    rgba(15,31,61,0.97) 30%,
+    rgba(15,31,61,1) 70%,
+    rgba(224,242,254,0.0) 100%
+  );
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Animated grid lines background */
+.social-promo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 12s linear infinite;
+  pointer-events: none;
+}
+@keyframes gridMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+/* Glow orbs */
+.social-promo::after {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 70%);
+  top: -100px; left: -100px;
+  pointer-events: none;
+  animation: orbFloat 8s ease-in-out infinite;
+}
+@keyframes orbFloat {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(60px, 40px); }
+}
+
+.sp-eyebrow {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(6,182,212,0.8);
+  margin-bottom: 10px;
+  animation: heroFadeUp .5s ease both;
+}
+
+.sp-headline {
+  text-align: center;
+  font-family: var(--fnh);
+  font-size: clamp(22px, 4vw, 38px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.5px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.sp-headline .sp-hl {
+  background: linear-gradient(135deg, #67e8f9, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sp-tagline {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 36px;
+  letter-spacing: .3px;
+}
+
+/* Social cards row */
+.sp-cards {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 780px;
+  margin: 0 auto 32px;
+}
+
+.sp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 18px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  text-decoration: none;
+  min-width: 130px;
+  flex: 1;
+  max-width: 160px;
+  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+  overflow: hidden;
+  animation: spCardIn .5s cubic-bezier(.34,1.56,.64,1) both;
+}
+.sp-card:nth-child(1) { animation-delay: .1s; }
+.sp-card:nth-child(2) { animation-delay: .18s; }
+.sp-card:nth-child(3) { animation-delay: .26s; }
+.sp-card:nth-child(4) { animation-delay: .34s; }
+.sp-card:nth-child(5) { animation-delay: .42s; }
+
+@keyframes spCardIn {
+  from { opacity: 0; transform: translateY(30px) scale(.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Shimmer sweep on hover */
+.sp-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -75%;
+  width: 50%; height: 200%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: skewX(-20deg);
+  transition: left .5s ease;
+  pointer-events: none;
+}
+.sp-card:hover::before { left: 130%; }
+
+.sp-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.1);
+}
+
+/* Per-platform accent glow on hover */
+.sp-card.tg:hover  { box-shadow: 0 12px 40px rgba(0,136,204,0.35); border-color: rgba(0,136,204,0.4); }
+.sp-card.yt:hover  { box-shadow: 0 12px 40px rgba(255,0,0,0.3); border-color: rgba(255,60,60,0.4); }
+.sp-card.ig:hover  { box-shadow: 0 12px 40px rgba(225,48,108,0.3); border-color: rgba(225,48,108,0.4); }
+.sp-card.web:hover { box-shadow: 0 12px 40px rgba(6,182,212,0.3); border-color: rgba(6,182,212,0.4); }
+.sp-card.ts:hover  { box-shadow: 0 12px 40px rgba(245,158,11,0.3); border-color: rgba(245,158,11,0.4); }
+
+.sp-ic {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.sp-card:hover .sp-ic { transform: scale(1.15) rotate(-5deg); }
+
+.sp-ic.tg-ic  { background: linear-gradient(135deg, #0088cc, #00b4d8); }
+.sp-ic.yt-ic  { background: linear-gradient(135deg, #ff0000, #ff4444); }
+.sp-ic.ig-ic  { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.sp-ic.web-ic { background: linear-gradient(135deg, #06b6d4, #1d4ed8); }
+.sp-ic.ts-ic  { background: linear-gradient(135deg, #f59e0b, #1d4ed8); }
+
+.sp-platform {
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .3px;
+  text-align: center;
+}
+.sp-handle {
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  font-family: var(--mono);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Floating badge on Telegram card */
+.sp-live-badge {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: #10b981;
+  border-radius: 20px;
+  padding: 2px 7px;
+  font-size: 8px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .5px;
+  animation: livePulse 2s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+/* Stats row */
+.sp-stats {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.sp-stat {
+  text-align: center;
+  animation: heroFadeUp .5s ease both;
+}
+.sp-stat:nth-child(1) { animation-delay: .5s; }
+.sp-stat:nth-child(2) { animation-delay: .6s; }
+.sp-stat:nth-child(3) { animation-delay: .7s; }
+.sp-stat-num {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  display: block;
+}
+.sp-stat-lbl {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Marquee ticker */
+.sp-ticker-wrap {
+  overflow: hidden;
+  width: 100%;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+}
+.sp-ticker-wrap::before,
+.sp-ticker-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 60px;
+  z-index: 2;
+  pointer-events: none;
+}
+.sp-ticker-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(15,31,61,1), transparent);
+}
+.sp-ticker-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, rgba(15,31,61,1), transparent);
+}
+.sp-ticker {
+  display: flex;
+  gap: 0;
+  animation: tickerRoll 22s linear infinite;
+  white-space: nowrap;
+  width: max-content;
+}
+.sp-ticker:hover { animation-play-state: paused; }
+@keyframes tickerRoll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.sp-tick-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 22px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: .3px;
+}
+.sp-tick-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(6,182,212,0.7);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .social-promo { padding: 40px 16px 48px; }
+  .sp-card { min-width: 110px; padding: 16px 12px 14px; }
+  .sp-ic { width: 42px; height: 42px; font-size: 20px; }
+  .sp-platform { font-size: 10px; }
+}
 </style>
 </head>
 <body>
@@ -683,12 +1038,12 @@ body::before {
 <!-- SIDEBAR -->
 <nav class="sidebar" id="sidebar">
   <div class="sb-head">
-    <div class="sb-logo">📊</div>
-    <div>
-      <div class="sb-brand">Commerce<span>Study</span></div>
-      <div style="font-size:9px;color:var(--t4);letter-spacing:.5px;">by Thunderstudy</div>
-    </div>
+  <div class="sb-logo">⚡</div>
+  <div>
+    <div class="sb-brand">Thunder<span>Study</span></div>
+    <div style="font-size:9px;color:var(--t4);letter-spacing:.3px;">Commerce · by Wondermayank</div>
   </div>
+</div>
   <div class="sb-nav">
     <div class="sb-sec">Dashboard</div>
     <div class="nav-item active" onclick="goPage('home')"><span class="nav-icon">🏠</span>Home</div>
@@ -757,6 +1112,86 @@ body::before {
           <div class="scroll-arrow"></div>
         </div>
       </div>
+
+      <!-- SOCIAL PROMO STRIP -->
+<div class="social-promo" id="social-promo">
+
+  <div class="sp-eyebrow">Join the Community</div>
+  <h2 class="sp-headline">Learn with <span class="sp-hl">ThunderStudy</span></h2>
+  <p class="sp-tagline">Follow us for daily updates, free resources & exam tips</p>
+
+  <!-- Social Cards -->
+  <div class="sp-cards">
+
+    <a href="https://t.me/thunderstudy_official" target="_blank" rel="noopener noreferrer" class="sp-card tg">
+      <div class="sp-live-badge">LIVE</div>
+      <div class="sp-ic tg-ic">
+        <!-- Telegram SVG -->
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      </div>
+      <div class="sp-platform">Telegram</div>
+      <div class="sp-handle">@thunderstudy<br>_official</div>
+    </a>
+
+    <a href="https://youtube.com/@thunderstudy_official" target="_blank" rel="noopener noreferrer" class="sp-card yt">
+      <div class="sp-ic yt-ic">
+        <!-- YouTube SVG -->
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </div>
+      <div class="sp-platform">YouTube</div>
+      <div class="sp-handle">@thunderstudy<br>_official</div>
+    </a>
+
+    <a href="https://instagram.com/thunderstudy_official" target="_blank" rel="noopener noreferrer" class="sp-card ig">
+      <div class="sp-ic ig-ic">
+        <!-- Instagram SVG -->
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </div>
+      <div class="sp-platform">Instagram</div>
+      <div class="sp-handle">@thunderstudy<br>_official</div>
+    </a>
+
+    <a href="https://wondermayank.github.io" target="_blank" rel="noopener noreferrer" class="sp-card web">
+      <div class="sp-ic web-ic">
+        <!-- Globe SVG -->
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <div class="sp-platform">Portfolio</div>
+      <div class="sp-handle">wondermayank<br>.github.io</div>
+    </a>
+
+    <a href="https://commercesehoga.github.io/dashboard" target="_blank" rel="noopener noreferrer" class="sp-card ts">
+      <div class="sp-ic ts-ic">⚡</div>
+      <div class="sp-platform">ThunderStudy</div>
+      <div class="sp-handle">Main<br>Dashboard</div>
+    </a>
+
+  </div>
+
+  <!-- Stats row -->
+  <div class="sp-stats">
+    <div class="sp-stat">
+      <span class="sp-stat-num" id="sp-counter-1">0</span>
+      <span class="sp-stat-lbl">Mock Tests</span>
+    </div>
+    <div class="sp-stat">
+      <span class="sp-stat-num" id="sp-counter-2">0</span>
+      <span class="sp-stat-lbl">Questions</span>
+    </div>
+    <div class="sp-stat">
+      <span class="sp-stat-num" id="sp-counter-3">0</span>
+      <span class="sp-stat-lbl">Subjects</span>
+    </div>
+  </div>
+
+  <!-- Marquee ticker -->
+  <div class="sp-ticker-wrap">
+    <div class="sp-ticker" id="sp-ticker">
+      <!-- items duplicated for seamless loop — JS fills this -->
+    </div>
+  </div>
+
+</div>
 
       <!-- 3D SCROLL CONTAINER SECTION -->
       <div class="scroll-section" id="scroll-section">
@@ -832,12 +1267,30 @@ body::before {
 
 <!-- MOBILE NAV -->
 <nav class="mob-nav" id="mob-nav">
-  <div class="mob-item active" id="mob-home" onclick="goPage('home')"><div class="mob-ic">🏠</div><div class="mob-lbl">Home</div><div class="mob-dot"></div></div>
-  <div class="mob-item" id="mob-acc" onclick="goPage('acc')"><div class="mob-ic">📒</div><div class="mob-lbl">Accounts</div><div class="mob-dot"></div></div>
-  <div class="mob-item" id="mob-eco" onclick="goPage('eco')"><div class="mob-ic">📈</div><div class="mob-lbl">Economics</div><div class="mob-dot"></div></div>
-  <div class="mob-item" id="mob-bst" onclick="goPage('bst')"><div class="mob-ic">📊</div><div class="mob-lbl">BST</div><div class="mob-dot"></div></div>
-  <div class="mob-item" id="mob-books" onclick="goPage('books')"><div class="mob-ic">📚</div><div class="mob-lbl">Books</div><div class="mob-dot"></div></div>
-  <div class="mob-item" id="mob-leaderboard" onclick="goPage('leaderboard')"><div class="mob-ic">🏆</div><div class="mob-lbl">Rank</div><div class="mob-dot"></div></div>
+  <div class="mob-item active" id="mob-home" onclick="goPage('home')">
+    <div class="mob-ic">🏠</div><div class="mob-lbl">Home</div><div class="mob-dot"></div>
+  </div>
+  <div class="mob-item" id="mob-acc" onclick="goPage('acc')">
+    <div class="mob-ic">📒</div><div class="mob-lbl">Accounts</div><div class="mob-dot"></div>
+  </div>
+  <div class="mob-item" id="mob-eco" onclick="goPage('eco')">
+    <div class="mob-ic">📈</div><div class="mob-lbl">Economics</div><div class="mob-dot"></div>
+  </div>
+  <div class="mob-item" id="mob-bst" onclick="goPage('bst')">
+    <div class="mob-ic">📊</div><div class="mob-lbl">BST</div><div class="mob-dot"></div>
+  </div>
+  <div class="mob-item" id="mob-amat" onclick="goPage('amat')">
+    <div class="mob-ic">🧮</div><div class="mob-lbl">Maths</div><div class="mob-dot"></div>
+  </div>
+  <div class="mob-item" id="mob-special" onclick="goPage('special')">
+    <div class="mob-ic">⭐</div><div class="mob-lbl">Special</div><div class="mob-dot"></div>
+  </div>
+  <div class="mob-item" id="mob-books" onclick="goPage('books')">
+    <div class="mob-ic">📚</div><div class="mob-lbl">Books</div><div class="mob-dot"></div>
+  </div>
+  <div class="mob-item" id="mob-leaderboard" onclick="goPage('leaderboard')">
+    <div class="mob-ic">🏆</div><div class="mob-lbl">Rank</div><div class="mob-dot"></div>
+  </div>
 </nav>
 
 <!-- TOAST -->
@@ -856,114 +1309,316 @@ const SUBJECTS = {
     id:'acc', name:'Accountancy', icon:'📒', color:'#06b6d4', colorRgb:'6,182,212',
     url:'https://commercesehoga.github.io/commerce/acc/',
     chapters:[
-      {id:'acc1',name:'Unit I: Accounting for Partnership',type:'chapter'},
-      {id:'acc2',name:'Unit II: Reconstitution of Partnership',type:'chapter'},
-      {id:'acc3',name:'Unit III: Dissolution of Partnership Firm',type:'chapter'},
-      {id:'acc4',name:'Unit IV: Company Accounts',type:'chapter'},
-      {id:'acc5',name:'Unit V: Analysis of Financial Statements',type:'chapter'},
-      {id:'acc6',name:'Unit VI: Computerised Accounting System',type:'chapter'},
-      {id:'acc-full1',name:'Full Mock 1',type:'fullmock'},
-      {id:'acc-full2',name:'Full Mock 2',type:'fullmock'},
-      {id:'acc-andr1',name:'A&R Chapterwise 1',type:'andr'},
-      {id:'acc-pyq23',name:'PYQ 2023',type:'pyq'},
-      {id:'acc-pyq24',name:'PYQ 2024',type:'pyq'},
-      {id:'acc-pyq25',name:'PYQ 2025',type:'pyq'},
-    ]
+  // Chapters
+  {id:'acc1',name:'Unit I: Accounting for Partnership',type:'chapter'},
+  {id:'acc2',name:'Unit II: Reconstitution of Partnership',type:'chapter'},
+  {id:'acc3',name:'Unit III: Dissolution of Partnership Firm',type:'chapter'},
+  {id:'acc4',name:'Unit IV: Company Accounts',type:'chapter'},
+  {id:'acc5',name:'Unit V: Analysis of Financial Statements',type:'chapter'},
+  {id:'acc6',name:'Unit VI: Computerised Accounting System',type:'chapter'},
+  // Full Mocks
+  {id:'acc-full1',name:'Full Mock 1',type:'fullmock'},
+  {id:'acc-full2',name:'Full Mock 2',type:'fullmock'},
+  {id:'acc-full3',name:'Full Mock 3',type:'fullmock'},
+  {id:'acc-full4',name:'Full Mock 4',type:'fullmock'},
+  {id:'acc-full5',name:'Full Mock 5',type:'fullmock'},
+  {id:'acc-full6',name:'Full Mock 6',type:'fullmock'},
+  {id:'acc-full7',name:'Full Mock 7',type:'fullmock'},
+  {id:'acc-full8',name:'Full Mock 8',type:'fullmock'},
+  {id:'acc-full9',name:'Full Mock 9',type:'fullmock'},
+  {id:'acc-full10',name:'Full Mock 10',type:'fullmock'},
+  {id:'acc-full11',name:'Full Mock 11',type:'fullmock'},
+  {id:'acc-full12',name:'Full Mock 12',type:'fullmock'},
+  {id:'acc-full13',name:'Full Mock 13',type:'fullmock'},
+  {id:'acc-full14',name:'Full Mock 14',type:'fullmock'},
+  {id:'acc-full15',name:'Full Mock 15',type:'fullmock'},
+  {id:'acc-full16',name:'Full Mock 16',type:'fullmock'},
+  {id:'acc-full17',name:'Full Mock 17',type:'fullmock'},
+  {id:'acc-full18',name:'Full Mock 18',type:'fullmock'},
+  {id:'acc-full19',name:'Full Mock 19',type:'fullmock'},
+  {id:'acc-full20',name:'Full Mock 20',type:'fullmock'},
+  // A&R
+  {id:'acc-andr1',name:'A&R Chapterwise 1',type:'andr'},
+  {id:'acc-andr2',name:'A&R Chapterwise 2',type:'andr'},
+  {id:'acc-andr3',name:'A&R Chapterwise 3',type:'andr'},
+  {id:'acc-andr4',name:'A&R Chapterwise 4',type:'andr'},
+  {id:'acc-andr5',name:'A&R Chapterwise 5',type:'andr'},
+  // PYQs
+  {id:'acc-pyq23',name:'PYQ 2023',type:'pyq'},
+  {id:'acc-pyq24',name:'PYQ 2024',type:'pyq'},
+  {id:'acc-pyq25',name:'PYQ 2025',type:'pyq'},
+  // Free Special (5) — shows on subject page
+  {id:'acc-sp1',name:'Special Mock 1',type:'special'},
+  {id:'acc-sp2',name:'Special Mock 2',type:'special'},
+  {id:'acc-sp3',name:'Special Mock 3',type:'special'},
+  {id:'acc-sp4',name:'Special Mock 4',type:'special'},
+  {id:'acc-sp5',name:'Special Mock 5',type:'special'},
+  // Paid Special (20) — shows only on Special Mocks page
+  {id:'acc-spp1',name:'Special Mock 1',type:'specialp'},
+  {id:'acc-spp2',name:'Special Mock 2',type:'specialp'},
+  {id:'acc-spp3',name:'Special Mock 3',type:'specialp'},
+  {id:'acc-spp4',name:'Special Mock 4',type:'specialp'},
+  {id:'acc-spp5',name:'Special Mock 5',type:'specialp'},
+  {id:'acc-spp6',name:'Special Mock 6',type:'specialp'},
+  {id:'acc-spp7',name:'Special Mock 7',type:'specialp'},
+  {id:'acc-spp8',name:'Special Mock 8',type:'specialp'},
+  {id:'acc-spp9',name:'Special Mock 9',type:'specialp'},
+  {id:'acc-spp10',name:'Special Mock 10',type:'specialp'},
+  {id:'acc-spp11',name:'Special Mock 11',type:'specialp'},
+  {id:'acc-spp12',name:'Special Mock 12',type:'specialp'},
+  {id:'acc-spp13',name:'Special Mock 13',type:'specialp'},
+  {id:'acc-spp14',name:'Special Mock 14',type:'specialp'},
+  {id:'acc-spp15',name:'Special Mock 15',type:'specialp'},
+  {id:'acc-spp16',name:'Special Mock 16',type:'specialp'},
+  {id:'acc-spp17',name:'Special Mock 17',type:'specialp'},
+  {id:'acc-spp18',name:'Special Mock 18',type:'specialp'},
+  {id:'acc-spp19',name:'Special Mock 19',type:'specialp'},
+  {id:'acc-spp20',name:'Special Mock 20',type:'specialp'},
+]
   },
   eco: {
     id:'eco', name:'Economics', icon:'📈', color:'#10b981', colorRgb:'16,185,129',
     url:'https://commercesehoga.github.io/commerce/eco/',
     chapters:[
-      {id:'macro1',name:'Macro Ch 1 – National Income Basics',type:'chapter'},
-      {id:'macro2',name:'Macro Ch 2 – Related Aggregates',type:'chapter'},
-      {id:'macro3',name:'Macro Ch 3 – Money & Banking',type:'chapter'},
-      {id:'macro4',name:'Macro Ch 4 – Income Determination',type:'chapter'},
-      {id:'macro5',name:'Macro Ch 5 – Government Budget',type:'chapter'},
-      {id:'macro6',name:'Macro Ch 6 – Balance of Payments',type:'chapter'},
-      {id:'micro1',name:'Micro Ch 1 – Introduction',type:'chapter'},
-      {id:'micro2',name:'Micro Ch 2 – Consumer Equilibrium',type:'chapter'},
-      {id:'micro3',name:'Micro Ch 3 – Demand',type:'chapter'},
-      {id:'micro4',name:'Micro Ch 4 – Production & Costs',type:'chapter'},
-      {id:'micro5',name:'Micro Ch 5 – Supply & Market',type:'chapter'},
-      {id:'indian1',name:'IED Unit I: Development Policies',type:'chapter'},
-      {id:'indian2',name:'IED Unit II: Economic Reforms since 1991',type:'chapter'},
-      {id:'indian3',name:'IED Unit III: Current Challenges',type:'chapter'},
-      {id:'indian4',name:'IED Unit IV: Development Experiences',type:'chapter'},
-      {id:'eco-img1',name:'Image Based Mock 1',type:'imgbased'},
-      {id:'eco-full1',name:'Full Mock 1',type:'fullmock'},
-      {id:'eco-full2',name:'Full Mock 2',type:'fullmock'},
-      {id:'eco-andr1',name:'A&R Chapterwise 1',type:'andr'},
-      {id:'eco-pyq23',name:'PYQ 2023',type:'pyq'},
-      {id:'eco-pyq24',name:'PYQ 2024',type:'pyq'},
-      {id:'eco-pyq25',name:'PYQ 2025',type:'pyq'},
-    ]
+  // Chapters
+  {id:'macro1',name:'Macro Ch 1 – National Income Basics',type:'chapter'},
+  {id:'macro2',name:'Macro Ch 2 – Related Aggregates',type:'chapter'},
+  {id:'macro3',name:'Macro Ch 3 – Money & Banking',type:'chapter'},
+  {id:'macro4',name:'Macro Ch 4 – Income Determination',type:'chapter'},
+  {id:'macro5',name:'Macro Ch 5 – Government Budget',type:'chapter'},
+  {id:'macro6',name:'Macro Ch 6 – Balance of Payments',type:'chapter'},
+  {id:'micro1',name:'Micro Ch 1 – Introduction',type:'chapter'},
+  {id:'micro2',name:'Micro Ch 2 – Consumer Equilibrium',type:'chapter'},
+  {id:'micro3',name:'Micro Ch 3 – Demand',type:'chapter'},
+  {id:'micro4',name:'Micro Ch 4 – Production & Costs',type:'chapter'},
+  {id:'micro5',name:'Micro Ch 5 – Supply & Market',type:'chapter'},
+  {id:'indian1',name:'IED Unit I: Development Policies',type:'chapter'},
+  {id:'indian2',name:'IED Unit II: Economic Reforms since 1991',type:'chapter'},
+  {id:'indian3',name:'IED Unit III: Current Challenges',type:'chapter'},
+  {id:'indian4',name:'IED Unit IV: Development Experiences',type:'chapter'},
+  // Image Based
+  {id:'eco-img1',name:'Image Based Mock 1',type:'imgbased'},
+  {id:'eco-img2',name:'Image Based Mock 2',type:'imgbased'},
+  {id:'eco-img3',name:'Image Based Mock 3',type:'imgbased'},
+  // Full Mocks
+  {id:'eco-full1',name:'Full Mock 1',type:'fullmock'},
+  {id:'eco-full2',name:'Full Mock 2',type:'fullmock'},
+  {id:'eco-full3',name:'Full Mock 3',type:'fullmock'},
+  {id:'eco-full4',name:'Full Mock 4',type:'fullmock'},
+  {id:'eco-full5',name:'Full Mock 5',type:'fullmock'},
+  {id:'eco-full6',name:'Full Mock 6',type:'fullmock'},
+  {id:'eco-full7',name:'Full Mock 7',type:'fullmock'},
+  {id:'eco-full8',name:'Full Mock 8',type:'fullmock'},
+  {id:'eco-full9',name:'Full Mock 9',type:'fullmock'},
+  {id:'eco-full10',name:'Full Mock 10',type:'fullmock'},
+  {id:'eco-full11',name:'Full Mock 11',type:'fullmock'},
+  {id:'eco-full12',name:'Full Mock 12',type:'fullmock'},
+  {id:'eco-full13',name:'Full Mock 13',type:'fullmock'},
+  {id:'eco-full14',name:'Full Mock 14',type:'fullmock'},
+  {id:'eco-full15',name:'Full Mock 15',type:'fullmock'},
+  {id:'eco-full16',name:'Full Mock 16',type:'fullmock'},
+  {id:'eco-full17',name:'Full Mock 17',type:'fullmock'},
+  {id:'eco-full18',name:'Full Mock 18',type:'fullmock'},
+  {id:'eco-full19',name:'Full Mock 19',type:'fullmock'},
+  {id:'eco-full20',name:'Full Mock 20',type:'fullmock'},
+  // A&R
+  {id:'eco-andr1',name:'A&R Chapterwise 1',type:'andr'},
+  {id:'eco-andr2',name:'A&R Chapterwise 2',type:'andr'},
+  {id:'eco-andr3',name:'A&R Chapterwise 3',type:'andr'},
+  {id:'eco-andr4',name:'A&R Chapterwise 4',type:'andr'},
+  {id:'eco-andr5',name:'A&R Chapterwise 5',type:'andr'},
+  // PYQs
+  {id:'eco-pyq23',name:'PYQ 2023',type:'pyq'},
+  {id:'eco-pyq24',name:'PYQ 2024',type:'pyq'},
+  {id:'eco-pyq25',name:'PYQ 2025',type:'pyq'},
+  // Free Special (5)
+  {id:'eco-sp1',name:'Special Mock 1',type:'special'},
+  {id:'eco-sp2',name:'Special Mock 2',type:'special'},
+  {id:'eco-sp3',name:'Special Mock 3',type:'special'},
+  {id:'eco-sp4',name:'Special Mock 4',type:'special'},
+  {id:'eco-sp5',name:'Special Mock 5',type:'special'},
+  // Paid Special (20)
+  {id:'eco-spp1',name:'Special Mock 1',type:'specialp'},
+  {id:'eco-spp2',name:'Special Mock 2',type:'specialp'},
+  {id:'eco-spp3',name:'Special Mock 3',type:'specialp'},
+  {id:'eco-spp4',name:'Special Mock 4',type:'specialp'},
+  {id:'eco-spp5',name:'Special Mock 5',type:'specialp'},
+  {id:'eco-spp6',name:'Special Mock 6',type:'specialp'},
+  {id:'eco-spp7',name:'Special Mock 7',type:'specialp'},
+  {id:'eco-spp8',name:'Special Mock 8',type:'specialp'},
+  {id:'eco-spp9',name:'Special Mock 9',type:'specialp'},
+  {id:'eco-spp10',name:'Special Mock 10',type:'specialp'},
+  {id:'eco-spp11',name:'Special Mock 11',type:'specialp'},
+  {id:'eco-spp12',name:'Special Mock 12',type:'specialp'},
+  {id:'eco-spp13',name:'Special Mock 13',type:'specialp'},
+  {id:'eco-spp14',name:'Special Mock 14',type:'specialp'},
+  {id:'eco-spp15',name:'Special Mock 15',type:'specialp'},
+  {id:'eco-spp16',name:'Special Mock 16',type:'specialp'},
+  {id:'eco-spp17',name:'Special Mock 17',type:'specialp'},
+  {id:'eco-spp18',name:'Special Mock 18',type:'specialp'},
+  {id:'eco-spp19',name:'Special Mock 19',type:'specialp'},
+  {id:'eco-spp20',name:'Special Mock 20',type:'specialp'},
+]
   },
   bst: {
     id:'bst', name:'Business Studies', icon:'📊', color:'#4f6ef7', colorRgb:'79,110,247',
     url:'https://commercesehoga.github.io/commerce/bst/',
     chapters:[
-      {id:'bst1',name:'Ch 1 – Nature & Significance',type:'chapter'},
-      {id:'bst2',name:'Ch 2 – Principles',type:'chapter'},
-      {id:'bst3',name:'Ch 3 – Business Environment',type:'chapter'},
-      {id:'bst4',name:'Ch 4 – Planning',type:'chapter'},
-      {id:'bst5',name:'Ch 5 – Organising',type:'chapter'},
-      {id:'bst6',name:'Ch 6 – Staffing',type:'chapter'},
-      {id:'bst7',name:'Ch 7 – Directing',type:'chapter'},
-      {id:'bst8',name:'Ch 8 – Controlling',type:'chapter'},
-      {id:'bst9',name:'Ch 9 – Financial Management',type:'chapter'},
-      {id:'bst10',name:'Ch 10 – Financial Markets',type:'chapter'},
-      {id:'bst11',name:'Ch 11 – Marketing',type:'chapter'},
-      {id:'bst12',name:'Ch 12 – Consumer Protection',type:'chapter'},
-      {id:'bst-img1',name:'Image Based Mock 1',type:'imgbased'},
-      {id:'bst-full1',name:'Full Mock 1',type:'fullmock'},
-      {id:'bst-full2',name:'Full Mock 2',type:'fullmock'},
-      {id:'bst-full3',name:'Full Mock 3',type:'fullmock'},
-      {id:'bst-full4',name:'Full Mock 4',type:'fullmock'},
-      {id:'bst-full5',name:'Full Mock 5',type:'fullmock'},
-      {id:'bst-full6',name:'Full Mock 6',type:'fullmock'},
-      {id:'bst-full7',name:'Full Mock 7',type:'fullmock'},
-      {id:'bst-full8',name:'Full Mock 8',type:'fullmock'},
-      {id:'bst-full9',name:'Full Mock 9',type:'fullmock'},
-      {id:'bst-full10',name:'Full Mock 10',type:'fullmock'},
-      {id:'bst-andr1',name:'A&R Chapterwise 1',type:'andr'},
-      {id:'bst-andr2',name:'A&R Chapterwise 2',type:'andr'},
-      {id:'bst-pyq23',name:'PYQ 2023',type:'pyq'},
-      {id:'bst-pyq24',name:'PYQ 2024',type:'pyq'},
-      {id:'bst-pyq25',name:'PYQ 2025',type:'pyq'},
-      {id:'bst-sp1',name:'Special Mock 1',type:'special'},
-    ]
+  // Chapters
+  {id:'bst1',name:'Ch 1 – Nature & Significance',type:'chapter'},
+  {id:'bst2',name:'Ch 2 – Principles',type:'chapter'},
+  {id:'bst3',name:'Ch 3 – Business Environment',type:'chapter'},
+  {id:'bst4',name:'Ch 4 – Planning',type:'chapter'},
+  {id:'bst5',name:'Ch 5 – Organising',type:'chapter'},
+  {id:'bst6',name:'Ch 6 – Staffing',type:'chapter'},
+  {id:'bst7',name:'Ch 7 – Directing',type:'chapter'},
+  {id:'bst8',name:'Ch 8 – Controlling',type:'chapter'},
+  {id:'bst9',name:'Ch 9 – Financial Management',type:'chapter'},
+  {id:'bst10',name:'Ch 10 – Financial Markets',type:'chapter'},
+  {id:'bst11',name:'Ch 11 – Marketing',type:'chapter'},
+  {id:'bst12',name:'Ch 12 – Consumer Protection',type:'chapter'},
+  // Image Based
+  {id:'bst-img1',name:'Image Based Mock 1',type:'imgbased'},
+  {id:'bst-img2',name:'Image Based Mock 2',type:'imgbased'},
+  {id:'bst-img3',name:'Image Based Mock 3',type:'imgbased'},
+  // Full Mocks
+  {id:'bst-full1',name:'Full Mock 1',type:'fullmock'},
+  {id:'bst-full2',name:'Full Mock 2',type:'fullmock'},
+  {id:'bst-full3',name:'Full Mock 3',type:'fullmock'},
+  {id:'bst-full4',name:'Full Mock 4',type:'fullmock'},
+  {id:'bst-full5',name:'Full Mock 5',type:'fullmock'},
+  {id:'bst-full6',name:'Full Mock 6',type:'fullmock'},
+  {id:'bst-full7',name:'Full Mock 7',type:'fullmock'},
+  {id:'bst-full8',name:'Full Mock 8',type:'fullmock'},
+  {id:'bst-full9',name:'Full Mock 9',type:'fullmock'},
+  {id:'bst-full10',name:'Full Mock 10',type:'fullmock'},
+  {id:'bst-full11',name:'Full Mock 11',type:'fullmock'},
+  {id:'bst-full12',name:'Full Mock 12',type:'fullmock'},
+  {id:'bst-full13',name:'Full Mock 13',type:'fullmock'},
+  {id:'bst-full14',name:'Full Mock 14',type:'fullmock'},
+  {id:'bst-full15',name:'Full Mock 15',type:'fullmock'},
+  {id:'bst-full16',name:'Full Mock 16',type:'fullmock'},
+  {id:'bst-full17',name:'Full Mock 17',type:'fullmock'},
+  {id:'bst-full18',name:'Full Mock 18',type:'fullmock'},
+  {id:'bst-full19',name:'Full Mock 19',type:'fullmock'},
+  {id:'bst-full20',name:'Full Mock 20',type:'fullmock'},
+  // A&R
+  {id:'bst-andr1',name:'A&R Chapterwise 1',type:'andr'},
+  {id:'bst-andr2',name:'A&R Chapterwise 2',type:'andr'},
+  {id:'bst-andr3',name:'A&R Chapterwise 3',type:'andr'},
+  {id:'bst-andr4',name:'A&R Chapterwise 4',type:'andr'},
+  {id:'bst-andr5',name:'A&R Chapterwise 5',type:'andr'},
+  // PYQs
+  {id:'bst-pyq23',name:'PYQ 2023',type:'pyq'},
+  {id:'bst-pyq24',name:'PYQ 2024',type:'pyq'},
+  {id:'bst-pyq25',name:'PYQ 2025',type:'pyq'},
+  // Free Special (5)
+  {id:'bst-sp1',name:'Special Mock 1',type:'special'},
+  {id:'bst-sp2',name:'Special Mock 2',type:'special'},
+  {id:'bst-sp3',name:'Special Mock 3',type:'special'},
+  {id:'bst-sp4',name:'Special Mock 4',type:'special'},
+  {id:'bst-sp5',name:'Special Mock 5',type:'special'},
+  // Paid Special (20)
+  {id:'bst-spp1',name:'Special Mock 1',type:'specialp'},
+  {id:'bst-spp2',name:'Special Mock 2',type:'specialp'},
+  {id:'bst-spp3',name:'Special Mock 3',type:'specialp'},
+  {id:'bst-spp4',name:'Special Mock 4',type:'specialp'},
+  {id:'bst-spp5',name:'Special Mock 5',type:'specialp'},
+  {id:'bst-spp6',name:'Special Mock 6',type:'specialp'},
+  {id:'bst-spp7',name:'Special Mock 7',type:'specialp'},
+  {id:'bst-spp8',name:'Special Mock 8',type:'specialp'},
+  {id:'bst-spp9',name:'Special Mock 9',type:'specialp'},
+  {id:'bst-spp10',name:'Special Mock 10',type:'specialp'},
+  {id:'bst-spp11',name:'Special Mock 11',type:'specialp'},
+  {id:'bst-spp12',name:'Special Mock 12',type:'specialp'},
+  {id:'bst-spp13',name:'Special Mock 13',type:'specialp'},
+  {id:'bst-spp14',name:'Special Mock 14',type:'specialp'},
+  {id:'bst-spp15',name:'Special Mock 15',type:'specialp'},
+  {id:'bst-spp16',name:'Special Mock 16',type:'specialp'},
+  {id:'bst-spp17',name:'Special Mock 17',type:'specialp'},
+  {id:'bst-spp18',name:'Special Mock 18',type:'specialp'},
+  {id:'bst-spp19',name:'Special Mock 19',type:'specialp'},
+  {id:'bst-spp20',name:'Special Mock 20',type:'specialp'},
+]
   },
   amat: {
     id:'amat', name:'Applied Maths', icon:'🧮', color:'#f59e0b', colorRgb:'245,158,11',
     url:'https://commercesehoga.github.io/commerce/amat/',
     chapters:[
-      {id:'amat-a1-algebra',name:'A1 – Algebra (Matrices, Determinants)',type:'chapter'},
-      {id:'amat-a1-calculus',name:'A1 – Calculus (Derivatives)',type:'chapter'},
-      {id:'amat-a1-integration',name:'A1 – Integration & Applications',type:'chapter'},
-      {id:'amat-a1-diffeq',name:'A1 – Differential Equations',type:'chapter'},
-      {id:'amat-a1-prob',name:'A1 – Probability Distributions',type:'chapter'},
-      {id:'amat-a1-lpp',name:'A1 – Linear Programming',type:'chapter'},
-      {id:'amat-b2-modulo',name:'B2 – Modulo Arithmetic',type:'chapter'},
-      {id:'amat-b2-allegation',name:'B2 – Allegation & Mixture',type:'chapter'},
-      {id:'amat-b2-matrices',name:'B2 – Matrices & Types',type:'chapter'},
-      {id:'amat-b2-det',name:'B2 – Determinants',type:'chapter'},
-      {id:'amat-b2-inverse',name:'B2 – Inverse & Simultaneous Equations',type:'chapter'},
-      {id:'amat-b2-hod',name:'B2 – Higher Order Derivatives',type:'chapter'},
-      {id:'amat-b2-maxmin',name:'B2 – Maxima & Minima',type:'chapter'},
-      {id:'amat-b2-indef',name:'B2 – Indefinite Integrals',type:'chapter'},
-      {id:'amat-b2-defint',name:'B2 – Definite Integral & Surplus',type:'chapter'},
-      {id:'amat-b2-diffeq',name:'B2 – Differential Equations',type:'chapter'},
-      {id:'amat-b2-probdist',name:'B2 – Probability Distribution',type:'chapter'},
-      {id:'amat-b2-binomial',name:'B2 – Binomial Distribution',type:'chapter'},
-      {id:'amat-b2-timeseries',name:'B2 – Time Series',type:'chapter'},
-      {id:'amat-b2-lpp',name:'B2 – Linear Programming (Graphical)',type:'chapter'},
-      {id:'amat-full1',name:'Full Mock 1',type:'fullmock'},
-      {id:'amat-full2',name:'Full Mock 2',type:'fullmock'},
-      {id:'amat-full3',name:'Full Mock 3',type:'fullmock'},
-      {id:'amat-pyq23',name:'PYQ 2023',type:'pyq'},
-      {id:'amat-pyq24',name:'PYQ 2024',type:'pyq'},
-      {id:'amat-pyq25',name:'PYQ 2025',type:'pyq'},
-    ]
+  // Chapters
+  {id:'amat-a1-algebra',name:'A1 – Algebra (Matrices, Determinants)',type:'chapter'},
+  {id:'amat-a1-calculus',name:'A1 – Calculus (Derivatives)',type:'chapter'},
+  {id:'amat-a1-integration',name:'A1 – Integration & Applications',type:'chapter'},
+  {id:'amat-a1-diffeq',name:'A1 – Differential Equations',type:'chapter'},
+  {id:'amat-a1-prob',name:'A1 – Probability Distributions',type:'chapter'},
+  {id:'amat-a1-lpp',name:'A1 – Linear Programming',type:'chapter'},
+  {id:'amat-b2-modulo',name:'B2 – Modulo Arithmetic',type:'chapter'},
+  {id:'amat-b2-allegation',name:'B2 – Allegation & Mixture',type:'chapter'},
+  {id:'amat-b2-matrices',name:'B2 – Matrices & Types',type:'chapter'},
+  {id:'amat-b2-det',name:'B2 – Determinants',type:'chapter'},
+  {id:'amat-b2-inverse',name:'B2 – Inverse & Simultaneous Equations',type:'chapter'},
+  {id:'amat-b2-hod',name:'B2 – Higher Order Derivatives',type:'chapter'},
+  {id:'amat-b2-maxmin',name:'B2 – Maxima & Minima',type:'chapter'},
+  {id:'amat-b2-indef',name:'B2 – Indefinite Integrals',type:'chapter'},
+  {id:'amat-b2-defint',name:'B2 – Definite Integral & Surplus',type:'chapter'},
+  {id:'amat-b2-diffeq',name:'B2 – Differential Equations',type:'chapter'},
+  {id:'amat-b2-probdist',name:'B2 – Probability Distribution',type:'chapter'},
+  {id:'amat-b2-binomial',name:'B2 – Binomial Distribution',type:'chapter'},
+  {id:'amat-b2-timeseries',name:'B2 – Time Series',type:'chapter'},
+  {id:'amat-b2-lpp',name:'B2 – Linear Programming (Graphical)',type:'chapter'},
+  // Full Mocks
+  {id:'amat-full1',name:'Full Mock 1',type:'fullmock'},
+  {id:'amat-full2',name:'Full Mock 2',type:'fullmock'},
+  {id:'amat-full3',name:'Full Mock 3',type:'fullmock'},
+  {id:'amat-full4',name:'Full Mock 4',type:'fullmock'},
+  {id:'amat-full5',name:'Full Mock 5',type:'fullmock'},
+  {id:'amat-full6',name:'Full Mock 6',type:'fullmock'},
+  {id:'amat-full7',name:'Full Mock 7',type:'fullmock'},
+  {id:'amat-full8',name:'Full Mock 8',type:'fullmock'},
+  {id:'amat-full9',name:'Full Mock 9',type:'fullmock'},
+  {id:'amat-full10',name:'Full Mock 10',type:'fullmock'},
+  {id:'amat-full11',name:'Full Mock 11',type:'fullmock'},
+  {id:'amat-full12',name:'Full Mock 12',type:'fullmock'},
+  {id:'amat-full13',name:'Full Mock 13',type:'fullmock'},
+  {id:'amat-full14',name:'Full Mock 14',type:'fullmock'},
+  {id:'amat-full15',name:'Full Mock 15',type:'fullmock'},
+  {id:'amat-full16',name:'Full Mock 16',type:'fullmock'},
+  {id:'amat-full17',name:'Full Mock 17',type:'fullmock'},
+  {id:'amat-full18',name:'Full Mock 18',type:'fullmock'},
+  {id:'amat-full19',name:'Full Mock 19',type:'fullmock'},
+  {id:'amat-full20',name:'Full Mock 20',type:'fullmock'},
+  // PYQs
+  {id:'amat-pyq23',name:'PYQ 2023',type:'pyq'},
+  {id:'amat-pyq24',name:'PYQ 2024',type:'pyq'},
+  {id:'amat-pyq25',name:'PYQ 2025',type:'pyq'},
+  // Free Special (5)
+  {id:'amat-sp1',name:'Special Mock 1',type:'special'},
+  {id:'amat-sp2',name:'Special Mock 2',type:'special'},
+  {id:'amat-sp3',name:'Special Mock 3',type:'special'},
+  {id:'amat-sp4',name:'Special Mock 4',type:'special'},
+  {id:'amat-sp5',name:'Special Mock 5',type:'special'},
+  // Paid Special (20)
+  {id:'amat-spp1',name:'Special Mock 1',type:'specialp'},
+  {id:'amat-spp2',name:'Special Mock 2',type:'specialp'},
+  {id:'amat-spp3',name:'Special Mock 3',type:'specialp'},
+  {id:'amat-spp4',name:'Special Mock 4',type:'specialp'},
+  {id:'amat-spp5',name:'Special Mock 5',type:'specialp'},
+  {id:'amat-spp6',name:'Special Mock 6',type:'specialp'},
+  {id:'amat-spp7',name:'Special Mock 7',type:'specialp'},
+  {id:'amat-spp8',name:'Special Mock 8',type:'specialp'},
+  {id:'amat-spp9',name:'Special Mock 9',type:'specialp'},
+  {id:'amat-spp10',name:'Special Mock 10',type:'specialp'},
+  {id:'amat-spp11',name:'Special Mock 11',type:'specialp'},
+  {id:'amat-spp12',name:'Special Mock 12',type:'specialp'},
+  {id:'amat-spp13',name:'Special Mock 13',type:'specialp'},
+  {id:'amat-spp14',name:'Special Mock 14',type:'specialp'},
+  {id:'amat-spp15',name:'Special Mock 15',type:'specialp'},
+  {id:'amat-spp16',name:'Special Mock 16',type:'specialp'},
+  {id:'amat-spp17',name:'Special Mock 17',type:'specialp'},
+  {id:'amat-spp18',name:'Special Mock 18',type:'specialp'},
+  {id:'amat-spp19',name:'Special Mock 19',type:'specialp'},
+  {id:'amat-spp20',name:'Special Mock 20',type:'specialp'},
+]
   }
 };
 
@@ -974,7 +1629,8 @@ const TYPE_INFO = {
   fullmock: {label:'Full Mock',    icon:'🗂️',  color:'#059669', bg:'rgba(5,150,105,0.1)'},
   andr:     {label:'A&R Test',     icon:'🔤',  color:'#d97706', bg:'rgba(217,119,6,0.1)'},
   pyq:      {label:'PYQ',          icon:'📜',  color:'#f97316', bg:'rgba(249,115,22,0.1)'},
-  special:  {label:'Special Mock', icon:'⭐',  color:'#db2777', bg:'rgba(219,39,119,0.1)'},
+  special:  {label:'Special Mock', icon:'⭐',  color:'#db2777', bg:'rgba(219,39,119,0.1)'}, // free, shows on subject page
+  specialp: {label:'Special Mock', icon:'⭐',  color:'#db2777', bg:'rgba(219,39,119,0.1)'}, // paid, only on special page
 };
 
 const BOOKS = [
@@ -1360,7 +2016,73 @@ function renderHome(){
   </div>`;
 
   hc.innerHTML=H;
-  setTimeout(initScrollReveal,100);
+  setTimeout(()=>{ initScrollReveal(); initSocialPromo(); }, 100);
+}
+
+function initSocialPromo(){
+  // ── Animated counters ──
+  function animCount(elId, target, suffix='', duration=1800){
+    const el = document.getElementById(elId);
+    if(!el) return;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      // ease out cubic
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * target) + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Trigger counters when promo scrolls into view
+  const promo = document.getElementById('social-promo');
+  const main  = document.getElementById('main');
+  if(!promo || !main) return;
+
+  let counted = false;
+  function checkCount(){
+    if(counted) return;
+    const r = promo.getBoundingClientRect();
+    const mr = main.getBoundingClientRect();
+    if(r.top < mr.bottom - 80){
+      counted = true;
+      animCount('sp-counter-1', 100, '+');
+      animCount('sp-counter-2', 5000, '+');
+      animCount('sp-counter-3', 4, '');
+      main.removeEventListener('scroll', checkCount);
+    }
+  }
+  main.addEventListener('scroll', checkCount, { passive: true });
+  setTimeout(checkCount, 600); // check on load too
+
+  // ── Ticker ──
+  const tickerItems = [
+    '⚡ ThunderStudy Commerce',
+    '📒 Accountancy Mocks',
+    '📈 Economics PYQs',
+    '📊 Business Studies',
+    '🧮 Applied Maths',
+    '🏆 Class Leaderboard',
+    '⭐ Special Mock Tests',
+    '📚 Free Study Material',
+    '🎯 CUET 2025 Prep',
+    '🌐 wondermayank.github.io',
+    '💬 @thunderstudy_official',
+    '🚀 Join on Telegram',
+  ];
+
+  const ticker = document.getElementById('sp-ticker');
+  if(!ticker) return;
+
+  // Duplicate for seamless loop
+  const allItems = [...tickerItems, ...tickerItems];
+  ticker.innerHTML = allItems.map(item =>
+    `<span class="sp-tick-item">
+      <span class="sp-tick-dot"></span>
+      ${item}
+    </span>`
+  ).join('');
 }
 
 /* ══════════════════════════════════════════
@@ -1460,37 +2182,163 @@ function markProgress(sId,cId){
    SPECIAL MOCKS PAGE
 ══════════════════════════════════════════ */
 function renderSpecial(){
-  const el=document.getElementById('page-special');
-  const sid=getSID();
-  const isPaid=PAID_IDS.includes(sid);
+  const el = document.getElementById('page-special');
+  const sid = getSID();
+  const isPaid = PAID_IDS.includes(sid);
 
-  let H=`<div class="topbar">
-    <div><div class="pg-title">⭐ Special Mocks</div><div class="pg-sub">Premium exclusive mock tests for Commerce CUET</div></div>
-    ${isPaid?`<div class="tr"><span class="paid-badge">✓ PAID ACCESS</span></div>`:''}
+  let H = `<div class="topbar">
+    <div>
+      <div class="pg-title">⭐ Special Mocks</div>
+      <div class="pg-sub">Premium exclusive mocks · 20 per subject · 80 total</div>
+    </div>
+    ${isPaid
+      ? `<div class="tr"><span class="paid-badge">✓ PAID · ${escH(sid)}</span></div>`
+      : `<div class="tr"><span class="chip chip-r">🔒 FREE ACCESS</span></div>`
+    }
   </div>`;
 
-  if(!isPaid){
-    H+=`<div class="gc gcp" style="text-align:center;padding:50px 28px;margin-bottom:20px;">
-      <div style="font-size:56px;margin-bottom:18px;animation:lockFloat 2.5s ease-in-out infinite;">🔐</div>
-      <div style="font-family:var(--fnh);font-size:20px;font-weight:800;margin-bottom:8px;color:var(--t);">Premium Content</div>
-      <div style="font-size:13px;color:var(--t3);line-height:1.8;margin-bottom:22px;max-width:400px;margin-left:auto;margin-right:auto;">
-        Special Mocks are available exclusively for paid students. Your Student ID (${escH(sid)||'not set'}) is not in the paid list.
-        <br><br>
-        Contact your teacher or visit the Thunderstudy main dashboard to get access.
+  // Access status banner
+  if(isPaid){
+    H += `<div style="background:rgba(16,185,129,.08);border:1.5px solid rgba(16,185,129,.25);border-radius:var(--r);padding:13px 18px;margin-bottom:20px;display:flex;align-items:center;gap:11px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#059669;">Paid Access Active</div>
+        <div style="font-size:11px;color:var(--t3);">All 80 special mocks unlocked for <span style="font-family:var(--mono);font-weight:700;">${escH(sid)}</span></div>
       </div>
-      <a href="https://commercesehoga.github.io/dashboard" target="_blank" class="btn btn-p" style="font-size:13px;padding:12px 26px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Go to Dashboard
-      </a>
     </div>`;
   } else {
-    H+=`<div style="background:rgba(16,185,129,.08);border:1.5px solid rgba(16,185,129,.25);border-radius:var(--r);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      <div><div style="font-size:13px;font-weight:700;color:#059669;">Paid Access Verified</div><div style="font-size:11px;color:var(--t3);">You have access to all special mocks.</div></div>
+    H += `<div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(219,39,119,.06));border:1.5px solid rgba(245,158,11,.3);border-radius:var(--r);padding:13px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;display:inline-block;animation:lockFloat 2.5s ease-in-out infinite;">🔐</span>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#b45309;">Premium Access Required</div>
+          <div style="font-size:11px;color:var(--t3);">Your ID <span style="font-family:var(--mono);font-weight:700;">${escH(sid)||'not set'}</span> is not in the paid list.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="https://t.me/mindmaster_robot" target="_blank" rel="noopener noreferrer" class="btn btn-p" style="font-size:11px;padding:8px 16px;">💬 Get Access</a>
+        <a href="https://commercesehoga.github.io/dashboard" target="_blank" rel="noopener noreferrer" class="btn btn-g" style="font-size:11px;padding:8px 16px;">🌐 Dashboard</a>
+      </div>
     </div>`;
   }
 
-  el.innerHTML=H;
+  // Subject tabs — always visible
+  H += `<div class="subj-tabs" id="sp-tabs">
+    <div class="stab active" onclick="spShowSubj('acc',this)">📒 Accountancy</div>
+    <div class="stab" onclick="spShowSubj('eco',this)">📈 Economics</div>
+    <div class="stab" onclick="spShowSubj('bst',this)">📊 BST</div>
+    <div class="stab" onclick="spShowSubj('amat',this)">🧮 Applied Maths</div>
+  </div>
+  <div id="sp-content"></div>`;
+
+  el.innerHTML = H;
+  spShowSubj('acc', document.querySelector('#sp-tabs .stab'));
+}
+
+function spShowSubj(sId, tabEl){
+  document.querySelectorAll('#sp-tabs .stab').forEach(t => t.classList.remove('active'));
+  if(tabEl) tabEl.classList.add('active');
+
+  const sid = getSID();
+  const isPaid = PAID_IDS.includes(sid);
+  const subj = SUBJECTS[sId];
+  const spMocks = subj.chapters.filter(ch => ch.type === 'specialp');
+  const ti = TYPE_INFO['special'];
+
+  // Compute stats only for paid (free users have no real attempts)
+  let stats = { done:0, total:spMocks.length, tScore:0, tMax:0, tCorrect:0, tWrong:0 };
+  if(isPaid){
+    spMocks.forEach(ch => {
+      const r = lR(sId, ch.id);
+      if(r && !r._started){
+        stats.done++;
+        stats.tScore += r.score || 0;
+        stats.tMax += r.maxScore || 50;
+        stats.tCorrect += r.correct || 0;
+        stats.tWrong += r.incorrect || 0;
+      }
+    });
+  }
+
+  const pct = stats.tMax > 0 ? (stats.tScore / stats.tMax * 100) : 0;
+  const clr = stats.done > 0 ? rClr(pct) : '#db2777';
+
+  // Subject header
+  let H = `<div class="subj-header gc" style="margin-bottom:18px;">
+    <div class="subj-icon-big" style="background:rgba(219,39,119,.1);">⭐</div>
+    <div style="flex:1;">
+      <div class="subj-title">${subj.icon} ${subj.name}</div>
+      <div class="subj-subtitle">
+        ${isPaid
+          ? `${stats.done}/${stats.total} attempted · Special exclusive questions`
+          : `${stats.total} special mocks · Unlock with paid access`
+        }
+      </div>
+      ${isPaid ? `<div class="prog-track" style="margin-top:10px;height:6px;max-width:220px;">
+        <div class="prog-fill" style="width:${stats.total>0?Math.min(100,stats.done/stats.total*100).toFixed(1):0}%;background:#db2777;"></div>
+      </div>` : ''}
+    </div>
+    <div style="text-align:right;">
+      ${isPaid
+        ? `<div style="font-family:var(--mono);font-size:30px;font-weight:700;color:${clr};">${pct.toFixed(1)}%</div>
+           <div style="font-size:10px;color:var(--t3);">${stats.done} done</div>`
+        : `<div style="font-size:28px;animation:lockFloat 2.5s ease-in-out infinite;display:inline-block;">🔒</div>`
+      }
+    </div>
+  </div>`;
+
+  // Mock cards grid
+  H += `<div class="mock-grid stagger">
+    ${spMocks.map((ch, i) => {
+      const r = isPaid ? lR(sId, ch.id) : null;
+      const done = r && !r._started;
+      const pctR = done ? r.percentage : null;
+      const scoreClr = done ? rClr(pctR) : '#db2777';
+
+      if(isPaid){
+        // PAID — normal clickable card opening new tab
+        return `<a class="mock-card ${done ? 'attempted' : ''}"
+          href="${subj.url}${ch.id}.html"
+          target="_blank" rel="noopener noreferrer"
+          onclick="markProgress('${sId}','${ch.id}')">
+          <div class="mc-num">${i+1}</div>
+          <div class="mc-icon" style="background:rgba(219,39,119,.1);">${ti.icon}</div>
+          <div class="mc-name">${escH(ch.name)}</div>
+          <div class="mc-type" style="color:#db2777;">Special Mock</div>
+          ${done
+            ? `<div class="mc-score" style="color:${scoreClr};">${pctR.toFixed(1)}%</div>
+               <div class="mc-detail">${r.score||0}/${r.maxScore||50} · ${r.correct||0}✓ · ${fd(r.date)}</div>`
+            : `<div style="font-size:10px;color:var(--t4);margin-top:8px;">Not attempted yet</div>`
+          }
+        </a>`;
+      } else {
+        // FREE — locked card, click shows toast
+        return `<div class="mock-card sp-locked-card"
+          onclick="spLockedClick()"
+          style="cursor:pointer;position:relative;overflow:hidden;">
+          <div class="mc-num" style="opacity:.06;">${i+1}</div>
+          <!-- Lock overlay -->
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.35));backdrop-filter:blur(1.5px);border-radius:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:2;">
+            <div style="font-size:20px;">🔒</div>
+            <div style="font-size:9px;font-weight:800;color:#b45309;letter-spacing:.5px;text-transform:uppercase;">Locked</div>
+          </div>
+          <!-- Blurred content underneath -->
+          <div style="filter:blur(2px);pointer-events:none;user-select:none;">
+            <div class="mc-icon" style="background:rgba(219,39,119,.1);">${ti.icon}</div>
+            <div class="mc-name">${escH(ch.name)}</div>
+            <div class="mc-type" style="color:#db2777;">Special Mock</div>
+            <div style="font-size:10px;color:var(--t4);margin-top:8px;">Premium only</div>
+          </div>
+        </div>`;
+      }
+    }).join('')}
+  </div>`;
+
+  document.getElementById('sp-content').innerHTML = H;
+}
+
+function spLockedClick(){
+  toast('🔒 This mock requires paid access · Contact @mindmaster_robot on Telegram', 3500);
 }
 
 /* ══════════════════════════════════════════
