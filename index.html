@@ -1101,6 +1101,7 @@ body::before {
       <div>
         <div class="sb-nm" id="sb-nm">Student</div>
         <div class="sb-id" id="sb-id">—</div>
+        <div id="sb-gender" style="font-size:9px;font-weight:700;color:var(--b3);margin-top:2px;"></div>
       </div>
     </div>
   </div>
@@ -1875,9 +1876,14 @@ function goPage(id){
 ══════════════════════════════════════════ */
 function updateSidebarProfile(){
   const sid=getSID(), name=getName();
-  document.getElementById('sb-av').textContent=(name[0]||'S').toUpperCase();
+  const gender=localStorage.getItem('ts_gender')||'';
+  const gIcon=gender==='girl'?'🌸':gender==='boy'?'📊':'👤';
+  const gLabel=gender==='girl'?'Girl · Rose Theme':gender==='boy'?'Boy · Commerce Theme':'';
+  document.getElementById('sb-av').textContent=gIcon;
   document.getElementById('sb-nm').textContent=name;
-  document.getElementById('sb-id').textContent=sid||'No ID — see Thunderstudy';
+  document.getElementById('sb-id').textContent=sid||'No ID';
+  const genderEl=document.getElementById('sb-gender');
+  if(genderEl)genderEl.textContent=gLabel;
 }
 
 /* ══════════════════════════════════════════
