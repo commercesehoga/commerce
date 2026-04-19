@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Business Studies · ThunderStudy</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#f5f3ff;--bg2:#fdf2f8;--bg3:#f8fafc;
+  --indigo:#4f46e5;--indigo2:#6366f1;--indigo3:#c7d2fe;--indigo4:#e0e7ff;
+  --pink:#ec4899;--pink2:#f472b6;--pink3:#fce7f3;--pink4:#fdf2f8;
+  --violet:#7c3aed;--violet2:#8b5cf6;
+  --green:#059669;--red:#dc2626;--orange:#d97706;
+  --t:#1e1b4b;--t2:#312e81;--t3:#6366f1;--t4:#a5b4fc;
+  --wt:rgba(255,255,255,0.88);--wt2:rgba(255,255,255,0.6);
+  --bdr:rgba(99,102,241,0.15);--bdr2:rgba(236,72,153,0.15);
+  --sh:0 4px 24px rgba(79,70,229,0.09);--sh2:0 12px 48px rgba(79,70,229,0.16);
+  --r:14px;--r2:20px;--r3:28px;
+  --fn:'Outfit',sans-serif;--fnh:'Syne',sans-serif;--mono:'DM Mono',monospace;
+  --sub-primary:#4f46e5;--sub-glow:rgba(79,70,229,0.22);
+}
+[data-gender="girl"]{
+  --sub-primary:var(--pink);--sub-glow:rgba(236,72,153,0.2);
+  --t:#3b0a1f;--t2:#5c1033;--t3:#a3547a;--t4:#d4a0b8;
+  --bdr:rgba(236,72,153,0.18);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fn);color:var(--t);min-height:100vh;position:relative;overflow-x:hidden;}
+
+/* ── BACKGROUND ── */
+.bg-mesh{position:fixed;inset:0;z-index:-1;
+  background:linear-gradient(145deg,#ede9fe 0%,#fdf2f8 28%,#f0fdf4 52%,#fce7f3 74%,#f5f3ff 100%);}
+.bg-mesh::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 600px 400px at 10% 20%,rgba(99,102,241,0.13) 0%,transparent 70%),
+              radial-gradient(ellipse 500px 400px at 88% 70%,rgba(236,72,153,0.10) 0%,transparent 70%),
+              radial-gradient(ellipse 400px 300px at 50% 50%,rgba(255,255,255,0.6) 0%,transparent 60%);}
+.dot-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.3;
+  background-image:radial-gradient(circle,rgba(99,102,241,0.38) 1px,transparent 1px);
+  background-size:28px 28px;}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  background:linear-gradient(145deg,#ede9fe,#fce7f3,#f5f3ff);transition:opacity .6s ease,transform .6s ease;}
+#loader.out{opacity:0;transform:scale(1.03);pointer-events:none;}
+.ld-orb{width:76px;height:76px;border-radius:50%;position:relative;
+  background:linear-gradient(135deg,#4f46e5,#ec4899);
+  box-shadow:0 0 40px rgba(79,70,229,0.4),0 0 80px rgba(236,72,153,0.25);
+  animation:orbPulse 2s ease-in-out infinite;}
+@keyframes orbPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+.ld-orb-inner{position:absolute;inset:6px;border-radius:50%;background:rgba(255,255,255,0.96);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.ld-ring{position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent;border-top-color:#4f46e5;animation:spin 1s linear infinite;}
+.ld-title{font-family:var(--fnh);font-size:22px;font-weight:800;color:#1e1b4b;animation:fadeUp .5s .2s both;}
+.ld-sub{font-size:11px;color:#6366f1;letter-spacing:2.5px;text-transform:uppercase;animation:fadeUp .5s .35s both;}
+.ld-bar{width:160px;height:3px;background:rgba(99,102,241,0.15);border-radius:3px;overflow:hidden;animation:fadeUp .5s .4s both;}
+.ld-bar-fill{height:100%;background:linear-gradient(90deg,#4f46e5,#ec4899);border-radius:3px;animation:barFill 2s .1s cubic-bezier(.4,0,.2,1) forwards;}
+@keyframes barFill{from{width:0}to{width:100%}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── GENDER OVERLAY ── */
+.g-overlay{position:fixed;inset:0;z-index:9998;background:rgba(30,27,75,0.5);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;animation:fadeUp .3s ease;}
+.g-popup{background:rgba(255,255,255,0.97);border-radius:28px;padding:40px 32px;max-width:340px;width:90%;text-align:center;box-shadow:0 24px 80px rgba(79,70,229,0.2);border:1.5px solid rgba(99,102,241,0.15);animation:popIn .5s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+.g-emoji{font-size:52px;margin-bottom:16px;}
+.g-title{font-family:var(--fnh);font-size:22px;font-weight:800;color:#1e1b4b;margin-bottom:6px;}
+.g-desc{font-size:13px;color:#6366f1;margin-bottom:28px;line-height:1.6;}
+.g-btns{display:flex;gap:14px;justify-content:center;}
+.g-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 16px;border-radius:18px;border:2px solid;cursor:pointer;font-family:var(--fn);font-size:13px;font-weight:800;transition:all .25s cubic-bezier(.34,1.56,.64,1);background:transparent;}
+.g-btn:hover{transform:translateY(-4px);}
+.g-girl{border-color:rgba(236,72,153,0.4);color:#be185d;}
+.g-girl:hover{background:rgba(236,72,153,0.07);box-shadow:0 8px 24px rgba(236,72,153,0.18);}
+.g-boy{border-color:rgba(79,70,229,0.4);color:#4f46e5;}
+.g-boy:hover{background:rgba(79,70,229,0.07);box-shadow:0 8px 24px rgba(79,70,229,0.18);}
+.g-btn span:first-child{font-size:32px;}
+.g-btn .g-sub{font-size:10px;font-weight:600;opacity:0.65;}
+
+/* ── WRAPPER ── */
+.wrapper{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 18px 80px;}
+
+/* ── HERO ── */
+.hero{position:relative;padding:56px 32px 48px;border-radius:var(--r3);margin:24px 0 22px;overflow:hidden;
+  background:linear-gradient(135deg,rgba(30,27,75,0.96) 0%,rgba(79,70,229,0.93) 45%,rgba(124,58,237,0.85) 72%,rgba(236,72,153,0.6) 100%);}
+.hero-sparkles{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.spark{position:absolute;border-radius:50%;animation:sparkle var(--d,3s) var(--dl,0s) ease-in-out infinite;}
+@keyframes sparkle{0%,100%{opacity:.2;transform:scale(.8) translateY(0);}50%{opacity:.9;transform:scale(1.3) translateY(-12px);}}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);backdrop-filter:blur(10px);border-radius:30px;padding:6px 16px;font-size:10px;font-weight:700;color:rgba(255,255,255,0.85);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px;animation:fadeUp .6s .2s both;}
+.hero-pulse{width:7px;height:7px;border-radius:50%;background:#34d399;animation:pulseDot 2s ease-in-out infinite;}
+@keyframes pulseDot{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.4);}}
+.hero-title{font-family:var(--fnh);font-size:clamp(32px,6vw,56px);font-weight:800;color:#fff;letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px;animation:fadeUp .6s .35s both;}
+.hero-title .hl{background:linear-gradient(135deg,#c4b5fd,#f9a8d4,#a5f3fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:22px;animation:fadeUp .6s .5s both;}
+.hero-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 13px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.9);}
+.hero-progress-wrap{animation:fadeUp .6s .6s both;}
+.hero-prog-label{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:7px;}
+.hero-prog-track{height:8px;background:rgba(255,255,255,0.15);border-radius:8px;overflow:hidden;}
+.hero-prog-fill{height:100%;background:linear-gradient(90deg,#c4b5fd,#f9a8d4);border-radius:8px;transition:width 1.4s cubic-bezier(.34,1.2,.64,1);}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px;animation:fadeUp .6s .7s both;}
+.hero-stat{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.18);border-radius:14px;padding:12px 14px;text-align:center;}
+.hero-stat-v{font-family:var(--mono);font-size:22px;font-weight:700;color:#fff;}
+.hero-stat-l{font-size:9px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.8px;margin-top:2px;}
+.hero-id{position:absolute;top:18px;right:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.22);border-radius:20px;padding:5px 13px;font-size:10px;font-weight:700;color:rgba(255,255,255,0.8);font-family:var(--mono);}
+
+/* ── SECTION HEADERS ── */
+.sec{margin-bottom:28px;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:11px;border-bottom:2px solid;border-image:linear-gradient(90deg,rgba(79,70,229,0.35),rgba(236,72,153,0.2),transparent) 1;}
+.sec-title{font-family:var(--fnh);font-size:15px;font-weight:800;color:var(--t);display:flex;align-items:center;gap:8px;}
+.sec-icon{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.sec-count{font-size:10px;font-weight:700;color:var(--t3);background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.18);border-radius:20px;padding:3px 10px;font-family:var(--mono);}
+
+/* ── DIFF BANNERS ── */
+.diff-banner{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:12px;font-size:12px;font-weight:700;margin-bottom:12px;}
+.diff-easy{background:linear-gradient(135deg,rgba(5,150,105,0.1),rgba(16,185,129,0.06));border:1.5px solid rgba(16,185,129,0.3);color:#065f46;}
+.diff-hard{background:linear-gradient(135deg,rgba(220,38,38,0.09),rgba(239,68,68,0.05));border:1.5px solid rgba(239,68,68,0.28);color:#991b1b;}
+.diff-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.d-easy{background:#10b981;}
+.d-hard{background:#ef4444;}
+.diff-count{margin-left:auto;font-size:10px;font-weight:700;opacity:0.65;}
+
+/* ── MOCK GRID ── */
+.mock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:11px;margin-bottom:18px;}
+.mock-card{background:var(--wt);backdrop-filter:blur(14px);border:1.5px solid var(--bdr);border-radius:var(--r);padding:15px;transition:all .22s cubic-bezier(.34,1.56,.64,1);cursor:pointer;text-decoration:none;color:var(--t);display:block;position:relative;overflow:hidden;}
+.mock-card:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:rgba(99,102,241,0.32);}
+.mock-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0) 60%,rgba(255,255,255,0.4));pointer-events:none;}
+.mc-num{font-family:var(--mono);font-size:30px;font-weight:800;position:absolute;right:8px;bottom:4px;opacity:0.07;color:var(--indigo);}
+.mc-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:800;margin-bottom:8px;}
+.badge-easy{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#059669;}
+.badge-hard{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#dc2626;}
+.badge-full{background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.25);color:#065f46;}
+.badge-andr{background:rgba(217,119,6,0.1);border:1px solid rgba(217,119,6,0.25);color:#92400e;}
+.badge-pyq{background:rgba(79,70,229,0.1);border:1px solid rgba(79,70,229,0.28);color:#4338ca;}
+.badge-sp{background:rgba(219,39,119,0.1);border:1px solid rgba(219,39,119,0.3);color:#9d174d;}
+.mc-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:9px;}
+.mc-name{font-size:11.5px;font-weight:700;line-height:1.45;margin-bottom:3px;color:var(--t);}
+.mc-type{font-size:10px;font-weight:600;}
+.mc-score{font-family:var(--mono);font-size:18px;font-weight:700;margin-top:6px;}
+.mc-detail{font-size:9px;color:var(--t3);margin-top:2px;}
+.mc-blank{font-size:10px;color:var(--t4);margin-top:8px;font-style:italic;}
+.mc-done{border-color:rgba(124,58,237,0.38);background:linear-gradient(135deg,rgba(255,255,255,0.92),rgba(237,233,254,0.68));}
+.mc-done::after{content:'✓';position:absolute;top:8px;right:9px;font-size:9px;font-weight:800;color:#7c3aed;background:rgba(124,58,237,0.12);border-radius:20px;padding:2px 7px;}
+.mc-easy-card{border-color:rgba(16,185,129,0.2);background:linear-gradient(135deg,rgba(255,255,255,0.93),rgba(240,253,244,0.7));}
+.mc-hard-card{border-color:rgba(239,68,68,0.18);background:linear-gradient(135deg,rgba(255,255,255,0.93),rgba(254,242,242,0.7));}
+.mc-locked{cursor:default!important;border-color:rgba(245,158,11,0.3)!important;background:linear-gradient(135deg,rgba(255,255,255,0.88),rgba(254,243,199,0.55))!important;}
+.mc-locked:hover{transform:translateY(-2px)!important;}
+.lock-blur{filter:blur(2.5px);pointer-events:none;user-select:none;}
+.lock-overlay{position:absolute;inset:0;z-index:2;background:rgba(255,255,255,0.5);backdrop-filter:blur(2px);border-radius:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}
+.lock-lbl{font-size:9px;font-weight:800;color:#92400e;letter-spacing:.5px;text-transform:uppercase;}
+
+/* ── BUY STRIP ── */
+.buy-strip{background:linear-gradient(135deg,rgba(219,39,119,0.07),rgba(79,70,229,0.05));border:1.5px solid rgba(219,39,119,0.22);border-radius:16px;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+.buy-strip-left{display:flex;align-items:center;gap:12px;}
+.buy-strip-title{font-size:13px;font-weight:800;color:var(--t);margin-bottom:3px;}
+.buy-strip-sub{font-size:11px;color:var(--t3);}
+
+/* ── STAT GRID ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:11px;margin-bottom:24px;}
+.stat-card{background:var(--wt);backdrop-filter:blur(14px);border:1px solid var(--bdr);border-radius:var(--r2);padding:16px 18px;transition:all .22s cubic-bezier(.34,1.56,.64,1);}
+.stat-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);}
+.stat-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:10px;}
+.stat-v{font-family:var(--mono);font-size:23px;font-weight:700;letter-spacing:-1px;}
+.stat-l{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+
+/* ── PROGRESS BAR ── */
+.prog-track{height:6px;background:rgba(99,102,241,0.1);border-radius:6px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#4f46e5,#8b5cf6);transition:width 1.3s cubic-bezier(.34,1.2,.64,1);}
+.prog-fill-pink{background:linear-gradient(90deg,#ec4899,#f472b6)!important;}
+
+/* ── BOOK GRID ── */
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.book-card{background:var(--wt);backdrop-filter:blur(14px);border:1.5px solid var(--bdr);border-radius:var(--r2);overflow:hidden;transition:all .25s cubic-bezier(.34,1.56,.64,1);text-decoration:none;color:var(--t);display:block;}
+.book-card:hover{transform:translateY(-6px);box-shadow:var(--sh2);border-color:rgba(99,102,241,0.35);}
+.book-cover{height:110px;display:flex;align-items:center;justify-content:center;font-size:46px;position:relative;}
+.book-tag{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.22);backdrop-filter:blur(8px);border-radius:10px;padding:4px 10px;font-size:9px;font-weight:800;color:#fff;letter-spacing:.5px;}
+.book-body{padding:16px 18px;}
+.book-title{font-family:var(--fnh);font-size:13px;font-weight:700;margin-bottom:5px;line-height:1.4;}
+.book-desc{font-size:11px;color:var(--t3);line-height:1.6;}
+.book-price{margin-top:11px;display:flex;align-items:center;gap:8px;}
+.price-was{font-size:11px;color:var(--t4);text-decoration:line-through;font-family:var(--mono);}
+.price-free{background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);border-radius:20px;padding:3px 11px;font-size:10px;font-weight:800;color:#7c3aed;}
+
+/* ── STUDYHUB PROMO ── */
+.studyhub-promo{background:linear-gradient(135deg,rgba(79,70,229,0.08),rgba(124,58,237,0.05));border:1.5px solid rgba(99,102,241,0.22);border-radius:var(--r2);padding:22px 26px;text-align:center;margin-top:18px;}
+.sh-icon{font-size:32px;margin-bottom:10px;}
+.sh-title{font-family:var(--fnh);font-size:16px;font-weight:700;margin-bottom:6px;}
+.sh-desc{font-size:12px;color:var(--t3);margin-bottom:16px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:30px;font-size:12px;font-weight:800;border:none;cursor:pointer;font-family:var(--fn);transition:all .22s;}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.07);}
+.btn-p{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;box-shadow:0 4px 16px rgba(79,70,229,0.28);}
+.btn-p-pink{background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;box-shadow:0 4px 16px rgba(236,72,153,0.28);}
+.btn-sm{padding:8px 16px;font-size:11px;}
+.btn-g{background:rgba(255,255,255,0.75);border:1.5px solid rgba(99,102,241,0.22);color:var(--t2);}
+
+/* ── DIVIDER ── */
+.sdiv{height:1px;background:linear-gradient(90deg,transparent,rgba(79,70,229,0.22),rgba(236,72,153,0.15),transparent);margin:28px 0;}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:none;}
+.toast{background:linear-gradient(135deg,rgba(30,27,75,0.96),rgba(79,70,229,0.92));color:#fff;backdrop-filter:blur(16px);padding:11px 22px;border-radius:30px;font-size:13px;font-weight:700;box-shadow:0 8px 30px rgba(79,70,229,0.3);opacity:0;transform:translateY(12px);transition:all .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* ── NAV ── */
+.top-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.87);backdrop-filter:blur(20px);border-bottom:1px solid rgba(99,102,241,0.12);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.nav-brand{display:flex;align-items:center;gap:9px;}
+.nav-logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 4px 14px rgba(79,70,229,0.3);}
+.nav-brand-text{font-family:var(--fnh);font-size:14px;font-weight:800;color:var(--t);}
+.nav-brand-text span{color:#4f46e5;}
+.nav-right{display:flex;align-items:center;gap:8px;}
+.nav-sid{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--t3);background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.18);border-radius:20px;padding:4px 11px;}
+
+/* ── STAGGER ── */
+.stagger>*{animation:fadeUp .4s ease both;opacity:0;}
+.stagger>*:nth-child(1){animation-delay:.05s}
+.stagger>*:nth-child(2){animation-delay:.10s}
+.stagger>*:nth-child(3){animation-delay:.15s}
+.stagger>*:nth-child(4){animation-delay:.20s}
+.stagger>*:nth-child(5){animation-delay:.25s}
+.stagger>*:nth-child(6){animation-delay:.30s}
+.stagger>*:nth-child(7){animation-delay:.33s}
+.stagger>*:nth-child(8){animation-delay:.36s}
+.stagger>*:nth-child(9){animation-delay:.39s}
+.stagger>*:nth-child(10){animation-delay:.42s}
+.stagger>*:nth-child(11){animation-delay:.45s}
+.stagger>*:nth-child(12){animation-delay:.48s}
+.stagger>*:nth-child(n+13){animation-delay:.52s}
+
+/* ── SOCIAL CARDS ── */
+.social-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+.soc-card{display:flex;align-items:center;gap:9px;background:var(--wt);backdrop-filter:blur(12px);border:1.5px solid var(--bdr);border-radius:14px;padding:11px 16px;text-decoration:none;color:var(--t);font-size:12px;font-weight:700;transition:all .22s cubic-bezier(.34,1.56,.64,1);flex:1;min-width:130px;}
+.soc-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);}
+.soc-ic{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.soc-sub{font-size:10px;font-weight:600;color:var(--t3);}
+
+/* ── WELCOME CARD ── */
+.welcome-card{background:linear-gradient(135deg,rgba(79,70,229,0.08),rgba(236,72,153,0.05));border:1.5px solid rgba(99,102,241,0.2);border-radius:var(--r2);padding:20px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
+.welcome-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#ec4899);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 4px 16px rgba(79,70,229,0.25);}
+.welcome-name{font-family:var(--fnh);font-size:18px;font-weight:800;color:var(--t);}
+.welcome-sub{font-size:11px;color:var(--t3);margin-top:3px;}
+.welcome-pct{margin-left:auto;text-align:right;}
+.welcome-pct-v{font-family:var(--mono);font-size:30px;font-weight:700;}
+.welcome-pct-l{font-size:10px;color:var(--t3);}
+
+@media(max-width:600px){
+  .mock-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+  .book-grid{grid-template-columns:1fr;}
+  .hero{padding:40px 22px 36px;}
+  .hero-title{font-size:30px;}
+  .social-row{flex-direction:column;}
+  .soc-card{min-width:unset;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+<div class="dot-grid"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-orb">
+    <div class="ld-ring"></div>
+    <div class="ld-orb-inner">📊</div>
+  </div>
+  <div class="ld-title">Business Studies</div>
+  <div class="ld-sub">ThunderStudy · CUET Prep</div>
+  <div class="ld-bar"><div class="ld-bar-fill"></div></div>
+</div>
+
+<!-- GENDER OVERLAY -->
+<div class="g-overlay" id="g-overlay" style="display:none;">
+  <div class="g-popup">
+    <div class="g-emoji">📊</div>
+    <div class="g-title">Welcome!</div>
+    <div class="g-desc">Choose your theme to personalise your Business Studies dashboard.</div>
+    <div class="g-btns">
+      <button class="g-btn g-girl" onclick="setGender('girl')">
+        <span>♀️</span>Girl<span class="g-sub">Rose theme</span>
+      </button>
+      <button class="g-btn g-boy" onclick="setGender('boy')">
+        <span>♂️</span>Boy<span class="g-sub">Indigo theme</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<nav class="top-nav" id="top-nav">
+  <div class="nav-brand">
+    <div class="nav-logo" id="nav-logo">⚡</div>
+    <div>
+      <div class="nav-brand-text">Thunder<span>Study</span></div>
+      <div style="font-size:9px;color:var(--t4);letter-spacing:.3px;">Commerce · by Wondermayank</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-sid" id="nav-sid">No ID</div>
+    <a href="https://commercesehoga.github.io/dashboard" target="_blank" class="btn btn-g btn-sm">🏠 Dashboard</a>
+  </div>
+</nav>
+
+<!-- MAIN WRAPPER -->
+<div class="wrapper" id="wrapper">
+
+  <!-- ══ HERO ══ -->
+  <div class="hero" id="hero">
+    <div class="hero-sparkles" id="hero-sparkles"></div>
+    <div class="hero-id" id="hero-id">🪪 —</div>
+    <div class="hero-badge"><div class="hero-pulse"></div>ThunderStudy · Commerce</div>
+    <h1 class="hero-title">📊 <span class="hl">Business Studies</span></h1>
+    <div class="hero-meta" id="hero-meta">
+      <div class="hero-chip">CUET 2025</div>
+      <div class="hero-chip">Class 12</div>
+      <div class="hero-chip">12 Chapters · PYQs</div>
+    </div>
+    <div class="hero-progress-wrap">
+      <div class="hero-prog-label">
+        <span>Overall Progress</span>
+        <span id="hero-pct-lbl">0%</span>
+      </div>
+      <div class="hero-prog-track">
+        <div class="hero-prog-fill" id="hero-prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-v" id="hs-correct">0</div><div class="hero-stat-l">Correct</div></div>
+      <div class="hero-stat"><div class="hero-stat-v" id="hs-wrong">0</div><div class="hero-stat-l">Wrong</div></div>
+      <div class="hero-stat"><div class="hero-stat-v" id="hs-done">0</div><div class="hero-stat-l">Done</div></div>
+    </div>
+  </div>
+
+  <!-- ══ WELCOME CARD ══ -->
+  <div class="welcome-card" id="welcome-card">
+    <div class="welcome-av" id="w-av">S</div>
+    <div>
+      <div class="welcome-name" id="w-name">Student</div>
+      <div class="welcome-sub" id="w-sub">Welcome to Business Studies · <span id="w-attempts">0</span> mocks attempted</div>
+    </div>
+    <div class="welcome-pct">
+      <div class="welcome-pct-v" id="w-pct">—</div>
+      <div class="welcome-pct-l">Accuracy</div>
+    </div>
+  </div>
+
+  <!-- ══ MINI STATS ══ -->
+  <div class="stat-grid stagger" id="stat-grid">
+    <div class="stat-card"><div class="stat-ic" style="background:rgba(5,150,105,.1);">✅</div><div class="stat-v" id="stat-correct" style="color:#059669;">0</div><div class="stat-l">Correct</div></div>
+    <div class="stat-card"><div class="stat-ic" style="background:rgba(220,38,38,.1);">❌</div><div class="stat-v" id="stat-wrong" style="color:#dc2626;">0</div><div class="stat-l">Wrong</div></div>
+    <div class="stat-card"><div class="stat-ic" style="background:rgba(79,70,229,.1);">📊</div><div class="stat-v" id="stat-pct" style="color:#4f46e5;">0%</div><div class="stat-l">Accuracy</div></div>
+    <div class="stat-card"><div class="stat-ic" style="background:rgba(124,58,237,.1);">🗂️</div><div class="stat-v" id="stat-done" style="color:#7c3aed;">0</div><div class="stat-l">Attempted</div></div>
+  </div>
+
+  <!-- ══ SOCIAL LINKS ══ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-title"><div class="sec-icon" style="background:rgba(79,70,229,0.1);">🌐</div>Join the Community</div>
+    </div>
+    <div class="social-row">
+      <a href="https://t.me/thunderstudy_official" target="_blank" class="soc-card">
+        <div class="soc-ic" style="background:linear-gradient(135deg,#0088cc,#00b4d8);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </div>
+        <div><div>Telegram</div><div class="soc-sub">@thunderstudy_official</div></div>
+      </a>
+      <a href="https://youtube.com/@thunderstudy_official" target="_blank" class="soc-card">
+        <div class="soc-ic" style="background:linear-gradient(135deg,#ff0000,#ff4444);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </div>
+        <div><div>YouTube</div><div class="soc-sub">@thunderstudy_official</div></div>
+      </a>
+      <a href="https://instagram.com/thunderstudy_official" target="_blank" class="soc-card">
+        <div class="soc-ic" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </div>
+        <div><div>Instagram</div><div class="soc-sub">@thunderstudy_official</div></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ CHAPTERWISE ══ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-title"><div class="sec-icon" style="background:rgba(79,70,229,0.1);">📖</div>Chapterwise Mocks</div>
+      <div class="sec-count">12 ch × 2 diff</div>
+    </div>
+
+    <!-- EASY -->
+    <div class="diff-banner diff-easy">
+      <div class="diff-dot d-easy"></div>
+      Easy — Concept clarity &amp; basics
+      <span class="diff-count" id="easy-done-count">0/12 done</span>
+    </div>
+    <div class="mock-grid stagger" id="easy-grid"></div>
+
+    <!-- HARD -->
+    <div class="diff-banner diff-hard" style="margin-top:6px;">
+      <div class="diff-dot d-hard"></div>
+      Hard — Advanced &amp; application-level
+      <span class="diff-count" id="hard-done-count">0/12 done</span>
+    </div>
+    <div class="mock-grid stagger" id="hard-grid"></div>
+  </div>
+
+  <div class="sdiv"></div>
+
+  <!-- ══ FULL MOCKS ══ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-title"><div class="sec-icon" style="background:rgba(5,150,105,0.1);">🗂️</div>Full Mock Tests</div>
+      <div class="sec-count">2 full mocks</div>
+    </div>
+    <div class="mock-grid stagger" id="full-grid"></div>
+  </div>
+
+  <!-- ══ A&R ══ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-title"><div class="sec-icon" style="background:rgba(217,119,6,0.1);">🔤</div>Assertion &amp; Reasoning</div>
+      <div class="sec-count">1 A&amp;R test</div>
+    </div>
+    <div class="mock-grid stagger" id="andr-grid"></div>
+  </div>
+
+  <!-- ══ PYQs ══ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-title"><div class="sec-icon" style="background:rgba(79,70,229,0.1);">📜</div>Previous Year Questions</div>
+      <div class="sec-count">2023 · 2024 · 2025</div>
+    </div>
+    <div class="mock-grid stagger" id="pyq-grid"></div>
+  </div>
+
+  <div class="sdiv"></div>
+
+  <!-- ══ SPECIAL MOCKS ══ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-title"><div class="sec-icon" style="background:rgba(219,39,119,0.1);">⭐</div>Special Mocks</div>
+      <div class="sec-count">1 free · 10 paid</div>
+    </div>
+
+    <div class="buy-strip" id="buy-strip">
+      <div class="buy-strip-left">
+        <div style="font-size:28px;">💎</div>
+        <div>
+          <div class="buy-strip-title">Unlock 10 premium special mocks — ₹30 only</div>
+          <div class="buy-strip-sub">Exclusive high-difficulty Business Studies mocks · Contact on Telegram</div>
+        </div>
+      </div>
+      <a href="https://t.me/mindmaster_robot" target="_blank" class="btn btn-p-pink btn-sm">💬 Buy Access</a>
+    </div>
+
+    <div style="font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:10px;">🎁 Free — 1 mock</div>
+    <div class="mock-grid stagger" id="sp-free-grid"></div>
+
+    <div style="font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin:14px 0 10px;" id="paid-label">🔒 Paid Access — 10 mocks</div>
+    <div class="mock-grid stagger" id="sp-paid-grid"></div>
+  </div>
+
+  <div class="sdiv"></div>
+
+  <!-- ══ BOOKS ══ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-title"><div class="sec-icon" style="background:rgba(79,70,229,0.1);">📚</div>Business Studies Books</div>
+      <div class="sec-count">2 books · Free</div>
+    </div>
+    <div class="book-grid stagger">
+      <a href="https://commercesehoga.github.io/studyhub/" target="_blank" class="book-card">
+        <div class="book-cover" style="background:linear-gradient(135deg,#312e81,#4f46e5);">
+          <span>📘</span>
+          <div class="book-tag">FREE</div>
+        </div>
+        <div class="book-body">
+          <div class="book-title">Business Studies — Class 12 Complete Book</div>
+          <div class="book-desc">Sample papers · PYQs · Notes · Mindmaps · Board prep — all in one place.</div>
+          <div class="book-price">
+            <span class="price-was">₹99</span>
+            <span class="price-free">🎁 Free Access</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://commercesehoga.github.io/studyhub/" target="_blank" class="book-card">
+        <div class="book-cover" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+          <span>📗</span>
+          <div class="book-tag">FREE</div>
+        </div>
+        <div class="book-body">
+          <div class="book-title">Business Studies — CUET Complete Book</div>
+          <div class="book-desc">Sample papers · PYQs · Mock tests · Notes · Mindmaps for CUET.</div>
+          <div class="book-price">
+            <span class="price-was">₹99</span>
+            <span class="price-free">🎁 Free Access</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="studyhub-promo">
+      <div class="sh-icon">🛒</div>
+      <div class="sh-title">Get all study material free</div>
+      <div class="sh-desc">All books & PDFs worth ₹99 each — completely free on StudyHub</div>
+      <a href="https://commercesehoga.github.io/studyhub/" target="_blank" class="btn btn-p">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        Visit StudyHub
+      </a>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+
+<div class="toast-wrap"><div class="toast" id="toast"></div></div>
+
+<script>
+/* ══ CONFIG ══ */
+const BASE_URL = 'https://commercesehoga.github.io/commerce/bst/';
+const PAID_IDS = ['TS67933'];
+
+/* ── BST CHAPTERS: 12 Easy + 12 Hard ── */
+const BST_EASY = [
+  {id:'bst1',  name:'Ch 1: Nature & Significance of Management'},
+  {id:'bst2',  name:'Ch 2: Principles of Management'},
+  {id:'bst3',  name:'Ch 3: Business Environment'},
+  {id:'bst4',  name:'Ch 4: Planning'},
+  {id:'bst5',  name:'Ch 5: Organising'},
+  {id:'bst6',  name:'Ch 6: Staffing'},
+  {id:'bst7',  name:'Ch 7: Directing'},
+  {id:'bst8',  name:'Ch 8: Controlling'},
+  {id:'bst9',  name:'Ch 9: Financial Management'},
+  {id:'bst10', name:'Ch 10: Financial Markets'},
+  {id:'bst11', name:'Ch 11: Marketing Management'},
+  {id:'bst12', name:'Ch 12: Consumer Protection'},
+];
+const BST_HARD = [
+  {id:'bst1h',  name:'Ch 1: Nature & Significance (Hard)'},
+  {id:'bst2h',  name:'Ch 2: Principles (Hard)'},
+  {id:'bst3h',  name:'Ch 3: Business Environment (Hard)'},
+  {id:'bst4h',  name:'Ch 4: Planning (Hard)'},
+  {id:'bst5h',  name:'Ch 5: Organising (Hard)'},
+  {id:'bst6h',  name:'Ch 6: Staffing (Hard)'},
+  {id:'bst7h',  name:'Ch 7: Directing (Hard)'},
+  {id:'bst8h',  name:'Ch 8: Controlling (Hard)'},
+  {id:'bst9h',  name:'Ch 9: Financial Management (Hard)'},
+  {id:'bst10h', name:'Ch 10: Financial Markets (Hard)'},
+  {id:'bst11h', name:'Ch 11: Marketing Management (Hard)'},
+  {id:'bst12h', name:'Ch 12: Consumer Protection (Hard)'},
+];
+const BST_FULL = [
+  {id:'bst-full1', name:'Full Mock 1'},
+  {id:'bst-full2', name:'Full Mock 2'},
+];
+const BST_ANDR = [
+  {id:'bst-andr1', name:'A&R Chapterwise 1'},
+];
+const BST_PYQ = [
+  {id:'bst-pyq23', name:'PYQ 2023'},
+  {id:'bst-pyq24', name:'PYQ 2024'},
+  {id:'bst-pyq25', name:'PYQ 2025'},
+];
+const BST_SP_FREE = [
+  {id:'bst-sp1', name:'Special Mock 1'},
+];
+const BST_SP_PAID = Array.from({length:10},(_,i)=>({id:'bst-spp'+(i+1),name:'Special Mock '+(i+1)}));
+
+/* ══ HELPERS ══ */
+const getSID = () => localStorage.getItem('ts_student_id')||'';
+const getProfile = () => {try{return JSON.parse(localStorage.getItem('ts_profile')||'{}')}catch(e){return{}}};
+const getName = () => getProfile().name || localStorage.getItem('cbtUserName') || 'Student';
+const isPaid = () => PAID_IDS.includes(getSID());
+const rClr = p => p>=75?'#059669':p>=50?'#4f46e5':p>=35?'#d97706':'#dc2626';
+const fd = iso => {try{return new Date(iso).toLocaleDateString('en-IN',{day:'2-digit',month:'short'});}catch(e){return'—';}};
+const escH = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function lR(cId){
+  try{
+    const r=JSON.parse(localStorage.getItem('thunderstudy_result_bst_'+cId)||'null');
+    if(!r)return null;
+    r.incorrect=r.incorrect??r.wrong??0;r.unanswered=r.unanswered??r.skipped??0;
+    r.correct=r.correct??0;r.percentage=r.percentage??0;return r;
+  }catch(e){return null;}
+}
+
+function toast(msg,dur=2600){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+/* ══ STATS ══ */
+function calcStats(mocks){
+  let correct=0,wrong=0,done=0,score=0,max=0;
+  mocks.forEach(ch=>{
+    const r=lR(ch.id);
+    if(r&&!r._started){done++;correct+=r.correct||0;wrong+=r.incorrect||0;score+=r.score||0;max+=r.maxScore||50;}
+  });
+  return{correct,wrong,done,score,max,pct:max>0?(score/max*100):0};
+}
+function calcAll(){
+  return calcStats([...BST_EASY,...BST_HARD,...BST_FULL,...BST_ANDR,...BST_PYQ,...BST_SP_FREE]);
+}
+
+function markProgress(cId){
+  const key='thunderstudy_result_bst_'+cId;
+  if(!localStorage.getItem(key)){
+    localStorage.setItem(key,JSON.stringify({score:0,maxScore:50,percentage:0,correct:0,incorrect:0,unanswered:0,date:new Date().toISOString(),_started:true}));
+  }
+}
+
+/* ══ CARD RENDER ══ */
+function renderCard({ch,badgeClass,badgeText,iconBg,iconEmoji,typeLabel,typeColor,extra='',isLocked=false}){
+  const r=lR(ch.id);
+  const done=r&&!r._started;
+  const pct=done?r.percentage:0;
+  const clr=done?rClr(pct):typeColor;
+
+  if(isLocked){
+    return`<div class="mock-card mc-locked" onclick="toast('🔒 Paid special mocks — ₹30 · Contact @mindmaster_robot on Telegram',3500)">
+      <div class="lock-overlay"><div style="font-size:20px;">🔒</div><div class="lock-lbl">Locked</div></div>
+      <div class="lock-blur">
+        <div class="mc-badge ${badgeClass}">${badgeText}</div>
+        <div class="mc-icon" style="background:${iconBg};">${iconEmoji}</div>
+        <div class="mc-name">${escH(ch.name)}</div>
+        <div class="mc-type" style="color:${typeColor};">${typeLabel}</div>
+        <div class="mc-blank">Premium only</div>
+      </div>
+    </div>`;
+  }
+
+  return`<a class="mock-card ${extra} ${done?'mc-done':''}"
+    href="${BASE_URL}${ch.id}.html" target="_blank"
+    onclick="markProgress('${ch.id}')">
+    <div class="mc-badge ${badgeClass}">${badgeText}</div>
+    <div class="mc-icon" style="background:${iconBg};">${iconEmoji}</div>
+    <div class="mc-name">${escH(ch.name)}</div>
+    <div class="mc-type" style="color:${typeColor};">${typeLabel}</div>
+    ${done
+      ?`<div class="mc-score" style="color:${clr};">${pct.toFixed(1)}%</div>
+        <div class="mc-detail">${r.score||0}/${r.maxScore||50} · ${r.correct||0}✓ ${r.incorrect||0}✗ · ${fd(r.date)}</div>`
+      :`<div class="mc-blank">Not attempted yet</div>`
+    }
+    <div class="mc-num">${ch.id.replace(/[^0-9]/g,'').slice(-2)||'•'}</div>
+  </a>`;
+}
+
+/* ══ RENDER ALL GRIDS ══ */
+function renderGrids(){
+  const paid=isPaid();
+
+  document.getElementById('easy-grid').innerHTML=BST_EASY.map(ch=>renderCard({
+    ch,badgeClass:'badge-easy',badgeText:'● Easy',
+    iconBg:'rgba(16,185,129,0.12)',iconEmoji:'📖',
+    typeLabel:'Chapter',typeColor:'#059669',extra:'mc-easy-card'
+  })).join('');
+
+  document.getElementById('hard-grid').innerHTML=BST_HARD.map(ch=>renderCard({
+    ch,badgeClass:'badge-hard',badgeText:'● Hard',
+    iconBg:'rgba(239,68,68,0.1)',iconEmoji:'📖',
+    typeLabel:'Chapter',typeColor:'#dc2626',extra:'mc-hard-card'
+  })).join('');
+
+  document.getElementById('full-grid').innerHTML=BST_FULL.map(ch=>renderCard({
+    ch,badgeClass:'badge-full',badgeText:'🗂️ Full Mock',
+    iconBg:'rgba(5,150,105,0.1)',iconEmoji:'🗂️',
+    typeLabel:'Full Mock Test',typeColor:'#059669'
+  })).join('');
+
+  document.getElementById('andr-grid').innerHTML=BST_ANDR.map(ch=>renderCard({
+    ch,badgeClass:'badge-andr',badgeText:'🔤 A&R',
+    iconBg:'rgba(217,119,6,0.1)',iconEmoji:'🔤',
+    typeLabel:'Assertion & Reasoning',typeColor:'#d97706'
+  })).join('');
+
+  document.getElementById('pyq-grid').innerHTML=BST_PYQ.map(ch=>renderCard({
+    ch,badgeClass:'badge-pyq',badgeText:'📜 PYQ',
+    iconBg:'rgba(79,70,229,0.1)',iconEmoji:'📜',
+    typeLabel:'Previous Year',typeColor:'#4338ca'
+  })).join('');
+
+  document.getElementById('sp-free-grid').innerHTML=BST_SP_FREE.map(ch=>renderCard({
+    ch,badgeClass:'badge-sp',badgeText:'⭐ Special',
+    iconBg:'rgba(219,39,119,0.1)',iconEmoji:'⭐',
+    typeLabel:'Special Mock',typeColor:'#db2777'
+  })).join('');
+
+  if(paid){
+    const strip=document.getElementById('buy-strip');
+    if(strip)strip.style.display='none';
+    const lbl=document.getElementById('paid-label');
+    if(lbl)lbl.innerHTML='✅ Paid Access — 10 mocks <span style="color:#059669;font-size:9px;font-weight:800;">Unlocked</span>';
+  }
+  document.getElementById('sp-paid-grid').innerHTML=BST_SP_PAID.map(ch=>renderCard({
+    ch,badgeClass:'badge-sp',badgeText:'⭐ Special',
+    iconBg:'rgba(219,39,119,0.1)',iconEmoji:'⭐',
+    typeLabel:'Special Mock',typeColor:'#db2777',
+    isLocked:!paid
+  })).join('');
+
+  const easyDone=BST_EASY.filter(c=>{const r=lR(c.id);return r&&!r._started;}).length;
+  const hardDone=BST_HARD.filter(c=>{const r=lR(c.id);return r&&!r._started;}).length;
+  document.getElementById('easy-done-count').textContent=easyDone+'/12 done';
+  document.getElementById('hard-done-count').textContent=hardDone+'/12 done';
+}
+
+/* ══ RENDER STATS ══ */
+function renderStats(){
+  const s=calcAll();
+  const pct=s.pct.toFixed(1);
+  const clr=s.pct>0?rClr(s.pct):'#4f46e5';
+  const name=getName();
+  const sid=getSID();
+  const total=[...BST_EASY,...BST_HARD,...BST_FULL,...BST_ANDR,...BST_PYQ,...BST_SP_FREE].length;
+
+  document.getElementById('hero-pct-lbl').textContent=pct+'%';
+  document.getElementById('hs-correct').textContent=s.correct;
+  document.getElementById('hs-wrong').textContent=s.wrong;
+  document.getElementById('hs-done').textContent=s.done;
+  setTimeout(()=>{
+    const prog=document.getElementById('hero-prog-fill');
+    if(prog)prog.style.width=Math.min(100,total>0?s.done/total*100:0).toFixed(1)+'%';
+  },500);
+
+  document.getElementById('w-av').textContent=(name[0]||'S').toUpperCase();
+  document.getElementById('w-name').textContent=name;
+  document.getElementById('w-attempts').textContent=s.done;
+  document.getElementById('w-pct').textContent=s.done>0?pct+'%':'—';
+  document.getElementById('w-pct').style.color=s.done>0?clr:'#a5b4fc';
+
+  document.getElementById('stat-correct').textContent=s.correct;
+  document.getElementById('stat-wrong').textContent=s.wrong;
+  document.getElementById('stat-pct').textContent=pct+'%';
+  document.getElementById('stat-pct').style.color=clr;
+  document.getElementById('stat-done').textContent=s.done;
+
+  document.getElementById('hero-id').textContent=sid?'🪪 '+sid:'🪪 No ID';
+  document.getElementById('nav-sid').textContent=sid||'No ID';
+}
+
+/* ══ SPARKLES ══ */
+function initSparkles(){
+  const wrap=document.getElementById('hero-sparkles');
+  if(!wrap)return;
+  const colors=['rgba(196,181,253,','rgba(249,168,212,','rgba(167,243,252,','rgba(255,255,255,'];
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    el.style.cssText=`position:absolute;border-radius:50%;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]}${Math.random()*.7+.1});--d:${Math.random()*4+2}s;--dl:${Math.random()*3}s;`;
+    el.className='spark';
+    wrap.appendChild(el);
+  }
+}
+
+/* ══ GENDER THEME ══ */
+function setGender(g){
+  localStorage.setItem('ts_gender',g);
+  document.getElementById('g-overlay').style.display='none';
+  applyTheme(g);
+  toast(g==='girl'?'🌸 Rose theme activated!':'📊 Indigo theme activated!');
+}
+
+function applyTheme(g){
+  document.documentElement.setAttribute('data-gender',g);
+  const logo=document.getElementById('nav-logo');
+  const hero=document.getElementById('hero');
+  if(g==='girl'){
+    if(logo)logo.style.background='linear-gradient(135deg,#ec4899,#f472b6)';
+    if(hero)hero.style.background='linear-gradient(135deg,rgba(80,0,30,0.96) 0%,rgba(190,24,93,0.93) 45%,rgba(251,113,133,0.85) 72%,rgba(253,242,248,0.65) 100%)';
+    document.querySelectorAll('.prog-fill').forEach(el=>el.classList.add('prog-fill-pink'));
+    document.querySelectorAll('.btn-p').forEach(el=>{el.style.background='linear-gradient(135deg,#be185d,#f472b6)';});
+  } else {
+    if(logo)logo.style.background='linear-gradient(135deg,#4f46e5,#7c3aed)';
+    if(hero)hero.style.background='linear-gradient(135deg,rgba(30,27,75,0.96) 0%,rgba(79,70,229,0.93) 45%,rgba(124,58,237,0.85) 72%,rgba(236,72,153,0.6) 100%)';
+  }
+}
+
+/* ══ BOOT ══ */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const ld=document.getElementById('loader');
+    if(ld){ld.classList.add('out');setTimeout(()=>ld.remove(),700);}
+
+    const savedGender=localStorage.getItem('ts_gender');
+    if(savedGender){
+      applyTheme(savedGender);
+    } else {
+      document.getElementById('g-overlay').style.display='flex';
+    }
+
+    initSparkles();
+    renderStats();
+    renderGrids();
+  },2200);
+});
+</script>
+</body>
+</html>
