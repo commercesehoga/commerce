@@ -1880,6 +1880,7 @@ Choose the correct answer:`,
 ];
 
 const questionSets = { 1: questions };
+let activeQuestions = questions; // mutable reference
 
 // ===== STATE =====
 let selectedSet = 1;
@@ -1986,7 +1987,6 @@ function doLogin() {
 
 function proceedToInstructions() {
   selectedSet = 1;
-  questions = questionSets[1];
   const ag = document.getElementById('agreeCheck');
   if (ag) ag.checked = false;
   toggleStartBtn();
@@ -2265,7 +2265,9 @@ function toggleStartBtn() {
 }
 
 function startExam() {
-  questions = questionSets[selectedSet];
+  activeQuestions = questionSets[selectedSet];
+  // Use a getter so all code using 'questions' still works
+Object.defineProperty(window, 'questions', { get: () => activeQuestions });
   answers = new Array(questions.length).fill(null);
   status = new Array(questions.length).fill('not-visited');
   timeLeft = 60 * 60;
@@ -2335,34 +2337,21 @@ function renderQuestion(idx) {
   let html = `<div class="q-text">${formatText(q.text)}</div>`;
   html += `<div class="options-label">Options :</div>`;
 
-  if (q.type === 'text-options') {
-    html += `<ul class="options-list">`;
-    q.options.forEach((opt, i) => {
-      const sel = answers[idx] === i ? 'selected' : '';
-      html += `
-        <li class="opt-item ${sel}" onclick="selectOption(${i})">
-          <div class="opt-radio"><div class="opt-radio-dot"></div></div>
-          <span class="opt-key">${['A','B','C','D'][i]}.</span>
-          <div class="opt-content">${formatText(opt)}</div>
-        </li>`;
-    });
-    html += `</ul>`;
-  } else if (q.type === 'image-options') {
-    html += `<div class="options-grid-2col">`;
-    q.options.forEach((opt, i) => {
-      const sel = answers[idx] === i ? 'selected' : '';
-      html += `
-        <div class="opt-item ${sel}" onclick="selectOption(${i})" style="flex-direction:column;align-items:flex-start;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-            <div class="opt-radio"><div class="opt-radio-dot"></div></div>
-            <span class="opt-key">${['A','B','C','D'][i]}.</span>
-            <span style="font-size:12px;color:#666;">${opt.label.replace(' ✓','')}</span>
-          </div>
-          <div class="chem-svg-wrap">${opt.svg}</div>
-        </div>`;
-    });
-    html += `</div>`;
-  }
+const optKeys = ['a','b','c','d'];
+  const optLabels = ['A','B','C','D'];
+  html += `<ul class="options-list">`;
+  optKeys.forEach((key, i) => {
+    const opt = q.options[key];
+    if (!opt) return;
+    const sel = answers[idx] === i ? 'selected' : '';
+    html += `
+      <li class="opt-item ${sel}" onclick="selectOption(${i})">
+        <div class="opt-radio"><div class="opt-radio-dot"></div></div>
+        <span class="opt-key">${optLabels[i]}.</span>
+        <div class="opt-content">${formatText(opt)}</div>
+      </li>`;
+  });
+  html += `</ul>`;
 
   document.getElementById('questionBody').innerHTML = html;
   updatePalette();
@@ -2517,7 +2506,7 @@ function calculateResult() {
     if (answers[i] === null) {
       unattempted++;
       questionResults.push('skip');
-    } else if (answers[i] === q.correct) {
+    } else if (answers[i] !== null && ['a','b','c','d'][answers[i]] === q.correctAnswer) {
       correct++;
       questionResults.push('correct');
     } else {
@@ -2574,10 +2563,11 @@ function calculateResult() {
     const userAns = answers[i];
     const res = questionResults[i];
     const optLabels = ['A','B','C','D'];
+const optKeysList = ['a','b','c','d'];
     let userLabel = userAns !== null ? optLabels[userAns] : '—';
-    let correctLabel = optLabels[q.correct];
-    let userText = userAns !== null ? (q.type === 'text-options' ? q.options[userAns] : q.options[userAns].label) : 'Not Attempted';
-    let correctText = q.type === 'text-options' ? q.options[q.correct] : q.options[q.correct].label;
+    let correctLabel = (q.correctAnswer || q.correct || '').toUpperCase();
+    let userText = userAns !== null ? (q.options[optKeysList[userAns]] || 'Not Attempted') : 'Not Attempted';
+    let correctText = q.options[q.correctAnswer] || q.options[q.correct] || '';
     const marksChip = res === 'correct'
       ? `<span class="review-q-marks rqm-correct">+5</span>`
       : res === 'wrong'
@@ -2843,7 +2833,6 @@ function downloadPDF() {
 function retryTest() {
   clearInterval(timerInterval);
   selectedSet = 1;
-  questions = questionSets[1];
   answers = new Array(questions.length).fill(null);
   status = new Array(questions.length).fill('not-visited');
   timeLeft = 60 * 60;
