@@ -1916,6 +1916,8 @@ function populateStartScreen(name, pass) {
 }
 
 function doLogin() {
+    console.log('cbtUserName:', localStorage.getItem('cbtUserName'));
+  console.log('ts_student_id:', localStorage.getItem('ts_student_id'));
   const savedName = localStorage.getItem('cbtUserName') || '';
   const savedSID  = localStorage.getItem('ts_student_id') || '';
 
