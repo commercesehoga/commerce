@@ -1,63 +1,2864 @@
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thunder⚡ CBT – CUET BST Mock Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-  .cs-wrap { min-height: 520px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 1.5rem; text-align: center; }
-  .cs-badge { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; background: #E6F1FB; color: #185FA5; border: 0.5px solid #B5D4F4; margin-bottom: 2rem; }
-  .cs-title { font-size: 48px; font-weight: 500; color: #185FA5; margin: 0 0 0.5rem; line-height: 1.1; }
-  .cs-sub { font-size: 15px; color: var(--color-text-secondary); margin: 0 0 2.5rem; max-width: 360px; line-height: 1.6; }
-  .cs-sub span { color: #185FA5; font-weight: 500; }
-  .timer { display: flex; gap: 12px; justify-content: center; margin-bottom: 2.5rem; flex-wrap: wrap; }
-  .t-box { background: var(--color-background-primary); border: 0.5px solid #B5D4F4; border-radius: 12px; padding: 16px 20px; min-width: 72px; }
-  .t-num { font-size: 32px; font-weight: 500; color: #185FA5; line-height: 1; display: block; }
-  .t-label { font-size: 11px; color: #378ADD; text-transform: uppercase; letter-spacing: 0.07em; margin-top: 6px; display: block; }
-  .cs-divider { width: 48px; height: 1.5px; background: #B5D4F4; margin: 0 auto 2rem; border-radius: 2px; }
-  .subjects { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 480px; margin: 0 auto; }
-  .sub-pill { font-size: 12px; padding: 5px 12px; border-radius: 20px; background: #E6F1FB; color: #185FA5; border: 0.5px solid #B5D4F4; }
+  :root {
+    --pink-primary: #e91e8c;
+    --pink-dark: #c0156e;
+    --pink-deeper: #9b0f58;
+    --pink-light: #f48fb1;
+    --pink-pale: #fce4ec;
+    --pink-soft: #fdf0f6;
+    --pink-mid: #f8bbd9;
+    --jee-bg: #f0f0f0;
+    --jee-header-bg: #e8e8e8;
+    --jee-border: #c8c8c8;
+    --jee-text: #222;
+    --jee-green: #28a745;
+    --jee-red: #dc3545;
+    --jee-orange: #f5a623;
+    --jee-blue: #1976d2;
+    --jee-purple: #7b1fa2;
+    --gray-dark: #1a1a2e;
+    --gray-mid: #4a4a6a;
+    --gray-light: #f5f5f5;
+    --shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: Arial, sans-serif; background: var(--jee-bg); color: var(--jee-text); min-height:100vh; overflow-x:hidden; }
+
+  /* ===== SCREENS ===== */
+  .screen { display:none; min-height:100vh; }
+  .screen.active { display:block; }
+
+  /* ===============================================================
+     LOGIN SCREEN
+  =============================================================== */
+  #screen-login {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  #screen-login.active { display: flex; }
+  .login-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    width: 100%; max-width: 440px;
+    overflow: hidden;
+  }
+  .login-header {
+    background: linear-gradient(135deg, #1976d2, #0a3880);
+    padding: 28px 30px 22px;
+    text-align: center;
+  }
+  .login-header .login-logo { font-size: 36px; margin-bottom: 8px; }
+  .login-header h2 { font-family: Arial, sans-serif; font-size: 22px; font-weight: 700; color: white; letter-spacing: 1px; }
+  .login-header p { color: rgba(255,255,255,0.8); font-size: 13px; margin-top: 4px; }
+  .login-body { padding: 28px 30px 32px; }
+  .login-field { margin-bottom: 18px; }
+  .login-field label { display: block; font-size: 13px; font-weight: 700; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .login-field input {
+    width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 8px;
+    font-size: 14px; font-family: Arial, sans-serif; transition: border-color 0.2s;
+    background: #fafafa;
+  }
+  .login-field input:focus { outline: none; border-color: #1976d2; background: white; }
+  .login-remember { display: flex; align-items: center; gap: 8px; margin-bottom: 22px; font-size: 13px; color: #666; }
+  .login-remember input { width: 15px; height: 15px; accent-color: #1976d2; }
+  .btn-login {
+    width: 100%; padding: 13px; background: linear-gradient(135deg, #1976d2, #0d47a1);
+    color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700;
+    cursor: pointer; letter-spacing: 1px; transition: all 0.2s; text-transform: uppercase;
+  }
+  .btn-login:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(233,30,140,0.4); }
+  .login-note { text-align: center; font-size: 11.5px; color: #aaa; margin-top: 14px; }
+
+  /* ===============================================================
+     JEE-STYLE EXAM HEADER (test screen)
+  =============================================================== */
+  .jee-header {
+    background: var(--jee-header-bg);
+    border-bottom: 2px solid var(--jee-border);
+    padding: 10px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    flex-wrap: wrap; gap: 8px;
+  }
+  .jee-candidate-block {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .jee-photo {
+    width: 64px; height: 72px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    background: #d0d0d0;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .jee-photo svg { width: 44px; height: 44px; }
+  .jee-info-table { font-size: 13.5px; }
+  .jee-info-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 3px; }
+  .jee-info-label { color: #444; font-weight: 400; min-width: 110px; }
+  .jee-info-value { font-weight: 700; color: #e65100; }
+  .jee-info-value.name-val { color: #e65100; }
+  .jee-info-value.time-val {
+    background: #1976d2; color: white; padding: 2px 12px;
+    border-radius: 4px; font-weight: 700; font-size: 14px; font-family: monospace;
+    letter-spacing: 1px;
+  }
+  .jee-info-value.time-val.warning { background: #c62828; }
+  .jee-lang-block { display: flex; align-items: center; gap: 8px; }
+  .jee-lang-select {
+    padding: 7px 32px 7px 12px;
+    border: 1px solid #bbb; border-radius: 4px;
+    font-size: 13px; background: white; cursor: pointer;
+    appearance: auto; min-width: 120px;
+  }
+
+  /* Instruction screen header (pink) */
+  .exam-header {
+    background: linear-gradient(135deg, #1976d2 0%, #0a3880 100%);
+    padding: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+  }
+  .exam-header::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; background:rgba(255,255,255,0.08); border-radius:50%; }
+  .exam-header::after { content:''; position:absolute; bottom:-20px; left:40%; width:80px; height:80px; background:rgba(255,255,255,0.06); border-radius:50%; }
+  .header-inner { display:flex; align-items:center; justify-content:space-between; padding:10px 20px; max-width:1400px; margin:0 auto; }
+  .header-logo { display:flex; align-items:center; gap:12px; }
+  .logo-icon { width:46px; height:46px; background:white; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+  .logo-text h1 { font-family:'Arial',sans-serif; font-size:20px; font-weight:700; color:white; line-height:1; letter-spacing:1px; }
+  .logo-text p { font-size:11px; color:rgba(255,255,255,0.8); font-weight:600; letter-spacing:0.5px; text-transform:uppercase; }
+  .header-candidate { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.12); padding:6px 14px; border-radius:30px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); }
+  .candidate-avatar { width:34px; height:34px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; overflow:hidden; }
+  .candidate-info .name { color:white; font-weight:700; font-size:13px; }
+  .candidate-info .roll { color:rgba(255,255,255,0.75); font-size:11px; }
+
+  /* ===== INSTRUCTION SCREENS ===== */
+  #screen-instructions { background: #eff6ff; }
+  .instr-body { max-width:900px; margin:0 auto; padding:24px 16px 40px; }
+  .instr-card { background:white; border-radius:16px; box-shadow:var(--shadow); overflow:hidden; margin-bottom:20px; border:1px solid #bfdbfe; }
+  .instr-card-header { background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:14px 20px; border-bottom:2px solid #1976d2; display:flex; align-items:center; gap:10px; }
+  .instr-card-header h3 { font-family:'Arial',sans-serif; font-size:16px; font-weight:700; color:#0a3880; text-transform:uppercase; letter-spacing:1px; }
+  .instr-card-icon { width:32px; height:32px; background:#1976d2; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; color:white; }
+  .instr-card-body { padding:18px 20px; }
+  .exam-info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:4px; }
+  .exam-info-item { background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 14px; text-align:center; }
+  .exam-info-item .label { font-size:11px; color:#0d47a1; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+  .exam-info-item .value { font-size:20px; font-weight:800; color:#1976d2; font-family:'Arial',sans-serif; }
+  .instr-list { list-style:none; }
+  .instr-list li { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid #dbeafe; font-size:13.5px; color:var(--gray-mid); line-height:1.5; }
+  .instr-list li:last-child { border-bottom:none; }
+  .instr-list li .num { min-width:22px; height:22px; background:#1976d2; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; margin-top:1px; flex-shrink:0; }
+  .legend-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .legend-item { display:flex; align-items:center; gap:10px; padding:8px 12px; background:#eff6ff; border-radius:8px; font-size:12.5px; color:var(--gray-mid); font-weight:600; }
+  .legend-dot { width:28px; height:28px; border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:white; }
+
+  /* JEE palette legend dots */
+  .dot-not-visited  { background:#fff; border:2px solid #999; color:#666; }
+  .dot-not-answered { background:var(--jee-red); clip-path:polygon(50% 0%,100% 30%,100% 100%,0% 100%,0% 30%); border-radius:0; color:white; }
+  .dot-answered     { background:var(--jee-green); border-radius:50% !important; color:white; }
+  .dot-marked       { background:var(--jee-purple); border-radius:50% !important; color:white; }
+  .dot-answered-marked { background:var(--jee-purple); border-radius:50% !important; color:white; position:relative; }
+  .dot-answered-marked::after { content:'✓'; position:absolute; bottom:-3px; right:-3px; background:var(--jee-green); width:13px; height:13px; border-radius:50%; font-size:8px; display:flex; align-items:center; justify-content:center; border:1px solid white; }
+
+  /* Step progress */
+  .step-progress-wrap { background:white; border-bottom:2px solid #bfdbfe; padding:0; }
+  .step-progress { max-width:900px; margin:0 auto; display:flex; align-items:stretch; }
+  .step-item { flex:1; display:flex; align-items:center; gap:10px; padding:14px 20px; position:relative; cursor:default; border-bottom:3px solid transparent; transition:all 0.2s; }
+  .step-item.active { border-bottom-color:#1976d2; }
+  .step-item.done { border-bottom-color:#2e7d32; }
+  .step-num { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Arial',sans-serif; font-size:14px; font-weight:700; flex-shrink:0; transition:all 0.2s; background:#e0e0e0; color:#9e9e9e; }
+  .step-item.active .step-num { background:#1976d2; color:white; box-shadow:0 3px 10px rgba(233,30,140,0.35); }
+  .step-item.done .step-num { background:#2e7d32; color:white; }
+  .step-label { font-size:12px; font-weight:700; color:#9e9e9e; line-height:1.3; }
+  .step-item.active .step-label { color:#1976d2; }
+  .step-item.done .step-label { color:#2e7d32; }
+  .step-connector { width:1px; background:#bfdbfe; align-self:stretch; margin:8px 0; }
+
+  /* Step panels */
+  .instr-step { display:none; }
+  .instr-step.active { display:block; }
+
+ 
+  /* Step nav */
+  .step-nav { display:flex; justify-content:space-between; align-items:center; margin-top:20px; gap:12px; }
+  .btn-step-next { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; padding:12px 36px; border-radius:50px; font-family:'Arial',sans-serif; font-size:17px; font-weight:700; cursor:pointer; box-shadow:0 4px 16px rgba(233,30,140,0.35); transition:all 0.25s; letter-spacing:1px; display:flex; align-items:center; gap:8px; text-transform:uppercase; }
+  .btn-step-next:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(233,30,140,0.45); }
+  .btn-step-back { background:white; color:var(--gray-mid); border:2px solid #bfdbfe; padding:12px 28px; border-radius:50px; font-family:'Arial',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.2s; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+  .btn-step-back:hover { border-color:var(--pink-light); color:#1976d2; }
+  .step-spacer { flex:1; }
+  .agree-check { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:14px; font-size:13px; color:var(--gray-mid); font-weight:600; cursor:pointer; }
+  .agree-check input { width:16px; height:16px; accent-color:#1976d2; cursor:pointer; }
+  .start-btn-wrap { text-align:center; margin-top:24px; }
+  .btn-start-exam { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; padding:14px 50px; border-radius:50px; font-family:'Arial',sans-serif; font-size:20px; font-weight:700; letter-spacing:1.5px; cursor:pointer; box-shadow:0 6px 24px rgba(233,30,140,0.4); transition:all 0.3s; text-transform:uppercase; position:relative; overflow:hidden; }
+  .btn-start-exam:hover { transform:translateY(-3px); box-shadow:0 10px 32px rgba(233,30,140,0.5); }
+
+  /* ===============================================================
+     TEST SCREEN LAYOUT
+  =============================================================== */
+  #screen-test { background: var(--jee-bg); }
+
+  .jee-subject-bar {
+    background: white;
+    border-bottom: 1px solid var(--jee-border);
+    padding: 6px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 6px;
+  }
+  .jee-subject-tag {
+    font-size: 13px; font-weight: 700; color: #333;
+    background: #e8f4fd; border: 1px solid #90caf9;
+    padding: 4px 14px; border-radius: 4px;
+  }
+  .jee-marks-info { display:flex; gap:10px; align-items:center; }
+  .jee-mark-chip { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; }
+  .jee-mark-chip.pos { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
+  .jee-mark-chip.neg { background:#ffebee; color:#c62828; border:1px solid #ef9a9a; }
+
+  /* Main test layout */
+  .test-layout { display:grid; grid-template-columns:1fr 300px; min-height:calc(100vh - 115px); }
+
+  /* Question panel */
+  .question-panel { padding:0; background:#fff; border-right:1px solid var(--jee-border); display:flex; flex-direction:column; }
+  .q-header-bar { background:#f7f7f7; border-bottom:1px solid var(--jee-border); padding:8px 16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .q-num-badge { background:#1976d2; color:white; padding:4px 14px; border-radius:4px; font-size:14px; font-weight:700; }
+  .q-topic-tag { font-size:12px; color:#555; font-weight:600; background:#eee; padding:3px 10px; border-radius:4px; }
+
+  .question-scroll { flex:1; overflow-y:auto; padding:16px 18px; }
+  .q-text { font-size:15px; color:#1a1a1a; line-height:1.75; margin-bottom:18px; font-weight:400; }
+  .q-text .formula { font-weight:700; color:#1976d2; background:#dbeafe; padding:2px 6px; border-radius:4px; display:inline-block; margin:0 2px; }
+
+  .options-label { font-size:13px; font-weight:700; color:#333; margin-bottom:10px; }
+  .options-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .opt-item { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; border:1.5px solid #ddd; border-radius:6px; cursor:pointer; transition:all 0.15s; background:white; }
+  .opt-item:hover { border-color:#90caf9; background:#f0f8ff; }
+  .opt-item.selected { border-color:var(--jee-green); background:#f1fff1; }
+  .opt-radio { width:18px; height:18px; border:2px solid #aaa; border-radius:50%; flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+  .opt-item.selected .opt-radio { border-color:var(--jee-green); background:var(--jee-green); }
+  .opt-radio-dot { width:8px; height:8px; background:white; border-radius:50%; display:none; }
+  .opt-item.selected .opt-radio-dot { display:block; }
+  .opt-key { font-size:13px; font-weight:700; color:#444; min-width:18px; margin-top:1px; }
+  .opt-content { font-size:14px; color:#222; line-height:1.5; flex:1; }
+  .chem-svg-wrap { width:130px; height:80px; border:1.5px solid #ddd; border-radius:6px; background:white; display:flex; align-items:center; justify-content:center; padding:4px; overflow:hidden; margin-top:6px; }
+  .chem-svg-wrap svg { width:100%; height:100%; }
+  .options-grid-2col { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+  /* ===== JEE ACTION ROW ===== */
+  .jee-action-row {
+    background: #f0f0f0;
+    border-top: 2px solid var(--jee-border);
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .jee-action-left { display:flex; gap:8px; flex-wrap:wrap; }
+  .jee-action-right { display:flex; gap:8px; flex-wrap:wrap; }
+
+  .jbtn {
+    padding: 9px 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-family: Arial, sans-serif;
+    font-size: 13px; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 5px;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .jbtn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+  .jbtn-green  { background: var(--jee-green); color: white; border-color: #1e7e34; }
+  .jbtn-white  { background: white; color: #333; border: 2px solid #aaa; }
+  .jbtn-white:hover { border-color: #666; }
+  .jbtn-orange { background: var(--jee-orange); color: white; border-color: #d4891b; }
+  .jbtn-blue   { background: var(--jee-blue); color: white; border-color: #1256a3; }
+  .jbtn-gray   { background: #666; color: white; border-color: #444; }
+  .jbtn-purple { background: var(--jee-purple); color: white; border-color: #5c1580; }
+
+  /* ===== RIGHT PANEL ===== */
+  .right-panel { background: white; border-left:1px solid var(--jee-border); display:flex; flex-direction:column; overflow-y:auto; max-height:calc(100vh - 115px); position:sticky; top:0; }
+
+  /* JEE-style legend box */
+  .jee-legend-box {
+    border: 1.5px dashed #bbb;
+    border-radius: 6px;
+    margin: 12px 12px 6px;
+    padding: 12px 10px;
+    background: #fafafa;
+  }
+  .jee-legend-row { display:grid; grid-template-columns:1fr 1fr; gap:8px 4px; }
+  .jee-legend-item { display:flex; align-items:center; gap:8px; font-size:12px; color:#333; }
+  .jee-legend-count {
+    min-width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; flex-shrink: 0;
+    font-family: Arial, sans-serif;
+  }
+  /* Not visited — plain square */
+  .jlc-nv { background:white; border:2px solid #999; border-radius:3px; color:#333; }
+  /* Not answered — red pentagon flag shape */
+  .jlc-na {
+    background: var(--jee-red); color: white; border-radius: 3px 3px 0 0;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+  }
+  /* Answered — green circle */
+  .jlc-ans { background: var(--jee-green); color: white; border-radius: 50%; }
+  /* Marked — purple circle */
+  .jlc-mrk { background: var(--jee-purple); color: white; border-radius: 50%; }
+  /* Answered+Marked — purple circle with green small dot */
+  .jlc-am { background: var(--jee-purple); color: white; border-radius: 50%; position: relative; }
+  .jlc-am::after { content:''; position:absolute; bottom:0; right:0; width:13px; height:13px; background:var(--jee-green); border-radius:50%; border:1.5px solid white; }
+  .jee-legend-text { line-height:1.3; }
+
+  /* Stats bar below legend */
+  .jee-stats-bar { padding: 6px 12px; border-bottom: 1px solid #eee; }
+  .jee-stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+  .jee-stat-chip { text-align:center; padding:5px 4px; border-radius:5px; }
+  .jee-stat-chip .snum { font-size:17px; font-weight:700; font-family:Arial,sans-serif; }
+  .jee-stat-chip .slbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; }
+  .jsc-nv  { background:#f5f5f5; } .jsc-nv .snum { color:#777; }
+  .jsc-na  { background:#ffebee; } .jsc-na .snum { color:#c62828; }
+  .jsc-ans { background:#e8f5e9; } .jsc-ans .snum { color:#2e7d32; }
+  .jsc-mrk { background:#f3e5f5; } .jsc-mrk .snum { color:#7b1fa2; }
+  .jee-stat-chip .slbl { color:#555; }
+
+  /* Palette section */
+  .palette-section { padding: 8px 12px 4px; }
+  .palette-section-title { font-size:12px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:4px; }
+  .q-palette { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; }
+
+  /* JEE palette buttons — shapes per status */
+  .q-palette-btn { aspect-ratio:1; border:none; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.12s; font-family:Arial,sans-serif; position:relative; display:flex; align-items:center; justify-content:center; }
+  .q-palette-btn:hover { transform:scale(1.1); }
+
+  /* Not visited: white with gray border */
+  .qb-not-visited { background:white; border:2px solid #aaa !important; color:#555; border-radius:4px; }
+  /* Not answered: red pentagon/flag */
+  .qb-not-answered {
+    background: var(--jee-red); color: white;
+    clip-path: polygon(0 0, 100% 0, 100% 68%, 50% 100%, 0 68%);
+    border-radius: 0;
+  }
+  /* Answered: green circle */
+  .qb-answered { background: var(--jee-green); color: white; border-radius: 50%; }
+  /* Marked: purple circle */
+  .qb-marked { background: var(--jee-purple); color: white; border-radius: 50%; }
+  /* Answered+Marked: purple circle with green bottom-right dot */
+  .qb-answered-marked { background: var(--jee-purple); color: white; border-radius: 50%; }
+  .qb-answered-marked::after { content:''; position:absolute; bottom:0; right:0; width:35%; height:35%; background:var(--jee-green); border-radius:50%; border:1.5px solid white; }
+  /* Current highlight */
+  .qb-current { outline: 3px solid #1976d2; outline-offset: 1px; }
+
+  /* Post-result palette */
+  .qb-result-correct  { background:#2e7d32; color:white; border-radius:4px; }
+  .qb-result-wrong    { background:#c62828; color:white; border-radius:4px; }
+  .qb-result-skip     { background:#1565c0; color:white; border-radius:4px; }
+
+  /* Submit button in right panel */
+  .submit-wrap { padding:10px 12px; margin-top:auto; }
+  .btn-submit { width:100%; padding:11px; background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; border-radius:6px; font-family:Arial,sans-serif; font-size:16px; font-weight:700; letter-spacing:1px; cursor:pointer; box-shadow:0 4px 16px rgba(233,30,140,0.35); transition:all 0.2s; text-transform:uppercase; }
+  .btn-submit:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(233,30,140,0.45); }
+
+  /* ===== MODAL ===== */
+  .modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+  .modal-overlay.active { display:flex; }
+  .modal-box { background:white; border-radius:16px; padding:28px; max-width:420px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.3); border:2px solid #bfdbfe; animation:modalIn 0.3s ease; }
+  @keyframes modalIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+  .modal-icon { text-align:center; font-size:46px; margin-bottom:10px; }
+  .modal-title { text-align:center; font-size:20px; font-weight:700; color:var(--gray-dark); margin-bottom:8px; }
+  .modal-text { text-align:center; font-size:13px; color:var(--gray-mid); line-height:1.6; margin-bottom:18px; }
+  .modal-summary { background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px; margin-bottom:18px; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .ms-item { display:flex; flex-direction:column; align-items:center; }
+  .ms-item .ms-num { font-size:22px; font-weight:800; }
+  .ms-item .ms-lbl { font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-mid); }
+  .modal-actions { display:flex; gap:10px; }
+  .modal-actions .btn { flex:1; justify-content:center; }
+  .btn { padding:9px 18px; border-radius:6px; border:none; font-family:Arial,sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+  .btn:hover { transform:translateY(-1px); }
+  .btn-cancel { background:#f5f5f5; color:var(--gray-mid); border:1px solid #e0e0e0; }
+  .btn-confirm-submit { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; box-shadow:0 4px 14px rgba(233,30,140,0.35); }
+
+  /* ===== RESULT SCREEN ===== */
+  #screen-result { background:#eff6ff; padding-bottom:40px; }
+  .result-body { max-width:760px; margin:0 auto; padding:24px 16px; }
+  .result-hero { text-align:center; padding:28px 20px; background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.1); border:1px solid #bfdbfe; margin-bottom:18px; position:relative; overflow:hidden; }
+  .result-hero::before { content:''; position:absolute; top:-40px; right:-40px; width:160px; height:160px; background:#dbeafe; border-radius:50%; }
+  .result-trophy { font-size:56px; margin-bottom:8px; position:relative; z-index:1; }
+  .result-hero h2 { font-size:26px; font-weight:700; color:var(--gray-dark); margin-bottom:4px; position:relative; z-index:1; }
+  .result-hero p { color:var(--gray-mid); font-size:13px; position:relative; z-index:1; }
+  .score-ring-wrap { display:flex; justify-content:center; margin:18px 0; position:relative; z-index:1; }
+  .score-ring { width:130px; height:130px; border-radius:50%; background:conic-gradient(#1976d2 0%, #bfdbfe var(--score-pct), #eee var(--score-pct)); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(233,30,140,0.3); position:relative; }
+  .score-ring::before { content:''; position:absolute; width:90px; height:90px; background:white; border-radius:50%; }
+  .score-inner { position:relative; z-index:1; text-align:center; }
+  .score-inner .score-num { font-size:28px; font-weight:700; color:#1976d2; line-height:1; }
+  .score-inner .score-total { font-size:12px; font-weight:700; color:var(--gray-mid); }
+  .result-stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:18px; }
+  .result-stat { background:white; border-radius:10px; padding:14px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.08); border:1px solid #eee; }
+  .result-stat .rs-num { font-size:24px; font-weight:700; }
+  .result-stat .rs-lbl { font-size:11px; font-weight:700; color:var(--gray-mid); text-transform:uppercase; }
+  .rs-correct .rs-num { color:#2e7d32; } .rs-wrong .rs-num { color:#c62828; } .rs-unattempted .rs-num { color:#9e9e9e; } .rs-score .rs-num { color:#1976d2; }
+  .result-palette-legend { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px; padding:10px 12px; background:#eff6ff; border-radius:8px; border:1px solid #bfdbfe; }
+  .rpl-item { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--gray-mid); }
+  .rpl-dot { width:18px; height:18px; border-radius:4px; flex-shrink:0; }
+  .answer-review { margin-bottom:18px; }
+  .review-q { background:white; border-radius:10px; padding:14px; margin-bottom:8px; border:1px solid #eee; box-shadow:0 1px 6px rgba(0,0,0,0.06); }
+  .review-q.rq-correct { border-left:5px solid #2e7d32; } .review-q.rq-wrong { border-left:5px solid #c62828; } .review-q.rq-skip { border-left:5px solid #1565c0; }
+  .review-q-num { font-weight:800; color:#1976d2; font-size:13px; margin-bottom:5px; }
+  .review-q-marks { display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:800; margin-left:6px; }
+  .rqm-correct { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
+  .rqm-wrong { background:#ffebee; color:#c62828; border:1px solid #ef9a9a; }
+  .rqm-skip { background:#e3f2fd; color:#1565c0; border:1px solid #90caf9; }
+  .review-q-text { font-size:13.5px; color:var(--gray-dark); margin-bottom:8px; line-height:1.5; }
+  .review-answers { display:flex; gap:8px; flex-wrap:wrap; }
+  .ra-chip { padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
+  .ra-your { background:#e3f2fd; color:#1565c0; } .ra-your.wrong { background:#ffebee; color:#c62828; } .ra-correct { background:#e8f5e9; color:#2e7d32; }
+  .result-action-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:22px; }
+  .btn-retry { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; padding:13px 36px; border-radius:50px; font-size:17px; font-weight:700; cursor:pointer; box-shadow:0 6px 20px rgba(233,30,140,0.35); transition:all 0.2s; text-transform:uppercase; }
+  .btn-retry:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(233,30,140,0.45); }
+  .btn-pdf { background:linear-gradient(135deg,#1565c0,#0d47a1); color:white; border:none; padding:13px 36px; border-radius:50px; font-size:17px; font-weight:700; cursor:pointer; box-shadow:0 6px 20px rgba(21,101,192,0.4); transition:all 0.2s; display:flex; align-items:center; gap:10px; text-transform:uppercase; letter-spacing:1px; }
+  .btn-pdf:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(21,101,192,0.5); }
+  .instr-card { background:white; border-radius:14px; box-shadow:0 2px 10px rgba(0,0,0,0.08); overflow:hidden; margin-bottom:16px; border:1px solid #bfdbfe; }
+  .instr-card-header { background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:12px 18px; border-bottom:2px solid #1976d2; display:flex; align-items:center; gap:10px; }
+  .instr-card-header h3 { font-size:15px; font-weight:700; color:#0a3880; text-transform:uppercase; letter-spacing:1px; }
+  .instr-card-body { padding:16px 18px; }
+
+  /* ===== TOAST ===== */
+  .toast-container { position:fixed; top:80px; right:20px; z-index:2000; display:flex; flex-direction:column; gap:8px; }
+  .toast { padding:10px 16px; border-radius:8px; font-size:13px; font-weight:700; color:white; box-shadow:0 4px 16px rgba(0,0,0,0.2); animation:toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards; display:flex; align-items:center; gap:8px; }
+  .toast.success { background:#2e7d32; } .toast.info { background:#1976d2; } .toast.warning { background:#e65100; }
+  @keyframes toastIn { from{transform:translateX(100%);opacity:0} to{transform:translateX(0);opacity:1} }
+  @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateX(100%)} }
+
+  @media(max-width:768px) {
+    .test-layout { grid-template-columns:1fr; }
+    .right-panel { max-height:none; border-left:none; border-top:2px solid var(--jee-border); }
+    .jee-header { flex-direction:column; align-items:flex-start; }
+    .jbtn { font-size:11px; padding:7px 10px; }
+  }
+
+  /* ===== LOGIN SCREEN ===== */
+  #screen-login { min-height:100vh; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+  #screen-login.active { display:flex; }
+  .login-card { background:white; border-radius:18px; box-shadow:0 24px 64px rgba(0,0,0,0.45); width:100%; max-width:460px; overflow:hidden; }
+  .login-header { background:linear-gradient(135deg,#1976d2,#0a3880); padding:30px 32px 24px; text-align:center; }
+  .login-logo { font-size:42px; margin-bottom:8px; }
+  .login-header h2 { font-size:24px; font-weight:800; color:white; letter-spacing:1px; margin-bottom:4px; }
+  .login-header p { color:rgba(255,255,255,0.8); font-size:13px; font-weight:600; }
+  .login-body { padding:28px 32px 32px; }
+  .login-field { margin-bottom:18px; }
+  .login-field label { display:block; font-size:11.5px; font-weight:700; color:#555; margin-bottom:7px; text-transform:uppercase; letter-spacing:0.5px; }
+  .login-field input { width:100%; padding:12px 14px; border:2px solid #e0e0e0; border-radius:8px; font-size:14px; font-family:Arial,sans-serif; transition:border-color 0.2s; background:#fafafa; outline:none; }
+  .login-field input:focus { border-color:#1976d2; background:white; }
+  .login-remember { display:flex; align-items:center; gap:8px; margin-bottom:22px; font-size:13px; color:#666; font-weight:600; cursor:pointer; }
+  .login-remember input { width:15px; height:15px; accent-color:#1976d2; cursor:pointer; }
+  .btn-login { width:100%; padding:13px; background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; letter-spacing:1px; transition:all 0.2s; text-transform:uppercase; font-family:Arial,sans-serif; }
+  .btn-login:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(233,30,140,0.4); }
+  .login-note { text-align:center; font-size:11.5px; color:#bbb; margin-top:14px; font-weight:600; }
+
+  /* ===== START SCREEN ===== */
+  #screen-start { min-height:100vh; background:linear-gradient(160deg,#fdf0f6 0%,#fff 60%,#fce4ec 100%); }
+  #screen-start.active { display:block; }
+  .flow-bar { background:white; border-bottom:1px solid #bfdbfe; padding:10px 20px; display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:wrap; }
+  .flow-step { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#bbb; padding:6px 10px; border-radius:20px; transition:all 0.2s; white-space:nowrap; }
+  .flow-step.done  { color:#2e7d32; }
+  .flow-step.active { color:#1976d2; background:#dbeafe; }
+  .flow-step .fsnum { width:22px; height:22px; border-radius:50%; background:#e0e0e0; color:#888; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; flex-shrink:0; }
+  .flow-step.done  .fsnum { background:#2e7d32; color:white; }
+  .flow-step.active .fsnum { background:#1976d2; color:white; }
+  .flow-arrow { color:#ccc; font-size:16px; padding:0 4px; }
+  .start-body { max-width:820px; margin:0 auto; padding:28px 16px 48px; }
+  .start-hero { text-align:center; padding:34px 24px 26px; background:white; border-radius:20px; box-shadow:0 6px 28px rgba(233,30,140,0.12); border:1px solid #bfdbfe; margin-bottom:20px; position:relative; overflow:hidden; }
+  .start-hero::before { content:''; position:absolute; top:-40px; right:-40px; width:180px; height:180px; background:#dbeafe; border-radius:50%; }
+  .start-hero::after  { content:''; position:absolute; bottom:-30px; left:-30px; width:120px; height:120px; background:#dbeafe; border-radius:50%; }
+  .start-hero-icon { font-size:52px; margin-bottom:10px; position:relative; z-index:1; }
+  .start-hero h2 { font-size:24px; font-weight:800; color:var(--gray-dark); margin-bottom:5px; position:relative; z-index:1; }
+  .start-hero p  { color:var(--gray-mid); font-size:13.5px; font-weight:600; position:relative; z-index:1; }
+  .start-cand-card { background:linear-gradient(135deg,#1976d2,#0a3880); border-radius:14px; padding:18px 22px; display:flex; align-items:center; gap:16px; margin-bottom:20px; box-shadow:0 6px 20px rgba(233,30,140,0.3); flex-wrap:wrap; }
+  .start-cand-avatar { width:56px; height:56px; background:rgba(255,255,255,0.2); border-radius:50%; border:3px solid rgba(255,255,255,0.5); display:flex; align-items:center; justify-content:center; font-size:26px; flex-shrink:0; }
+  .start-cand-info { flex:1; }
+  .start-cand-name { font-size:20px; font-weight:800; color:white; line-height:1.2; }
+  .start-cand-meta { font-size:12px; color:rgba(255,255,255,0.8); font-weight:600; margin-top:3px; }
+  .start-cand-edit { background:rgba(255,255,255,0.18); color:white; border:2px solid rgba(255,255,255,0.4); border-radius:20px; padding:6px 16px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; font-family:Arial,sans-serif; }
+  .start-cand-edit:hover { background:rgba(255,255,255,0.3); }
+  .start-info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:22px; }
+  .start-info-tile { background:white; border-radius:12px; padding:14px 16px; text-align:center; border:1px solid #bfdbfe; box-shadow:0 2px 8px rgba(233,30,140,0.07); }
+  .start-info-tile .sit-label { font-size:10.5px; font-weight:700; color:#0d47a1; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px; }
+  .start-info-tile .sit-value { font-size:19px; font-weight:800; color:#1976d2; }
+  .btn-go-instructions { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; border-radius:12px; font-size:20px; font-weight:700; cursor:pointer; letter-spacing:1px; box-shadow:0 6px 24px rgba(233,30,140,0.4); transition:all 0.3s; text-transform:uppercase; font-family:Arial,sans-serif; position:relative; overflow:hidden; }
+  .btn-go-instructions::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent); transition:left 0.5s; }
+  .btn-go-instructions:hover::before { left:100%; }
+  .btn-go-instructions:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(233,30,140,0.5); }
+
+ 
+  /* ===== FULLSCREEN WARNING MODAL ===== */
+  .fs-warning-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.82); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(6px); }
+  .fs-warning-overlay.active { display:flex; }
+  .fs-warning-box { background:white; border-radius:20px; padding:36px 32px; max-width:440px; width:90%; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,0.5); border:3px solid #c62828; animation:modalIn 0.3s ease; }
+  .fs-warning-icon { font-size:56px; margin-bottom:12px; }
+  .fs-warning-title { font-size:22px; font-weight:800; color:#c62828; margin-bottom:8px; }
+  .fs-warning-text  { font-size:14px; color:#555; line-height:1.6; margin-bottom:20px; }
+  .fs-countdown { font-size:42px; font-weight:800; color:#c62828; margin-bottom:16px; font-family:Arial,sans-serif; }
+  .fs-warning-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .btn-fs-return { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; padding:12px 28px; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; font-family:Arial,sans-serif; }
+  .btn-fs-submit  { background:white; color:#c62828; border:2px solid #ef9a9a; padding:12px 24px; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; font-family:Arial,sans-serif; }
+  .history-section { background:white; border-radius:16px; border:1px solid #bfdbfe; box-shadow:0 2px 12px rgba(233,30,140,0.08); overflow:hidden; margin-bottom:22px; }
+  .history-header { background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:14px 20px; border-bottom:2px solid #1976d2; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .history-header-left { display:flex; align-items:center; gap:10px; }
+  .history-icon { width:32px; height:32px; background:#1976d2; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; color:white; flex-shrink:0; }
+  .history-header h3 { font-size:15px; font-weight:700; color:#0a3880; text-transform:uppercase; letter-spacing:1px; }
+  .btn-clear-hist { background:white; border:1.5px solid #ef9a9a; color:#c62828; border-radius:20px; padding:4px 14px; font-size:11px; font-weight:700; cursor:pointer; font-family:Arial,sans-serif; transition:all 0.2s; }
+  .btn-clear-hist:hover { background:#ffebee; }
+  .history-empty { padding:32px; text-align:center; color:#bbb; }
+  .history-empty .he-icon { font-size:36px; margin-bottom:10px; }
+  .history-empty p { font-size:14px; font-weight:600; }
+  .history-wrap { overflow-x:auto; }
+  .history-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .history-table thead tr { background:#eff6ff; }
+  .history-table th { padding:9px 14px; text-align:left; font-size:10.5px; font-weight:700; color:#0d47a1; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #bfdbfe; white-space:nowrap; }
+  .history-table td { padding:10px 14px; border-bottom:1px solid #f5f5f5; vertical-align:middle; }
+  .history-table tr:last-child td { border-bottom:none; }
+  .history-table tbody tr:hover td { background:#eff6ff; }
+  .ht-set { font-weight:700; color:#1976d2; white-space:nowrap; }
+  .ht-score { font-weight:800; font-size:15px; }
+  .ht-pct { display:inline-block; padding:3px 10px; border-radius:20px; font-size:12px; font-weight:800; }
+  .ht-pct.high { background:#e8f5e9; color:#2e7d32; }
+  .ht-pct.mid  { background:#fff3e0; color:#e65100; }
+  .ht-pct.low  { background:#ffebee; color:#c62828; }
+  .ht-correct { color:#2e7d32; font-weight:700; }
+  .ht-wrong   { color:#c62828; font-weight:700; }
+  .ht-skip    { color:#9e9e9e; font-weight:700; }
+  .ht-date    { color:#999; font-size:11.5px; }
+  .ht-grade   { font-weight:800; font-size:16px; }
+  .history-summary-bar { display:flex; gap:16px; flex-wrap:wrap; padding:11px 18px; background:#eff6ff; border-top:1px solid #bfdbfe; font-size:12px; font-weight:700; color:var(--gray-mid); }
+  .history-summary-bar span { color:#1976d2; }
 </style>
-<div class="cs-wrap">
-  <div class="cs-badge">Launching 1 May 2026</div>
-  <div class="cs-title">Coming soon</div>
-  <p class="cs-sub">Special mock tests for <span>all subjects</span> will be available from 1st May 2026. Get ready to practise and excel.</p>
-  <div class="timer">
-    <div class="t-box"><span class="t-num" id="t-d">--</span><span class="t-label">Days</span></div>
-    <div class="t-box"><span class="t-num" id="t-h">--</span><span class="t-label">Hours</span></div>
-    <div class="t-box"><span class="t-num" id="t-m">--</span><span class="t-label">Minutes</span></div>
-    <div class="t-box"><span class="t-num" id="t-s">--</span><span class="t-label">Seconds</span></div>
-  </div>
-  <div class="cs-divider"></div>
-  <div class="subjects">
-    <span class="sub-pill">Business Studies</span>
-    <span class="sub-pill">Accountancy</span>
-    <span class="sub-pill">Economics</span>
-    <span class="sub-pill">Mathematics</span>
-    <span class="sub-pill">English</span>
-    <span class="sub-pill">Physics</span>
-    <span class="sub-pill">Chemistry</span>
-    <span class="sub-pill">Biology</span>
-    <span class="sub-pill">& more</span>
+</head>
+<body>
+<!-- ==================== TOAST ==================== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ==================== 1. LOGIN SCREEN ==================== -->
+<div class="screen active" id="screen-login">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">⚡</div>
+      <h2>Thunder CBT</h2>
+      <p>CUET BST — CUET Mock Test</p>
+    </div>
+    <div class="login-body">
+      <div class="login-field">
+        <label>Candidate Name</label>
+        <input type="text" id="loginName" placeholder="Enter your full name" autocomplete="name" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+      </div>
+      <div class="login-field">
+        <label>Password / Roll No</label>
+        <input type="password" id="loginPass" placeholder="Enter password or roll number" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <label class="login-remember">
+        <input type="checkbox" id="loginRemember"> Remember me on this device
+      </label>
+      <button class="btn-login" onclick="doLogin()">▶ Login &amp; Continue</button>
+      <p class="login-note">Your credentials are saved locally on this device only.</p>
+    </div>
   </div>
 </div>
+
+<!-- ==================== 2. START SCREEN ==================== -->
+<div class="screen" id="screen-start">
+  <!-- Flow progress bar -->
+  <div class="flow-bar">
+    <div class="flow-step done"   id="flow-login"><span class="fsnum">✓</span> Login</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step active" id="flow-start"><span class="fsnum">2</span> Start</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step"        id="flow-instr"><span class="fsnum">3</span> Instructions</div>
+<span class="flow-arrow">›</span>
+<div class="flow-step"        id="flow-test"><span class="fsnum">4</span> Test</div>
+<span class="flow-arrow">›</span>
+<div class="flow-step"        id="flow-result"><span class="fsnum">5</span> Result</div>
+  </div>
+
+  <div class="start-body">
+    <!-- Welcome hero -->
+    <div class="start-hero">
+      <div class="start-hero-icon">⚡</div>
+      <h2>Thunder CBT — CUET BST</h2>
+      <p>CUET Computer Based Test · CUET · 50 Questions Each</p>
+    </div>
+
+    <!-- Candidate card -->
+    <div class="start-cand-card">
+      <div class="start-cand-avatar">👤</div>
+      <div class="start-cand-info">
+        <div class="start-cand-name" id="startCandName">Candidate</div>
+        <div class="start-cand-meta">
+          Roll No: <span id="startCandRoll">—</span> &nbsp;·&nbsp; CUET &nbsp;·&nbsp; CUET — BST
+        </div>
+      </div>
+      <button class="start-cand-edit" onclick="showScreen('login')">✏️ Edit Details</button>
+    </div>
+
+    <!-- Exam info tiles -->
+    <div class="start-info-grid">
+      <div class="start-info-tile">
+        <div class="sit-label">Questions / Set</div>
+        <div class="sit-value">50</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Total Sets</div>
+        <div class="sit-value">4</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Duration / Set</div>
+        <div class="sit-value">60 min</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Max Marks</div>
+        <div class="sit-value">250</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Correct</div>
+        <div class="sit-value" style="color:#2e7d32;">+5</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Wrong</div>
+        <div class="sit-value" style="color:#c62828;">−1</div>
+      </div>
+    </div>
+
+    <!-- Test Result History -->
+    <div class="history-section">
+      <div class="history-header">
+        <div class="history-header-left">
+          <div class="history-icon">📊</div>
+          <h3>Test Result History</h3>
+        </div>
+        <button class="btn-clear-hist" onclick="clearHistory()">🗑 Clear History</button>
+      </div>
+      <div id="historyContent">
+        <div class="history-empty">
+          <div class="he-icon">📭</div>
+          <p>No attempts yet — complete a test to see your history here.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proceed button -->
+    <button class="btn-go-instructions" onclick="proceedToInstructions()">
+  ⚗️ Start BST Mock →
+</button>
+  </div>
+</div>
+
+
+<!-- ==================== FULLSCREEN WARNING MODAL ==================== -->
+<div class="fs-warning-overlay" id="fsWarningModal">
+  <div class="fs-warning-box">
+    <div class="fs-warning-icon">⚠️</div>
+    <div class="fs-warning-title">Fullscreen Exited!</div>
+    <div class="fs-warning-text" id="fsWarningText">
+      You have exited fullscreen mode. The exam requires fullscreen. Please return to fullscreen or your test will be auto-submitted.
+    </div>
+    <div class="fs-countdown" id="fsCountdown">3</div>
+    <div class="fs-warning-btns">
+      <button class="btn-fs-return" onclick="returnToFullscreen()">↩ Return to Fullscreen</button>
+      <button class="btn-fs-submit" onclick="forceSubmit()">Submit Now</button>
+    </div>
+  </div>
+</div>
+<div class="screen" id="screen-instructions">
+  <!-- 6-step flow bar (same as other screens) -->
+  <div class="flow-bar">
+    <div class="flow-step done"><span class="fsnum">✓</span> Login</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step done"><span class="fsnum">✓</span> Start</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step active"><span class="fsnum">4</span> Instructions</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step"><span class="fsnum">5</span> Test</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step"><span class="fsnum">6</span> Result</div>
+  </div>
+
+  <!-- Pink header bar with candidate name -->
+  <div class="exam-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>Thunder CBT</h1>
+          <p>CUET Mock Test Series</p>
+        </div>
+      </div>
+      <div class="header-candidate">
+        <div class="candidate-avatar">👤</div>
+        <div class="candidate-info">
+          <div class="name" id="instrCandName">Candidate</div>
+          <div class="roll" id="instrCandRoll">Roll No: TH-2024-CHM-001</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="instr-body">
+
+    <!-- General Instructions -->
+    <div class="instr-card">
+      <div class="instr-card-header">
+        <div class="instr-card-icon">📌</div>
+        <h3>General Instructions</h3>
+      </div>
+      <div class="instr-card-body">
+        <ul class="instr-list">
+          <li><span class="num">1</span>This test contains <strong>50 MCQ questions</strong> from CUET BST syllabus (Class 12). Your set was selected on the previous screen.</li>
+          <li><span class="num">2</span>Each correct answer carries <strong>+5 marks</strong>. Each wrong answer carries <strong>−1 mark</strong>. Unattempted questions carry <strong>0 marks</strong>.</li>
+          <li><span class="num">3</span>Click on an option to select it. You can change your answer any time before final submission.</li>
+          <li><span class="num">4</span>Use the <strong>Question Palette</strong> on the right side to navigate to any question directly.</li>
+          <li><span class="num">5</span>You can mark questions <strong>"Mark for Review"</strong> to revisit them later before submission.</li>
+          <li><span class="num">6</span>The timer is displayed at the top. The test will <strong>auto-submit</strong> when time runs out.</li>
+          <li><span class="num">7</span>The exam runs in <strong>fullscreen mode</strong>. Exiting fullscreen will trigger a 3-second auto-submit warning.</li>
+          <li><span class="num">8</span>Switching browser tabs will cause <strong>immediate auto-submission</strong> of your test.</li>
+          <li><span class="num">9</span>Click <strong>"Save &amp; Next"</strong> to save your answer and move to the next question.</li>
+          <li><span class="num">10</span>Once you click <strong>"Submit Test"</strong>, a confirmation popup will appear before final submission.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Question Palette Legend -->
+    <div class="instr-card">
+      <div class="instr-card-header">
+        <div class="instr-card-icon">🗂️</div>
+        <h3>Question Palette — Colour Guide</h3>
+      </div>
+      <div class="instr-card-body">
+        <p style="font-size:12.5px;color:var(--gray-mid);font-weight:600;margin-bottom:12px;">During the exam, the question palette on the right uses these colours:</p>
+        <div class="legend-grid">
+          <div class="legend-item"><div class="legend-dot dot-not-visited">1</div> Not Visited — Not opened yet</div>
+          <div class="legend-item"><div class="legend-dot dot-not-answered">2</div> Not Answered — Opened, no answer</div>
+          <div class="legend-item"><div class="legend-dot dot-answered">3</div> Answered — Answer saved</div>
+          <div class="legend-item"><div class="legend-dot dot-marked">4</div> Marked for Review — Will be evaluated</div>
+          <div class="legend-item"><div class="legend-dot dot-answered-marked">5</div> Answered + Marked — Saved &amp; flagged</div>
+        </div>
+        <div style="margin-top:14px;padding:12px;background:#eff6ff;border-radius:10px;border:1px solid #bfdbfe;">
+          <p style="font-size:12px;font-weight:700;color:#0a3880;margin-bottom:6px;">📊 After submission, palette changes to:</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#2e7d32;"><span style="width:18px;height:18px;background:#2e7d32;border-radius:4px;display:inline-block;"></span> Green = Correct</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#c62828;"><span style="width:18px;height:18px;background:#c62828;border-radius:4px;display:inline-block;"></span> Red = Wrong</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#1565c0;"><span style="width:18px;height:18px;background:#1565c0;border-radius:4px;display:inline-block;"></span> Blue = Unattempted</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agreement & Start -->
+    <label class="agree-check">
+      <input type="checkbox" id="agreeCheck" onchange="toggleStartBtn()">
+      I have read all the instructions carefully and I am ready to start the examination.
+    </label>
+
+    <div class="step-nav">
+      <button class="btn-step-back" onclick="showScreen('start')">← Back</button>
+      <button class="btn-start-exam" id="startBtn" onclick="startExam()" style="opacity:0.5;pointer-events:none;">
+        ⚡ Start Exam
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== TEST SCREEN ==================== -->
+<div class="screen" id="screen-test">
+
+  <!-- JEE-style top candidate header -->
+  <div class="jee-header">
+    <div class="jee-candidate-block">
+      <div class="jee-photo">
+        <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="22" r="14" fill="#888"/>
+          <ellipse cx="30" cy="58" rx="22" ry="14" fill="#888"/>
+        </svg>
+      </div>
+      <div class="jee-info-table">
+        <div class="jee-info-row"><span class="jee-info-label">Candidate Name</span><span class="jee-info-value name-val" id="jeeNameDisp">: [Your Name]</span></div>
+        <div class="jee-info-row"><span class="jee-info-label">Exam Name</span><span class="jee-info-value">: CUET</span></div>
+        <div class="jee-info-row"><span class="jee-info-label">Subject Name</span><span class="jee-info-value">: CUET — BST</span></div>
+        <div class="jee-info-row"><span class="jee-info-label">Remaining Time</span><span class="jee-info-value time-val" id="timerDisplay">60:00:00</span></div>
+      </div>
+    </div>
+    <div class="jee-lang-block">
+      <select class="jee-lang-select" onchange="showToast('Language: '+this.value,'info')">
+        <option>English</option>
+        <option>Hindi</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Subject bar -->
+  <div class="jee-subject-bar">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+  <div class="jee-subject-tag" id="testSetTabLabel">⚗️ BST</div>
+  <div style="background:#dbeafe;border:1px solid #90caf9;padding:3px 12px;border-radius:4px;font-size:12px;font-weight:700;color:#0d47a1;">
+    Subject: <span id="subjectIdTag">chem</span>
+  </div>
+  <div style="background:#e3f2fd;border:1px solid #90caf9;padding:3px 12px;border-radius:4px;font-size:12px;font-weight:700;color:#0d47a1;">
+    Chapter: <span id="chapterIdTag">chem-cuet-set1</span>
+  </div>
+</div>
+    <div class="jee-marks-info">
+      <span class="jee-mark-chip pos">✓ Correct: +5</span>
+      <span class="jee-mark-chip neg">✗ Wrong: −1</span>
+      <span style="font-size:12px;color:#555;font-weight:600;">Unattempted: 0</span>
+    </div>
+  </div>
+
+  <!-- Main two-column layout -->
+  <div class="test-layout">
+
+    <!-- LEFT: Question panel -->
+    <div class="question-panel">
+      <!-- Q header -->
+      <div class="q-header-bar">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="q-num-badge" id="qNumBadge">Question 1</span>
+          <span class="q-topic-tag" id="qTopicTag">Topic</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <span class="jee-mark-chip pos" style="font-size:11px;">+5</span>
+          <span class="jee-mark-chip neg" style="font-size:11px;">−1</span>
+        </div>
+      </div>
+
+      <!-- Scrollable question body -->
+      <div class="question-scroll" id="questionBody">
+        <!-- Loaded dynamically -->
+      </div>
+
+      <!-- JEE-style action row -->
+      <div class="jee-action-row">
+  <div class="jee-action-left">
+    <button class="jbtn jbtn-green" onclick="saveAndNext()">Save &amp; Next ▶</button>
+    <button class="jbtn jbtn-white" onclick="clearResponse()">Clear</button>
+    <button class="jbtn jbtn-orange" onclick="saveMarkAndNext()">Save &amp; Mark for Review</button>
+    <button class="jbtn jbtn-blue" onclick="markAndNext()">Mark for Review</button>
+  </div>
+  <div class="jee-action-right" style="display:flex;align-items:center;gap:8px;width:100%;justify-content:space-between;">
+    <div style="display:flex;gap:8px;">
+      <button class="jbtn jbtn-gray" onclick="goBack()">◀ Back</button>
+      <button class="jbtn jbtn-gray" onclick="if(currentQ < questions.length-1) renderQuestion(currentQ+1)">Next ▶</button>
+    </div>
+    <button class="jbtn jbtn-purple" onclick="showSubmitModal()" style="margin-left:auto;">🏁 Submit Test</button>
+  </div>
+</div>
+    </div>
+
+    <!-- RIGHT: Palette panel -->
+    <div class="right-panel">
+
+      <!-- JEE Legend box -->
+      <div class="jee-legend-box">
+        <div class="jee-legend-row">
+          <div class="jee-legend-item">
+            <div class="jee-legend-count jlc-nv" id="stat-nv">50</div>
+            <span class="jee-legend-text">Not Visited</span>
+          </div>
+          <div class="jee-legend-item">
+            <div class="jee-legend-count jlc-na" id="stat-na">0</div>
+            <span class="jee-legend-text">Not Answered</span>
+          </div>
+          <div class="jee-legend-item">
+            <div class="jee-legend-count jlc-ans" id="stat-ans">0</div>
+            <span class="jee-legend-text">Answered</span>
+          </div>
+          <div class="jee-legend-item">
+            <div class="jee-legend-count jlc-mrk" id="stat-mrk">0</div>
+            <span class="jee-legend-text">Marked for Review</span>
+          </div>
+          <div class="jee-legend-item" style="grid-column:span 2;">
+            <div class="jee-legend-count jlc-am" id="stat-am">0</div>
+            <span class="jee-legend-text">Answered &amp; Marked for Review <small style="color:#777;">(will be evaluated)</small></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Palette -->
+      <div class="palette-section">
+        <div class="palette-section-title">⚗️ BST — <span id="paletteSetLabel">Mock</span></div>
+        <div class="q-palette" id="questionPalette"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== RESULT SCREEN ==================== -->
+<div class="screen" id="screen-result">
+  <div class="exam-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>Thunder CBT</h1>
+          <p>Result — CUET BST</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="result-body">
+    <div class="result-hero">
+      <div class="result-trophy" id="resultTrophy">🏆</div>
+      <h2 id="resultTitle">Test Completed!</h2>
+      <p id="resultSubtitle">Here's your performance breakdown for BST</p>
+      <div class="score-ring-wrap">
+        <div class="score-ring" id="scoreRing" style="--score-pct:0%">
+          <div class="score-inner">
+            <div class="score-num" id="resultScoreNum">0</div>
+            <div class="score-total">/ 250</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-stats-grid">
+      <div class="result-stat rs-correct">
+        <div class="rs-num" id="res-correct">0</div>
+        <div class="rs-lbl">Correct</div>
+      </div>
+      <div class="result-stat rs-wrong">
+        <div class="rs-num" id="res-wrong">0</div>
+        <div class="rs-lbl">Wrong</div>
+      </div>
+      <div class="result-stat rs-unattempted">
+        <div class="rs-num" id="res-unattempted">0</div>
+        <div class="rs-lbl">Unattempted</div>
+      </div>
+      <div class="result-stat rs-score">
+        <div class="rs-num" id="res-score">0</div>
+        <div class="rs-lbl">Final Score</div>
+      </div>
+    </div>
+
+    <div class="instr-card answer-review">
+      <div class="instr-card-header">
+        <div class="instr-card-icon">📊</div>
+        <h3>Answer Review</h3>
+      </div>
+      <div class="instr-card-body">
+        <!-- Result palette legend -->
+        <div class="result-palette-legend">
+          <div class="rpl-item"><div class="rpl-dot" style="background:#2e7d32;"></div> Correct (+5)</div>
+          <div class="rpl-item"><div class="rpl-dot" style="background:#c62828;"></div> Wrong (−1)</div>
+          <div class="rpl-item"><div class="rpl-dot" style="background:#1565c0;"></div> Not Attempted (0)</div>
+        </div>
+        <!-- Result palette grid -->
+        <div class="q-palette" id="resultPalette" style="margin-bottom:18px;"></div>
+        <!-- Detailed answer review -->
+        <div id="answerReviewBody"></div>
+      </div>
+    </div>
+
+    <div class="result-action-row">
+      <button class="btn-pdf" onclick="downloadPDF()">📄 Download PDF Report</button>
+      <button class="btn-retry" onclick="retryTest()" style="margin:0;">🔄 Retry Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SUBMIT MODAL ==================== -->
+<div class="modal-overlay" id="submitModal">
+  <div class="modal-box">
+    <div class="modal-icon">📤</div>
+    <div class="modal-title">Submit Test?</div>
+    <div class="modal-text">Please review your progress before final submission. This action cannot be undone.</div>
+    <div class="modal-summary" id="modalSummary"></div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeModal()">✕ Cancel</button>
+      <button class="btn btn-confirm-submit" onclick="confirmSubmit()">✓ Confirm Submit</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  function tick() {
-    var target = new Date('2026-05-01T00:00:00');
-    var now = new Date();
-    var diff = target - now;
-    if (diff <= 0) {
-      document.getElementById('t-d').textContent = '0';
-      document.getElementById('t-h').textContent = '0';
-      document.getElementById('t-m').textContent = '0';
-      document.getElementById('t-s').textContent = '0';
-      return;
-    }
-    var d = Math.floor(diff / 86400000);
-    var h = Math.floor((diff % 86400000) / 3600000);
-    var m = Math.floor((diff % 3600000) / 60000);
-    var s = Math.floor((diff % 60000) / 1000);
-    document.getElementById('t-d').textContent = d;
-    document.getElementById('t-h').textContent = String(h).padStart(2,'0');
-    document.getElementById('t-m').textContent = String(m).padStart(2,'0');
-    document.getElementById('t-s').textContent = String(s).padStart(2,'0');
+  const SUBJECT_ID  = "bst";
+const CHAPTER_ID  = "bst-sp1";
+const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+
+// ===== SET 1: 10 REAL + 40 PLACEHOLDERS =====
+const set1Real = const questions = [
+  {
+    id: 1,
+    section: "Case Study",
+    text: `READ THE FOLLOWING CASE STUDY CAREFULLY AND ANSWER QUESTIONS 1 TO 5:
+
+Tata Motors Ltd., a leading Indian automotive manufacturer, faced a critical challenge in 2022-2023 with its commercial vehicle division. Despite strong product quality, market share was declining due to aggressive pricing by competitors and changing customer preferences toward fuel-efficient vehicles. The top management, led by their CEO, initiated a strategic restructuring process. First, they conducted a comprehensive environmental scanning, identifying that rising diesel prices and government emission norms were key external threats. Internally, they realized production costs were 15% higher than industry average. The management then set a clear objective: regain 25% market share within 18 months. They developed alternative action plans — Plan A focused on cost reduction through lean manufacturing, Plan B emphasized launching an electric commercial vehicle, and Plan C involved strategic alliances with logistics companies. After evaluating pros and cons, they selected Plan A combined with elements of Plan B. The CEO communicated the decision to all department heads, allocated resources, and established weekly review meetings. The production team was given autonomy to redesign assembly line processes, while the marketing team launched a "Green Mileage" campaign. Six months later, costs reduced by 12%, and customer inquiries increased by 30%.
+
+Q1. Based on the case study, which management function is primarily demonstrated when Tata Motors 'evaluated pros and cons of alternative plans before selecting Plan A combined with Plan B'?`,
+    options: {
+      a: "Organising",
+      b: "Planning",
+      c: "Directing",
+      d: "Controlling"
+    },
+    correctAnswer: "b",
+    explanation: "Planning involves setting objectives, developing alternative courses of action, evaluating pros and cons, and selecting the best alternative. The case clearly shows this sequence, which is the core of the planning function according to NCERT.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 2,
+    section: "Case Study",
+    text: `(Refer to the case study in Q1)
+
+Q2. The management team at Tata Motors 'gave production team autonomy to redesign assembly line processes' and 'marketing team launched a campaign'. This allocation of authority and responsibility to different departments directly relates to which management function?`,
+    options: {
+      a: "Planning",
+      b: "Staffing",
+      c: "Organising",
+      d: "Controlling"
+    },
+    correctAnswer: "c",
+    explanation: "Organising involves identifying and grouping activities, assigning duties, and delegating authority. Granting autonomy to production and marketing teams reflects the organising function where work is divided and authority is delegated to achieve organizational goals.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 3,
+    section: "Case Study",
+    text: `(Refer to the case study in Q1)
+
+Q3. The fact that Tata Motors identified 'rising diesel prices and government emission norms' as external threats that affected their performance indicates the impact of which business environment dimension?`,
+    options: {
+      a: "Social and Legal environment only",
+      b: "Economic and Political-Legal environment",
+      c: "Technological and Social environment",
+      d: "Only Economic environment"
+    },
+    correctAnswer: "b",
+    explanation: "Rising diesel prices represent the economic dimension, while government emission norms represent the political-legal dimension of business environment. Both are external factors beyond the firm's control but directly affecting business performance, as per NCERT Chapter 3.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 4,
+    section: "Case Study",
+    text: `(Refer to the case study in Q1)
+
+Q4. The CEO at Tata Motors 'communicated the decision to all department heads' and established 'weekly review meetings'. If a subordinate consistently fails to achieve targets despite clear communication, which principle of management (as per Fayol) should the CEO apply to ensure accountability?`,
+    options: {
+      a: "Unity of Command",
+      b: "Discipline",
+      c: "Remuneration of Personnel",
+      d: "Equity"
+    },
+    correctAnswer: "b",
+    explanation: "Fayol's principle of Discipline states that employees must obey and respect the rules and agreements of the organization. Consistent failure despite clear communication requires application of disciplinary measures to ensure compliance and organizational order.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 5,
+    section: "Case Study",
+    text: `(Refer to the case study in Q1)
+
+Q5. After six months, Tata Motors 'costs reduced by 12% and customer inquiries increased by 30%'. Which management function would be responsible for comparing these actual results against the target of 'regain 25% market share within 18 months' and taking corrective action if needed?`,
+    options: {
+      a: "Planning — because targets were set earlier",
+      b: "Directing — because it involves guiding employees",
+      c: "Controlling — because it measures actual vs planned performance",
+      d: "Organising — because it arranges resources"
+    },
+    correctAnswer: "c",
+    explanation: "Controlling involves setting standards, measuring actual performance, comparing with standards, and taking corrective action. Comparing actual cost reduction and market share improvement against planned targets is the essence of the controlling function as per NCERT Chapter 8.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 6,
+    section: "Match the Following",
+    text: `Match List-I with List-II regarding Henri Fayol's Principles of Management:
+
+List-I (Principles):
+(A) Unity of Command
+(B) Division of Work
+(C) Scalar Chain
+(D) Esprit de Corps
+
+List-II (Statements):
+(I) Employees should receive orders from only one superior to avoid confusion
+(II) The entire organization should work as a team with harmony and mutual trust
+(III) Work should be divided into small tasks for specialization and efficiency
+(IV) Communication should follow a formal hierarchy from top to bottom
+
+Choose the correct answer:`,
+    options: {
+      a: "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)",
+      b: "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+      c: "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)",
+      d: "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+    },
+    correctAnswer: "a",
+    explanation: "Unity of Command (A) matches (I) — one superior only. Division of Work (B) matches (III) — task specialization. Scalar Chain (C) matches (IV) — formal hierarchy. Esprit de Corps (D) matches (II) — team harmony. These are standard Fayol principle definitions from NCERT Chapter 2.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 7,
+    section: "Match the Following",
+    text: `Match List-I with List-II regarding Types of Plans:
+
+List-I:
+(A) Strategy
+(B) Policy
+(C) Procedure
+(D) Budget
+
+List-II:
+(I) A numerical plan expressing expected results in monetary terms
+(II) A general guideline for decision-making that sets boundaries
+(III) A detailed sequence of steps to perform a specific task
+(IV) A comprehensive long-term plan to achieve organizational objectives considering competition
+
+Choose the correct answer:`,
+    options: {
+      a: "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)",
+      b: "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+      c: "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)",
+      d: "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)"
+    },
+    correctAnswer: "b",
+    explanation: "Strategy (A) is a comprehensive plan (IV). Policy (B) is a general guideline (II). Procedure (C) is step-by-step sequence (III). Budget (D) is a numerical monetary plan (I). NCERT Chapter 4 clearly distinguishes these types of plans.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 8,
+    section: "Match the Following",
+    text: `Match List-I with List-II regarding F.W. Taylor's Scientific Management Techniques:
+
+List-I:
+(A) Method Study
+(B) Motion Study
+(C) Fatigue Study
+(D) Differential Piece Rate System
+
+List-II:
+(I) Determining the frequency and duration of rest breaks to optimize worker efficiency
+(II) Analyzing and eliminating wasteful movements of body and equipment
+(III) Paying higher rate per unit to efficient workers and lower to inefficient ones
+(IV) Finding the best way to perform each operation to reduce production cost
+
+Choose the correct answer:`,
+    options: {
+      a: "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)",
+      b: "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+      c: "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+      d: "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    },
+    correctAnswer: "a",
+    explanation: "Method Study (A) finds best way (IV). Motion Study (B) eliminates wasteful movements (II). Fatigue Study (C) determines rest breaks (I). Differential Piece Rate (D) pays different rates (III). These are core Taylor techniques from NCERT Chapter 2.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 9,
+    section: "Match the Following",
+    text: `Match List-I with List-II regarding Steps in Staffing Process:
+
+List-I:
+(A) Estimating manpower requirements
+(B) Recruitment
+(C) Selection
+(D) Placement and Orientation
+
+List-II:
+(I) Choosing the most suitable candidate from the applicants
+(II) Putting the selected person on the right job and familiarizing with organization
+(III) Identifying the number and type of employees needed
+(IV) Searching and attracting potential candidates to apply for jobs
+
+Choose the correct answer:`,
+    options: {
+      a: "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+      b: "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+      c: "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+      d: "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+    },
+    correctAnswer: "a",
+    explanation: "Estimating manpower (A) is (III). Recruitment (B) is (IV) — attracting candidates. Selection (C) is (I) — choosing best. Placement and Orientation (D) is (II) — putting on job. This is the logical staffing sequence from NCERT Chapter 6.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 10,
+    section: "Match the Following",
+    text: `Match List-I with List-II regarding Maslow's Need Hierarchy Theory:
+
+List-I (Needs):
+(A) Esteem Needs
+(B) Social Needs
+(C) Safety Needs
+(D) Self-actualization Needs
+
+List-II (Examples in Workplace):
+(I) Job security, provident fund, medical insurance
+(II) Recognition, award ceremonies, job titles
+(III) Challenging projects, creativity opportunities, personal growth
+(IV) Team lunches, office parties, collaborative workspaces
+
+Choose the correct answer:`,
+    options: {
+      a: "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+      b: "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)",
+      c: "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+      d: "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+    },
+    correctAnswer: "b",
+    explanation: "Esteem needs (A) match recognition (II). Social needs (B) match team activities (IV). Safety needs (C) match job security (I). Self-actualization (D) matches challenging projects (III). This follows Maslow's hierarchy from NCERT Chapter 7 on Motivation.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 11,
+    section: "Assertion-Reason",
+    text: `Assertion (A): Planning is considered the primary function of management because it precedes all other functions like organizing, staffing, directing, and controlling.
+Reason (R): Without planning, managers would not know what to organize, whom to hire, how to direct, or what to control.
+
+Choose the correct answer:`,
+    options: {
+      a: "Both A and R are true and R is the correct explanation of A",
+      b: "Both A and R are true but R is NOT the correct explanation of A",
+      c: "A is true but R is false",
+      d: "A is false but R is true"
+    },
+    correctAnswer: "a",
+    explanation: "Both statements are correct. Planning is indeed primary (setting goals) and all other functions derive from it. R correctly explains why planning is primary — it provides the foundation for all subsequent management activities as per NCERT Chapter 4.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 12,
+    section: "Assertion-Reason",
+    text: `Assertion (A): According to Fayol's principle of 'Unity of Direction', each employee should receive orders from only one superior.
+Reason (R): Unity of Direction focuses on having one head and one plan for a group of activities with the same objective.
+
+Choose the correct answer:`,
+    options: {
+      a: "Both A and R are true and R is the correct explanation of A",
+      b: "Both A and R are true but R is NOT the correct explanation of A",
+      c: "A is true but R is false",
+      d: "A is false but R is true"
+    },
+    correctAnswer: "d",
+    explanation: "Assertion is false — it describes Unity of Command, not Unity of Direction. Reason is true — Unity of Direction correctly means one head and one plan for similar activities. Students often confuse these two principles as per NCERT Chapter 2.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 13,
+    section: "Assertion-Reason",
+    text: `Assertion (A): Delegation of authority is essential for effective management even in small organizations.
+Reason (R): Delegation allows managers to focus on higher-priority tasks while developing subordinate capabilities.
+
+Choose the correct answer:`,
+    options: {
+      a: "Both A and R are true and R is the correct explanation of A",
+      b: "Both A and R are true but R is NOT the correct explanation of A",
+      c: "A is true but R is false",
+      d: "A is false but R is true"
+    },
+    correctAnswer: "a",
+    explanation: "Both are true. Delegation is essential regardless of organization size. R correctly explains why — it frees managers for strategic work and develops subordinates. This is from NCERT Chapter 5 on Organising and delegation.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 14,
+    section: "Assertion-Reason",
+    text: `Assertion (A): Controlling function can sometimes lead to resistance from employees in an organization.
+Reason (R): Controlling involves comparing actual performance with standards, which may highlight employee shortcomings and lead to corrective action.
+
+Choose the correct answer:`,
+    options: {
+      a: "Both A and R are true and R is the correct explanation of A",
+      b: "Both A and R are true but R is NOT the correct explanation of A",
+      c: "A is true but R is false",
+      d: "A is false but R is true"
+    },
+    correctAnswer: "a",
+    explanation: "Both statements are true. Controlling can cause resistance when employees feel threatened by performance evaluation. R explains this correctly — highlighting shortcomings and corrective action can be perceived negatively. NCERT Chapter 8 discusses controlling's limitations.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 15,
+    section: "Assertion-Reason",
+    text: `Assertion (A): A company that focuses only on efficiency without considering effectiveness will eventually fail in competitive markets.
+Reason (R): Efficiency means doing tasks correctly with minimum cost, while effectiveness means doing the right tasks to achieve goals.
+
+Choose the correct answer:`,
+    options: {
+      a: "Both A and R are true and R is the correct explanation of A",
+      b: "Both A and R are true but R is NOT the correct explanation of A",
+      c: "A is true but R is false",
+      d: "A is false but R is true"
+    },
+    correctAnswer: "a",
+    explanation: "Both are true. Efficiency alone (doing things right) without effectiveness (doing right things) leads to wasted effort on wrong goals. R explains the distinction correctly. NCERT Chapter 1 clearly separates efficiency vs effectiveness.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 16,
+    section: "Choose Correct Combination",
+    text: `Which of the following are limitations of planning?
+
+(A) Planning may lead to rigidity in organizations
+(B) Planning reduces the risk of uncertainty by predicting future accurately
+(C) Planning involves huge costs in terms of time and money
+(D) Planning is a mental exercise and may not guarantee success
+
+Choose the correct answer:`,
+    options: {
+      a: "(A), (C) and (D) only",
+      b: "(A), (B) and (D) only",
+      c: "(B), (C) and (D) only",
+      d: "(A), (B), (C) and (D)"
+    },
+    correctAnswer: "a",
+    explanation: "Limitations of planning include rigidity (A), huge costs (C), and no guarantee of success (D). Option (B) is false — planning reduces uncertainty but cannot eliminate or predict future accurately. This is from NCERT Chapter 4.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 17,
+    section: "Choose Correct Combination",
+    text: `Which of the following are correctly identified as features of a profession?
+
+(A) Well-defined body of knowledge
+(B) Restricted entry based on examination or qualification
+(C) Profit maximization as primary motive
+(D) Existence of ethical codes of conduct
+
+Choose the correct answer:`,
+    options: {
+      a: "(A), (B) and (C) only",
+      b: "(A), (B) and (D) only",
+      c: "(B), (C) and (D) only",
+      d: "(A), (C) and (D) only"
+    },
+    correctAnswer: "b",
+    explanation: "Features of a profession include systematic knowledge (A), restricted entry (B), and service motive with ethical codes (D). Profit maximization (C) is NOT a feature of profession — professions prioritize service. NCERT Chapter 1 discusses management as profession.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 18,
+    section: "Choose Correct Combination",
+    text: `Which of the following are importance of consumer protection from the business point of view?
+
+(A) It fulfills the social responsibility of the business
+(B) It increases government intervention in business operations
+(C) It ensures long-term interest and survival of business
+(D) It helps business build a positive brand image and customer loyalty
+
+Choose the correct answer:`,
+    options: {
+      a: "(A), (B) and (C) only",
+      b: "(A), (C) and (D) only",
+      c: "(B), (C) and (D) only",
+      d: "(A), (B), (C) and (D)"
+    },
+    correctAnswer: "b",
+    explanation: "Importance of consumer protection includes social responsibility (A), long-term business interest (C), and brand image (D). Increased government intervention (B) is not an importance for business — businesses want to avoid excessive intervention. NCERT Chapter 12 covers this.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 19,
+    section: "Choose Correct Combination",
+    text: `Which of the following are internal sources of recruitment?
+
+(A) Promotion of existing employees
+(B) Campus recruitment from colleges
+(C) Transfer of employees from other branches
+(D) Employment exchange referrals
+
+Choose the correct answer:`,
+    options: {
+      a: "(A) and (C) only",
+      b: "(A), (B) and (C) only",
+      c: "(B) and (D) only",
+      d: "(A), (C) and (D) only"
+    },
+    correctAnswer: "a",
+    explanation: "Internal sources include promotion (A) and transfer (C). Campus recruitment (B) and employment exchange (D) are external sources because they bring candidates from outside the organization. NCERT Chapter 6 clearly distinguishes internal vs external recruitment.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 20,
+    section: "Choose Correct Combination",
+    text: `Which of the following are elements of the marketing mix?
+
+(A) Product design and quality
+(B) Pricing strategies and discounts
+(C) Production planning and control
+(D) Advertising and sales promotion
+
+Choose the correct answer:`,
+    options: {
+      a: "(A), (B) and (D) only",
+      b: "(A), (C) and (D) only",
+      c: "(B), (C) and (D) only",
+      d: "(A), (B), (C) and (D)"
+    },
+    correctAnswer: "a",
+    explanation: "Marketing mix elements are Product (A), Price (B), Place, and Promotion (D). Production planning (C) is part of operations management, not marketing mix. NCERT Chapter 11 covers the 4Ps of marketing.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 21,
+    section: "Application MCQ",
+    text: `Rohan is a manager at a manufacturing unit. He notices that his team achieves high efficiency (producing at lowest cost) but frequently misses delivery deadlines and produces items that don't match customer specifications. According to management principles, Rohan's team is lacking in which aspect?`,
+    options: {
+      a: "Efficiency only",
+      b: "Effectiveness only",
+      c: "Both efficiency and effectiveness",
+      d: "Neither efficiency nor effectiveness"
+    },
+    correctAnswer: "b",
+    explanation: "The team has efficiency (low cost) but fails effectiveness (achieving goals of timely delivery and correct specifications). NCERT Chapter 1 emphasizes that management must balance both — effectiveness is about achieving goals, efficiency is about optimal resource use.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 22,
+    section: "Application MCQ",
+    text: `Neha, the HR manager of a software company, observes that despite competitive salaries, talented employees are leaving within 6 months. Exit interviews reveal that employees feel their work is not meaningful and they have no growth path. Which need in Maslow's hierarchy is most likely not being satisfied?`,
+    options: {
+      a: "Physiological needs",
+      b: "Safety needs",
+      c: "Esteem needs",
+      d: "Self-actualization needs"
+    },
+    correctAnswer: "d",
+    explanation: "Self-actualization needs involve growth, meaningful work, and reaching full potential. Despite good salary (physiological/safety) and competitive pay (esteem), lack of growth and meaning points to self-actualization deficit as per Maslow's hierarchy from NCERT Chapter 7.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 23,
+    section: "Application MCQ",
+    text: `XYZ Ltd. has 5000 employees across 12 departments. The CEO personally approves every purchase order above ₹5000, causing delays of 15-20 days. Suppliers are shifting to competitors who respond faster. Which concept should the CEO apply to improve responsiveness?`,
+    options: {
+      a: "Unity of Command",
+      b: "Centralization",
+      c: "Delegation of Authority",
+      d: "Esprit de Corps"
+    },
+    correctAnswer: "c",
+    explanation: "The CEO needs to delegate authority to lower levels for purchase approvals within limits. Delegation would reduce delays and improve responsiveness. Centralization (concentrating authority) is the current problem, not the solution. NCERT Chapter 5 covers delegation.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 24,
+    section: "Application MCQ",
+    text: `A startup is deciding between two investment projects. Project A has an NPV of ₹50 lakhs and IRR of 18%. Project B has NPV of ₹45 lakhs and IRR of 22%. As a financial manager, which project should be selected if the company's cost of capital is 15%, and why?`,
+    options: {
+      a: "Project A because higher NPV adds more absolute value to shareholders",
+      b: "Project B because higher IRR means better percentage return",
+      c: "Project B because IRR of 22% is more attractive than 18%",
+      d: "Both are equally good since both have IRR > cost of capital"
+    },
+    correctAnswer: "a",
+    explanation: "NPV directly measures increase in shareholder wealth, which is the primary goal of financial management. Higher NPV adds more absolute value even if IRR is lower. NCERT Chapter 9 prioritizes NPV over IRR when conflicts arise.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 25,
+    section: "Application MCQ",
+    text: `Ramesh purchased a 'BPA-free' water bottle from a reputed brand. After one month, he discovered the bottle actually contained BPA. He wants to file a complaint under the Consumer Protection Act 2019. Which of the following is NOT a ground on which Ramesh can file a complaint?`,
+    options: {
+      a: "Defective goods",
+      b: "Unfair trade practice",
+      c: "Deficiency in service",
+      d: "Excessive pricing"
+    },
+    correctAnswer: "d",
+    explanation: "Ramesh can file under defective goods (product is not as claimed) and unfair trade practice (false claim of BPA-free). Excessive pricing alone is not a valid ground unless it involves unfair practices. NCERT Chapter 12 lists consumer rights and complaint grounds.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 26,
+    section: "Application MCQ",
+    text: `Meera, a production manager, introduced a new assembly line method. Worker productivity initially dropped by 30% for two weeks before rising to 20% above previous levels. Taylor's Scientific Management would attribute the initial drop to which factor?`,
+    options: {
+      a: "Incorrect method study",
+      b: "Lack of standardization",
+      c: "Natural resistance to change and lack of training",
+      d: "Poor motion study implementation"
+    },
+    correctAnswer: "c",
+    explanation: "Taylor emphasized that change requires training and overcoming 'soldiering' (deliberate slowing of work). The initial drop reflects learning curve and resistance, which Taylor addressed through systematic training and differential piece rate. NCERT Chapter 2 covers Taylor's approach to change management.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 27,
+    section: "Application MCQ",
+    text: `A bank manager observes that loan officers are approving risky loans to meet monthly targets. The bank's policy states 'loan quality is more important than quantity', but officers prioritize quantity due to incentives. According to Fayol, which principle is being violated?`,
+    options: {
+      a: "Unity of Direction",
+      b: "Subordination of Individual Interest to General Interest",
+      c: "Remuneration of Personnel",
+      d: "Stability of Tenure"
+    },
+    correctAnswer: "b",
+    explanation: "Individual interest (meeting targets for personal incentives) is being prioritized over general interest (bank's loan quality policy). Fayol's principle states organizational interests must prevail over individual interests. NCERT Chapter 2 explains this principle.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 28,
+    section: "Application MCQ",
+    text: `A software development team follows Agile methodology. They set 2-week sprint goals, review progress daily, and adjust plans mid-sprint if needed. This approach contradicts which characteristic of traditional planning?`,
+    options: {
+      a: "Planning is goal-oriented",
+      b: "Planning is pervasive",
+      c: "Planning is rigid and may lead to inflexibility",
+      d: "Planning is a mental exercise"
+    },
+    correctAnswer: "c",
+    explanation: "Traditional planning is often rigid and discourages mid-course changes. Agile methodology embraces flexibility and adaptation, challenging the limitation of planning that can lead to rigidity. NCERT Chapter 4 notes 'planning leads to rigidity' as a limitation.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 29,
+    section: "Application MCQ",
+    text: `Priya started a boutique. She hires staff, buys fabric, and sets up a studio. However, she hasn't defined any goals, targets, or strategies. She just reacts to daily customer demands. According to management functions, Priya is skipping which critical first function?`,
+    options: {
+      a: "Organising",
+      b: "Staffing",
+      c: "Planning",
+      d: "Controlling"
+    },
+    correctAnswer: "c",
+    explanation: "Planning is the primary function that defines goals and strategies before organizing resources or staffing. Without planning, other functions lack direction. Priya is doing organizing and staffing but skipping planning. NCERT Chapter 4 establishes planning as primary.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 30,
+    section: "Application MCQ",
+    text: `A textile company's financial statements show: current ratio 1.2:1 (industry average 2:1), inventory turnover 3 times (industry 8 times), and high cash conversion cycle. The working capital manager should focus primarily on improving which area?`,
+    options: {
+      a: "Increasing long-term debt",
+      b: "Reducing inventory holding period and improving receivables collection",
+      c: "Paying suppliers faster to get discounts",
+      d: "Reducing dividend payout ratio"
+    },
+    correctAnswer: "b",
+    explanation: "Low inventory turnover (3 vs 8) indicates slow-moving inventory. High cash conversion cycle means money is stuck. Improving inventory management and receivables collection directly addresses working capital efficiency. NCERT Chapter 9 covers working capital management.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 31,
+    section: "Application MCQ",
+    text: `During a company's annual appraisal, employees were rated solely by their immediate supervisor. Many employees complained of bias, citing that the supervisor favored certain team members. Which type of performance appraisal method would most effectively reduce individual supervisor bias?`,
+    options: {
+      a: "Self-appraisal only",
+      b: "360-degree feedback",
+      c: "Confidential report by supervisor",
+      d: "Ranking method"
+    },
+    correctAnswer: "b",
+    explanation: "360-degree feedback collects input from peers, subordinates, supervisors, and sometimes customers, reducing individual bias. This is covered in NCERT Chapter 6 (Staffing) under performance appraisal methods for objective evaluation.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 32,
+    section: "Application MCQ",
+    text: `A pharmaceutical company discovers that one of its best-selling drugs has a rare side effect that wasn't disclosed during approval. The marketing team suggests downplaying the risk, while the legal team recommends full disclosure. Which marketing philosophy should guide the decision?`,
+    options: {
+      a: "Product concept — focus on drug's benefits",
+      b: "Selling concept — aggressive promotion to maintain sales",
+      c: "Societal marketing concept — balance company profits, consumer satisfaction, and social welfare",
+      d: "Production concept — maximize production efficiency"
+    },
+    correctAnswer: "c",
+    explanation: "Societal marketing concept requires balancing company profit, consumer wants, and society's long-term welfare. Full disclosure despite profit impact aligns with this philosophy. NCERT Chapter 11 contrasts marketing philosophies and emphasizes ethical responsibility.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 33,
+    section: "Application MCQ",
+    text: `Rahul invested in a mutual fund without reading the scheme document. After 6 months, he wants to withdraw but discovers there's an exit load of 2% and a lock-in period of 1 year. Under the Consumer Protection Act 2019, can Rahul file a complaint against the fund?`,
+    options: {
+      a: "Yes, because exit load is an unfair trade practice",
+      b: "No, because he failed to exercise due diligence by reading documents",
+      c: "Yes, because lock-in period was not verbally explained",
+      d: "No, because mutual funds are not covered under the Act"
+    },
+    correctAnswer: "b",
+    explanation: "Consumer must exercise due diligence. Key terms like exit load and lock-in are disclosed in scheme documents. Rahul's failure to read them doesn't make it a valid complaint. NCERT Chapter 12 discusses consumer responsibilities alongside rights.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 34,
+    section: "Application MCQ",
+    text: `A car manufacturer sets a target: 'Reduce production cost by 10% within 6 months.' The production team achieves a 12% reduction but compromises on safety tests, leading to brake failures in 5% of vehicles. Which management function failed to ensure adequate control?`,
+    options: {
+      a: "Planning — target was unrealistic",
+      b: "Organising — poor resource allocation",
+      c: "Controlling — standards should include quality and safety parameters, not just cost",
+      d: "Directing — poor leadership communication"
+    },
+    correctAnswer: "c",
+    explanation: "Controlling requires setting comprehensive standards covering cost, quality, and safety. Focusing only on cost allowed dangerous trade-offs. NCERT Chapter 8 emphasizes that standards must be holistic for effective control.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 35,
+    section: "Application MCQ",
+    text: `Infosys, an IT company, announces that all employees must work from office 3 days a week. Some employees threaten to quit. The HR department arranges counseling sessions to understand concerns and negotiate flexible hours. Which leadership style is being demonstrated?`,
+    options: {
+      a: "Autocratic leadership",
+      b: "Democratic/participative leadership",
+      c: "Laissez-faire leadership",
+      d: "Transactional leadership"
+    },
+    correctAnswer: "b",
+    explanation: "Democratic leadership involves consulting subordinates, understanding concerns, and negotiating solutions rather than imposing decisions. This participative approach increases acceptance. NCERT Chapter 7 covers leadership styles with democratic emphasizing participation.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 36,
+    section: "Application MCQ",
+    text: `A small bakery wants to expand but lacks funds. The owner considers: (1) bank loan at 12% interest, (2) issuing shares to friends and family, (3) using retained earnings from last 3 years (₹5 lakhs), (4) trade credit from suppliers. Which combination represents internal sources of finance?`,
+    options: {
+      a: "1 and 2 only",
+      b: "2 and 3 only",
+      c: "3 only",
+      d: "3 and 4 only"
+    },
+    correctAnswer: "c",
+    explanation: "Internal sources are those generated within the business — retained earnings (3) is internal. Bank loan (1) is external debt, shares (2) is external equity, trade credit (4) is external short-term finance. NCERT Chapter 9 distinguishes internal vs external sources.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 37,
+    section: "Application MCQ",
+    text: `A company's production target is 1000 units/day. Actual production is 1100 units/day, but 150 units are defective (quality standard is max 2% defects). The controlling process should conclude that:`,
+    options: {
+      a: "Performance exceeds target, so no action needed",
+      b: "Quantity target exceeded, quality standard failed — investigate quality processes",
+      c: "Both quantity and quality targets are acceptable",
+      d: "Quality standard is irrelevant if quantity target is met"
+    },
+    correctAnswer: "b",
+    explanation: "Controlling compares actual against ALL standards. 15% defects (150/1100) far exceeds 2% standard. Despite quantity exceeding target, quality deviation requires investigation. NCERT Chapter 8 emphasizes comparing against all established standards.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 38,
+    section: "Application MCQ",
+    text: `After demonetization in India, many businesses suffered. However, digital payment companies like Paytm and PhonePe grew rapidly. This demonstrates which feature of the business environment?`,
+    options: {
+      a: "Business environment is static and predictable",
+      b: "Business environment is complex and difficult to understand",
+      c: "Business environment is dynamic and presents both threats and opportunities",
+      d: "Business environment is controllable by businesses"
+    },
+    correctAnswer: "c",
+    explanation: "Demonetization was a dynamic change that threatened cash-dependent businesses but created opportunities for digital payment firms. NCERT Chapter 3 highlights that business environment is dynamic, with changes creating both threats and opportunities.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 39,
+    section: "Application MCQ",
+    text: `At a construction site, the project manager allows the site supervisor to purchase materials up to ₹25,000 without approval. For purchases above ₹25,000, the supervisor must get manager's approval. This practice is an example of:`,
+    options: {
+      a: "Centralization",
+      b: "Delegation with defined limits",
+      c: "Span of management",
+      d: "Unity of command"
+    },
+    correctAnswer: "b",
+    explanation: "Delegation involves granting authority with defined limits (₹25,000 threshold). This balances efficiency (supervisor can act) with control (higher amounts need approval). NCERT Chapter 5 explains delegation as assigning authority with accountability.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 40,
+    section: "Application MCQ",
+    text: `A company uses the following recruitment process: Step 1 — Job analysis, Step 2 — Internal posting, Step 3 — If no suitable candidate, external advertising, Step 4 — Screening, Step 5 — Interview, Step 6 — Reference check, Step 7 — Medical test, Step 8 — Job offer. This company is prioritizing which source of recruitment?`,
+    options: {
+      a: "External recruitment only",
+      b: "Internal recruitment first, external second",
+      c: "Campus recruitment only",
+      d: "Consultant-based recruitment"
+    },
+    correctAnswer: "b",
+    explanation: "Step 2 (internal posting) shows internal recruitment priority. Step 3 (if no suitable candidate, external) shows external as secondary. This is best practice for employee motivation. NCERT Chapter 6 discusses internal and external sources with merit of internal first.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 41,
+    section: "Application MCQ",
+    text: `Tanishq, a jewelry brand, advertises: 'Buy gold coins at ₹4,999 (actual value ₹5,000). Limited period offer.' This pricing strategy is known as:`,
+    options: {
+      a: "Premium pricing",
+      b: "Psychological pricing (odd-even pricing)",
+      c: "Penetration pricing",
+      d: "Cost-plus pricing"
+    },
+    correctAnswer: "b",
+    explanation: "Pricing at ₹4,999 instead of ₹5,000 is psychological pricing — consumers perceive ₹4,999 as significantly lower than ₹5,000 though difference is only ₹1. NCERT Chapter 11 covers pricing strategies including psychological pricing.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 42,
+    section: "Application MCQ",
+    text: `A new manager is given a team of 8 members who have been working together for 5 years with consistent performance. The previous manager was very directive. According to situational leadership theory, what style should the new manager adopt?`,
+    options: {
+      a: "High task, high relationship — because they need clear instructions",
+      b: "Low task, low relationship — because they are experienced and self-motivated",
+      c: "Low task, high relationship — because they need support but not direction",
+      d: "High task, low relationship — because they need strict monitoring"
+    },
+    correctAnswer: "c",
+    explanation: "Experienced, consistent performers (high maturity) need low task direction (they know their job) but may need relationship support during leadership transition. NCERT Chapter 7 covers that leadership style depends on subordinate maturity and readiness.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 43,
+    section: "Application MCQ",
+    text: `During the COVID-19 pandemic, many companies allowed work-from-home permanently. This changed the need for office space, commuting infrastructure, and urban housing demand. From a business environment perspective, this is an example of how which environment affects business?`,
+    options: {
+      a: "Political environment only",
+      b: "Technological and social environment interacting",
+      c: "Legal environment only",
+      d: "Economic environment in isolation"
+    },
+    correctAnswer: "b",
+    explanation: "Work-from-home was enabled by technology (Technological environment) and changed social norms/expectations (Social environment). Their interaction affected multiple business sectors. NCERT Chapter 3 emphasizes the inter-relatedness of different environment dimensions.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 44,
+    section: "Application MCQ",
+    text: `A manager notices that two departments — Sales and Production — are in conflict. Sales promises customers delivery in 5 days, but Production needs 10 days. The manager creates a joint planning committee where both departments set delivery timelines together. This action is primarily an example of:`,
+    options: {
+      a: "Directing",
+      b: "Coordination",
+      c: "Controlling",
+      d: "Staffing"
+    },
+    correctAnswer: "b",
+    explanation: "Coordination harmonizes different departments' activities to achieve common goals. Creating a joint committee aligns sales promises with production capabilities. NCERT Chapter 5 identifies coordination as the essence of management, integrating diverse activities.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 45,
+    section: "Application MCQ",
+    text: `An entrepreneur wants to start a business but is unsure about which form to choose. She wants limited liability, perpetual succession, but also wants to raise funds from the public. However, she does NOT want regulatory requirements like filing annual returns with ROC. Which form of business satisfies all her criteria EXCEPT the last one?`,
+    options: {
+      a: "Sole proprietorship",
+      b: "Partnership",
+      c: "Private Limited Company",
+      d: "Public Limited Company"
+    },
+    correctAnswer: "d",
+    explanation: "Public Limited Company provides limited liability, perpetual succession, and public fundraising BUT requires ROC filings. No form avoids ROC filing if it has limited liability and public fundraising. This tests trade-offs in business organization choice.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 46,
+    section: "Application MCQ",
+    text: `A consumer bought a '100% organic cotton' shirt from a brand. Laboratory testing shows the shirt contains 40% polyester. The consumer wants to file a complaint. Under the Consumer Protection Act 2019, which right is being violated?`,
+    options: {
+      a: "Right to Safety only",
+      b: "Right to be Informed and Right to Safety",
+      c: "Right to Choose only",
+      d: "Right to Consumer Education"
+    },
+    correctAnswer: "b",
+    explanation: "Right to be Informed (false labeling about organic cotton) and Right to Safety (polyester may cause skin reactions in some users) are both violated. NCERT Chapter 12 lists all consumer rights with examples of violations.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 47,
+    section: "Application MCQ",
+    text: `Varun is a financial manager. The company's debt-equity ratio is 3:1 (industry average 1.5:1). Interest coverage ratio is 1.8x (industry 4x). During a board meeting, Varun should recommend:`,
+    options: {
+      a: "Increase debt further to benefit from tax shield",
+      b: "Reduce debt by issuing equity shares",
+      c: "Maintain current capital structure",
+      d: "Increase dividend payout to attract more investors"
+    },
+    correctAnswer: "b",
+    explanation: "High debt-equity ratio (3:1) and low interest coverage (1.8x) indicate high financial risk — company may struggle to pay interest. Reducing debt by issuing equity will lower risk and improve coverage. NCERT Chapter 9 covers capital structure and risk trade-offs.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 48,
+    section: "Application MCQ",
+    text: `A retail chain observes that store managers in different cities make inconsistent decisions — some offer discounts aggressively, others refuse discounts entirely, leading to customer complaints. According to Fayol, which principle would help achieve consistency?`,
+    options: {
+      a: "Equity",
+      b: "Scalar Chain",
+      c: "Centralization",
+      d: "Policies as part of planning"
+    },
+    correctAnswer: "d",
+    explanation: "Inconsistent decisions indicate lack of clear policies. Policies are standing plans that provide guidelines for repetitive decision-making, ensuring consistency across managers. NCERT Chapter 4 emphasizes policies as decision-making guides for uniformity.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 49,
+    section: "Application MCQ",
+    text: `Kiran is training new employees. She demonstrates a task, then has the employee perform it while she observes and corrects mistakes, then has the employee do it independently. This training method is best described as:`,
+    options: {
+      a: "Vestibule training",
+      b: "Case study method",
+      c: "On-the-job training with coaching/mentoring",
+      d: "Programmed instruction"
+    },
+    correctAnswer: "c",
+    explanation: "Demonstration, supervised practice with correction, then independent performance is on-the-job training specifically coaching/mentoring method. Vestibule uses simulated environment, case study is discussion-based, programmed instruction is self-paced. NCERT Chapter 6 covers training methods.",
+    marked: false,
+    userAnswer: ""
+  },
+  {
+    id: 50,
+    section: "Application MCQ",
+    text: `A company's cash budget shows: Opening balance ₹2 lakhs, Expected receipts ₹8 lakhs, Expected payments ₹11 lakhs. The company has a policy of maintaining minimum ₹1 lakh cash balance. They can get an overdraft at 10% interest. What should the financial manager do?`,
+    options: {
+      a: "Reduce payments by ₹1 lakh to avoid borrowing",
+      b: "Arrange overdraft of ₹2 lakhs to cover deficit and maintain minimum",
+      c: "Arrange overdraft of ₹1 lakh only",
+      d: "Sell long-term investments to cover deficit"
+    },
+    correctAnswer: "b",
+    explanation: "Closing cash = 2 + 8 - 11 = -₹1 lakh (deficit). To reach minimum ₹1 lakh balance, need ₹2 lakhs (₹1 lakh to cover deficit + ₹1 lakh for minimum). Overdraft is appropriate short-term finance. NCERT Chapter 9 emphasizes cash budgeting for liquidity management.",
+    marked: false,
+    userAnswer: ""
   }
-  tick();
-  setInterval(tick, 1000);
+];
+
+const questionSets = { 1: [] };
+set1Real.forEach(q => questionSets[1].push(q));
+
+// ===== STATE =====
+let selectedSet = 1;
+let questions = questionSets[1];
+let currentQ = 0;
+let answers = new Array(questions.length).fill(null);
+let status = new Array(questions.length).fill('not-visited');
+let timerInterval = null;
+let timeLeft = 60 * 60;
+let candidateName = 'Candidate';
+
+// ===== LOGIN & NAVIGATION =====
+const LS_CRED = 'thunderCBT_creds';
+const LS_KEY  = 'thunderCBT_lastAttempts';
+
+function unlockNextBtn() {
+  const btn = document.getElementById('step1NextBtn');
+  if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+}
+
+function populateStartScreen(name, pass) {
+  const sn = document.getElementById('startCandName');
+  const sr = document.getElementById('startCandRoll');
+  const ih = document.getElementById('instrCandName');
+  const ir = document.getElementById('instrCandRoll');
+  if (sn) sn.textContent = name;
+  if (sr) sr.textContent = pass;
+  if (ih) ih.textContent = name;
+  if (ir) ir.textContent = 'Roll No: ' + pass;
+  unlockNextBtn();
+  loadLastAttempts();
+  renderHistory();
+}
+
+function doLogin() {
+  const savedName = localStorage.getItem('cbtUserName') || '';
+  const savedSID  = localStorage.getItem('ts_student_id') || '';
+
+  if (!savedName || !savedSID) {
+    const goToDash = confirm('⚠️ Dashboard profile not found!\n\nYou need to login via the ThunderStudy Dashboard first to generate your Student ID.\n\nClick OK to open Dashboard.');
+    if (goToDash) window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+    return;
+  }
+
+  candidateName = savedName;
+  populateStartScreen(savedName, savedSID);
+  showScreen('start');
+  showToast('✅ Welcome, ' + savedName + '!', 'success');
+}
+
+function proceedToInstructions() {
+  selectedSet = 1;
+  questions = questionSets[1];
+  const ag = document.getElementById('agreeCheck');
+  if (ag) ag.checked = false;
+  toggleStartBtn();
+  showScreen('instructions');
+  setTimeout(enterFullscreen, 300);
+}
+
+function goToInstructions() {
+  goToStep(1);
+  showScreen('instructions');
+}
+
+// Run after DOM is fully loaded
+window.addEventListener('DOMContentLoaded', function() {
+  const savedName = localStorage.getItem('cbtUserName') || '';
+  const savedSID  = localStorage.getItem('ts_student_id') || '';
+
+  const nameEl = document.getElementById('loginName');
+  const passEl = document.getElementById('loginPass');
+
+  if (savedName && nameEl) {
+    nameEl.value = savedName;
+    nameEl.readOnly = true;
+    nameEl.style.background = '#dbeafe';
+    nameEl.style.borderColor = '#1976d2';
+    nameEl.style.color = '#0d4f96';
+    nameEl.style.fontWeight = '700';
+  }
+
+  if (savedSID && passEl) {
+    passEl.value = savedSID;
+    passEl.readOnly = true;
+    passEl.style.background = '#dbeafe';
+    passEl.style.borderColor = '#1976d2';
+    passEl.style.color = '#0d4f96';
+    passEl.style.fontWeight = '700';
+  }
+
+  // Show SID badge below password field
+  if (savedSID) {
+    const loginBody = document.querySelector('.login-body');
+    if (loginBody && !document.getElementById('sid-badge')) {
+      const badge = document.createElement('div');
+      badge.id = 'sid-badge';
+      badge.style.cssText = 'text-align:center;font-size:12px;font-weight:700;color:#1976d2;background:#dbeafe;padding:5px 14px;border-radius:20px;margin-bottom:12px;';
+      badge.textContent = '🪪 Student ID: ' + savedSID + ' (Verified)';
+      loginBody.insertBefore(badge, loginBody.querySelector('.login-remember'));
+    }
+  }
+
+  // If both found, auto-login and skip to start
+});
+
+
+// ===== FULLSCREEN =====
+let fsCountdownTimer = null;
+let fsExitedBySystem = false; // true = timer ran out (allowed to exit)
+
+function enterFullscreen() {
+  const el = document.documentElement;
+  try {
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  } catch(e) {}
+}
+
+function exitFullscreenAPI() {
+  try {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+    else if (document.msExitFullscreen) document.msExitFullscreen();
+  } catch(e) {}
+}
+
+function isFullscreen() {
+  return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+            document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function returnToFullscreen() {
+  clearFsCountdown();
+  hideFsWarning();
+  enterFullscreen();
+}
+
+function forceSubmit() {
+  clearFsCountdown();
+  hideFsWarning();
+  exitFullscreenAPI();
+  clearInterval(timerInterval);
+  calculateResult();
+}
+
+function showFsWarning(text) {
+  const modal = document.getElementById('fsWarningModal');
+  const textEl = document.getElementById('fsWarningText');
+  if (textEl && text) textEl.textContent = text;
+  if (modal) modal.classList.add('active');
+  let count = 3;
+  const cd = document.getElementById('fsCountdown');
+  if (cd) cd.textContent = count;
+  clearFsCountdown();
+  fsCountdownTimer = setInterval(() => {
+    count--;
+    if (cd) cd.textContent = count;
+    if (count <= 0) {
+      clearFsCountdown();
+      hideFsWarning();
+      exitFullscreenAPI();
+      clearInterval(timerInterval);
+      calculateResult();
+    }
+  }, 1000);
+}
+
+function hideFsWarning() {
+  const modal = document.getElementById('fsWarningModal');
+  if (modal) modal.classList.remove('active');
+}
+
+function clearFsCountdown() {
+  if (fsCountdownTimer) { clearInterval(fsCountdownTimer); fsCountdownTimer = null; }
+}
+
+// Fullscreen change event — fires when user presses Esc
+function onFullscreenChange() {
+  const testScreen  = document.getElementById('screen-test');
+  const instrScreen = document.getElementById('screen-instructions');
+  const testActive  = testScreen  && testScreen.classList.contains('active');
+  const instrActive = instrScreen && instrScreen.classList.contains('active');
+  if (!testActive && !instrActive) return;
+  if (fsExitedBySystem) return;
+  if (!isFullscreen()) {
+    if (testActive) {
+      showFsWarning('You exited fullscreen. Return to fullscreen or the test will auto-submit in 3 seconds.');
+    } else {
+      // On instructions screen — warn and silently re-enter
+      showToast('⚠️ Please stay in fullscreen during the exam!', 'warning');
+      setTimeout(enterFullscreen, 800);
+    }
+  }
+}
+document.addEventListener('fullscreenchange',       onFullscreenChange);
+document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+document.addEventListener('mozfullscreenchange',    onFullscreenChange);
+document.addEventListener('MSFullscreenChange',     onFullscreenChange);
+
+// Tab visibility — fires when user switches tabs
+document.addEventListener('visibilitychange', () => {
+  const testScreen = document.getElementById('screen-test');
+  if (!testScreen || !testScreen.classList.contains('active')) return;
+  if (fsExitedBySystem) return;
+  if (document.hidden) {
+    // Tab switched — immediate auto-submit (no countdown)
+    clearFsCountdown();
+    hideFsWarning();
+    exitFullscreenAPI();
+    clearInterval(timerInterval);
+    showToast('⚠️ Tab switch detected — auto-submitting!', 'warning');
+    setTimeout(calculateResult, 800);
+  }
+});
+
+// ===== STEP NAVIGATION =====
+function goToStep(step) {
+  [1, 2, 3].forEach(s => {
+    const sp = document.getElementById(`sp-${s}`);
+    sp.classList.remove('active', 'done');
+    if (s < step) sp.classList.add('done');
+    else if (s === step) sp.classList.add('active');
+  });
+  document.querySelectorAll('.instr-step').forEach(el => el.classList.remove('active'));
+  const panel = document.getElementById(`istep-${step}`);
+  if (panel) { panel.classList.add('active'); window.scrollTo(0, 0); }
+}
+
+// ===== HISTORY (localStorage) =====
+const LS_HIST = 'thunderCBT_history';
+
+function saveToHistory(setNum, correct, wrong, unattempted, score, maxScore, pct, name) {
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+  const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+  hist.unshift({
+    id: Date.now(),
+    set: setNum,
+    name: name || 'Candidate',
+    correct, wrong, unattempted,
+    score, maxScore, pct,
+    date: dateStr, time: timeStr
+  });
+  // Keep only last 50 records
+  if (hist.length > 50) hist = hist.slice(0, 50);
+  try { localStorage.setItem(LS_HIST, JSON.stringify(hist)); } catch(e) {}
+}
+
+function getGrade(pct) {
+  if (pct >= 90) return { g: 'A+', c: '#2e7d32' };
+  if (pct >= 75) return { g: 'A',  c: '#388e3c' };
+  if (pct >= 60) return { g: 'B+', c: '#1976d2' };
+  if (pct >= 45) return { g: 'B',  c: '#1565c0' };
+  if (pct >= 33) return { g: 'C',  c: '#e65100' };
+  return { g: 'F', c: '#c62828' };
+}
+
+function renderHistory() {
+  const el = document.getElementById('historyContent');
+  if (!el) return;
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
+  if (!hist.length) {
+    el.innerHTML = `<div class="history-empty"><div class="he-icon">📭</div><p>No attempts yet — complete a test to see your history here.</p></div>`;
+    return;
+  }
+  // Summary bar stats
+  const totalAttempts = hist.length;
+  const bestPct = Math.max(...hist.map(h => h.pct));
+  const avgPct  = Math.round(hist.reduce((a,h) => a + h.pct, 0) / hist.length);
+
+  let rows = hist.map((h, i) => {
+    const pctCls = h.pct >= 60 ? 'high' : h.pct >= 33 ? 'mid' : 'low';
+    const { g, c } = getGrade(h.pct);
+    const isBest = h.pct === bestPct && hist.filter(x => x.pct === bestPct)[0].id === h.id;
+    return `<tr>
+      <td style="font-weight:700;color:#888;font-size:12px;">${i+1}</td>
+      <td class="ht-set">⚗️ Set ${h.set}</td>
+      <td style="font-size:12px;color:#555;">${h.name}</td>
+      <td class="ht-score">${h.score}<span style="font-size:11px;color:#aaa;">/${h.maxScore}</span></td>
+      <td><span class="ht-pct ${pctCls}">${h.pct}%</span>${isBest ? ' 🏆' : ''}</td>
+      <td class="ht-grade" style="color:${c};">${g}</td>
+      <td class="ht-correct">✓ ${h.correct}</td>
+      <td class="ht-wrong">✗ ${h.wrong}</td>
+      <td class="ht-skip">— ${h.unattempted}</td>
+      <td class="ht-date">${h.date}<br><span style="font-size:10.5px;">${h.time}</span></td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="history-wrap">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Set</th><th>Name</th><th>Score</th><th>Percent</th>
+            <th>Grade</th><th>Correct</th><th>Wrong</th><th>Skipped</th><th>Date & Time</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <div class="history-summary-bar">
+      Total Attempts: <span>${totalAttempts}</span>
+      &nbsp;·&nbsp; Best Score: <span>${bestPct}%</span>
+      &nbsp;·&nbsp; Average: <span>${avgPct}%</span>
+    </div>`;
+}
+
+function clearHistory() {
+  if (!confirm('Clear all test history? This cannot be undone.')) return;
+  try { localStorage.removeItem(LS_HIST); } catch(e) {}
+  renderHistory();
+  showToast('🗑 History cleared', 'info');
+}
+
+function loadLastAttempts() {
+  let data = {};
+  try { data = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) {}
+  [1, 2, 3, 4].forEach(s => {
+    const el = document.getElementById(`sla-${s}`);
+    if (!el) return;
+    if (data[s] !== undefined) {
+      const pct = data[s];
+      const cls = pct >= 60 ? 'pct-high' : pct >= 35 ? 'pct-mid' : 'pct-low';
+      el.innerHTML = `<span class="sla-pct ${cls}">${pct}%</span><span class="sla-label">Last</span>`;
+    } else {
+      el.innerHTML = `<span class="sla-new">New</span>`;
+    }
+  });
+}
+
+function saveLastAttempt(setNum, pct) {
+  let data = {};
+  try { data = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) {}
+  data[setNum] = pct;
+  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+// ===== INIT =====
+function toggleStartBtn() {
+  const cb = document.getElementById('agreeCheck');
+  const btn = document.getElementById('startBtn');
+  if (!cb || !btn) return;
+  btn.style.opacity = cb.checked ? '1' : '0.5';
+  btn.style.pointerEvents = cb.checked ? 'auto' : 'none';
+}
+
+function startExam() {
+  questions = questionSets[selectedSet];
+  answers = new Array(questions.length).fill(null);
+  status = new Array(questions.length).fill('not-visited');
+  timeLeft = 60 * 60;
+  fsExitedBySystem = false;
+
+  const tabLabel = document.getElementById('testSetTabLabel');
+  const paletteLabel = document.getElementById('paletteSetLabel');
+  const nameDisp = document.getElementById('jeeNameDisp');
+  if (tabLabel) tabLabel.textContent = `⚗️ BST — Set ${selectedSet}`;
+  if (paletteLabel) paletteLabel.textContent = `Set ${selectedSet}`;
+  if (nameDisp) nameDisp.textContent = ': ' + candidateName;
+
+  showScreen('test');
+  renderQuestion(0);
+  buildPalette();
+  startTimer();
+  showToast(`⚗️ BST Set ${selectedSet} started! All the best!`, 'info');
+}
+
+// ===== SCREEN SWITCH =====
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const target = document.getElementById('screen-' + name);
+  if (target) {
+    target.style.display = '';
+    target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+}
+
+// ===== TIMER =====
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const h = Math.floor(timeLeft / 3600);
+    const m = Math.floor((timeLeft % 3600) / 60);
+    const s = timeLeft % 60;
+    const display = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const el = document.getElementById('timerDisplay');
+    if (el) el.textContent = display;
+    if (timeLeft <= 300) el.classList.add('warning');
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      fsExitedBySystem = true; // timer ran out, allow fullscreen exit
+      exitFullscreenAPI();
+      showToast('⏰ Time up! Auto-submitting...', 'warning');
+      setTimeout(confirmSubmit, 1500);
+    }
+  }, 1000);
+}
+
+// ===== RENDER QUESTION =====
+function renderQuestion(idx) {
+  currentQ = idx;
+  const q = questions[idx];
+  if (status[idx] === 'not-visited') status[idx] = 'not-answered';
+
+  // Update header badges
+  document.getElementById('qNumBadge').textContent = `Question ${idx + 1}:`;
+  const topicEl = document.getElementById('qTopicTag');
+  if (topicEl) topicEl.textContent = q.topic;
+
+  let html = `<div class="q-text">${formatText(q.text)}</div>`;
+  html += `<div class="options-label">Options :</div>`;
+
+  if (q.type === 'text-options') {
+    html += `<ul class="options-list">`;
+    q.options.forEach((opt, i) => {
+      const sel = answers[idx] === i ? 'selected' : '';
+      html += `
+        <li class="opt-item ${sel}" onclick="selectOption(${i})">
+          <div class="opt-radio"><div class="opt-radio-dot"></div></div>
+          <span class="opt-key">${['A','B','C','D'][i]}.</span>
+          <div class="opt-content">${formatText(opt)}</div>
+        </li>`;
+    });
+    html += `</ul>`;
+  } else if (q.type === 'image-options') {
+    html += `<div class="options-grid-2col">`;
+    q.options.forEach((opt, i) => {
+      const sel = answers[idx] === i ? 'selected' : '';
+      html += `
+        <div class="opt-item ${sel}" onclick="selectOption(${i})" style="flex-direction:column;align-items:flex-start;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            <div class="opt-radio"><div class="opt-radio-dot"></div></div>
+            <span class="opt-key">${['A','B','C','D'][i]}.</span>
+            <span style="font-size:12px;color:#666;">${opt.label.replace(' ✓','')}</span>
+          </div>
+          <div class="chem-svg-wrap">${opt.svg}</div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('questionBody').innerHTML = html;
+  updatePalette();
+  updateStats();
+}
+
+function formatText(txt) {
+  return txt
+    .replace(/₀/g,'<sub>0</sub>').replace(/₁/g,'<sub>1</sub>').replace(/₂/g,'<sub>2</sub>')
+    .replace(/₃/g,'<sub>3</sub>').replace(/₄/g,'<sub>4</sub>').replace(/₅/g,'<sub>5</sub>')
+    .replace(/₆/g,'<sub>6</sub>').replace(/₇/g,'<sub>7</sub>').replace(/₈/g,'<sub>8</sub>')
+    .replace(/⁺/g,'<sup>+</sup>').replace(/²⁻/g,'<sup>2−</sup>').replace(/³⁺/g,'<sup>3+</sup>')
+    .replace(/²/g,'<sup>2</sup>').replace(/³/g,'<sup>3</sup>').replace(/⁻²/g,'<sup>−2</sup>');
+}
+
+// ===== SELECT OPTION =====
+function selectOption(i) {
+  answers[currentQ] = i;
+  if (status[currentQ] === 'marked') status[currentQ] = 'answered-marked';
+  else status[currentQ] = 'answered';
+  renderQuestion(currentQ);
+}
+
+// ===== ACTIONS =====
+function saveAndNext() {
+  if (answers[currentQ] === null) {
+    showToast('⚠️ Please select an option first!', 'warning');
+    status[currentQ] = 'not-answered';
+  } else {
+    showToast('✅ Answer saved!', 'success');
+    status[currentQ] = 'answered';
+  }
+  updatePalette(); updateStats();
+  if (currentQ < questions.length - 1) renderQuestion(currentQ + 1);
+  else showToast('📋 Last question reached. Review or Submit!', 'info');
+}
+
+function goBack() {
+  if (currentQ > 0) renderQuestion(currentQ - 1);
+}
+
+// Mark for Review & Next (no answer required)
+function markAndNext() {
+  if (answers[currentQ] !== null) status[currentQ] = 'answered-marked';
+  else status[currentQ] = 'marked';
+  showToast('🔖 Marked for Review', 'info');
+  updatePalette(); updateStats();
+  if (currentQ < questions.length - 1) renderQuestion(currentQ + 1);
+}
+
+// Answer & Mark for Review (save answer AND mark)
+function saveMarkAndNext() {
+  if (answers[currentQ] === null) {
+    showToast('⚠️ Please select an option first!', 'warning');
+    return;
+  }
+  status[currentQ] = 'answered-marked';
+  showToast('✅ Saved & Marked for Review!', 'success');
+  updatePalette(); updateStats();
+  if (currentQ < questions.length - 1) renderQuestion(currentQ + 1);
+}
+
+// Legacy alias
+function markForReview() { markAndNext(); }
+
+function clearResponse() {
+  answers[currentQ] = null;
+  status[currentQ] = 'not-answered';
+  renderQuestion(currentQ);
+  showToast('🗑 Response cleared', 'info');
+}
+
+// ===== PALETTE =====
+function buildPalette() {
+  const palette = document.getElementById('questionPalette');
+  palette.innerHTML = '';
+  questions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-palette-btn';
+    btn.textContent = String(i + 1).padStart(2, '0');
+    btn.onclick = () => renderQuestion(i);
+    palette.appendChild(btn);
+  });
+  updatePalette();
+}
+
+function updatePalette() {
+  const btns = document.querySelectorAll('.q-palette-btn');
+  btns.forEach((btn, i) => {
+    btn.className = 'q-palette-btn';
+    const s = status[i];
+    if      (s === 'not-visited')     btn.classList.add('qb-not-visited');
+    else if (s === 'not-answered')    btn.classList.add('qb-not-answered');
+    else if (s === 'answered')        btn.classList.add('qb-answered');
+    else if (s === 'marked')          btn.classList.add('qb-marked');
+    else if (s === 'answered-marked') btn.classList.add('qb-answered-marked');
+    if (i === currentQ) btn.classList.add('qb-current');
+  });
+}
+
+function updateStats() {
+  const nv  = status.filter(s => s === 'not-visited').length;
+  const na  = status.filter(s => s === 'not-answered').length;
+  const ans = status.filter(s => s === 'answered').length;
+  const mrk = status.filter(s => s === 'marked').length;
+  const am  = status.filter(s => s === 'answered-marked').length;
+  document.getElementById('stat-nv').textContent  = nv;
+  document.getElementById('stat-na').textContent  = na;
+  document.getElementById('stat-ans').textContent = ans;
+  document.getElementById('stat-mrk').textContent = mrk;
+  const amEl = document.getElementById('stat-am');
+  if (amEl) amEl.textContent = am;
+}
+
+// ===== SUBMIT =====
+function showSubmitModal() {
+  const nv = status.filter(s => s === 'not-visited').length;
+  const na = status.filter(s => s === 'not-answered').length;
+  const ans = status.filter(s => s === 'answered' || s === 'answered-marked').length;
+  const mrk = status.filter(s => s === 'marked' || s === 'answered-marked').length;
+
+  document.getElementById('modalSummary').innerHTML = `
+    <div class="ms-item"><div class="ms-num" style="color:#9e9e9e">${nv}</div><div class="ms-lbl">Not Visited</div></div>
+    <div class="ms-item"><div class="ms-num" style="color:#c62828">${na}</div><div class="ms-lbl">Not Answered</div></div>
+    <div class="ms-item"><div class="ms-num" style="color:#2e7d32">${ans}</div><div class="ms-lbl">Answered</div></div>
+    <div class="ms-item"><div class="ms-num" style="color:#7b1fa2">${mrk}</div><div class="ms-lbl">Marked</div></div>
+  `;
+  document.getElementById('submitModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('submitModal').classList.remove('active');
+}
+
+function confirmSubmit() {
+  clearInterval(timerInterval);
+  fsExitedBySystem = true;
+  exitFullscreenAPI();
+  closeModal();
+  calculateResult();
+}
+
+// ===== RESULT =====
+// Track per-question result for palette colouring
+let questionResults = []; // 'correct' | 'wrong' | 'skip'
+
+function calculateResult() {
+  let correct = 0, wrong = 0, unattempted = 0;
+  questionResults = [];
+
+  questions.forEach((q, i) => {
+    if (answers[i] === null) {
+      unattempted++;
+      questionResults.push('skip');
+    } else if (answers[i] === q.correct) {
+      correct++;
+      questionResults.push('correct');
+    } else {
+      wrong++;
+      questionResults.push('wrong');
+    }
+  });
+
+  const score = (correct * 5) - (wrong * 1);
+  const maxScore = questions.length * 5;
+  const pct = Math.max(0, Math.round((score / maxScore) * 100));
+
+  // Save last attempt to localStorage
+  saveLastAttempt(selectedSet, pct);
+  // Save to full history
+  saveToHistory(selectedSet, correct, wrong, unattempted, score, maxScore, pct, candidateName);
+
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-unattempted').textContent = unattempted;
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('resultScoreNum').textContent = score;
+  document.querySelector('.score-total').textContent = `/ ${maxScore}`;
+
+  const ring = document.getElementById('scoreRing');
+  ring.style.setProperty('--score-pct', pct + '%');
+
+  const trophy = document.getElementById('resultTrophy');
+  const title = document.getElementById('resultTitle');
+  const subtitle = document.getElementById('resultSubtitle');
+  if (pct >= 80) { trophy.textContent = '🏆'; title.textContent = 'Outstanding Performance!'; subtitle.textContent = `Excellent! Set ${selectedSet} conquered!`; }
+  else if (pct >= 60) { trophy.textContent = '🥈'; title.textContent = 'Good Performance!'; subtitle.textContent = 'Keep practising — you\'re almost there!'; }
+  else if (pct >= 40) { trophy.textContent = '🥉'; title.textContent = 'Average Performance'; subtitle.textContent = 'Revise your concepts and try again.'; }
+  else { trophy.textContent = '📚'; title.textContent = 'Needs Improvement'; subtitle.textContent = 'Don\'t give up! Review the topics and retry.'; }
+
+  // ===== BUILD RESULT PALETTE (green/red/blue) =====
+  const rp = document.getElementById('resultPalette');
+  rp.innerHTML = '';
+  questions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-palette-btn';
+    btn.textContent = i + 1;
+    const res = questionResults[i];
+    if (res === 'correct') btn.classList.add('qb-result-correct');
+    else if (res === 'wrong') btn.classList.add('qb-result-wrong');
+    else btn.classList.add('qb-result-skip');
+    btn.title = res === 'correct' ? `Q${i+1}: Correct (+5)` : res === 'wrong' ? `Q${i+1}: Wrong (−1)` : `Q${i+1}: Not Attempted (0)`;
+    rp.appendChild(btn);
+  });
+
+  // ===== ANSWER REVIEW =====
+  let reviewHTML = '';
+  questions.forEach((q, i) => {
+    const userAns = answers[i];
+    const res = questionResults[i];
+    const optLabels = ['A','B','C','D'];
+    let userLabel = userAns !== null ? optLabels[userAns] : '—';
+    let correctLabel = optLabels[q.correct];
+    let userText = userAns !== null ? (q.type === 'text-options' ? q.options[userAns] : q.options[userAns].label) : 'Not Attempted';
+    let correctText = q.type === 'text-options' ? q.options[q.correct] : q.options[q.correct].label;
+    const marksChip = res === 'correct'
+      ? `<span class="review-q-marks rqm-correct">+5</span>`
+      : res === 'wrong'
+      ? `<span class="review-q-marks rqm-wrong">−1</span>`
+      : `<span class="review-q-marks rqm-skip">0</span>`;
+
+    reviewHTML += `
+      <div class="review-q rq-${res}">
+        <div class="review-q-num">Q${i+1} · ${q.topic} ${marksChip}</div>
+        <div class="review-q-text">${q.text.substring(0,120)}${q.text.length > 120 ? '...' : ''}</div>
+        <div class="review-answers">
+          <span class="ra-chip ra-your ${res === 'wrong' ? 'wrong' : ''}">
+            Your: ${userLabel}. ${String(userText).replace(' ✓','').substring(0,35)}
+          </span>
+          <span class="ra-chip ra-correct">
+            ✓ Correct: ${correctLabel}. ${String(correctText).replace(' ✓','').substring(0,35)}
+          </span>
+        </div>
+      </div>`;
+  });
+  document.getElementById('answerReviewBody').innerHTML = reviewHTML;
+// ---- Auto-save to Google Sheet ----
+  const resultData = {
+    studentId: localStorage.getItem('ts_student_id') || '',
+    name: candidateName,
+    subject: SUBJECT_ID,
+    chapter: CHAPTER_ID,
+    set: selectedSet,
+    date: new Date().toISOString(),
+    score: score,
+    maxScore: maxScore,
+    correct: correct,
+    wrong: wrong,
+    skipped: unattempted,
+    totalQ: questions.length,
+    percentage: pct,
+    timeTaken: (60 * 60) - timeLeft
+  };
+  const lsKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+  try { localStorage.setItem(lsKey, JSON.stringify(resultData)); } catch(e) {}
+  fetch(GS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(resultData)
+  }).catch(err => console.error('Sheet sync failed', err));
+  const idxKey = `thunderstudy_index_${SUBJECT_ID}`;
+  let idx = [];
+  try { idx = JSON.parse(localStorage.getItem(idxKey) || '[]'); } catch(e) {}
+  if (!idx.includes(CHAPTER_ID)) idx.push(CHAPTER_ID);
+  try { localStorage.setItem(idxKey, JSON.stringify(idx)); } catch(e) {}
+  // ---- End auto-save ----
+  showScreen('result');
+}
+
+// ===== PDF DOWNLOAD =====
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  const PW = 210, PH = 297;
+  const ML = 12, MR = 12;
+  const CW = PW - ML - MR;          // 186 mm usable width
+  const INNER = CW - 10;            // inner text width inside a card
+  const TEXT_X = ML + 8;            // left edge for text inside card
+  const TEXT_W = INNER - 4;         // max text wrap width
+  let y = 14;
+  let pageNum = 1;
+
+  const correct     = parseInt(document.getElementById('res-correct').textContent);
+  const wrong       = parseInt(document.getElementById('res-wrong').textContent);
+  const unattempted = parseInt(document.getElementById('res-unattempted').textContent);
+  const score       = parseInt(document.getElementById('res-score').textContent);
+  const maxScore    = questions.length * 5;
+
+  // ── helpers ──────────────────────────────────────────────
+  function rgb(hex) {
+    return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
+  }
+  function fill(hex)  { doc.setFillColor(...rgb(hex)); }
+  function stroke(hex){ doc.setDrawColor(...rgb(hex)); }
+  function color(hex) { doc.setTextColor(...rgb(hex)); }
+
+  function addFooter() {
+    doc.setFontSize(7.5); color('#aaaaaa');
+    doc.setFont('helvetica','normal');
+    doc.text(`@ThunderStudy  ·  Thunder CBT  ·  CUET BST Set ${selectedSet}  ·  Page ${pageNum}`, PW/2, PH - 6, {align:'center'});
+  }
+
+  function addPageHeader() {
+    fill('#e91e8c'); doc.rect(0, 0, PW, 9, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(8); color('#ffffff');
+    doc.text(`⚡ Thunder CBT  ·  @ThunderStudy  ·  CUET BST Set ${selectedSet}  ·  Answer Key`, PW/2, 6, {align:'center'});
+    y = 14;
+  }
+
+  function needsPage(h) {
+    if (y + h > PH - 14) {
+      addFooter();
+      doc.addPage();
+      pageNum++;
+      addPageHeader();
+    }
+  }
+
+  // ── COVER HEADER ─────────────────────────────────────────
+  fill('#e91e8c'); doc.rect(0, 0, PW, 40, 'F');
+  fill('#c0156e'); doc.rect(0, 34, PW, 6, 'F');
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(20); color('#ffffff');
+  doc.text('⚡ Thunder CBT', ML, 13);
+  doc.setFontSize(10); color('#fce4ec');
+  doc.text('CUET BST Mock Test  ·  Question Paper & Answer Key', ML, 21);
+  doc.setFontSize(8.5); color('#ffffff');
+  doc.text(`BST Set ${selectedSet}   ·   50 Questions   ·   Class 12 Syllabus   ·   60 Minutes`, ML, 28);
+
+  // @ThunderStudy watermark on cover
+  doc.setFont('helvetica','bold'); doc.setFontSize(10); color('#fce4ec');
+  doc.text('@ThunderStudy', PW - MR, 28, {align:'right'});
+
+  // Candidate name on cover
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); color('#fce4ec');
+  doc.text(`Candidate: ${candidateName}`, ML, 35);
+  const now = new Date();
+  doc.text(`Date: ${now.toLocaleDateString('en-IN')}  ${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}`, PW - MR, 35, {align:'right'});
+
+  y = 46;
+
+  // ── SCORE SUMMARY ─────────────────────────────────────────
+  fill('#fdf0f6'); doc.roundedRect(ML, y, CW, 28, 3, 3, 'F');
+  stroke('#e91e8c'); doc.setLineWidth(0.5); doc.roundedRect(ML, y, CW, 28, 3, 3, 'S');
+  doc.setFont('helvetica','bold'); doc.setFontSize(9); color('#9b0f58');
+  doc.text('PERFORMANCE SUMMARY', ML+5, y+6);
+
+  const cols = [
+    {label:'Correct',  val:String(correct),    col:'#2e7d32'},
+    {label:'Wrong',    val:String(wrong),       col:'#c62828'},
+    {label:'Skipped',  val:String(unattempted), col:'#1565c0'},
+    {label:'Score',    val:`${score}/${maxScore}`, col:'#e91e8c'},
+  ];
+  const bw = (CW - 14) / 4;
+  cols.forEach((c, ci) => {
+    const bx = ML + 5 + ci*(bw+3);
+    const by = y + 9;
+    fill('#ffffff'); doc.roundedRect(bx, by, bw, 14, 2, 2, 'F');
+    stroke(c.col); doc.roundedRect(bx, by, bw, 14, 2, 2, 'S');
+    doc.setFont('helvetica','bold'); doc.setFontSize(12); color(c.col);
+    doc.text(c.val, bx+bw/2, by+8.5, {align:'center'});
+    doc.setFontSize(6.5); color('#666666');
+    doc.text(c.label, bx+bw/2, by+13, {align:'center'});
+  });
+  y += 34;
+
+  // ── MARKING SCHEME ────────────────────────────────────────
+  needsPage(12);
+  fill('#fce4ec'); doc.roundedRect(ML, y, CW, 10, 2, 2, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(8); color('#9b0f58');
+  doc.text('MARKING SCHEME:   Correct = +5   |   Wrong = −1   |   Not Attempted = 0', ML+4, y+6.5);
+  y += 15;
+
+  // ── QUESTIONS ─────────────────────────────────────────────
+  const optKeys = ['A','B','C','D'];
+
+  questions.forEach((q, qi) => {
+    const userAns   = answers[qi];
+    const res       = questionResults[qi];
+    const marksText = res === 'correct' ? '+5' : res === 'wrong' ? '−1' : '0';
+    const statusTxt = res === 'correct' ? 'CORRECT' : res === 'wrong' ? 'WRONG' : 'SKIPPED';
+    const bgHex     = res === 'correct' ? '#e8f5e9' : res === 'wrong' ? '#ffebee' : '#e3f2fd';
+    const brdHex    = res === 'correct' ? '#2e7d32' : res === 'wrong' ? '#c62828' : '#1565c0';
+
+    // Strip SVG tags from question text for PDF
+    const cleanText = q.text.replace(/<[^>]*>/g, '');
+
+    // Calculate wrapped lines
+    doc.setFontSize(9); doc.setFont('helvetica','normal');
+    const qLines = doc.splitTextToSize(cleanText, TEXT_W);
+
+    const optLineArr = optKeys.map((k, oi) => {
+      const raw = q.type === 'text-options'
+        ? q.options[oi]
+        : q.options[oi].label.replace(' ✓','');
+      const clean = raw.replace(/<[^>]*>/g, '');
+      doc.setFontSize(8.5); doc.setFont('helvetica','normal');
+      return doc.splitTextToSize(`${k}.  ${clean}`, TEXT_W - 4);
+    });
+
+    const optsTotalH = optLineArr.reduce((a, ls) => a + ls.length * 5 + 2, 0);
+    const blockH     = 7 + qLines.length * 5.2 + 3 + optsTotalH + 5;
+
+    needsPage(blockH);
+
+    // Card background + border
+    fill(bgHex); doc.roundedRect(ML, y, CW, blockH, 2.5, 2.5, 'F');
+    stroke(brdHex); doc.setLineWidth(0.4); doc.roundedRect(ML, y, CW, blockH, 2.5, 2.5, 'S');
+    // Left stripe
+    fill(brdHex); doc.rect(ML, y, 3.5, blockH, 'F');
+
+    let qy = y + 6;
+
+    // Q number + topic
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); color('#1a1a2e');
+    doc.text(`Q${qi+1}`, ML+6, qy);
+    doc.setFont('helvetica','normal'); doc.setFontSize(7.5); color('#555555');
+    const topicX = ML + 16;
+    const topicMaxW = CW - 38;
+    const topicLine = doc.splitTextToSize(q.topic, topicMaxW)[0];
+    doc.text(topicLine, topicX, qy);
+
+    // Status badge — right side
+    const bdgW = 28, bdgX = ML + CW - bdgW - 2;
+    fill(brdHex); doc.roundedRect(bdgX, qy-5, bdgW, 7, 2, 2, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(7); color('#ffffff');
+    doc.text(`${statusTxt}  ${marksText}`, bdgX + bdgW/2, qy-0.3, {align:'center'});
+
+    qy += 4;
+
+    // Question text — properly wrapped
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); color('#1a1a2e');
+    qLines.forEach(line => {
+      doc.text(line, TEXT_X, qy);
+      qy += 5.2;
+    });
+    qy += 2;
+
+    // Options
+    optLineArr.forEach((lines, oi) => {
+      const isUser    = userAns === oi;
+      const isCorrect = q.correct === oi;
+      const optColor  = isCorrect ? '#1b5e20' : (isUser && !isCorrect) ? '#b71c1c' : '#333333';
+      const optBg     = isCorrect ? '#c8e6c9' : (isUser && !isCorrect) ? '#ffcdd2' : null;
+
+      const optH = lines.length * 5 + 3;
+      if (optBg) {
+        fill(optBg);
+        doc.roundedRect(TEXT_X - 1, qy - 3.5, TEXT_W + 4, optH, 1, 1, 'F');
+      }
+
+      doc.setFont('helvetica', (isCorrect || isUser) ? 'bold' : 'normal');
+      doc.setFontSize(8.5);
+      color(optColor);
+      lines.forEach((line, li) => {
+        doc.text(line, TEXT_X + 1, qy + li * 5);
+      });
+      // Correct tick symbol
+      if (isCorrect) {
+        doc.setFontSize(9); color('#2e7d32');
+        doc.text('✓', ML + CW - 7, qy);
+      }
+      qy += optH;
+    });
+
+    y += blockH + 4;
+  });
+
+  // Final footer
+  addFooter();
+
+  doc.save(`Thunder_CBT_Set${selectedSet}_${candidateName.replace(/\s+/g,'_')}.pdf`);
+  showToast('📄 PDF downloaded!', 'success');
+}
+
+function retryTest() {
+  clearInterval(timerInterval);
+  selectedSet = 1;
+  questions = questionSets[1];
+  answers = new Array(questions.length).fill(null);
+  status = new Array(questions.length).fill('not-visited');
+  timeLeft = 60 * 60;
+  currentQ = 0;
+  const ag = document.getElementById('agreeCheck');
+  if (ag) { ag.checked = false; toggleStartBtn(); }
+  loadLastAttempts();
+  renderHistory();
+  showScreen('start');
+}
+
+// ===== KEYBOARD NAVIGATION =====
+document.addEventListener('keydown', function(e) {
+  const testScreen = document.getElementById('screen-test');
+  if (!testScreen || !testScreen.classList.contains('active')) return;
+  // Ignore if typing in an input
+  if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+
+  switch(e.key) {
+    case 'ArrowRight':
+      e.preventDefault();
+      if (currentQ < questions.length - 1) renderQuestion(currentQ + 1);
+      break;
+    case 'ArrowLeft':
+      e.preventDefault();
+      if (currentQ > 0) renderQuestion(currentQ - 1);
+      break;
+    case 'ArrowDown':
+      e.preventDefault();
+      window.scrollBy({ top: 120, behavior: 'smooth' });
+      break;
+    case 'ArrowUp':
+      e.preventDefault();
+      window.scrollBy({ top: -120, behavior: 'smooth' });
+      break;
+  }
+});
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3100);
+}
 </script>
+</body>
+</html>
