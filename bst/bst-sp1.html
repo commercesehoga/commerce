@@ -560,7 +560,7 @@
     <div class="login-body">
       <div class="login-field">
         <label>Candidate Name</label>
-        <input type="text" id="loginName" placeholder="Enter your full ID" autocomplete="name" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+        <input type="text" id="loginName" placeholder="Enter your full Name" autocomplete="name" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
       </div>
       <div class="login-field">
         <label>Password / Roll No</label>
@@ -1883,7 +1883,6 @@ const questionSets = { 1: questions };
 
 // ===== STATE =====
 let selectedSet = 1;
-let questions = questionSets[1];
 let currentQ = 0;
 let answers = new Array(questions.length).fill(null);
 let status = new Array(questions.length).fill('not-visited');
@@ -1918,33 +1917,71 @@ function doLogin() {
   const savedName = localStorage.getItem('cbtUserName') || '';
   const savedSID  = localStorage.getItem('ts_student_id') || '';
 
-  if (!savedName || !savedSID) {
-    // Allow manual login as fallback
-    const nameEl = document.getElementById('loginName');
-    const passEl = document.getElementById('loginPass');
-    const manualName = nameEl?.value?.trim() || '';
-    const manualPass = passEl?.value?.trim() || '';
-
-    if (manualName.length >= 2 && manualPass.length >= 2) {
-      // Save manually entered credentials
-      localStorage.setItem('cbtUserName', manualName);
-      localStorage.setItem('ts_student_id', manualPass);
-      candidateName = manualName;
-      populateStartScreen(manualName, manualPass);
-      showScreen('start');
-      showToast('✅ Welcome, ' + manualName + '!', 'success');
-      return;
-    }
-
-    const goToDash = confirm('⚠️ Dashboard profile not found!\n\nYou need to login via the ThunderStudy Dashboard first to generate your Student ID.\n\nClick OK to open Dashboard.');
-    if (goToDash) window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+  if (savedName && savedSID) {
+    candidateName = savedName;
+    populateStartScreen(savedName, savedSID);
+    showScreen('start');
+    showToast('✅ Welcome back, ' + savedName + '!', 'success');
     return;
   }
 
-  candidateName = savedName;
-  populateStartScreen(savedName, savedSID);
-  showScreen('start');
-  showToast('✅ Welcome, ' + savedName + '!', 'success');
+  // Not found — show message with button to open dashboard
+  const loginCard = document.querySelector('.login-card');
+  if (loginCard) {
+    loginCard.innerHTML = `
+      <div class="login-header">
+        <div class="login-logo">⚡</div>
+        <h2>Thunder CBT</h2>
+        <p>CUET BST — Mock Test Series</p>
+      </div>
+      <div class="login-body" style="text-align:center;padding:32px 28px;">
+        <div style="font-size:48px;margin-bottom:14px;">🔐</div>
+        <div style="font-size:17px;font-weight:800;color:#1a1d2e;margin-bottom:8px;">
+          Dashboard Login Required
+        </div>
+        <div style="font-size:13px;color:#666;line-height:1.7;margin-bottom:22px;">
+          You need to log in via the <strong>Thunderstudy Dashboard</strong> first 
+          to generate your Student ID before taking this test.
+        </div>
+        <a href="https://commercesehoga.github.io/dashboard/" target="_blank"
+          style="display:block;width:100%;padding:14px;background:linear-gradient(135deg,#1976d2,#0d47a1);
+          color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;
+          cursor:pointer;text-decoration:none;letter-spacing:1px;margin-bottom:12px;
+          box-sizing:border-box;">
+          🌐 Open Thunderstudy Dashboard
+        </a>
+        <button onclick="checkAndRetry()" 
+          style="width:100%;padding:12px;background:white;color:#1976d2;
+          border:2px solid #1976d2;border-radius:8px;font-size:14px;font-weight:700;
+          cursor:pointer;letter-spacing:0.5px;">
+          ✅ I've Logged In — Retry
+        </button>
+        <p style="font-size:11px;color:#aaa;margin-top:14px;">
+          After logging in on the dashboard, come back here and click Retry.
+        </p>
+      </div>`;
+  }
+}
+
+  function checkAndRetry() {
+  const savedName = localStorage.getItem('cbtUserName') || '';
+  const savedSID  = localStorage.getItem('ts_student_id') || '';
+
+  if (savedName && savedSID) {
+    candidateName = savedName;
+    populateStartScreen(savedName, savedSID);
+    showScreen('start');
+    showToast('✅ Welcome, ' + savedName + '!', 'success');
+  } else {
+    showToast('⚠️ Still not found. Please log in on the Dashboard first.', 'warning');
+    // Flash the button to draw attention
+    const btn = document.querySelector('.login-body a');
+    if (btn) {
+      btn.style.animation = 'none';
+      btn.style.background = '#c62828';
+      setTimeout(() => btn.style.background = 'linear-gradient(135deg,#1976d2,#0d47a1)', 600);
+    }
+  }
 }
 
 function proceedToInstructions() {
@@ -1967,45 +2004,16 @@ window.addEventListener('DOMContentLoaded', function() {
   const savedName = localStorage.getItem('cbtUserName') || '';
   const savedSID  = localStorage.getItem('ts_student_id') || '';
 
-  const nameEl = document.getElementById('loginName');
-  const passEl = document.getElementById('loginPass');
-
-  if (savedName && nameEl) {
-    nameEl.value = savedName;
-    nameEl.readOnly = true;
-    nameEl.style.background = '#dbeafe';
-    nameEl.style.borderColor = '#1976d2';
-    nameEl.style.color = '#0d4f96';
-    nameEl.style.fontWeight = '700';
-  }
-
-  if (savedSID && passEl) {
-    passEl.value = savedSID;
-    passEl.readOnly = true;
-    passEl.style.background = '#dbeafe';
-    passEl.style.borderColor = '#1976d2';
-    passEl.style.color = '#0d4f96';
-    passEl.style.fontWeight = '700';
-  }
-
-  // Show SID badge
-  if (savedSID) {
-    const loginBody = document.querySelector('.login-body');
-    if (loginBody && !document.getElementById('sid-badge')) {
-      const badge = document.createElement('div');
-      badge.id = 'sid-badge';
-      badge.style.cssText = 'text-align:center;font-size:12px;font-weight:700;color:#1976d2;background:#dbeafe;padding:5px 14px;border-radius:20px;margin-bottom:12px;';
-      badge.textContent = '🪪 Student ID: ' + savedSID + ' (Verified)';
-      loginBody.insertBefore(badge, loginBody.querySelector('.login-remember'));
-    }
-  }
-
-  // AUTO-LOGIN if both keys are already present
   if (savedName && savedSID) {
+    // Auto-login silently
     candidateName = savedName;
     populateStartScreen(savedName, savedSID);
     showScreen('start');
     showToast('✅ Welcome back, ' + savedName + '!', 'success');
+  } else {
+    // Show the no-data message immediately without waiting for button click
+    showScreen('login');
+    doLogin(); // This will render the "go to dashboard" card
   }
 });
 
