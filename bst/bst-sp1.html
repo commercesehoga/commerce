@@ -560,7 +560,7 @@
     <div class="login-body">
       <div class="login-field">
         <label>Candidate Name</label>
-        <input type="text" id="loginName" placeholder="Enter your full name" autocomplete="name" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+        <input type="text" id="loginName" placeholder="Enter your full ID" autocomplete="name" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
       </div>
       <div class="login-field">
         <label>Password / Roll No</label>
@@ -994,7 +994,7 @@ const CHAPTER_ID  = "bst-sp1";
 const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
 
 // ===== SET 1: 10 REAL + 40 PLACEHOLDERS =====
-const set1Real = const questions = [
+  const questions = [
   {
     id: 1,
     section: "Case Study",
@@ -1879,8 +1879,7 @@ Choose the correct answer:`,
   }
 ];
 
-const questionSets = { 1: [] };
-set1Real.forEach(q => questionSets[1].push(q));
+const questionSets = { 1: questions };
 
 // ===== STATE =====
 let selectedSet = 1;
@@ -1916,12 +1915,27 @@ function populateStartScreen(name, pass) {
 }
 
 function doLogin() {
-    console.log('cbtUserName:', localStorage.getItem('cbtUserName'));
-  console.log('ts_student_id:', localStorage.getItem('ts_student_id'));
   const savedName = localStorage.getItem('cbtUserName') || '';
   const savedSID  = localStorage.getItem('ts_student_id') || '';
 
   if (!savedName || !savedSID) {
+    // Allow manual login as fallback
+    const nameEl = document.getElementById('loginName');
+    const passEl = document.getElementById('loginPass');
+    const manualName = nameEl?.value?.trim() || '';
+    const manualPass = passEl?.value?.trim() || '';
+
+    if (manualName.length >= 2 && manualPass.length >= 2) {
+      // Save manually entered credentials
+      localStorage.setItem('cbtUserName', manualName);
+      localStorage.setItem('ts_student_id', manualPass);
+      candidateName = manualName;
+      populateStartScreen(manualName, manualPass);
+      showScreen('start');
+      showToast('✅ Welcome, ' + manualName + '!', 'success');
+      return;
+    }
+
     const goToDash = confirm('⚠️ Dashboard profile not found!\n\nYou need to login via the ThunderStudy Dashboard first to generate your Student ID.\n\nClick OK to open Dashboard.');
     if (goToDash) window.open('https://commercesehoga.github.io/dashboard/', '_blank');
     return;
@@ -1974,7 +1988,7 @@ window.addEventListener('DOMContentLoaded', function() {
     passEl.style.fontWeight = '700';
   }
 
-  // Show SID badge below password field
+  // Show SID badge
   if (savedSID) {
     const loginBody = document.querySelector('.login-body');
     if (loginBody && !document.getElementById('sid-badge')) {
@@ -1986,7 +2000,13 @@ window.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // If both found, auto-login and skip to start
+  // AUTO-LOGIN if both keys are already present
+  if (savedName && savedSID) {
+    candidateName = savedName;
+    populateStartScreen(savedName, savedSID);
+    showScreen('start');
+    showToast('✅ Welcome back, ' + savedName + '!', 'success');
+  }
 });
 
 
