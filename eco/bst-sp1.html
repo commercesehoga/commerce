@@ -2469,13 +2469,13 @@ const optKeysList = ['a','b','c','d'];
     reviewHTML += `
       <div class="review-q rq-${res}">
         <div class="review-q-num">Q${i+1} · ${q.topic} ${marksChip}</div>
-        <div class="review-q-text">${q.text.suecoring(0,120)}${q.text.length > 120 ? '...' : ''}</div>
+        <div class="review-q-text">${q.text.substring(0,120)}${q.text.length > 120 ? '...' : ''}</div>
         <div class="review-answers">
           <span class="ra-chip ra-your ${res === 'wrong' ? 'wrong' : ''}">
-            Your: ${userLabel}. ${String(userText).replace(' ✓','').suecoring(0,35)}
+            Your: ${userLabel}. ${String(userText).replace(' ✓','').substring(0,35)}
           </span>
           <span class="ra-chip ra-correct">
-            ✓ Correct: ${correctLabel}. ${String(correctText).replace(' ✓','').suecoring(0,35)}
+            ✓ Correct: ${correctLabel}. ${String(correctText).replace(' ✓','').substring(0,35)}
           </span>
         </div>
       </div>`;
@@ -2641,7 +2641,13 @@ function downloadPDF() {
     const optLineArr = optKeys.map((k, oi) => {
       const raw = q.type === 'text-options'
         ? q.options[oi]
-        : q.options[oi].label.replace(' ✓','');
+        const optKeysList = ['a','b','c','d'];
+const optLineArr = optKeys.map((k, oi) => {
+  const raw = q.options[optKeysList[oi]] || '';
+  const clean = raw.replace(/<[^>]*>/g, '');
+  doc.setFontSize(8.5); doc.setFont('helvetica','normal');
+  return doc.splitTextToSize(`${k}.  ${clean}`, TEXT_W - 4);
+});
       const clean = raw.replace(/<[^>]*>/g, '');
       doc.setFontSize(8.5); doc.setFont('helvetica','normal');
       return doc.splitTextToSize(`${k}.  ${clean}`, TEXT_W - 4);
@@ -2688,7 +2694,8 @@ function downloadPDF() {
     // Options
     optLineArr.forEach((lines, oi) => {
       const isUser    = userAns === oi;
-      const isCorrect = q.correct === oi;
+      const correctIdx = ['a','b','c','d'].indexOf(q.correctAnswer);
+const isCorrect = correctIdx === oi;
       const optColor  = isCorrect ? '#1b5e20' : (isUser && !isCorrect) ? '#b71c1c' : '#333333';
       const optBg     = isCorrect ? '#c8e6c9' : (isUser && !isCorrect) ? '#ffcdd2' : null;
 
