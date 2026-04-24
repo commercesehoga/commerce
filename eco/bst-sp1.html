@@ -1807,6 +1807,7 @@ function populateStartScreen(name, pass) {
 }
 
 function doLogin() {
+  // First check if already saved from dashboard
   const savedName = localStorage.getItem('cbtUserName') || '';
   const savedSID  = localStorage.getItem('ts_student_id') || '';
 
@@ -1818,42 +1819,64 @@ function doLogin() {
     return;
   }
 
-  // Not found — show message with button to open dashboard
-  const loginCard = document.querySelector('.login-card');
-  if (loginCard) {
-    loginCard.innerHTML = `
-      <div class="login-header">
-        <div class="login-logo">⚡</div>
-        <h2>Thunder CBT</h2>
-        <p>CUET eco — Mock Test Series</p>
-      </div>
-      <div class="login-body" style="text-align:center;padding:32px 28px;">
-        <div style="font-size:48px;margin-bottom:14px;">🔐</div>
-        <div style="font-size:17px;font-weight:800;color:#1a1d2e;margin-bottom:8px;">
-          Dashboard Login Required
-        </div>
-        <div style="font-size:13px;color:#666;line-height:1.7;margin-bottom:22px;">
-          You need to log in via the <strong>Thunderstudy Dashboard</strong> first 
-          to generate your Student ID before taking this test.
-        </div>
-        <a href="https://commercesehoga.github.io/dashboard/" target="_blank"
-          style="display:block;width:100%;padding:14px;background:linear-gradient(135deg,#1976d2,#0d47a1);
-          color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;
-          cursor:pointer;text-decoration:none;letter-spacing:1px;margin-bottom:12px;
-          box-sizing:border-box;">
-          🌐 Open Thunderstudy Dashboard
-        </a>
-        <button onclick="checkAndRetry()" 
-          style="width:100%;padding:12px;background:white;color:#1976d2;
-          border:2px solid #1976d2;border-radius:8px;font-size:14px;font-weight:700;
-          cursor:pointer;letter-spacing:0.5px;">
-          ✅ I've Logged In — Retry
-        </button>
-        <p style="font-size:11px;color:#aaa;margin-top:14px;">
-          After logging in on the dashboard, come back here and click Retry.
-        </p>
-      </div>`;
+  // Try reading from the input fields
+  const nameInput = document.getElementById('loginName');
+  const passInput = document.getElementById('loginPass');
+  const name = nameInput ? nameInput.value.trim() : '';
+  const pass = passInput ? passInput.value.trim() : '';
+
+  if (name && pass) {
+    // Save to localStorage and proceed
+    localStorage.setItem('cbtUserName', name);
+    localStorage.setItem('ts_student_id', pass);
+    candidateName = name;
+    populateStartScreen(name, pass);
+    showScreen('start');
+    showToast('✅ Welcome, ' + name + '!', 'success');
+    return;
   }
+
+  // Nothing entered — show dashboard redirect card
+  if (!name && !pass) {
+    const loginCard = document.querySelector('.login-card');
+    if (loginCard) {
+      loginCard.innerHTML = `
+        <div class="login-header">
+          <div class="login-logo">⚡</div>
+          <h2>Thunder CBT</h2>
+          <p>CUET eco — Mock Test Series</p>
+        </div>
+        <div class="login-body" style="text-align:center;padding:32px 28px;">
+          <div style="font-size:48px;margin-bottom:14px;">🔐</div>
+          <div style="font-size:17px;font-weight:800;color:#1a1d2e;margin-bottom:8px;">
+            Dashboard Login Required
+          </div>
+          <div style="font-size:13px;color:#666;line-height:1.7;margin-bottom:22px;">
+            You need to log in via the <strong>Thunderstudy Dashboard</strong> first 
+            to generate your Student ID before taking this test.
+          </div>
+          <a href="https://commercesehoga.github.io/dashboard/" target="_blank"
+            style="display:block;width:100%;padding:14px;background:linear-gradient(135deg,#1976d2,#0d47a1);
+            color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;
+            cursor:pointer;text-decoration:none;letter-spacing:1px;margin-bottom:12px;
+            box-sizing:border-box;">
+            🌐 Open Thunderstudy Dashboard
+          </a>
+          <button onclick="checkAndRetry()" 
+            style="width:100%;padding:12px;background:white;color:#1976d2;
+            border:2px solid #1976d2;border-radius:8px;font-size:14px;font-weight:700;
+            cursor:pointer;letter-spacing:0.5px;">
+            ✅ I've Logged In — Retry
+          </button>
+          <p style="font-size:11px;color:#aaa;margin-top:14px;">
+            After logging in on the dashboard, come back here and click Retry.
+          </p>
+        </div>`;
+    }
+    return;
+  }
+
+  showToast('⚠️ Please enter your name and password.', 'warning');
 }
 
   function checkAndRetry() {
@@ -1897,15 +1920,13 @@ window.addEventListener('DOMContentLoaded', function() {
   const savedSID  = localStorage.getItem('ts_student_id') || '';
 
   if (savedName && savedSID) {
-    // Auto-login silently
     candidateName = savedName;
     populateStartScreen(savedName, savedSID);
     showScreen('start');
     showToast('✅ Welcome back, ' + savedName + '!', 'success');
   } else {
-    // Show the no-data message immediately without waiting for button click
     showScreen('login');
-    doLogin(); // This will render the "go to dashboard" card
+    // DO NOT call doLogin() here — let user click the button
   }
 });
 
