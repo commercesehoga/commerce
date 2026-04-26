@@ -2221,13 +2221,111 @@ function renderQuestion(idx) {
   const q = questions[idx];
   if (status[idx] === 'not-visited') status[idx] = 'not-answered';
 
-  // Update header badges
   document.getElementById('qNumBadge').textContent = `Question ${idx + 1}:`;
   const topicEl = document.getElementById('qTopicTag');
-  if (topicEl) topicEl.textContent = q.topic;
+  if (topicEl) topicEl.textContent = q.section || '';
 
-  let html = `<div class="q-text">${formatText(q.text)}</div>`;
-  html += `<div class="options-label">Options :</div>`;
+  // ── Split passage from question ──────────────────────────
+  let passageHTML = '';
+  let questionHTML = '';
+  const rawText = q.text;
+
+  // Detect passage questions (Case Study or Passage Based)
+  const hasPassage = (
+    rawText.includes('READ THE FOLLOWING') ||
+    rawText.includes('PASSAGE') ||
+    rawText.includes('Refer to') ||
+    (q.section && (q.section.toLowerCase().includes('case') || q.section.toLowerCase().includes('passage')))
+  );
+
+  if (hasPassage) {
+    // Try to split at Q-number pattern like "\nQ1." or "\nQ21." or "(Refer to"
+    const splitMatch = rawText.match(/(\n)(Q\d+\.|Refer to the (?:case study|passage))/i);
+    if (splitMatch) {
+      const splitIdx = rawText.indexOf(splitMatch[0]);
+      const passage = rawText.substring(0, splitIdx).trim();
+      const question = rawText.substring(splitIdx).trim();
+      passageHTML = passage;
+      questionHTML = question;
+    } else {
+    questionHTML = rawText;
+    // Auto-fetch passage from the nearest earlier question that has one
+    for (let pi = idx - 1; pi >= 0; pi--) {
+      const prev = questions[pi];
+      if (prev.text.includes('READ THE FOLLOWING') || prev.text.includes('PASSAGE')) {
+        const prevSplit = prev.text.match(/(\n)(Q\d+\.)/i);
+        passageHTML = prevSplit
+          ? prev.text.substring(0, prev.text.indexOf(prevSplit[0])).trim()
+          : prev.text;
+        break;
+      }
+    }
+  }
+  } else {
+    questionHTML = rawText;
+  }
+
+  // ── Format Assertion-Reason ──────────────────────────────
+  let formattedQuestion = questionHTML;
+  if (formattedQuestion.includes('Assertion') && formattedQuestion.includes('Reason')) {
+    formattedQuestion = formattedQuestion.replace(
+      /(Assertion\s*\(A\):\s*)(.*?)(\nReason\s*\(R\):\s*)([\s\S]*?)(\n\nChoose|\nChoose|$)/,
+      (match, aL, aT, rL, rT, end) => {
+        return `<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;"><thead><tr><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:18%;">Type</th><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:82%;">Statement</th></tr></thead><tbody><tr style="background:#e3f2fd;"><td style="padding:9px 12px;border:1px solid #90caf9;font-weight:700;color:#1565c0;white-space:nowrap;">Assertion (A)</td><td style="padding:9px 12px;border:1px solid #90caf9;">${aT.trim()}</td></tr><tr style="background:#ffffff;"><td style="padding:9px 12px;border:1px solid #90caf9;font-weight:700;color:#2e7d32;white-space:nowrap;">Reason (R)</td><td style="padding:9px 12px;border:1px solid #90caf9;">${rT.trim()}</td></tr></tbody></table>${end}`;
+      }
+    );
+  }
+
+  // ── Format List-I / List-II ──────────────────────────────
+  if (formattedQuestion.includes('List-I') && formattedQuestion.includes('List-II')) {
+    formattedQuestion = formattedQuestion.replace(
+      /List-I:([\s\S]*?)List-II:([\s\S]*?)(?=\n\nChoose|\nChoose|$)/,
+      (match, list1, list2) => {
+        const parseAlpha  = str => str.trim().split('\n').filter(l => l.trim().match(/^\([A-Z]\)/)).map(l => l.trim());
+        const parseRoman  = str => str.trim().split('\n').filter(l => l.trim().match(/^\([IVX]+\)/)).map(l => l.trim());
+        const l1 = parseAlpha(list1);
+        const l2 = parseRoman(list2);
+        const rows = Math.max(l1.length, l2.length);
+        // REPLACE the entire let tableHTML = ... loop ... tableHTML += </tbody></table> block with:
+let tableHTML = `<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;"><thead><tr><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:50%;">List-I</th><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:50%;">List-II</th></tr></thead><tbody>`;
+for (let i = 0; i < rows; i++) {
+  const bg = i % 2 === 0 ? '#e3f2fd' : '#ffffff';
+  tableHTML += `<tr style="background:${bg};"><td style="padding:9px 12px;border:1px solid #90caf9;">${l1[i] || ''}</td><td style="padding:9px 12px;border:1px solid #90caf9;">${l2[i] || ''}</td></tr>`;
+}
+tableHTML += `</tbody></table>`;
+return tableHTML;
+      }
+    );
+  }
+
+  // ── Build the layout ─────────────────────────────────────
+  let html = '';
+
+  if (passageHTML) {
+    // NTA-style: passage on left, question on right in two-column layout
+    html += `<div style="display:flex;flex-direction:column;gap:12px;">
+  <div style="
+    width:100%;
+    background:#fffde7;
+    border:1.5px solid #f9a825;
+    border-left:5px solid #f9a825;
+    border-radius:8px;padding:14px;
+    font-size:13px;line-height:1.75;
+    color:#1a1a1a;
+    max-height:260px;overflow-y:auto;
+  ">
+    <div style="font-size:10.5px;font-weight:800;color:#f57f17;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;border-bottom:1px solid #ffe082;padding-bottom:5px;">📄 Passage / Case Study</div>
+    ${applyLineBreaks(formatText(passageHTML))}
+  </div>
+  <div style="width:100%;">
+    <div class="q-text">${applyLineBreaks(formatText(formattedQuestion))}</div>
+  </div>
+</div>`;
+  } else {
+    html += `<div class="q-text">${formatText(formattedQuestion).replace(/\n/g,'<br>')}</div>`;
+  }
+
+  html += `<div class="options-label" style="margin-top:14px;">Options :</div>`;
 
 const optKeys = ['a','b','c','d'];
   const optLabels = ['A','B','C','D'];
@@ -2250,13 +2348,19 @@ const optKeys = ['a','b','c','d'];
   updateStats();
 }
 
+function applyLineBreaks(str) {
+  // Replace \n with <br> only outside HTML tags
+  return str.replace(/(<[^>]*>)|(\n)/g, (m, tag, nl) => tag || '<br>');
+}
+
 function formatText(txt) {
-  return txt
+  txt = txt
     .replace(/₀/g,'<sub>0</sub>').replace(/₁/g,'<sub>1</sub>').replace(/₂/g,'<sub>2</sub>')
     .replace(/₃/g,'<sub>3</sub>').replace(/₄/g,'<sub>4</sub>').replace(/₅/g,'<sub>5</sub>')
     .replace(/₆/g,'<sub>6</sub>').replace(/₇/g,'<sub>7</sub>').replace(/₈/g,'<sub>8</sub>')
     .replace(/⁺/g,'<sup>+</sup>').replace(/²⁻/g,'<sup>2−</sup>').replace(/³⁺/g,'<sup>3+</sup>')
     .replace(/²/g,'<sup>2</sup>').replace(/³/g,'<sup>3</sup>').replace(/⁻²/g,'<sup>−2</sup>');
+  return txt;
 }
 
 // ===== SELECT OPTION =====
