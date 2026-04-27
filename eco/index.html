@@ -570,7 +570,11 @@ const MACRO_E=[
   {id:'macro5',name:'Macro Ch 5 – Government Budget'},
   {id:'macro6',name:'Macro Ch 6 – Balance of Payments'},
 ];
-const MACRO_H=MACRO_E.map(c=>({id:c.id+'h',name:c.name+' (Hard)'}));
+const MACRO_H=MACRO_E.map(c=>({
+  id: c.id==='macro1' ? 'ecoh1' : c.id+'h',
+  name: c.name+' (Hard)'
+}));
+
 const MICRO_E=[
   {id:'micro1',name:'Micro Ch 1 – Introduction'},
   {id:'micro2',name:'Micro Ch 2 – Consumer Equilibrium'},
@@ -578,14 +582,21 @@ const MICRO_E=[
   {id:'micro4',name:'Micro Ch 4 – Production & Costs'},
   {id:'micro5',name:'Micro Ch 5 – Supply & Market'},
 ];
-const MICRO_H=MICRO_E.map(c=>({id:c.id+'h',name:c.name+' (Hard)'}));
+const MICRO_H=MICRO_E.map(c=>({
+  id: c.id==='micro1' ? 'ecoh7' : c.id+'h',
+  name: c.name+' (Hard)'
+}));
+
 const INDIA_E=[
   {id:'ied1',name:'IED Unit I – Development Policies & Experience (1947–90)'},
   {id:'ied2',name:'IED Unit II – Economic Reforms since 1991'},
   {id:'ied3',name:'IED Unit III – Current Challenges facing Indian Economy'},
   {id:'ied4',name:'IED Unit IV – Development Experiences: India vs Neighbours'},
 ];
-const INDIA_H=INDIA_E.map(c=>({id:c.id+'h',name:c.name+' (Hard)'}));
+const INDIA_H=INDIA_E.map(c=>({
+  id: c.id==='ied1' ? 'ecoh12' : c.id+'h',
+  name: c.name+' (Hard)'
+}));
 const ECO_FULL=[{id:'eco-full1',name:'Full Mock 1'},{id:'eco-full2',name:'Full Mock 2'}];
 const ECO_ANDR=[{id:'eco-andr1',name:'A&R Chapterwise 1'}];
 const ECO_PYQ=[{id:'eco-pyq23',name:'PYQ 2023'},{id:'eco-pyq24',name:'PYQ 2024'},{id:'eco-pyq25',name:'PYQ 2025'}];
