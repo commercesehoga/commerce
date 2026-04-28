@@ -2262,28 +2262,11 @@ userAnswer: ""
 /* ============================================================
    CORE TEST ENGINE
    ============================================================ */
-const timerElement = document.querySelector('.timer');
-const questionTextElement = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const questionNumberElement = document.getElementById('q-number');
-const currentQNumberElement = document.getElementById('current-q-number');
-const progressBar = document.getElementById('test-progress');
-const progressPercent = document.getElementById('progress-percent');
-const questionPaletteGrid = document.getElementById('question-palette-grid');
-const answeredCountElement = document.getElementById('answered-count');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const markBtn = document.getElementById('mark-btn');
-const submitTestBtn = document.getElementById('submit-test-btn');
-const resultsModal = document.getElementById('results-modal');
-const closeModalBtn = document.getElementById('close-modal');
-const correctAnswersElement = document.getElementById('correct-answers');
-const incorrectAnswersElement = document.getElementById('incorrect-answers');
-const unansweredElement = document.getElementById('unanswered');
-const totalScoreElement = document.getElementById('total-score');
-const percentageElement = document.getElementById('percentage');
-const accuracyElement = document.getElementById('accuracy');
-const reviewBtn = document.getElementById('review-btn');
+let timerElement, questionTextElement, optionsContainer, questionNumberElement,
+    currentQNumberElement, progressBar, progressPercent, questionPaletteGrid,
+    answeredCountElement, prevBtn, nextBtn, markBtn, submitTestBtn,
+    resultsModal, closeModalBtn, correctAnswersElement, incorrectAnswersElement,
+    unansweredElement, totalScoreElement, percentageElement, accuracyElement, reviewBtn;
 
 let currentQuestionIndex = 0;
 let timeLeft = mockTest.duration;
@@ -2292,6 +2275,29 @@ let testSubmitted = false;
 let testStarted = false;
 
 function initTest() {
+    timerElement = document.querySelector('.timer');
+    questionTextElement = document.getElementById('question-text');
+    optionsContainer = document.getElementById('options-container');
+    questionNumberElement = document.getElementById('q-number');
+    currentQNumberElement = document.getElementById('current-q-number');
+    progressBar = document.getElementById('test-progress');
+    progressPercent = document.getElementById('progress-percent');
+    questionPaletteGrid = document.getElementById('question-palette-grid');
+    answeredCountElement = document.getElementById('answered-count');
+    prevBtn = document.getElementById('prev-btn');
+    nextBtn = document.getElementById('next-btn');
+    markBtn = document.getElementById('mark-btn');
+    submitTestBtn = document.getElementById('submit-test-btn');
+    resultsModal = document.getElementById('results-modal');
+    closeModalBtn = document.getElementById('close-modal');
+    correctAnswersElement = document.getElementById('correct-answers');
+    incorrectAnswersElement = document.getElementById('incorrect-answers');
+    unansweredElement = document.getElementById('unanswered');
+    totalScoreElement = document.getElementById('total-score');
+    percentageElement = document.getElementById('percentage');
+    accuracyElement = document.getElementById('accuracy');
+    reviewBtn = document.getElementById('review-btn');
+
     renderQuestionPalette();
     renderQuestion();
     startTimer();
