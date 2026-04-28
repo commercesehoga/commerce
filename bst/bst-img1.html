@@ -3091,7 +3091,7 @@ function generatePDF() {
     let correct = 0, incorrect = 0, unanswered = 0;
     mockTest.questions.forEach(q => {
         if (!q.userAnswer) unanswered++;
-        else if (q.userAnswer === q.correctAnswer) correct++;
+        else if (q.userAnswer === q.correct) correct++;
         else incorrect++;
     });
     const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
@@ -3101,7 +3101,7 @@ function generatePDF() {
 
     let questionsHTML = '';
     mockTest.questions.forEach((q, i) => {
-        const isCorrect = q.userAnswer === q.correctAnswer;
+        const isCorrect = q.userAnswer === q.correct;
         const isWrong   = q.userAnswer && !isCorrect;
         const isSkipped = !q.userAnswer;
         const statusColor = isCorrect ? '#16a34a' : isWrong ? '#dc2626' : '#9ca3af';
@@ -3109,7 +3109,7 @@ function generatePDF() {
         const rowBg = isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fafafa';
         let optionsHTML = '';
         for (const [key, val] of Object.entries(q.options)) {
-            const isRight = key === q.correctAnswer;
+            const isRight = key === q.correct;
             const isUser  = key === q.userAnswer;
             let bg = 'transparent', fw = 'normal', prefix = '';
             if (isRight) { bg = '#dcfce7'; fw = 'bold'; prefix = '✓ '; }
@@ -3129,7 +3129,7 @@ function generatePDF() {
             <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;margin-top:4px;">
                 <span style="color:#6b7280;">Your answer: </span>${yourAnswer}&nbsp;&nbsp;
                 <span style="color:#6b7280;">Correct answer: </span>
-                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
+                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correct]}. ${q.options[q.correct]}</span>
             </div>
         </div>`;
     });
